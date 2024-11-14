@@ -1,11 +1,12 @@
-import Footer from "./footer";
-import Header from "./header";
+import Footer from "./Footer";
+import Header from "./Header";
 
 const MainLayout = ({ children }) => {
   return (
     <>
       <Header />
-      {children}
+      <main>{children}</main>
+
       <Footer />
     </>
   );

@@ -1,13 +1,16 @@
 "use client";
 import { useState, useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import {
   Navbar,
   Collapse,
   Typography,
   Button,
   IconButton,
-  Card,
 } from "@/utils/tailwind/index";
+
+import logo from "@/assets/Logo-equielect.png";
 
 const Header = () => {
   const [openNav, setOpenNav] = useState(false);
@@ -65,20 +68,16 @@ const Header = () => {
   );
 
   return (
-    <div className="-m-6 max-h-[768px] w-[calc(100%+48px)] overflow-scroll">
-      <Navbar className="sticky top-0 z-10 h-max max-w-full rounded-none px-4 py-2 lg:px-8 lg:py-4">
+    <header className="-m-6 max-h-[768px] w-[calc(100%+48px)] overflow-hidden">
+      <Navbar className="bg-yellow-500 sticky top-0 z-10 h-max max-w-full rounded-none pt-10">
         <div className="flex items-center justify-between text-blue-gray-900">
-          <Typography
-            as="a"
-            href="#"
-            className="mr-4 cursor-pointer py-1.5 font-medium"
-          >
-            Material Tailwind
-          </Typography>
+          <Link href={"/"}>
+            <Image src={logo} width={200} height="auto" alt="Logo Equielect" />
+          </Link>
           <div className="flex items-center gap-4">
             <div className="mr-4 hidden lg:block">{navList}</div>
             <div className="flex items-center gap-x-1">
-              <Button
+              {/* <Button
                 variant="text"
                 size="sm"
                 className="hidden lg:inline-block"
@@ -91,7 +90,7 @@ const Header = () => {
                 className="hidden lg:inline-block"
               >
                 <span>Sign in</span>
-              </Button>
+              </Button> */}
             </div>
             <IconButton
               variant="text"
@@ -135,43 +134,16 @@ const Header = () => {
         <Collapse open={openNav}>
           {navList}
           <div className="flex items-center gap-x-1">
-            <Button fullWidth variant="text" size="sm" className="">
+            {/* <Button fullWidth variant="text" size="sm" className="">
               <span>Log In</span>
             </Button>
             <Button fullWidth variant="gradient" size="sm" className="">
               <span>Sign in</span>
-            </Button>
+            </Button> */}
           </div>
         </Collapse>
       </Navbar>
-      <div className="mx-auto max-w-screen-md py-12">
-        <Card className="mb-12 overflow-hidden">
-          <img
-            alt="nature"
-            className="h-[32rem] w-full object-cover object-center"
-            src="https://images.unsplash.com/photo-1485470733090-0aae1788d5af?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2717&q=80"
-          />
-        </Card>
-        <Typography variant="h2" color="blue-gray" className="mb-2">
-          What is Material Tailwind
-        </Typography>
-        <Typography color="gray" className="font-normal">
-          Can you help me out? you will get a lot of free exposure doing this
-          can my website be in english?. There is too much white space do less
-          with more, so that will be a conversation piece can you rework to make
-          the pizza look more delicious other agencies charge much lesser can
-          you make the blue bluer?. I think we need to start from scratch can my
-          website be in english?, yet make it sexy i&apos;ll pay you in a week
-          we don&apos;t need to pay upfront i hope you understand can you make
-          it stand out more?. Make the font bigger can you help me out? you will
-          get a lot of free exposure doing this that&apos;s going to be a chunk
-          of change other agencies charge much lesser. Are you busy this
-          weekend? I have a new project with a tight deadline that&apos;s going
-          to be a chunk of change. There are more projects lined up charge extra
-          the next time.
-        </Typography>
-      </div>
-    </div>
+    </header>
   );
 };
 
