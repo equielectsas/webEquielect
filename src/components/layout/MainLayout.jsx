@@ -1,14 +1,11 @@
-import BannersCarousel from "../utils/BannersCarousel/BannersCaoursel";
-import Footer from "./Footer";
-import Header from "./Header";
+import Footer from "./Footer/Footer";
+import Header from "./Header/Header";
 
 const MainLayout = ({ children }) => {
   return (
     <>
       <Header />
-      <BannersCarousel />
       <main>{children}</main>
-
       <Footer />
     </>
   );
