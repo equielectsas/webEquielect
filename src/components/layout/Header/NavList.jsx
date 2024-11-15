@@ -1,8 +1,6 @@
 import NavOption from "./NavOption";
 
 const navList = ({ navBarOptions, isDesktop }) => {
-  let classes;
-
   return (
     <ul
       className={`${

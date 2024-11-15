@@ -7,24 +7,59 @@ import logo from "@/../public/assets/Logo-equielect.png";
 import NavList from "./NavList";
 
 const navBarOptions = [
-  { name: "Pages", url: "/prueba" },
-  { name: "Account", url: "/prueba" },
-  { name: "Blocs", url: "/prueba" },
-  { name: "Docs", url: "/prueba" },
+  { name: "Quiénes somos", url: "/quienesSomos" },
+  { name: "Servicios", url: "/servicios" },
+  { name: "Productos", url: "/productos" },
+  { name: "Aliados", url: "/aliados" },
+  { name: "Contáctanos", url: "/contactanos" },
 ];
 
 const Header = () => {
   const [openNav, setOpenNav] = useState(false);
+  const [isnavBar, setNavBar] = useState({ isGone: false, isFixed: false });
 
   useEffect(() => {
-    window.addEventListener(
-      "resize",
-      () => window.innerWidth >= 960 && setOpenNav(false)
-    );
+    const handleScroll = () => {
+      console.log(window.scrollY);
+      if (window.scrollY >= 200) {
+        setNavBar((prev) => {
+          return { isGone: false, isFixed: true };
+        });
+      } else if (window.scrollY >= 100) {
+        setNavBar((prev) => {
+          return { isGone: true, isFixed: false };
+        });
+      } else {
+        setNavBar((prev) => {
+          return { isGone: false, isFixed: false };
+        });
+      }
+    };
+
+    const handleResize = () => window.innerWidth >= 960 && setOpenNav(false);
+
+    window.addEventListener("scroll", handleScroll);
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
+  const fixedClass = isnavBar.isFixed
+    ? "fixed top-0 left-0 right-0 z-20 transition-transform transform translate-y-0 shadow-md"
+    : "";
+
+  const isGoneClass = isnavBar.isGone
+    ? "absolute top-[-100px] left-0 right-0 z-20 transition-transform transform translate-y-[-100%]"
+    : "";
+
   return (
-    <header className="flex w-full max-h-[768px] overflow-hidden">
+    <header
+      className={`${isGoneClass} ${fixedClass} flex w-full max-h-[768px] overflow-hidden`}
+    >
       <nav className="bg-yellow-600 sticky top-0 z-10 max-w-full w-full h-full rounded-none py-5 px-5">
         <div className="flex items-center justify-between text-blue-gray-900">
           <Link href={"/"}>
@@ -83,7 +118,7 @@ const Header = () => {
       <div
         className={`${
           !openNav ? "right-[-100%]" : "flex"
-        } transition-property: right duration-500 flex-col fixed right-0 bg-yellow-600 h-full w-[300px] lg:hidden`}
+        } transition-all duration-500 flex-col fixed right-0 z-[9] bg-yellow-600 h-full w-[300px] lg:hidden`}
       >
         <NavList navBarOptions={navBarOptions} isDesktop={false} />
       </div>

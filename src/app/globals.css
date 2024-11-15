@@ -2,6 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-main {
-  margin-top: 50px;
+body {
+  letter-spacing: 1.2px;
 }

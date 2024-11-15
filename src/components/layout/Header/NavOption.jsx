@@ -1,18 +1,15 @@
 import Link from "next/link";
-import { Typography } from "@/utils/tailwind/index";
 
 const NavOption = ({ name, url }) => {
   return (
-    <Typography
-      as="li"
-      variant="small"
-      color="blue-gray"
-      className="p-1 font-normal "
-    >
-      <Link href={url} className="block w-full text-center">
+    <li>
+      <Link
+        href={url}
+        className="px-1 block w-full text-center text-white font-medium hover:[text-shadow:_1px_1px_0_rgb(255_255_255_/_40%)]"
+      >
         {name}
       </Link>
-    </Typography>
+    </li>
   );
 };
 
