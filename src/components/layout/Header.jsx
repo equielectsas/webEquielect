@@ -1,16 +1,22 @@
 "use client";
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import Image from "next/image";
 import {
-  Navbar,
   Collapse,
-  Typography,
-  Button,
   IconButton,
+  Navbar,
+  Typography,
 } from "@/utils/tailwind/index";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 import logo from "@/assets/Logo-equielect.png";
+
+const navbarOptions = [
+  { name: "Pages", url: "#" },
+  { name: "Account", url: "#" },
+  { name: "Blocs", url: "#" },
+  { name: "Docs", url: "#" },
+];
 
 const Header = () => {
   const [openNav, setOpenNav] = useState(false);
@@ -24,74 +30,39 @@ const Header = () => {
 
   const navList = (
     <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-normal"
-      >
-        <a href="#" className="flex items-center">
-          Pages
-        </a>
-      </Typography>
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-normal"
-      >
-        <a href="#" className="flex items-center">
-          Account
-        </a>
-      </Typography>
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-normal"
-      >
-        <a href="#" className="flex items-center">
-          Blocks
-        </a>
-      </Typography>
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-normal"
-      >
-        <a href="#" className="flex items-center">
-          Docs
-        </a>
-      </Typography>
+      {navbarOptions.map((navbarOption, index) => {
+        return (
+          <Typography
+            key={index}
+            as="li"
+            variant="small"
+            color="blue-gray"
+            className="p-1 font-normal"
+          >
+            <Link href={navbarOption.url} className="flex items-center">
+              {navbarOption.name}
+            </Link>
+          </Typography>
+        );
+      })}
     </ul>
   );
 
   return (
     <header className="-m-6 max-h-[768px] w-[calc(100%+48px)] overflow-hidden">
-      <Navbar className="bg-yellow-500 sticky top-0 z-10 h-max max-w-full rounded-none pt-10">
+      <Navbar className="bg-yellow-600 sticky top-0 z-10 h-max max-w-full rounded-none pt-10">
         <div className="flex items-center justify-between text-blue-gray-900">
           <Link href={"/"}>
-            <Image src={logo} width={200} height="auto" alt="Logo Equielect" />
+            <Image
+              src={logo}
+              width={200}
+              height="auto"
+              alt="Logo Equielect"
+              priority
+            />
           </Link>
           <div className="flex items-center gap-4">
             <div className="mr-4 hidden lg:block">{navList}</div>
-            <div className="flex items-center gap-x-1">
-              {/* <Button
-                variant="text"
-                size="sm"
-                className="hidden lg:inline-block"
-              >
-                <span>Log In</span>
-              </Button>
-              <Button
-                variant="gradient"
-                size="sm"
-                className="hidden lg:inline-block"
-              >
-                <span>Sign in</span>
-              </Button> */}
-            </div>
             <IconButton
               variant="text"
               className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
@@ -131,17 +102,7 @@ const Header = () => {
             </IconButton>
           </div>
         </div>
-        <Collapse open={openNav}>
-          {navList}
-          <div className="flex items-center gap-x-1">
-            {/* <Button fullWidth variant="text" size="sm" className="">
-              <span>Log In</span>
-            </Button>
-            <Button fullWidth variant="gradient" size="sm" className="">
-              <span>Sign in</span>
-            </Button> */}
-          </div>
-        </Collapse>
+        <Collapse open={openNav}>{navList}</Collapse>
       </Navbar>
     </header>
   );
