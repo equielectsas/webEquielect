@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { IconButton } from "@/utils/tailwind/index";
-import logo from "@/assets/Logo-equielect.png";
+import logo from "@/../public/assets/Logo-equielect.png";
 import NavList from "./NavList";
 
 const navBarOptions = [
