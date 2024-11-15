@@ -9,7 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-import logo from "@/assets/Logo-equielect.png";
+import logo from "../../../public/assets/Logo-equielect.png";
 
 const navbarOptions = [
   { name: "Pages", url: "#" },
