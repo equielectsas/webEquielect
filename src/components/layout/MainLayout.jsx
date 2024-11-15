@@ -20,6 +20,7 @@ const MainLayout = ({ children }) => {
       <Header />
       <main>{children}</main>
       <FooterWithSocialLinks />
+      <FooterWithSocialLinks />
     </div>
   );
 };
