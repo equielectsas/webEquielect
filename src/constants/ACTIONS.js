@@ -1,0 +1,15 @@
+export const ACTIONS = {
+  switchMenuState: "SWITCH_MENU",
+  turnOffMenuState: "TURN_OFF_MENU",
+  switchFiltersState: "SWITCH_MENU",
+  turnOffFiltersState: "TURN_OFF_MENU",
+  switchCotizacionState: "SWITCH_MENU",
+  turnOffCotizacionState: "TURN_OFF_MENU",
+  addFilter: "ADD_FILTER",
+  removeFilter: "REMOVE_FILTER",
+  addProductToCotizacion: "ADD_ITEM_TO_COTIZACION",
+  removeProductFromCotizacion: "REMOVE_ITEM_FROM_COTIZACION",
+  removeAllProductsFromCotizacion: "REMOVE_ALL_ITEMS_FROM_COTIZACION",
+  increaseProductQuantityByOne: "INCREASE_PRODUCT_QUANTITY_BY_ONE",
+  decreaseProductQuantityByOne: "DECREASE_PRODUCT_QUANTITY_BY_ONE",
+};

@@ -1,0 +1,265 @@
+"use client";
+
+import React, { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import {
+  ChevronDown,
+  ShoppingCart,
+  User,
+  Search,
+  MapPin,
+  Menu,
+} from "lucide-react";
+import { useCart } from "@/context/Cart/CartContext";
+import CartDrawer from "@/components/Cart/CartDrawer";
+import MegaMenuEquielect from "@/components/category/MegaMenuEquielect";
+
+export default function Header() {
+  const { cartCount } = useCart();
+
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  // Desktop
+  const [activeCategory, setActiveCategory] = useState(null);
+
+  // Mobile
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [mobileActiveCategory, setMobileActiveCategory] = useState(null);
+
+  // Mobile search
+  const [isMobileSearching, setIsMobileSearching] = useState(false);
+
+  /* ===== HOVER TIMER (DESKTOP) ===== */
+  const closeTimerRef = useRef(null);
+
+  const clearCloseTimer = () => {
+    if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    closeTimerRef.current = null;
+  };
+
+  const scheduleClose = () => {
+    clearCloseTimer();
+    closeTimerRef.current = setTimeout(() => {
+      setActiveCategory(null);
+    }, 140);
+  };
+
+  const headerNavCategories = [
+    "Telecomunicaciones",
+    "Iluminación",
+    "Cableado",
+    "Sistemas portacables",
+    "Automatización y control",
+    "Áreas clasificadas",
+    "Minería",
+  ];
+
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <>
+      <header
+        className={`sticky top-0 z-[999] bg-white transition-shadow ${
+          isScrolled ? "shadow-md" : ""
+        }`}
+      >
+        {/* ===== TOPBAR ===== */}
+        <div className="bg-gray-50 border-b border-gray-200">
+          <div className="max-w-7xl mx-auto px-4 h-7 flex items-center justify-between text-[11px]">
+            <span className="font-semibold text-equielect-blue">
+              Más que negocios, hacemos amigos
+            </span>
+
+            <div className="flex items-center gap-3 text-equielect-gray">
+              <span className="flex items-center gap-1">
+                <MapPin size={12} /> Medellín
+              </span>
+              <span className="text-gray-300">|</span>
+              <a href="#ayuda" className="hover:underline">
+                Centro de ayuda
+              </a>
+
+              <span className="hidden md:flex items-center gap-3">
+                <span className="text-gray-300">|</span>
+                <button className="hover:underline">Mi cuenta</button>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* ===== MAIN BAR ===== */}
+        <div className="bg-white">
+          <div className="max-w-7xl mx-auto px-4 py-2 flex items-center justify-between gap-4">
+            {/* LOGO */}
+            <div
+            className={`transition-all duration-200
+              ${isMobileSearching ? "opacity-0 w-0 overflow-hidden" : "opacity-100"}
+              md:opacity-100 md:w-auto md:overflow-visible
+            `}
+            >
+            <a href="/" className="flex items-center">
+                <Image
+                  src="/assets/Logs/Logo-equielect.jpeg"
+                  alt="Equielect"
+                  width={155}
+                  height={40}
+                  className="hidden md:block object-contain"
+                />
+                <Image
+                  src="/assets/Logs/LogoEQmovil.jpg"
+                  alt="Equielect"
+                  width={70}
+                  height={25}
+                  className="md:hidden object-contain"
+                />
+              </a>
+            </div>
+
+            {/* SEARCH */}
+            <div className="flex-1 flex justify-center">
+              <div className="w-full max-w-[560px]">
+                <div className="flex border border-gray-300">
+                  <div className="flex-1 flex items-center">
+                    <Search size={15} className="ml-3 text-gray-400" />
+                    <input
+                      className="w-full px-3 py-[6px] text-sm outline-none"
+                      placeholder="Buscar productos o marcas"
+                      onFocus={() => setIsMobileSearching(true)}
+                      onBlur={() => setIsMobileSearching(false)}
+                    />
+                  </div>
+                  <button className="bg-equielect-yellow px-3 text-equielect-blue">
+                    <Search size={18} strokeWidth={2.5} />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* ACTIONS */}
+            <div
+              className={`flex items-center gap-5 ${
+                isMobileSearching ? "hidden md:flex" : "flex"
+              }`}
+            >
+              <button className="hidden sm:flex items-center gap-1 border px-3 py-[6px] text-sm">
+                <User size={16} /> Cuenta
+              </button>
+
+              <button
+                onClick={() => setIsCartOpen(true)}
+                className="relative bg-equielect-yellow px-3 py-[6px] font-bold text-equielect-blue flex items-center gap-1"
+              >
+                <ShoppingCart size={16} />
+                <span className="hidden sm:inline">Carrito</span>
+                <span className="absolute -top-2 -right-2 bg-equielect-blue text-white text-xs w-5 h-5 flex items-center justify-center">
+                  {cartCount}
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* ===== NAV AZUL (RELATIVE) ===== */}
+        <div
+          className="bg-equielect-blue relative border-t border-white/10"
+          onMouseLeave={scheduleClose}
+        >
+          <div className="max-w-7xl mx-auto px-2 flex items-center gap-3">
+            {/* MOBILE BUTTON */}
+            <button
+              className="md:hidden text-white px-3 py-2"
+              onClick={() => {
+                setIsMobileMenuOpen((v) => !v);
+                setMobileActiveCategory(null);
+              }}
+            >
+              <Menu size={20} />
+            </button>
+
+            {/* DESKTOP NAV */}
+            <div className="hidden md:flex items-center gap-3">
+              {headerNavCategories.map((cat) => (
+                <button
+                  key={cat}
+                  onMouseEnter={() => {
+                    clearCloseTimer();
+                    setActiveCategory(cat);
+                  }}
+                  className={`px-2 py-2 text-sm font-semibold flex items-center gap-1 transition-colors ${
+                    activeCategory === cat
+                      ? "text-equielect-yellow"
+                      : "text-white hover:text-equielect-yellow"
+                  }`}
+                >
+                  {cat} <ChevronDown size={12} />
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* ===== DESKTOP MEGAMENU (FLOATING) ===== */}
+          {activeCategory && (
+            <div
+              className="hidden md:block absolute top-full left-0 w-full z-[998]"
+              onMouseEnter={clearCloseTimer}
+              onMouseLeave={scheduleClose}
+            >
+              <MegaMenuEquielect category={activeCategory} />
+            </div>
+          )}
+
+          {/* ===== MOBILE OVERLAY ===== */}
+          {isMobileMenuOpen && (
+            <div
+              className="fixed inset-0 z-[997] bg-black/30 md:hidden"
+              onClick={() => setIsMobileMenuOpen(false)}
+            />
+          )}
+
+          {/* ===== MOBILE MENU ===== */}
+          {isMobileMenuOpen && (
+            <div className="md:hidden absolute left-0 top-full w-full bg-equielect-blue z-[998]">
+              {!mobileActiveCategory &&
+                headerNavCategories.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setMobileActiveCategory(cat)}
+                    className="w-full px-4 py-3 text-white font-semibold border-b border-white/10 flex justify-between"
+                  >
+                    {cat} <ChevronDown size={14} />
+                  </button>
+                ))}
+
+              {mobileActiveCategory && (
+                <div className="bg-white">
+                  <div className="flex items-center gap-3 px-4 py-3 bg-equielect-blue text-white">
+                    <button onClick={() => setMobileActiveCategory(null)}>
+                      ←
+                    </button>
+                    <span className="font-bold text-sm">
+                      {mobileActiveCategory}
+                    </span>
+                  </div>
+
+                  <div className="max-h-[65vh] overflow-y-auto">
+                    <MegaMenuEquielect
+                      category={mobileActiveCategory}
+                      isMobile
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </header>
+
+      <CartDrawer open={isCartOpen} onClose={() => setIsCartOpen(false)} />
+    </>
+  );
+}
