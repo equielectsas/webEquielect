@@ -97,12 +97,12 @@ export default function Header() {
           <div className="max-w-7xl mx-auto px-4 py-2 flex items-center justify-between gap-4">
             {/* LOGO */}
             <div
-            className={`transition-all duration-200
+              className={`transition-all duration-200
               ${isMobileSearching ? "opacity-0 w-0 overflow-hidden" : "opacity-100"}
               md:opacity-100 md:w-auto md:overflow-visible
             `}
             >
-            <a href="/" className="flex items-center">
+              <a href="/" className="flex items-center">
                 <Image
                   src="/assets/Logs/Logo-equielect.jpeg"
                   alt="Equielect"
@@ -183,22 +183,40 @@ export default function Header() {
 
             {/* DESKTOP NAV */}
             <div className="hidden md:flex items-center gap-3">
-              {headerNavCategories.map((cat) => (
-                <button
-                  key={cat}
-                  onMouseEnter={() => {
-                    clearCloseTimer();
-                    setActiveCategory(cat);
-                  }}
-                  className={`px-2 py-2 text-sm font-semibold flex items-center gap-1 transition-colors ${
-                    activeCategory === cat
-                      ? "text-equielect-yellow"
-                      : "text-white hover:text-equielect-yellow"
-                  }`}
-                >
-                  {cat} <ChevronDown size={12} />
-                </button>
-              ))}
+              {headerNavCategories.map((cat) => {
+                const isActive = activeCategory === cat;
+
+                return (
+                  <button
+                    key={cat}
+                    onMouseEnter={() => {
+                      clearCloseTimer();
+                      setActiveCategory(cat);
+                    }}
+                    // ✅ group para activar la animación de la raya
+                    className={`group px-2 py-2 text-sm font-semibold flex items-center gap-1 transition-colors ${
+                      isActive
+                        ? "text-equielect-yellow"
+                        : "text-white hover:text-equielect-yellow"
+                    }`}
+                  >
+                    {/* ✅ texto con underline animado SOLO bajo la palabra */}
+                    <span className="relative inline-block">
+                      {cat}
+                      <span
+                        className={`absolute left-0 -bottom-[6px] h-[2px] bg-white w-full origin-left transition-transform duration-200
+                          ${
+                            isActive
+                              ? "scale-x-100"
+                              : "scale-x-0 group-hover:scale-x-100"
+                          }`}
+                      />
+                    </span>
+
+                    <ChevronDown size={12} />
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -247,10 +265,7 @@ export default function Header() {
                   </div>
 
                   <div className="max-h-[65vh] overflow-y-auto">
-                    <MegaMenuEquielect
-                      category={mobileActiveCategory}
-                      isMobile
-                    />
+                    <MegaMenuEquielect category={mobileActiveCategory} isMobile />
                   </div>
                 </div>
               )}
