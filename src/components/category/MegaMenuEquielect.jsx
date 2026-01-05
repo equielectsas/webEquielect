@@ -2,10 +2,6 @@
 
 import Link from "next/link";
 
-/**
- * DATA del mega menú por categoría
- * (esto es lo que luego puedes mover a backend si quieres)
- */
 const MEGA_MENU_DATA = {
   Telecomunicaciones: {
     columns: [
@@ -14,10 +10,10 @@ const MEGA_MENU_DATA = {
         href: "/telecomunicaciones/cableado",
         items: [
           "Cable UTP",
-          "Fibra óptica",
-          "Patch cords",
-          "Conectores RJ45",
-          "Canalización",
+          "Cables libres de halógenos",
+          "Cables de control y comunicación",
+          "Aluminio",
+          "",
         ],
       },
       {
@@ -40,10 +36,10 @@ const MEGA_MENU_DATA = {
         title: "Interior",
         href: "/iluminacion/interior",
         items: [
-          "Paneles LED",
-          "Downlights",
-          "Tubos LED",
-          "Decorativa",
+          "Industrial",
+          "Residencial",
+          "Solar",
+          "",
         ],
       },
       {
@@ -65,20 +61,8 @@ const MEGA_MENU_DATA = {
         title: "Eléctrico",
         href: "/cableado/electrico",
         items: [
-          "Cobre",
-          "Aluminio",
           "Baja tensión",
           "Media tensión",
-        ],
-      },
-      {
-        title: "Canalización",
-        href: "/cableado/canalizacion",
-        items: [
-          "Tubería PVC",
-          "Bandejas",
-          "Escalerillas",
-          "Accesorios",
         ],
       },
     ],
@@ -90,8 +74,8 @@ const MEGA_MENU_DATA = {
         title: "Portacables",
         href: "/portacables",
         items: [
-          "Bandejas",
-          "Escalerillas",
+          "Tipo Escalera",
+          "Tipo Malla",
           "Canastillas",
           "Soportes",
         ],
@@ -105,10 +89,11 @@ const MEGA_MENU_DATA = {
         title: "Control",
         href: "/automatizacion",
         items: [
-          "PLC",
-          "Sensores",
           "Variadores",
-          "Relés",
+          "Arranque Motor",
+          "Pulsadores",
+          "Interruptores",
+          "Otros",
         ],
       },
     ],
@@ -120,10 +105,10 @@ const MEGA_MENU_DATA = {
         title: "Explosión",
         href: "/areas-clasificadas",
         items: [
-          "Luminarias",
           "Cajas",
-          "Conectores",
-          "Protección",
+          "Sellos",
+          "Iluminación",
+          "Resina-CH CHICO",
         ],
       },
     ],
@@ -135,10 +120,8 @@ const MEGA_MENU_DATA = {
         title: "Industrial",
         href: "/mineria",
         items: [
-          "Tableros",
-          "Motores",
-          "Protecciones",
-          "Energía",
+          "Mineria liviana",
+          "Mineria pesada",
         ],
       },
     ],

@@ -2,23 +2,21 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Zap, Shield, Users, ArrowRight } from "lucide-react";
+import { Zap, Shield, Users } from "lucide-react";
 
 export default function Home() {
-  // ✅ HERO
+  // =========================
+  // STATE
+  // =========================
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isHeroPaused, setIsHeroPaused] = useState(false);
-
-  // ✅ Responsive (sin window en render)
   const [width, setWidth] = useState(0);
-
-  // ✅ LOADER
   const [isLoading, setIsLoading] = useState(true);
-
-  // ✅ Carousels
-  const [brandCarouselIndex, setBrandCarouselIndex] = useState(0);
   const [aliadosCarouselIndex, setAliadosCarouselIndex] = useState(0);
 
+  // =========================
+  // DATA
+  // =========================
   const brands = [
     {
       name: "3M",
@@ -53,6 +51,45 @@ export default function Home() {
     },
   ];
 
+  // ✅ Accesos rápidos por categoría
+  const quickCategories = [
+    {
+      title: "Gonvarri",
+      icon: "/assets/Aliados/Gonvarri.png",
+      href: "/categoria/telecomunicaciones",
+    },
+    {
+      title: "Centelsa",
+      icon: "/assets/Aliados/Centelsa.png",
+      href: "/categoria/iluminacion",
+    },
+    {
+      title: "3M",
+      icon: "/assets/Aliados/3M.png",
+      href: "/categoria/cableado",
+    },
+    {
+      title: "Teldor",
+      icon: "/assets/Aliados/Teldor.png",
+      href: "/categoria/sistemas-portacables",
+    },
+    {
+      title: "Panduit",
+      icon: "/assets/Aliados/Panduit.png",
+      href: "/categoria/automatizacion-y-control",
+    },
+    {
+      title: "Philips",
+      icon: "/assets/Aliados/Philips.png",
+      href: "/categoria/areas-clasificadas",
+    },
+    {
+      title: "Sylvania",
+      icon: "/assets/Aliados/Sylvania.png",
+      href: "/categoria/mineria",
+    },
+  ];
+
   const stats = [
     { number: "39+", label: "Años de Experiencia" },
     { number: "800+", label: "Clientes Satisfechos" },
@@ -60,99 +97,26 @@ export default function Home() {
     { number: "99%", label: "Tasa de Satisfacción" },
   ];
 
-  // ✅ Compra por categoría (cards)
+  // (lo dejas por si luego lo usas)
   const categories = [
-    { title: "Telecomunicaciones", image: "/assets/background/PRODUCTO.png" },
-    { title: "Iluminación", image: "/assets/background/PRODUCTO.png" },
-    { title: "Cableado", image: "/assets/background/PRODUCTO.png" },
-    { title: "Sistemas portacables", image: "/assets/background/PRODUCTO.png" },
+    { title: "TELECOMUNICACIONES", image: "/assets/background/PRODUCTO.png" },
+    { title: "ILUMINACION", image: "/assets/background/PRODUCTO.png" },
+    { title: "CABLEADO", image: "/assets/background/PRODUCTO.png" },
+    { title: "SISTEMAS PORTACABLES", image: "/assets/background/PRODUCTO.png" },
     {
-      title: "Automatización y control",
+      title: "AUTOMATIZACIÓN Y CONTROL",
       image: "/assets/background/PRODUCTO.png",
     },
-    { title: "Áreas clasificadas", image: "/assets/background/PRODUCTO.png" },
-    { title: "Minería", image: "/assets/background/PRODUCTO.png" },
+    { title: "ÁREAS CLASIFICADAS", image: "/assets/background/PRODUCTO.png" },
+    { title: "MINERÍA", image: "/assets/background/PRODUCTO.png" },
   ];
 
-  // ✅ Productos (demo)
-  const products = [
-    {
-      id: "prod-1",
-      brand: "PROD1",
-      name: "Producto destacado PROD1",
-      image: "/assets/background/PRODUCTO.png",
-      badge: "NUEVO",
-      price: 89000,
-    },
-    {
-      id: "prod-2",
-      brand: "PROD2",
-      name: "Producto destacado PROD2",
-      image: "/assets/background/PRODUCTO.png",
-      badge: "NUEVO",
-      price: 129000,
-    },
-    {
-      id: "prod-3",
-      brand: "PROD3",
-      name: "Producto destacado PROD3",
-      image: "/assets/background/PRODUCTO.png",
-      badge: "NUEVO",
-      price: 59000,
-    },
-    {
-      id: "prod-4",
-      brand: "PROD4",
-      name: "Producto destacado PROD4",
-      image: "/assets/background/PRODUCTO.png",
-      badge: "NUEVO",
-      price: 219900,
-    },
-    {
-      id: "prod-5",
-      brand: "PROD5",
-      name: "Producto destacado PROD5",
-      image: "/assets/background/PRODUCTO.png",
-      badge: "NUEVO",
-      price: 39900,
-    },
-    {
-      id: "prod-6",
-      brand: "PROD6",
-      name: "Producto destacado PROD6",
-      image: "/assets/background/PRODUCTO.png",
-      badge: "NUEVO",
-      price: 149900,
-    },
-    {
-      id: "prod-7",
-      brand: "PROD7",
-      name: "Producto destacado PROD7",
-      image: "/assets/background/PRODUCTO.png",
-      badge: "NUEVO",
-      price: 99000,
-    },
-    {
-      id: "prod-8",
-      brand: "PROD8",
-      name: "Producto destacado PROD8",
-      image: "/assets/background/PRODUCTO.png",
-      badge: "NUEVO",
-      price: 79900,
-    },
-    {
-      id: "prod-9",
-      brand: "PROD9",
-      name: "Producto destacado PROD9",
-      image: "/assets/background/PRODUCTO.png",
-      badge: "NUEVO",
-      price: 179900,
-    },
-  ];
-
-  // ✅ Promos
+  // (lo dejas por si luego lo usas)
   const promotions = [
-    { image: "/assets/promociones/PromoTelecomunicaciones.png", title: "Herramientas" },
+    {
+      image: "/assets/promociones/PromoTelecomunicaciones.png",
+      title: "Herramientas",
+    },
     { image: "/assets/promociones/PromoIluminacion.png", title: "Iluminación" },
     { image: "/assets/promociones/PromoCables.png", title: "Cables" },
     { image: "/assets/promociones/PromoPortaca.png", title: "Interruptores" },
@@ -160,7 +124,6 @@ export default function Home() {
     { image: "/assets/promociones/PromoAreas.png", title: "Industrial" },
   ];
 
-  // ✅ Aliados
   const allAllies = [
     "Schneider",
     "Panduit",
@@ -187,31 +150,31 @@ export default function Home() {
     "Electro Porcelana GAMMA",
   ];
 
-  // ✅ Responsive counts
-  const visibleProducts =
-    width >= 1024 ? 4 : width >= 768 ? 3 : width >= 640 ? 2 : 1;
+  // =========================
+  // RESPONSIVE COUNTS
+  // =========================
   const visibleAllies = width >= 1024 ? 6 : width >= 768 ? 4 : 2;
 
-  // ✅ Helpers
-  const formatCOP = (n) =>
-    Number(n).toLocaleString("es-CO", {
-      style: "currency",
-      currency: "COP",
-      maximumFractionDigits: 0,
-    });
-
-  const compareAtFromPrice = (price, i) => {
-    const factor = [1.2, 1.25, 1.3, 1.35][i % 4];
-    return Math.max(price + 1, Math.round(price * factor));
-  };
-
-  // ✅ HERO controls
+  // =========================
+  // ACTIONS
+  // =========================
   const nextSlide = () =>
     setCurrentSlide((prev) => (prev + 1) % brands.length);
+
   const prevSlide = () =>
     setCurrentSlide((prev) => (prev - 1 + brands.length) % brands.length);
 
-  // ✅ LOADER al cargar el sitio
+  const nextAliadosSlide = () => {
+    const maxIndex = Math.max(0, allAllies.length - visibleAllies);
+    setAliadosCarouselIndex((prev) => Math.min(maxIndex, prev + 1));
+  };
+
+  const prevAliadosSlide = () =>
+    setAliadosCarouselIndex((prev) => Math.max(0, prev - 1));
+
+  // =========================
+  // EFFECTS
+  // =========================
   useEffect(() => {
     const done = () => setIsLoading(false);
 
@@ -229,14 +192,13 @@ export default function Home() {
     };
   }, []);
 
-  // ✅ Bloquea scroll mientras el loader está activo
   useEffect(() => {
-    if (isLoading) document.body.style.overflow = "hidden";
-    else document.body.style.overflow = "";
-    return () => (document.body.style.overflow = "");
+    document.body.style.overflow = isLoading ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [isLoading]);
 
-  // ✅ width listener
   useEffect(() => {
     const onResize = () => setWidth(window.innerWidth);
     onResize();
@@ -244,7 +206,6 @@ export default function Home() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  // ✅ HERO AUTO
   useEffect(() => {
     if (isHeroPaused) return;
     const timer = setInterval(() => {
@@ -253,21 +214,9 @@ export default function Home() {
     return () => clearInterval(timer);
   }, [brands.length, isHeroPaused]);
 
-  // ✅ Carousels
-  const nextBrandSlide = () => {
-    const maxIndex = Math.max(0, products.length - visibleProducts);
-    setBrandCarouselIndex((prev) => Math.min(maxIndex, prev + 1));
-  };
-  const prevBrandSlide = () =>
-    setBrandCarouselIndex((prev) => Math.max(0, prev - 1));
-
-  const nextAliadosSlide = () => {
-    const maxIndex = Math.max(0, allAllies.length - visibleAllies);
-    setAliadosCarouselIndex((prev) => Math.min(maxIndex, prev + 1));
-  };
-  const prevAliadosSlide = () =>
-    setAliadosCarouselIndex((prev) => Math.max(0, prev - 1));
-
+  // =========================
+  // RENDER
+  // =========================
   return (
     <div className="relative">
       {/* ✅ LOADER FULLSCREEN */}
@@ -320,6 +269,47 @@ export default function Home() {
         .scrollbar-hide {
           -ms-overflow-style: none;
           scrollbar-width: none;
+        }
+
+        /* ✅ Logos “sin fondo” + destello */
+        .brandLogoCard {
+          position: absolute;
+          display: grid;
+          place-items: center;
+          border-radius: 18px;
+          background: transparent;
+          overflow: visible;
+        }
+        .brandLogoGlow {
+          position: absolute;
+          bottom: 18px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 72%;
+          height: 28px;
+          border-radius: 999px;
+          background: radial-gradient(
+            circle,
+            rgba(255, 255, 255, 0.58),
+            rgba(255, 255, 255, 0) 70%
+          );
+          filter: blur(10px);
+          opacity: 0.65;
+          pointer-events: none;
+        }
+        .brandLogoImg {
+          filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.35));
+        }
+
+        /* ✅ FIX MOBILE: glow más sutil */
+        @media (max-width: 1023px) {
+          .brandLogoGlow {
+            bottom: 10px;
+            width: 85%;
+            height: 18px;
+            opacity: 0.55;
+            filter: blur(9px);
+          }
         }
       `}</style>
 
@@ -399,15 +389,66 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ✅ BLOQUE “MEJORES MARCAS” estilo como tu ejemplo */}
+      {/* ✅ ACCESOS RÁPIDOS POR CATEGORÍA (CÍRCULOS GRANDES + HOVER/TAP) */}
+<section className="bg-white border-b border-gray-200">
+  <div className="max-w-7xl mx-auto px-4 py-10">
+    <h3 className="text-xl sm:text-2xl font-extrabold text-equielect-blue mb-7">
+      Explora por marcas
+    </h3>
+
+    <div className="overflow-x-auto scrollbar-hide pb-3">
+      <div className="flex gap-5 w-max mx-auto justify-center">
+        {quickCategories.map((c) => (
+          <Link
+            key={c.title}
+            href={c.href || "/"}
+            className="flex-shrink-0 w-[140px] sm:w-[160px] text-center group pt-2"
+          >
+            {/* Wrapper para que el hover no se “corte” */}
+            <div className="mx-auto w-[124px] h-[124px] flex items-center justify-center overflow-visible">
+              <div
+                className="relative w-[104px] h-[104px] sm:w-[116px] sm:h-[116px] bg-white overflow-hidden border-2 border-white shadow-sm transform-gpu transition-all duration-200 group-hover:-translate-y-1.5 group-hover:shadow-xl group-hover:scale-[1.03] active:scale-[0.98]"
+                style={{ borderRadius: 999 }}
+              >
+                <div
+                  className="absolute inset-0 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                  style={{
+                    background:
+                      "radial-gradient(circle at 50% 65%, rgba(255,205,0,.22), rgba(255,205,0,0) 60%)",
+                  }}
+                />
+                <Image
+                  src={c.icon}
+                  alt={c.title}
+                  fill
+                  className="object-cover transition-transform duration-200 group-hover:scale-105"
+                  sizes="116px"
+                />
+              </div>
+            </div>
+
+            <p className="mt-3 text-[13px] sm:text-[14px] font-extrabold text-gray-900 leading-tight transition-colors duration-200 group-hover:text-equielect-blue">
+              {c.title}
+            </p>
+
+            <span className="block mx-auto mt-2 h-[2px] w-0 bg-equielect-yellow transition-all duration-200 group-hover:w-10" />
+          </Link>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+
+      {/* ✅ BLOQUE “MEJORES MARCAS” */}
       <section className="bg-white py-10">
         <div className="max-w-7xl mx-auto px-4">
           <div
             className="relative overflow-hidden bg-equielect-blue"
-            style={{ borderRadius: 22 }}
+            style={{ borderRadius: 5 }}
           >
             <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-10 p-8 sm:p-12">
-              {/* ✅ Texto izquierda */}
+              {/* Texto izquierda */}
               <div>
                 <h2 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-white leading-[1.05]">
                   Nuestras mejores marcas.
@@ -421,138 +462,98 @@ export default function Home() {
                 <Link
                   href="/productos"
                   className="inline-flex items-center justify-center mt-7 bg-white text-black font-extrabold px-7 py-3 hover:opacity-90 transition"
-                  style={{ borderRadius: 999 }}
+                  style={{ borderRadius: 5 }}
                 >
-                  Compra ahora
+                  Ir a productos
                 </Link>
               </div>
 
-              {/* ✅ Tarjetas derecha (3 cards apiladas) */}
-              <div className="relative h-[240px] sm:h-[280px] lg:h-[260px]">
-                {/* Card 1 (atrás) */}
-                <div
-                  className="absolute right-0 top-0 w-[175px] sm:w-[200px] h-[175px] sm:h-[200px] bg-white shadow-xl flex items-center justify-center p-6"
-                  style={{ borderRadius: 18 }}
-                >
-                  <div className="relative w-[160px] h-[90px]">
-                    <Image
-                      src={brands[0].logoPath}
-                      alt={brands[0].name}
-                      fill
-                      className="object-contain"
-                      sizes="160px"
-                    />
-                  </div>
+              {/* Logos derecha */}
+              <div className="w-full">
+                {/* MOBILE */}
+                <div className="lg:hidden mt-10 flex flex-wrap items-center justify-center gap-6">
+                  {[
+                    {
+                      src: "/assets/Sliderhome/ScheneiderBG.png",
+                      alt: "Schneider",
+                    },
+                    {
+                      src: "/assets/Sliderhome/LegrandBG.png",
+                      alt: "Legrand",
+                    },
+                    {
+                      src: "/assets/Sliderhome/ProcablesBG.png",
+                      alt: "Procables",
+                    },
+                  ].map((item) => (
+                    <div key={item.src} className="relative w-[150px] h-[80px]">
+                      <div className="brandLogoGlow" />
+                      <Image
+                        src={item.src}
+                        alt={item.alt}
+                        fill
+                        className="object-contain brandLogoImg"
+                        sizes="150px"
+                      />
+                    </div>
+                  ))}
                 </div>
 
-                {/* Card 2 (medio) */}
-                <div
-                  className="absolute right-[120px] sm:right-[140px] top-[35px] w-[175px] sm:w-[200px] h-[175px] sm:h-[200px] bg-white shadow-2xl flex items-center justify-center p-6"
-                  style={{ borderRadius: 18 }}
-                >
-                  <div className="relative w-[160px] h-[90px]">
-                    <Image
-                      src={brands[1].logoPath}
-                      alt={brands[1].name}
-                      fill
-                      className="object-contain"
-                      sizes="160px"
-                    />
+                {/* DESKTOP */}
+                <div className="hidden lg:block relative h-[260px]">
+                  <div className="brandLogoCard right-0 top-0 w-[200px] h-[200px] z-[3]">
+                    <div className="brandLogoGlow" />
+                    <div className="relative w-[160px] h-[90px]">
+                      <Image
+                        src="/assets/Sliderhome/ScheneiderBG.png"
+                        alt="Schneider"
+                        fill
+                        className="object-contain brandLogoImg"
+                        sizes="180px"
+                      />
+                    </div>
                   </div>
-                </div>
 
-                {/* Card 3 (frente) */}
-                <div
-                  className="absolute right-[240px] sm:right-[280px] top-[75px] w-[175px] sm:w-[200px] h-[175px] sm:h-[200px] bg-white shadow-xl flex items-center justify-center p-6"
-                  style={{ borderRadius: 18 }}
-                >
-                  <div className="relative w-[160px] h-[90px]">
-                    <Image
-                      src={brands[2].logoPath}
-                      alt={brands[2].name}
-                      fill
-                      className="object-contain"
-                      sizes="160px"
-                    />
+                  <div className="brandLogoCard right-[140px] top-[35px] w-[200px] h-[200px] z-[2]">
+                    <div className="brandLogoGlow" />
+                    <div className="relative w-[160px] h-[90px]">
+                      <Image
+                        src="/assets/Sliderhome/LegrandBG.png"
+                        alt="Legrand"
+                        fill
+                        className="object-contain brandLogoImg"
+                        sizes="180px"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="brandLogoCard right-[280px] top-[75px] w-[200px] h-[200px] z-[1]">
+                    <div className="brandLogoGlow" />
+                    <div className="relative w-[160px] h-[90px]">
+                      <Image
+                        src="/assets/Sliderhome/ProcablesBG.png"
+                        alt="Procables"
+                        fill
+                        className="object-contain brandLogoImg"
+                        sizes="180px"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
+              {/* /logos */}
             </div>
           </div>
         </div>
       </section>
-
-      {/* ✅ STATS */}
-      <div className="bg-gray-900 py-12 sm:py-16">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
-            {stats.map((stat, index) => (
-              <div
-                key={index}
-                className="text-center transform hover:scale-110 transition-transform"
-              >
-                <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-equielect-yellow mb-2">
-                  {stat.number}
-                </h3>
-                <p className="text-gray-300 text-xs sm:text-sm md:text-base">
-                  {stat.label}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* ✅ AYUDA */}
-      <section className="py-16 sm:py-20 bg-gray-800 text-white" id="ayuda">
-        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12 sm:mb-16 px-4 text-white">
-          ¿Por Qué Elegirnos?
-        </h2>
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 px-4 sm:px-6">
-          {[
-            {
-              icon: <Zap className="w-10 h-10 sm:w-12 sm:h-12" />,
-              title: "Tecnología de Punta",
-              description:
-                "Tecnología que transforma la industria para que sea siempre productiva y sostenible.",
-            },
-            {
-              icon: <Shield className="w-10 h-10 sm:w-12 sm:h-12" />,
-              title: "Calidad Garantizada",
-              description:
-                "Productos de alta funcionalidad, calidad y respaldo de marcas líderes del mercado.",
-            },
-            {
-              icon: <Users className="w-10 h-10 sm:w-12 sm:h-12" />,
-              title: "Equipo Experto",
-              description:
-                "Más de 50 profesionales especializados listos para asesorarte en cada proyecto.",
-            },
-          ].map((feature, index) => (
-            <div
-              key={index}
-              className="bg-gray-700 p-6 sm:p-8 shadow-xl transition-all cursor-pointer hover:scale-105"
-              style={{ borderRadius: 0 }}
-            >
-              <div className="text-equielect-yellow mb-4">{feature.icon}</div>
-              <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">
-                {feature.title}
-              </h3>
-              <p className="text-gray-300 text-sm sm:text-base">
-                {feature.description}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ✅ ALIADOS */}
+       {/* ✅ ALIADOS */}
       <section className="bg-white py-12 sm:py-16 border-t border-gray-200">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10 sm:mb-12">
             <h2 className="text-2xl sm:text-3xl font-bold text-equielect-blue">
               Conoce todas nuestras marcas
             </h2>
+
             <button
               className="bg-gray-800 hover:bg-black text-white px-6 py-2.5 font-semibold transition-all hover:scale-105 text-sm"
               style={{ borderRadius: 0 }}
@@ -597,7 +598,11 @@ export default function Home() {
                   <div
                     key={index}
                     className="flex-shrink-0 w-1/2 sm:w-1/4 lg:w-1/6 flex items-center justify-center bg-white hover:bg-gray-50 transition-all p-4 hover:scale-110 cursor-pointer group border border-gray-200"
-                    style={{ minWidth: "120px", height: "80px", borderRadius: 0 }}
+                    style={{
+                      minWidth: "120px",
+                      height: "80px",
+                      borderRadius: 0,
+                    }}
                   >
                     <span className="text-xs sm:text-sm font-semibold text-equielect-gray group-hover:text-equielect-yellow transition-colors text-center">
                       {brand}
@@ -631,6 +636,69 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* ✅ AYUDA */}
+      <section className="py-16 sm:py-20 bg-gray-800 text-white" id="ayuda">
+        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12 sm:mb-16 px-4 text-white">
+          ¿Por Qué Elegirnos?
+        </h2>
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 px-4 sm:px-6">
+          {[
+            {
+              icon: <Zap className="w-10 h-10 sm:w-12 sm:h-12" />,
+              title: "Tecnología de Punta",
+              description:
+                "Tecnología que transforma la industria para que sea siempre productiva y sostenible.",
+            },
+            {
+              icon: <Shield className="w-10 h-10 sm:w-12 sm:h-12" />,
+              title: "Calidad Garantizada",
+              description:
+                "Productos de alta funcionalidad, calidad y respaldo de marcas líderes del mercado.",
+            },
+            {
+              icon: <Users className="w-10 h-10 sm:w-12 sm:h-12" />,
+              title: "Equipo Experto",
+              description:
+                "Más de 50 profesionales especializados listos para asesorarte en cada proyecto.",
+            },
+          ].map((feature, index) => (
+            <div
+              key={index}
+              className="bg-gray-700 p-6 sm:p-8 shadow-xl transition-all cursor-pointer hover:scale-105"
+              style={{ borderRadius: 0 }}
+            >
+              <div className="text-equielect-yellow mb-4">{feature.icon}</div>
+              <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">
+                {feature.title}
+              </h3>
+              <p className="text-gray-300 text-sm sm:text-base">
+                {feature.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+      {/* ✅ STATS */}
+      <div className="bg-gray-900 py-12 sm:py-16">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+            {stats.map((stat, index) => (
+              <div
+                key={index}
+                className="text-center transform hover:scale-110 transition-transform"
+              >
+                <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-equielect-yellow mb-2">
+                  {stat.number}
+                </h3>
+                <p className="text-gray-300 text-xs sm:text-sm md:text-base">
+                  {stat.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
