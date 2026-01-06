@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ✅ altura dinámica del header (la setea Header.jsx con JS) */
+:root{
+  --header-h: 0px;
+}
+
+/* ✅ Evita que algo se salga y "mueva" la página a los lados */
+html, body {
+  overflow-x: hidden;
+}
+
 body {
-  font-family: sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* ✅ reserva el espacio para el header fixed */
+  padding-top: var(--header-h);
 }

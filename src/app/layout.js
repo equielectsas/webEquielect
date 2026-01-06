@@ -1,18 +1,21 @@
 import { Montserrat } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
+
 import { ThemeProvider } from "@/utils/tailwind/index";
 import { AppThemeProvider } from "@/context/Theme/ThemeProvider";
 import { AppProductProvider } from "@/context/Products/ProductProvider";
 import { AppCotizacionProvider } from "@/context/Cotizacion/CotizacionProvider";
+import { CartProvider } from "@/context/Cart/CartContext";
+
 import MainLayout from "@/components/layout/MainLayout";
 import { GA_TRACKING_ID } from "../../lib/analytics";
-
-import { CartProvider } from "@/context/Cart/CartContext";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
   variable: "--font-montserrat",
+  display: "swap",
+  weight: ["300", "400", "500", "600"],
 });
 
 export const metadata = {
@@ -24,7 +27,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="es">
-      <body className={`${montserrat.className} antialiased`}>
+      {/* ✅ Usa variable + font-sans para que TODO Tailwind use Montserrat */}
+      <body className={`${montserrat.variable} font-sans font-normal antialiased`}>
+        {/* ✅ Google Analytics */}
         <Script
           strategy="afterInteractive"
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
@@ -45,6 +50,7 @@ export default function RootLayout({ children }) {
           }}
         />
 
+        {/* ✅ Providers */}
         <ThemeProvider>
           <AppThemeProvider>
             <AppProductProvider>

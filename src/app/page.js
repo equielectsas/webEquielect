@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Zap, Shield, Users } from "lucide-react";
@@ -24,7 +24,11 @@ export default function Home() {
       title: "Innovación en Adhesivos y Seguridad",
       description:
         "Productos innovadores en seguridad, electrónica y soluciones industriales.",
-      image: "/assets/Sliderhome/3m.jpg",
+      images: {
+        mobile: "/assets/Sliderhome/mobile/ProcablesM.png",
+        tablet: "/assets/Sliderhome/tablet/ProcablesT.png",
+        desktop: "/assets/Sliderhome/desktop/ProcablesPC.png",
+      },
       color: "from-blue-700 to-blue-500",
       exampleProducts: "Seguridad Industrial, Adhesivos, Soluciones Eléctricas",
     },
@@ -34,7 +38,11 @@ export default function Home() {
       title: "Innovación en Instalaciones",
       description:
         "Productos eléctricos y digitales para edificaciones residenciales y comerciales",
-      image: "/assets/Sliderhome/Legrandd.jpg",
+      images: {
+        mobile: "/assets/Sliderhome/mobile/legrandM.png",
+        tablet: "/assets/Sliderhome/tablet/legrandT.png",
+        desktop: "/assets/Sliderhome/desktop/legrandPC.png",
+      },
       color: "from-red-700 to-red-500",
       exampleProducts: "Tomas, Interruptores, Sistemas de Gestión de Cables",
     },
@@ -44,50 +52,90 @@ export default function Home() {
       title: "Gestión Energética Eficiente",
       description:
         "Automatización y gestión de energía para un mundo más sostenible",
-      image: "/assets/Sliderhome/sneiderjpg.jpg",
+      images: {
+        mobile: "/assets/Sliderhome/mobile/SchneiderM.png",
+        tablet: "/assets/Sliderhome/tablet/SchneiderT.png",
+        desktop: "/assets/Sliderhome/desktop/SchneiderPC.png",
+      },
       color: "from-green-700 to-green-500",
       exampleProducts:
         "Automatización, Distribución Eléctrica, Eficiencia Energética",
     },
   ];
 
-  // ✅ Accesos rápidos por categoría
+  // ✅ Explora por marcas (logos transparentes en /assets/aliados)
   const quickCategories = [
     {
       title: "Gonvarri",
-      icon: "/assets/Aliados/Gonvarri.png",
+      icon: "/assets/aliados/AllieGonvarri.png",
       href: "/categoria/telecomunicaciones",
     },
     {
       title: "Centelsa",
-      icon: "/assets/Aliados/Centelsa.png",
+      icon: "/assets/aliados/AllieCentelsa.png",
       href: "/categoria/iluminacion",
     },
     {
       title: "3M",
-      icon: "/assets/Aliados/3M.png",
+      icon: "/assets/aliados/Allie3M.png",
       href: "/categoria/cableado",
     },
     {
       title: "Teldor",
-      icon: "/assets/Aliados/Teldor.png",
+      icon: "/assets/aliados/AllieTeldor.png",
       href: "/categoria/sistemas-portacables",
     },
     {
       title: "Panduit",
-      icon: "/assets/Aliados/Panduit.png",
+      icon: "/assets/aliados/AlliePanduit.png",
       href: "/categoria/automatizacion-y-control",
     },
     {
       title: "Philips",
-      icon: "/assets/Aliados/Philips.png",
+      icon: "/assets/aliados/AlliePhilips.png",
       href: "/categoria/areas-clasificadas",
     },
     {
       title: "Sylvania",
-      icon: "/assets/Aliados/Sylvania.png",
+      icon: "/assets/aliados/AllieSylvania.png",
       href: "/categoria/mineria",
     },
+  ];
+
+  // ✅ agrupa quickCategories de 2 en 2 para el carrusel móvil (memo para no recalcular)
+  const quickPairs = useMemo(() => {
+    const pairs = [];
+    for (let i = 0; i < quickCategories.length; i += 2) {
+      pairs.push(quickCategories.slice(i, i + 2));
+    }
+    return pairs;
+  }, [quickCategories]);
+
+  // ✅ Aliados (si no tienes el logo de una marca, deja src: null y cae a texto)
+  const allies = [
+    { name: "Schneider", src: "/assets/aliados/Schneider.png" },
+    { name: "Panduit", src: "/assets/aliados/Panduit.png" },
+    { name: "Mecano", src: null },
+    { name: "Dexson", src: null },
+    { name: "Legrand", src: "/assets/aliados/Legrand.png" },
+    { name: "Dixpro", src: null },
+    { name: "3M", src: "/assets/aliados/3M.png" },
+    { name: "Leviton", src: null },
+    { name: "Philips", src: "/assets/aliados/Philips.png" },
+    { name: "VCP electric", src: null },
+    { name: "Centelsa", src: "/assets/aliados/Centelsa.png" },
+    { name: "VCP ecolighting", src: null },
+    { name: "Procables", src: null },
+    { name: "Sylvania", src: "/assets/aliados/Sylvania.png" },
+    { name: "Crouse Hinds", src: null },
+    { name: "Metal coraza", src: null },
+    { name: "Weg", src: null },
+    { name: "Plastimec", src: null },
+    { name: "Colmena", src: null },
+    { name: "Tercol", src: null },
+    { name: "Teldor", src: "/assets/aliados/Teldor.png" },
+    { name: "Rebra", src: null },
+    { name: "Electro Porcelana GAMMA", src: null },
   ];
 
   const stats = [
@@ -97,58 +145,15 @@ export default function Home() {
     { number: "99%", label: "Tasa de Satisfacción" },
   ];
 
-  // (lo dejas por si luego lo usas)
-  const categories = [
-    { title: "TELECOMUNICACIONES", image: "/assets/background/PRODUCTO.png" },
-    { title: "ILUMINACION", image: "/assets/background/PRODUCTO.png" },
-    { title: "CABLEADO", image: "/assets/background/PRODUCTO.png" },
-    { title: "SISTEMAS PORTACABLES", image: "/assets/background/PRODUCTO.png" },
-    {
-      title: "AUTOMATIZACIÓN Y CONTROL",
-      image: "/assets/background/PRODUCTO.png",
-    },
-    { title: "ÁREAS CLASIFICADAS", image: "/assets/background/PRODUCTO.png" },
-    { title: "MINERÍA", image: "/assets/background/PRODUCTO.png" },
-  ];
-
-  // (lo dejas por si luego lo usas)
-  const promotions = [
-    {
-      image: "/assets/promociones/PromoTelecomunicaciones.png",
-      title: "Herramientas",
-    },
-    { image: "/assets/promociones/PromoIluminacion.png", title: "Iluminación" },
-    { image: "/assets/promociones/PromoCables.png", title: "Cables" },
-    { image: "/assets/promociones/PromoPortaca.png", title: "Interruptores" },
-    { image: "/assets/promociones/PromoAuCo.png", title: "Seguridad" },
-    { image: "/assets/promociones/PromoAreas.png", title: "Industrial" },
-  ];
-
-  const allAllies = [
-    "Schneider",
-    "Panduit",
-    "Mecano",
-    "Dexson",
-    "Legrand",
-    "Dixpro",
-    "3M",
-    "Leviton",
-    "Philips",
-    "VCP electric",
-    "Centelsa",
-    "VCP ecolighting",
-    "Procables",
-    "Sylvania",
-    "Crouse Hinds",
-    "Metal coraza",
-    "Weg",
-    "Plastimec",
-    "Colmena",
-    "Tercol",
-    "Teldor",
-    "Rebra",
-    "Electro Porcelana GAMMA",
-  ];
+  // =========================
+  // HELPERS
+  // =========================
+  const getHeroImage = (b) => {
+    // breakpoints: <640 mobile, 640-1023 tablet, >=1024 desktop
+    if (width < 640) return b.images.mobile;
+    if (width < 1024) return b.images.tablet;
+    return b.images.desktop;
+  };
 
   // =========================
   // RESPONSIVE COUNTS
@@ -165,7 +170,7 @@ export default function Home() {
     setCurrentSlide((prev) => (prev - 1 + brands.length) % brands.length);
 
   const nextAliadosSlide = () => {
-    const maxIndex = Math.max(0, allAllies.length - visibleAllies);
+    const maxIndex = Math.max(0, allies.length - visibleAllies);
     setAliadosCarouselIndex((prev) => Math.min(maxIndex, prev + 1));
   };
 
@@ -231,7 +236,7 @@ export default function Home() {
               priority
               unoptimized
             />
-            <span className="text-equielect-blue font-semibold text-sm">
+            <span className="text-equielect-blue font-medium text-sm">
               Cargando...
             </span>
           </div>
@@ -271,7 +276,29 @@ export default function Home() {
           scrollbar-width: none;
         }
 
-        /* ✅ Logos “sin fondo” + destello */
+        /* ✅ Chips PRO para logos transparentes (sin negro) */
+        .partnerChip {
+          background: #f6f7fb;
+          border: 1px solid #e6eaf2;
+          border-radius: 9999px;
+          box-shadow: 0 10px 26px rgba(16, 24, 40, 0.08);
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .partnerChip:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 16px 34px rgba(16, 24, 40, 0.12);
+        }
+        .partnerLogo {
+          filter: drop-shadow(0 6px 14px rgba(16, 24, 40, 0.12));
+          opacity: 0.95;
+          transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        .partnerChip:hover .partnerLogo {
+          opacity: 1;
+          transform: scale(1.02);
+        }
+
+        /* ✅ Logos “sin fondo” + destello (bloque mejores marcas) */
         .brandLogoCard {
           position: absolute;
           display: grid;
@@ -300,8 +327,6 @@ export default function Home() {
         .brandLogoImg {
           filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.35));
         }
-
-        /* ✅ FIX MOBILE: glow más sutil */
         @media (max-width: 1023px) {
           .brandLogoGlow {
             bottom: 10px;
@@ -313,7 +338,7 @@ export default function Home() {
         }
       `}</style>
 
-      {/* ✅ HERO */}
+      {/* ✅ HERO (RESPONSIVE IMAGES) */}
       <section className="bg-transparent">
         <div
           className="relative w-full h-[220px] sm:h-[320px] lg:h-[420px] overflow-hidden"
@@ -328,7 +353,7 @@ export default function Home() {
               }`}
             >
               <img
-                src={b.image}
+                src={getHeroImage(b)}
                 alt={b.name}
                 className="w-full h-full object-cover"
                 draggable={false}
@@ -389,51 +414,189 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ✅ ACCESOS RÁPIDOS POR CATEGORÍA (CÍRCULOS GRANDES + HOVER/TAP) */}
-<section className="bg-white border-b border-gray-200">
-  <div className="max-w-7xl mx-auto px-4 py-10">
-    <h3 className="text-xl sm:text-2xl font-extrabold text-equielect-blue mb-7">
-      Explora por marcas
-    </h3>
+      {/* ✅ EXPLORA POR MARCAS (CÍRCULOS - MOBILE CARRUSEL DE 2 EN 2) */}
+      <section className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 py-10">
+          {/* ✅ TÍTULO CENTRADO */}
+          <div className="mb-6 text-center">
+            <h3 className="text-xl sm:text-xl font-semibold text-equielect-blue">
+              EXPLORA POR MARCAS
+            </h3>
 
-    <div className="overflow-x-auto scrollbar-hide pb-3">
-      <div className="flex gap-5 w-max mx-auto justify-center">
-        {quickCategories.map((c) => (
-          <Link
-            key={c.title}
-            href={c.href || "/"}
-            className="flex-shrink-0 w-[140px] sm:w-[160px] text-center group pt-2"
-          >
-            {/* Wrapper para que el hover no se “corte” */}
-            <div className="mx-auto w-[124px] h-[124px] flex items-center justify-center overflow-visible">
-              <div
-                className="relative w-[104px] h-[104px] sm:w-[116px] sm:h-[116px] bg-white overflow-hidden border-2 border-white shadow-sm transform-gpu transition-all duration-200 group-hover:-translate-y-1.5 group-hover:shadow-xl group-hover:scale-[1.03] active:scale-[0.98]"
-                style={{ borderRadius: 999 }}
-              >
+            <Link
+              href="/marcas"
+              className="inline-block mt-2 text-sm font-medium text-equielect-blue hover:underline"
+            >
+              Ver todas
+            </Link>
+          </div>
+
+          {/* ✅ MOBILE: carrusel por páginas (2 logos por slide) */}
+          <div className="sm:hidden overflow-x-auto overflow-y-hidden scrollbar-hide snap-x snap-mandatory scroll-px-4">
+            <div className="flex gap-4 px-4">
+              {quickPairs.map((pair, pageIndex) => (
                 <div
-                  className="absolute inset-0 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
-                  style={{
-                    background:
-                      "radial-gradient(circle at 50% 65%, rgba(255,205,0,.22), rgba(255,205,0,0) 60%)",
-                  }}
-                />
-                <Image
-                  src={c.icon}
-                  alt={c.title}
-                  fill
-                  className="object-cover transition-transform duration-200 group-hover:scale-105"
-                  sizes="116px"
-                />
-              </div>
+                  key={pageIndex}
+                  className="snap-start flex-shrink-0 w-[calc(100vw-2rem)]"
+                >
+                  <div className="grid grid-cols-2 gap-10 justify-items-center">
+                    {pair.map((c) => (
+                      <Link
+                        key={c.title}
+                        href={c.href || "/"}
+                        className="group flex flex-col items-center"
+                        aria-label={`Ir a ${c.title}`}
+                      >
+                        {/* ✅ CÍRCULO */}
+                        <div className="relative w-[96px] h-[96px] rounded-full border border-gray-200 bg-white shadow-sm grid place-items-center transition-all duration-200 active:scale-[0.98]">
+                          <div
+                            className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
+                            style={{
+                              background:
+                                "radial-gradient(circle at 50% 70%, rgba(255,205,0,.20), rgba(255,205,0,0) 60%)",
+                            }}
+                          />
+                          <div className="relative w-[72%] h-[72%]">
+                            <Image
+                              src={c.icon}
+                              alt={c.title}
+                              fill
+                              className="object-contain partnerLogo"
+                              sizes="96px"
+                            />
+                          </div>
+                        </div>
+
+                        <p className="mt-3 text-center text-[13px] font-medium text-gray-900 group-hover:text-equielect-blue">
+                          {c.title}
+                        </p>
+
+                        <span className="block mt-2 h-[2px] w-0 opacity-0 bg-equielect-yellow transition-all duration-200 group-hover:w-10 group-hover:opacity-100" />
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
+          </div>
 
-            <p className="mt-3 text-[13px] sm:text-[14px] font-extrabold text-gray-900 leading-tight transition-colors duration-200 group-hover:text-equielect-blue">
-              {c.title}
-            </p>
+          {/* ✅ TABLET/PC: centrado, sin carrusel, envuelve bonito */}
+          <div className="hidden sm:flex sm:flex-wrap sm:justify-center sm:gap-10">
+            {quickCategories.map((c) => (
+              <Link
+                key={c.title}
+                href={c.href || "/"}
+                className="group flex flex-col items-center"
+                aria-label={`Ir a ${c.title}`}
+              >
+                <div className="relative w-[108px] h-[108px] rounded-full border border-gray-200 bg-white shadow-sm grid place-items-center transition-all duration-200 group-hover:-translate-y-1 group-hover:shadow-lg">
+                  <div
+                    className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
+                    style={{
+                      background:
+                        "radial-gradient(circle at 50% 70%, rgba(255,205,0,.20), rgba(255,205,0,0) 60%)",
+                    }}
+                  />
+                  <div className="relative w-[72%] h-[72%]">
+                    <Image
+                      src={c.icon}
+                      alt={c.title}
+                      fill
+                      className="object-contain partnerLogo"
+                      sizes="108px"
+                    />
+                  </div>
+                </div>
 
-            <span className="block mx-auto mt-2 h-[2px] w-0 bg-equielect-yellow transition-all duration-200 group-hover:w-10" />
+                <p className="mt-3 text-center text-sm font-medium text-gray-900 group-hover:text-equielect-blue">
+                  {c.title}
+                </p>
+
+                <span className="block mt-2 h-[2px] w-0 opacity-0 bg-equielect-yellow transition-all duration-200 group-hover:w-10 group-hover:opacity-100" />
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+       
+       {/* ✅ PLANTILLA DE CELULAR + VIDEO */}
+<section className="bg-white border-b border-gray-200">
+  <div className="max-w-7xl mx-auto px-4 py-12 sm:py-14">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+      {/* Texto */}
+      <div className="text-center lg:text-left">
+        <h3 className="text-2xl sm:text-3xl font-semibold text-equielect-blue">
+          Conoce Equielect en 1 minuto
+        </h3>
+
+        <p className="mt-3 text-gray-600 text-sm sm:text-base font-medium leading-relaxed">
+          Queremos que además de comprar, puedas entender quiénes somos, cómo te
+          apoyamos y por qué trabajamos con marcas líderes.
+        </p>
+
+        <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
+          <Link
+            href="/nosotros"
+            className="inline-flex items-center justify-center px-6 py-3 bg-equielect-blue text-white font-semibold hover:opacity-90 transition"
+            style={{ borderRadius: 6 }}
+          >
+            Ver institucional
           </Link>
-        ))}
+
+          <Link
+            href="/productos"
+            className="inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-gray-900 font-semibold hover:bg-gray-50 transition"
+            style={{ borderRadius: 6 }}
+          >
+            Ir a productos
+          </Link>
+        </div>
+      </div>
+
+      {/* “Celular” */}
+      <div className="flex justify-center">
+        <div
+          className="relative w-[260px] h-[520px] sm:w-[300px] sm:h-[600px] bg-[#0b1220] shadow-2xl overflow-hidden"
+          style={{ borderRadius: 40 }}
+        >
+          {/* Borde externo */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              borderRadius: 40,
+              border: "1px solid rgba(255,255,255,.10)",
+            }}
+          />
+
+          {/* Notch */}
+          <div
+            className="absolute top-3 left-1/2 -translate-x-1/2 w-[110px] h-[22px] bg-black/55"
+            style={{ borderRadius: 9999 }}
+          />
+
+          {/* Pantalla */}
+          <div
+            className="absolute inset-[10px] bg-black overflow-hidden"
+            style={{ borderRadius: 32 }}
+          >
+            <video
+              className="w-full h-full object-cover"
+              controls
+              playsInline
+              preload="metadata"
+              poster="/assets/video/empresa-poster.jpg"
+            >
+              <source src="/assets/videos/video.mp4" type="video/mp4" />
+              Tu navegador no soporta video HTML5.
+            </video>
+          </div>
+
+          {/* Botón home (decorativo) */}
+          <div
+            className="absolute bottom-3 left-1/2 -translate-x-1/2 w-[120px] h-[5px] bg-white/20"
+            style={{ borderRadius: 9999 }}
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -450,18 +613,18 @@ export default function Home() {
             <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-10 p-8 sm:p-12">
               {/* Texto izquierda */}
               <div>
-                <h2 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-white leading-[1.05]">
+                <h2 className="text-5xl sm:text-6xl lg:text-7xl font-semibold text-white leading-[1.05]">
                   Nuestras mejores marcas.
                 </h2>
 
-                <p className="mt-4 text-white/80 text-base sm:text-lg max-w-xl">
+                <p className="mt-4 text-white/80 text-base sm:text-lg max-w-xl font-medium">
                   Explora productos originales con respaldo, garantía y
                   disponibilidad inmediata.
                 </p>
 
                 <Link
                   href="/productos"
-                  className="inline-flex items-center justify-center mt-7 bg-white text-black font-extrabold px-7 py-3 hover:opacity-90 transition"
+                  className="inline-flex items-center justify-center mt-7 bg-white text-black font-semibold px-7 py-3 hover:opacity-90 transition"
                   style={{ borderRadius: 5 }}
                 >
                   Ir a productos
@@ -546,16 +709,17 @@ export default function Home() {
           </div>
         </div>
       </section>
-       {/* ✅ ALIADOS */}
+
+      {/* ✅ ALIADOS */}
       <section className="bg-white py-12 sm:py-16 border-t border-gray-200">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10 sm:mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold text-equielect-blue">
+            <h2 className="text-2xl sm:text-3xl font-semibold text-equielect-blue">
               Conoce todas nuestras marcas
             </h2>
 
             <button
-              className="bg-gray-800 hover:bg-black text-white px-6 py-2.5 font-semibold transition-all hover:scale-105 text-sm"
+              className="bg-gray-800 hover:bg-black text-white px-6 py-2.5 font-medium transition-all hover:scale-105 text-sm"
               style={{ borderRadius: 0 }}
             >
               Ver todas
@@ -587,26 +751,36 @@ export default function Home() {
 
             <div className="overflow-hidden">
               <div
-                className="flex gap-4 sm:gap-8 items-center py-8 px-4 sm:px-12 transition-transform duration-500 ease-in-out"
+                className="flex gap-4 sm:gap-8 items-center py-8 px-2 sm:px-12 transition-transform duration-500 ease-in-out"
                 style={{
                   transform: `translateX(-${
                     aliadosCarouselIndex * (100 / visibleAllies)
                   }%)`,
                 }}
               >
-                {allAllies.map((brand, index) => (
+                {allies.map((item, index) => (
                   <div
                     key={index}
-                    className="flex-shrink-0 w-1/2 sm:w-1/4 lg:w-1/6 flex items-center justify-center bg-white hover:bg-gray-50 transition-all p-4 hover:scale-110 cursor-pointer group border border-gray-200"
-                    style={{
-                      minWidth: "120px",
-                      height: "80px",
-                      borderRadius: 0,
-                    }}
+                    className="flex-shrink-0 w-1/2 sm:w-1/4 lg:w-1/6 px-1"
+                    style={{ minWidth: "140px" }}
                   >
-                    <span className="text-xs sm:text-sm font-semibold text-equielect-gray group-hover:text-equielect-yellow transition-colors text-center">
-                      {brand}
-                    </span>
+                    <div className="partnerChip h-[82px] flex items-center justify-center px-4">
+                      {item.src ? (
+                        <div className="relative w-full h-full">
+                          <Image
+                            src={item.src}
+                            alt={item.name}
+                            fill
+                            className="object-contain partnerLogo"
+                            sizes="180px"
+                          />
+                        </div>
+                      ) : (
+                        <span className="text-xs sm:text-sm font-medium text-equielect-gray text-center px-2">
+                          {item.name}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -614,7 +788,7 @@ export default function Home() {
 
             <button
               onClick={nextAliadosSlide}
-              disabled={aliadosCarouselIndex >= allAllies.length - visibleAllies}
+              disabled={aliadosCarouselIndex >= allies.length - visibleAllies}
               className="hidden sm:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 bg-gray-800 hover:bg-black disabled:bg-gray-400 disabled:cursor-not-allowed text-white w-10 h-10 items-center justify-center shadow-lg z-10 transition-all hover:scale-110"
               style={{ borderRadius: 0 }}
               aria-label="Siguientes marcas"
@@ -639,7 +813,7 @@ export default function Home() {
 
       {/* ✅ AYUDA */}
       <section className="py-16 sm:py-20 bg-gray-800 text-white" id="ayuda">
-        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12 sm:mb-16 px-4 text-white">
+        <h2 className="text-3xl sm:text-4xl font-semibold text-center mb-12 sm:mb-16 px-4 text-white">
           ¿Por Qué Elegirnos?
         </h2>
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 px-4 sm:px-6">
@@ -669,16 +843,17 @@ export default function Home() {
               style={{ borderRadius: 0 }}
             >
               <div className="text-equielect-yellow mb-4">{feature.icon}</div>
-              <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">
+              <h3 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4">
                 {feature.title}
               </h3>
-              <p className="text-gray-300 text-sm sm:text-base">
+              <p className="text-gray-300 text-sm sm:text-base font-medium">
                 {feature.description}
               </p>
             </div>
           ))}
         </div>
       </section>
+
       {/* ✅ STATS */}
       <div className="bg-gray-900 py-12 sm:py-16">
         <div className="max-w-7xl mx-auto px-4">
@@ -688,10 +863,10 @@ export default function Home() {
                 key={index}
                 className="text-center transform hover:scale-110 transition-transform"
               >
-                <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-equielect-yellow mb-2">
+                <h3 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-equielect-yellow mb-2">
                   {stat.number}
                 </h3>
-                <p className="text-gray-300 text-xs sm:text-sm md:text-base">
+                <p className="text-gray-300 text-xs sm:text-sm md:text-base font-medium">
                   {stat.label}
                 </p>
               </div>

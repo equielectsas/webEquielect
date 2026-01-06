@@ -57,21 +57,21 @@ export default function Header() {
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <>
       <header
-        className={`sticky top-0 z-[999] bg-white transition-shadow ${
+        className={`spicky top-0 z-[1000] w-full transition-shadow ${
           isScrolled ? "shadow-md" : ""
-        }`}
+        } bg-white`}
       >
         {/* ===== TOPBAR ===== */}
         <div className="bg-gray-50 border-b border-gray-200">
           <div className="max-w-7xl mx-auto px-4 h-7 flex items-center justify-between text-[11px]">
-            <span className="font-semibold text-equielect-blue">
+            <span className="font-medium text-equielect-blue">
               Más que negocios, hacemos amigos
             </span>
 
@@ -98,7 +98,11 @@ export default function Header() {
             {/* LOGO */}
             <div
               className={`transition-all duration-200
-              ${isMobileSearching ? "opacity-0 w-0 overflow-hidden" : "opacity-100"}
+              ${
+                isMobileSearching
+                  ? "opacity-0 w-0 overflow-hidden"
+                  : "opacity-100"
+              }
               md:opacity-100 md:w-auto md:overflow-visible
             `}
             >
@@ -146,13 +150,13 @@ export default function Header() {
                 isMobileSearching ? "hidden md:flex" : "flex"
               }`}
             >
-              <button className="hidden sm:flex items-center gap-1 border px-3 py-[6px] text-sm">
+              <button className="hidden sm:flex items-center gap-1 border px-3 py-[6px] text-sm font-medium">
                 <User size={16} /> Cuenta
               </button>
 
               <button
                 onClick={() => setIsCartOpen(true)}
-                className="relative bg-equielect-yellow px-3 py-[6px] font-bold text-equielect-blue flex items-center gap-1"
+                className="relative bg-equielect-yellow px-3 py-[6px] font-semibold text-equielect-blue flex items-center gap-1"
               >
                 <ShoppingCart size={16} />
                 <span className="hidden sm:inline">Carrito</span>
@@ -164,7 +168,7 @@ export default function Header() {
           </div>
         </div>
 
-        {/* ===== NAV AZUL (RELATIVE) ===== */}
+        {/* ===== NAV AZUL ===== */}
         <div
           className="bg-equielect-blue relative border-t border-white/10"
           onMouseLeave={scheduleClose}
@@ -193,14 +197,12 @@ export default function Header() {
                       clearCloseTimer();
                       setActiveCategory(cat);
                     }}
-                    // ✅ group para activar la animación de la raya
-                    className={`group px-2 py-2 text-sm font-semibold flex items-center gap-1 transition-colors ${
+                    className={`group px-2 py-2 text-sm font-medium flex items-center gap-1 transition-colors ${
                       isActive
                         ? "text-equielect-yellow"
                         : "text-white hover:text-equielect-yellow"
                     }`}
                   >
-                    {/* ✅ texto con underline animado SOLO bajo la palabra */}
                     <span className="relative inline-block">
                       {cat}
                       <span
@@ -220,10 +222,10 @@ export default function Header() {
             </div>
           </div>
 
-          {/* ===== DESKTOP MEGAMENU (FLOATING) ===== */}
+          {/* ===== DESKTOP MEGAMENU ===== */}
           {activeCategory && (
             <div
-              className="hidden md:block absolute top-full left-0 w-full z-[998]"
+              className="hidden md:block absolute top-full left-0 w-full z-[999]"
               onMouseEnter={clearCloseTimer}
               onMouseLeave={scheduleClose}
             >
@@ -234,20 +236,20 @@ export default function Header() {
           {/* ===== MOBILE OVERLAY ===== */}
           {isMobileMenuOpen && (
             <div
-              className="fixed inset-0 z-[997] bg-black/30 md:hidden"
+              className="fixed inset-0 z-[998] bg-black/30 md:hidden"
               onClick={() => setIsMobileMenuOpen(false)}
             />
           )}
 
           {/* ===== MOBILE MENU ===== */}
           {isMobileMenuOpen && (
-            <div className="md:hidden absolute left-0 top-full w-full bg-equielect-blue z-[998]">
+            <div className="md:hidden absolute left-0 top-full w-full bg-equielect-blue z-[999]">
               {!mobileActiveCategory &&
                 headerNavCategories.map((cat) => (
                   <button
                     key={cat}
                     onClick={() => setMobileActiveCategory(cat)}
-                    className="w-full px-4 py-3 text-white font-semibold border-b border-white/10 flex justify-between"
+                    className="w-full px-4 py-3 text-white font-medium border-b border-white/10 flex justify-between"
                   >
                     {cat} <ChevronDown size={14} />
                   </button>
@@ -259,7 +261,7 @@ export default function Header() {
                     <button onClick={() => setMobileActiveCategory(null)}>
                       ←
                     </button>
-                    <span className="font-bold text-sm">
+                    <span className="font-semibold text-sm">
                       {mobileActiveCategory}
                     </span>
                   </div>
