@@ -4,6 +4,7 @@
 
 /* ✅ altura dinámica del header (la setea Header.jsx con JS) */
 :root{
+  
   --header-h: 0px;
 }
 
@@ -19,3 +20,14 @@ body {
   /* ✅ reserva el espacio para el header fixed */
   padding-top: var(--header-h);
 }
+:root {
+  --color-equielect-yellow: #ffcd00;
+  --color-equielect-blue: #1c355e;
+  --color-equielect-gray: #98989a;
+}
+
+.text-equielect-gray { color: var(--color-equielect-gray); }
+.text-equielect-blue { color: var(--color-equielect-blue); }
+
+.bg-equielect-yellow { background-color: var(--color-equielect-yellow); }
+.bg-equielect-blue { background-color: var(--color-equielect-blue); }

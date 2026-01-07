@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import {
   ChevronDown,
   ShoppingCart,
@@ -9,13 +10,18 @@ import {
   Search,
   MapPin,
   Menu,
+  Heart,
 } from "lucide-react";
+
 import { useCart } from "@/context/Cart/CartContext";
+import { useFavorites } from "@/context/Favorites/FavoritesContext";
+
 import CartDrawer from "@/components/Cart/CartDrawer";
 import MegaMenuEquielect from "@/components/category/MegaMenuEquielect";
 
 export default function Header() {
   const { cartCount } = useCart();
+  const { count: favCount } = useFavorites();
 
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -97,16 +103,13 @@ export default function Header() {
           <div className="max-w-7xl mx-auto px-4 py-2 flex items-center justify-between gap-4">
             {/* LOGO */}
             <div
-              className={`transition-all duration-200
-              ${
+              className={`transition-all duration-200 ${
                 isMobileSearching
                   ? "opacity-0 w-0 overflow-hidden"
                   : "opacity-100"
-              }
-              md:opacity-100 md:w-auto md:overflow-visible
-            `}
+              } md:opacity-100 md:w-auto md:overflow-visible`}
             >
-              <a href="/" className="flex items-center">
+              <Link href="/" className="flex items-center">
                 <Image
                   src="/assets/Logs/Logo-equielect.jpeg"
                   alt="Equielect"
@@ -121,7 +124,7 @@ export default function Header() {
                   height={25}
                   className="md:hidden object-contain"
                 />
-              </a>
+              </Link>
             </div>
 
             {/* SEARCH */}
@@ -146,14 +149,45 @@ export default function Header() {
 
             {/* ACTIONS */}
             <div
-              className={`flex items-center gap-5 ${
+              className={`flex items-center gap-3 ${
                 isMobileSearching ? "hidden md:flex" : "flex"
               }`}
             >
-              <button className="hidden sm:flex items-center gap-1 border px-3 py-[6px] text-sm font-medium">
+              {/* Favoritos */}
+              <Link
+                href="/favoritos"
+              className="relative hidden sm:flex items-center gap-2 px-2 py-[6px] text-sm font-medium text-equielect-blue hover:text-equielect-yellow transition"
+                aria-label="Favoritos"
+              >
+                <Heart size={16} />
+                <span className="hidden lg:inline"></span>
+
+                {favCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-equielect-blue text-white text-xs w-5 h-5 flex items-center justify-center">
+                    {favCount}
+                  </span>
+                )}
+              </Link>
+
+              {/* Cuenta */}
+              <button className="hidden sm:flex items-center gap-2 px-2 py-[6px] text-sm font-medium text-equielect-blue hover:text-equielect-yellow transition"
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              >
                 <User size={16} /> Cuenta
               </button>
 
+              {/* Carrito */}
               <button
                 onClick={() => setIsCartOpen(true)}
                 className="relative bg-equielect-yellow px-3 py-[6px] font-semibold text-equielect-blue flex items-center gap-1"
@@ -206,12 +240,11 @@ export default function Header() {
                     <span className="relative inline-block">
                       {cat}
                       <span
-                        className={`absolute left-0 -bottom-[6px] h-[2px] bg-white w-full origin-left transition-transform duration-200
-                          ${
-                            isActive
-                              ? "scale-x-100"
-                              : "scale-x-0 group-hover:scale-x-100"
-                          }`}
+                        className={`absolute left-0 -bottom-[6px] h-[2px] bg-white w-full origin-left transition-transform duration-200 ${
+                          isActive
+                            ? "scale-x-100"
+                            : "scale-x-0 group-hover:scale-x-100"
+                        }`}
                       />
                     </span>
 
@@ -267,7 +300,10 @@ export default function Header() {
                   </div>
 
                   <div className="max-h-[65vh] overflow-y-auto">
-                    <MegaMenuEquielect category={mobileActiveCategory} isMobile />
+                    <MegaMenuEquielect
+                      category={mobileActiveCategory}
+                      isMobile
+                    />
                   </div>
                 </div>
               )}

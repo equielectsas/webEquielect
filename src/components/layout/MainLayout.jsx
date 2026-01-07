@@ -7,7 +7,7 @@ import FooterWithSocialLinks from "@/components/layout/Footer/Footer";
 
 import CotizacionWidget from "@/components/utils/Modals/CotizacionWidget/CotizacionWidgetModal";
 import CotizacionWidgetButton from "@/components/cotizacion/CotizacionWidget/CotizacionWidgetButton";
-import WhatsappButton from "@/components/layout/Header/WhatsappButton";
+
 
 // ✅ IMPORTA AQUÍ TU HEADER NUEVO (ECOMMERCE)
 // ⚠️ Cambia esta ruta por la real donde dejaste el nuevo header.
@@ -28,7 +28,6 @@ const MainLayout = ({ children }) => {
 
       <Breadcrumb />
       
-      <WhatsappButton />
 
       {/* ✅ Si el header es fixed, esto evita que el contenido quede debajo */}
       <main className="min-h-screen">{children}</main>

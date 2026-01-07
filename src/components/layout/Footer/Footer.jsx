@@ -1,147 +1,202 @@
-import {
-  FaFacebook,
-  FaInstagram,
-  FaLinkedin,
-  FaTwitter,
-  FaWhatsapp,
-} from "react-icons/fa";
+"use client";
 
-const LINKS = [
-  {
-    title: "Productos",
-    items: [
-      { name: "Eléctricos", href: "/electricos" },
-      { name: "Iluminación", href: "/iluminacion" },
-      { name: "Automatizacion Industrial", href: "/automatizacion-industial" },
-      { name: "Energía Renovable", href: "/energia-renovable" },
-    ],
-  },
-  // {
-  //   title: "Términos y Condiciones",
-  //   items: [{ name: "Términos de Uso", href: "/terminos-y-condiciones" }],
-  // },
-];
+import React from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { Mail, MapPin, Phone, Clock, CreditCard, ShieldCheck, Truck, RefreshCcw } from "lucide-react";
 
-const currentYear = new Date().getFullYear();
-
-const Footer = () => {
+export default function FooterEcommerce() {
   return (
-    <footer className="z-[5] relative w-full bg-gray-800 text-white">
-      <div className="mx-auto w-full max-w-7xl px-8 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="flex flex-col items-start">
-            <p className="mb-4 text-xl font-semibold text-yellow-500">
-              Equielect
+    <footer className="bg-[#0b1220] text-white">
+      {/* TOP: Newsletter + confianza */}
+      <div className="border-b border-white/10">
+        <div className="max-w-7xl mx-auto px-4 py-10 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+          {/* Newsletter */}
+          <div>
+            <h3 className="text-xl sm:text-2xl font-semibold">
+              Recibe ofertas y novedades
+            </h3>
+            <p className="mt-2 text-white/70 text-sm">
+              Suscríbete y te enviamos promociones, lanzamientos y disponibilidad de stock.
             </p>
-            <p className="text-gray-400">
-              Innovación y tecnología al servicio de la industria.
+
+            <form
+              onSubmit={(e) => e.preventDefault()}
+              className="mt-5 flex flex-col sm:flex-row gap-3"
+            >
+              <div className="flex-1">
+                <label className="sr-only">Email</label>
+                <input
+                  type="email"
+                  placeholder="Tu correo"
+                  className="w-full rounded-xl px-4 py-3 text-sm text-black outline-none"
+                />
+              </div>
+              <button
+                type="submit"
+                className="rounded-xl px-5 py-3 bg-[#ffcd00] text-[#1c355e] font-extrabold text-sm hover:opacity-90"
+              >
+                Suscribirme
+              </button>
+            </form>
+
+            <p className="mt-3 text-xs text-white/55">
+              Al suscribirte aceptas recibir comunicaciones comerciales. Puedes darte de baja cuando quieras.
             </p>
           </div>
 
-          {LINKS.map(({ title, items }) => (
-            <ul key={title}>
-              <p className="mb-3 text-lg font-semibold text-gray-300">
-                {title}
-              </p>
-              {items.map(({ name, href }) => (
-                <li key={name}>
-                  <a
-                    href={href}
-                    className="block py-1.5 text-gray-400 transition-colors hover:text-[#FFCD00]"
-                  >
-                    {name}
-                  </a>
-                </li>
+          {/* Confianza */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <TrustItem icon={<Truck className="w-5 h-5" />} title="Envíos" desc="A todo Colombia" />
+            <TrustItem icon={<ShieldCheck className="w-5 h-5" />} title="Garantía" desc="Respaldo" />
+            <TrustItem icon={<RefreshCcw className="w-5 h-5" />} title="Devolución" desc="Políticas claras" />
+            <TrustItem icon={<CreditCard className="w-5 h-5" />} title="Pagos" desc="Medios seguros" />
+          </div>
+        </div>
+      </div>
+
+      {/* MID: columnas */}
+      <div className="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+        {/* Marca */}
+        <div>
+          <div className="flex items-center gap-3">
+            {/* Si tienes logo, úsalo */}
+            <div className="w-11 h-11 rounded-xl bg-white/10 grid place-items-center overflow-hidden">
+              {/* Ejemplo: /assets/logo.png */}
+              {/* <Image src="/assets/logo.png" alt="Equielect" width={44} height={44} /> */}
+              <span className="font-black text-[#ffcd00]">E</span>
+            </div>
+            <div>
+              <div className="font-extrabold text-lg">Equielect</div>
+              <div className="text-xs text-white/60">Ecommerce • Industrial</div>
+            </div>
+          </div>
+
+          <p className="mt-4 text-sm text-white/70 leading-relaxed">
+            Compra productos eléctricos, telecomunicaciones e iluminación con respaldo,
+            disponibilidad y atención rápida.
+          </p>
+
+          {/* Métodos de pago (puedes poner logos reales) */}
+          <div className="mt-5">
+            <div className="text-xs font-semibold text-white/70 mb-2">Medios de pago</div>
+            <div className="flex flex-wrap gap-2">
+              {["VISA", "Mastercard", "PSE", "Nequi"].map((t) => (
+                <span
+                  key={t}
+                  className="px-3 py-1.5 rounded-lg bg-white/10 border border-white/10 text-xs"
+                >
+                  {t}
+                </span>
               ))}
-            </ul>
-          ))}
-
-          <div className="flex flex-col items-start">
-            <p className="mb-3 text-lg font-semibold text-gray-300">
-              Contáctanos
-            </p>
-            <p className="text-gray-400">Correo: equielect@equielect.com.co</p>
-            <p className="text-gray-400">Teléfono: (604) 444 3133</p>
-            <p className="text-gray-400">
-              Dirección: Carrera 72 No. 30-53 Medellín – Colombia
-            </p>
+            </div>
           </div>
         </div>
 
-        <div className="mt-12">
-          <p className="text-lg font-semibold text-white mb-4">
-            Nuestra ubicación
-          </p>
-          <div className="w-full h-64 overflow-hidden shadow-lg">
-            <iframe
-              title="Mapa de ubicación"
-              src="https://www.google.com/maps?q=6.232166,-75.592861&hl=es&z=16&output=embed"
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-            ></iframe>
-          </div>
+        {/* Comprar */}
+        <div>
+          <h4 className="font-bold text-sm tracking-wide text-white/90">Comprar</h4>
+          <ul className="mt-4 space-y-3 text-sm text-white/70">
+            <FooterLink href="/productos" label="Productos" />
+            <FooterLink href="/marcas" label="Marcas" />
+            <FooterLink href="/categoria/telecomunicaciones" label="Telecomunicaciones" />
+            <FooterLink href="/categoria/iluminacion" label="Iluminación" />
+            <FooterLink href="/categoria/cableado" label="Cableado" />
+          </ul>
         </div>
 
-        <div className="my-8 h-px bg-gray-700"></div>
+        {/* Ayuda */}
+        <div>
+          <h4 className="font-bold text-sm tracking-wide text-white/90">Ayuda</h4>
+          <ul className="mt-4 space-y-3 text-sm text-white/70">
+            <FooterLink href="/preguntas-frecuentes" label="Preguntas frecuentes" />
+            <FooterLink href="/envios" label="Envíos y entregas" />
+            <FooterLink href="/garantias" label="Garantías y devoluciones" />
+            <FooterLink href="/contacto" label="Contacto" />
+            <FooterLink href="/terminos" label="Términos y condiciones" />
+          </ul>
+        </div>
 
-        <div className="flex flex-col items-left justify-between">
-          <p>
-            &copy; {currentYear}{" "}
-            <span className="font-semibold text-yellow-500 ">Equielect</span>.
-            Todos los derechos{" "}
-            <a
-              href="/terminos-y-condiciones"
-              className=" hover:text-yellow-700 underline"
-            >
-              reservados
-            </a>
-          </p>
+        {/* Contacto */}
+        <div>
+          <h4 className="font-bold text-sm tracking-wide text-white/90">Contacto</h4>
 
-          <div className="flex gap-6 text-2xl text-gray-400 pt-3">
-            <a
-              href="https://www.facebook.com/equielect"
-              className="transition-colors hover:text-[#1877f2]"
-              aria-label="Facebook"
-            >
-              <FaFacebook />
-            </a>
-            <a
-              href="https://www.instagram.com/equielectsas/"
-              className="transition-colors hover:text-[#D43089]"
-              aria-label="Instagram"
-            >
-              <FaInstagram />
-            </a>
-            <a
-              href="https://www.linkedin.com/company/equielect/?originalSubdomain=co"
-              className="transition-colors hover:text-[#0073b1]"
-              aria-label="LinkedIn"
-            >
-              <FaLinkedin />
-            </a>
-            <a
-              href="https://x.com/EQUIELECT"
-              className="transition-colors hover:text-[#1DA1F2]"
-              aria-label="X"
-            >
-              <FaTwitter />
-            </a>
+          <div className="mt-4 space-y-3 text-sm text-white/70">
+            <div className="flex gap-3">
+              <MapPin className="w-4 h-4 mt-0.5 text-white/60" />
+              <div>Medellín, Colombia</div>
+            </div>
 
-            <a
-              href="link-whatsapp"
-              className="transition-colors hover:text-[#25d366]"
-              aria-label="X"
-            >
-              <FaWhatsapp />
-            </a>
+            <div className="flex gap-3">
+              <Phone className="w-4 h-4 mt-0.5 text-white/60" />
+              <a className="hover:text-white" href="tel:+573001112233">
+                +57 300 111 2233
+              </a>
+            </div>
+
+            <div className="flex gap-3">
+              <Mail className="w-4 h-4 mt-0.5 text-white/60" />
+              <a className="hover:text-white" href="mailto:soporte@equielect.com">
+                soporte@equielect.com
+              </a>
+            </div>
+
+            <div className="flex gap-3">
+              <Clock className="w-4 h-4 mt-0.5 text-white/60" />
+              <div>Lun–Vie 8:00–5:30 | Sáb 8:00–12:00</div>
+            </div>
+          </div>
+
+          {/* CTA WhatsApp */}
+          <a
+            href="https://wa.me/573001112233?text=Hola%2C%20necesito%20ayuda%20con%20mi%20compra%20en%20Equielect."
+            target="_blank"
+            rel="noreferrer"
+            className="mt-6 inline-flex items-center justify-center w-full rounded-xl bg-[#25D366] text-black font-extrabold py-3 text-sm hover:opacity-90"
+          >
+            Hablar por WhatsApp
+          </a>
+
+          <div className="mt-4 text-xs text-white/55">
+            Respuesta promedio: 5–15 min (horario laboral).
+          </div>
+        </div>
+      </div>
+
+      {/* BOTTOM: legales */}
+      <div className="border-t border-white/10">
+        <div className="max-w-7xl mx-auto px-4 py-6 flex flex-col sm:flex-row gap-3 items-center justify-between">
+          <div className="text-xs text-white/55">
+            © {new Date().getFullYear()} Equielect S.A.S. Todos los derechos reservados.
+          </div>
+
+          <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs text-white/60">
+            <Link className="hover:text-white" href="/politica-privacidad">Privacidad</Link>
+            <Link className="hover:text-white" href="/terminos">Términos</Link>
+            <Link className="hover:text-white" href="/cookies">Cookies</Link>
           </div>
         </div>
       </div>
     </footer>
   );
-};
+}
 
-export default Footer;
+function FooterLink({ href, label }) {
+  return (
+    <li>
+      <Link href={href} className="hover:text-white hover:underline underline-offset-4">
+        {label}
+      </Link>
+    </li>
+  );
+}
+
+function TrustItem({ icon, title, desc }) {
+  return (
+    <div className="rounded-2xl bg-white/5 border border-white/10 p-4">
+      <div className="text-[#ffcd00]">{icon}</div>
+      <div className="mt-2 font-bold text-sm">{title}</div>
+      <div className="text-xs text-white/65 mt-1">{desc}</div>
+    </div>
+  );
+}

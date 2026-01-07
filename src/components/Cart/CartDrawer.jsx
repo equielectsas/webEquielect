@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { useCart } from "@/context/Cart/CartContext";
 
 const formatCOP = (n) =>
@@ -11,6 +11,11 @@ const formatCOP = (n) =>
 
 export default function CartDrawer({ open, onClose }) {
   const { items, total, incQty, decQty, removeItem, clear } = useCart();
+
+  // ✅ AVISA AL BOT (y a cualquier UI) si el carrito está abierto/cerrado
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent("ui:cart", { detail: { open } }));
+  }, [open]);
 
   return (
     <>
@@ -32,7 +37,11 @@ export default function CartDrawer({ open, onClose }) {
         {/* Header */}
         <div className="bg-[#1c355e] text-white px-4 py-4 flex items-center justify-between">
           <div className="font-extrabold">Tu carrito</div>
-          <button className="text-white/90 hover:text-white" onClick={onClose} aria-label="Cerrar">
+          <button
+            className="text-white/90 hover:text-white"
+            onClick={onClose}
+            aria-label="Cerrar"
+          >
             ✕
           </button>
         </div>
@@ -49,12 +58,18 @@ export default function CartDrawer({ open, onClose }) {
                 <div key={it.id} className="border border-gray-200 p-3">
                   <div className="flex gap-3">
                     <div className="w-16 h-16 border border-gray-200 bg-gray-50 overflow-hidden">
-                      <img src={it.image} alt={it.name} className="w-full h-full object-cover" />
+                      <img
+                        src={it.image}
+                        alt={it.name}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
 
                     <div className="flex-1">
                       <div className="text-xs text-gray-500 font-semibold">{it.brand}</div>
-                      <div className="text-sm font-bold text-[#1c355e] line-clamp-2">{it.name}</div>
+                      <div className="text-sm font-bold text-[#1c355e] line-clamp-2">
+                        {it.name}
+                      </div>
                       <div className="text-sm font-extrabold mt-1">{formatCOP(it.price)}</div>
 
                       <div className="mt-2 flex items-center gap-2">
@@ -82,9 +97,7 @@ export default function CartDrawer({ open, onClose }) {
 
                       <div className="mt-2 text-xs text-gray-600">
                         Subtotal:{" "}
-                        <span className="font-bold">
-                          {formatCOP(it.qty * Number(it.price))}
-                        </span>
+                        <span className="font-bold">{formatCOP(it.qty * Number(it.price))}</span>
                       </div>
                     </div>
                   </div>
@@ -102,10 +115,7 @@ export default function CartDrawer({ open, onClose }) {
           </div>
 
           <div className="grid grid-cols-2 gap-2">
-            <button
-              className="border border-gray-300 font-bold py-2 hover:bg-gray-50"
-              onClick={clear}
-            >
+            <button className="border border-gray-300 font-bold py-2 hover:bg-gray-50" onClick={clear}>
               Vaciar
             </button>
             <button className="bg-[#ffcd00] font-extrabold py-2 hover:opacity-90">
