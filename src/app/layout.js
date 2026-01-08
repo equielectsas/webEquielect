@@ -8,6 +8,7 @@ import { AppThemeProvider } from "@/context/Theme/ThemeProvider";
 import { AppProductProvider } from "@/context/Products/ProductProvider";
 import { AppCotizacionProvider } from "@/context/Cotizacion/CotizacionProvider";
 import { CartProvider } from "@/context/Cart/CartContext";
+import CookieBanner from "@/components/CookieBanner";
 
 import MainLayout from "@/components/layout/MainLayout";
 import { GA_TRACKING_ID } from "../../lib/analytics";
@@ -19,7 +20,7 @@ const montserrat = Montserrat({
   subsets: ["latin"],
   variable: "--font-montserrat",
   display: "swap",
-  weight: ["300", "400", "500", "600"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
 });
 
 export const metadata = {
@@ -65,6 +66,7 @@ export default function RootLayout({ children }) {
                       {children}
 
                       {/* ✅ Clara (flotante en TODO el sitio) */}
+                       <CookieBanner />
                       <ClaraChatWidget />
                     </MainLayout>
                   </FavoritesProvider>

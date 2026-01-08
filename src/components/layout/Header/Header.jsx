@@ -171,18 +171,6 @@ export default function Header() {
 
               {/* Cuenta */}
               <button className="hidden sm:flex items-center gap-2 px-2 py-[6px] text-sm font-medium text-equielect-blue hover:text-equielect-yellow transition"
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              
               >
                 <User size={16} /> Cuenta
               </button>
