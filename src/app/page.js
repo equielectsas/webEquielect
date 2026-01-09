@@ -10,27 +10,26 @@ export default function Home() {
   // =========================
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isHeroPaused, setIsHeroPaused] = useState(false);
-  const [width, setWidth] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
-const [quickMobileIndex, setQuickMobileIndex] = useState(0);
-const quickScrollRef = useRef(null);
+  const [quickMobileIndex, setQuickMobileIndex] = useState(0);
+  const quickScrollRef = useRef(null);
 
-const scrollQuick = (dir = 1) => {
-  const el = quickScrollRef.current;
-  if (!el) return;
+  const scrollQuick = (dir = 1) => {
+    const el = quickScrollRef.current;
+    if (!el) return;
 
-  const step = el.clientWidth; // 1 “página” completa
-  el.scrollBy({ left: dir * step, behavior: "smooth" });
-};
+    const step = el.clientWidth; // 1 “página” completa
+    el.scrollBy({ left: dir * step, behavior: "smooth" });
+  };
 
-function LogoItem({ src, alt }) {
-  return (
-    <div className="relative w-[150px] h-[56px]">
-      <Image src={src} alt={alt} fill className="object-contain" sizes="150px" />
-    </div>
-  );
-}
+  function LogoItem({ src, alt }) {
+    return (
+      <div className="relative w-[150px] h-[56px]">
+        <Image src={src} alt={alt} fill className="object-contain" sizes="150px" />
+      </div>
+    );
+  }
 
   // ✅ Ref para scroll de “Otras marcas aliadas”
   const alliesScrollRef = useRef(null);
@@ -44,6 +43,9 @@ function LogoItem({ src, alt }) {
     el.scrollBy({ left: dir * step, behavior: "smooth" });
   };
 
+  // ✅ helper para retina (2x). Si no tienes 2x, usa 1x como fallback (NO rompe).
+  const makeSrcSet = (x1, x2) => `${x1} 1x, ${(x2 || x1)} 2x`;
+
   // =========================
   // DATA
   // =========================
@@ -55,9 +57,12 @@ function LogoItem({ src, alt }) {
       description:
         "Productos innovadores en seguridad, electrónica y soluciones industriales.",
       images: {
-        mobile: "/assets/Sliderhome/mobile/ProcablesM.png",
-        tablet: "/assets/Sliderhome/tablet/ProcablesT.png",
-        desktop: "/assets/Sliderhome/desktop/ProcablesPC.png",
+        mobile: "/assets/Sliderhome/mobile/bannerproc_c.png",
+        mobile2x: "/assets/Sliderhome/mobile/ProcablesM.png", // 👉 pon tu @2x cuando lo tengas
+        tablet: "/assets/Sliderhome/tablet/bannerproc_t.png",
+        tablet2x: "/assets/Sliderhome/tablet/ProcablesT.png", // 👉 pon tu @2x cuando lo tengas
+        desktop: "/assets/Sliderhome/desktop/bannerproc_pc.png",
+        desktop2x: "/assets/Sliderhome/desktop/bannerproc_mac.png", // 👉 pon tu @2x cuando lo tengas
       },
       color: "from-blue-700 to-blue-500",
       exampleProducts: "Seguridad Industrial, Adhesivos, Soluciones Eléctricas",
@@ -70,8 +75,11 @@ function LogoItem({ src, alt }) {
         "Productos eléctricos y digitales para edificaciones residenciales y comerciales",
       images: {
         mobile: "/assets/Sliderhome/mobile/legrandM.png",
+        mobile2x: "/assets/Sliderhome/mobile/legrandM.png", // 👉 pon tu @2x cuando lo tengas
         tablet: "/assets/Sliderhome/tablet/legrandT.png",
-        desktop: "/assets/Sliderhome/desktop/legrandPC.png",
+        tablet2x: "/assets/Sliderhome/tablet/legrandT.png", // 👉 pon tu @2x cuando lo tengas
+        desktop: "/assets/Sliderhome/desktop/bannerleg_pc.png",
+        desktop2x: "/assets/Sliderhome/desktop/bannerleg_mac.png", // 👉 pon tu @2x cuando lo tengas
       },
       color: "from-red-700 to-red-500",
       exampleProducts: "Tomas, Interruptores, Sistemas de Gestión de Cables",
@@ -83,10 +91,12 @@ function LogoItem({ src, alt }) {
       description:
         "Automatización y gestión de energía para un mundo más sostenible",
       images: {
-        mobile: "/assets/Sliderhome/mobile/Banner SCH_1.png",
-        tablet: "/assets/Sliderhome/tablet/SchneiderT.png",
-        desktop: "/assets/Sliderhome/desktop/Banner SCH_1.png",
-        desktop: "/assets/Sliderhome/desktop/SchneiderPC.png",
+        mobile: "/assets/Sliderhome/mobile/bannersch_movil.png",
+        mobile2x: "/assets/Sliderhome/mobile/bannersch_movil.png", // 👉 ideal: bannersch_movil@2x.png
+        tablet: "/assets/Sliderhome/tablet/bannersch_tablet.png",
+        tablet2x: "/assets/Sliderhome/tablet/bannersch_tablet.png", // 👉 ideal: bannersch_tablet@2x.png
+        desktop: "/assets/Sliderhome/desktop/bannersch_pc.png",
+        desktop2x: "/assets/Sliderhome/desktop/bannersch_mac.png", // 👉 aquí puedes poner tu "mac" (ej: bannersch_mac.png)
       },
       color: "from-green-700 to-green-500",
       exampleProducts:
@@ -96,42 +106,32 @@ function LogoItem({ src, alt }) {
 
   // ✅ Explora por marcas (logos transparentes en /assets/aliados)
   const quickCategories = [
-    {
-      title: "Gonvarri",
-      icon: "/assets/aliados/AllieGonvarri.png",
-      href: "/categoria/telecomunicaciones",
-    },
-    {
-      title: "Centelsa",
-      icon: "/assets/aliados/AllieCentelsa.png",
-      href: "/categoria/iluminacion",
-    },
-    {
-      title: "3M",
-      icon: "/assets/aliados/Allie3M.png",
-      href: "/categoria/cableado",
-    },
-    {
-      title: "Teldor",
-      icon: "/assets/aliados/AllieTeldor.png",
-      href: "/categoria/sistemas-portacables",
-    },
-    {
-      title: "Panduit",
-      icon: "/assets/aliados/AlliePanduit.png",
-      href: "/categoria/automatizacion-y-control",
-    },
-    {
-      title: "Philips",
-      icon: "/assets/aliados/AlliePhilips.png",
-      href: "/categoria/areas-clasificadas",
-    },
-    {
-      title: "Sylvania",
-      icon: "/assets/aliados/AllieSylvania.png",
-      href: "/categoria/mineria",
-    },
+    { title: "Gonvarri", icon: "/assets/aliados/AllieGonvarri.png", href: "/categoria/telecomunicaciones" },
+    { title: "Centelsa", icon: "/assets/aliados/AllieCentelsa.png", href: "/categoria/iluminacion" },
+    { title: "3M", icon: "/assets/aliados/Allie3M.png", href: "/categoria/cableado" },
+    { title: "Schmersal", icon: "/assets/aliados/AllieSchmersal.png", href: "/categoria/sistemas-portacables" },
+    { title: "Panduit", icon: "/assets/aliados/AlliePanduit.png", href: "/categoria/automatizacion-y-control" },
+    { title: "Phoenix Contact", icon: "/assets/aliados/AlliePhoenix.png", href: "/categoria/areas-clasificadas" },
+    { title: "Sylvania", icon: "/assets/aliados/AllieSylvania.png", href: "/categoria/mineria" },
   ];
+
+  const quickCategoriesExtra = [
+  {
+    title: "Weg",
+    icon: "/assets/aliados/AllieWeg.png",
+    href: "/categoria/weg",
+  },
+  {
+    title: "Siemon",
+    icon: "/assets/aliados/AllieSiemon.png",
+    href: "/categoria/siemon",
+  },
+  {
+    title: "Phoenix",
+    icon: "/assets/aliados/AlliePhoenix.png",
+    href: "/categoria/phoenix-contact",
+  },
+];
 
   // ✅ agrupa quickCategories de 2 en 2 para el carrusel móvil
   const quickPairs = useMemo(() => {
@@ -142,13 +142,13 @@ function LogoItem({ src, alt }) {
     return pairs;
   }, [quickCategories]);
 
-  // ✅ Otras marcas aliadas (puedes poner logos luego en src)
+  // ✅ Otras marcas aliadas
   const allies = [
-    { name: "Phoenix Contact", src: "/assets/aliados/AlliePhoenix.png" },
+    { name: "Philips", src: "/assets/aliados/AlliePhilips.png" },
     { name: "Telemecanique", src: "/assets/aliados/AllieTelemecanique.png" },
     { name: "Weg", src: "/assets/aliados/AllieWeg.png" },
     { name: "Connect VCP", src: "/assets/aliados/AllieConnectVCP.png" },
-    { name: "Schmersal", src: "/assets/aliados/AllieSchmersal.png" },
+    { name: "Teldor", src: "/assets/aliados/AllieTeldor.png", width: 200 },
     { name: "Siemon", src: "/assets/aliados/AllieSiemon.png" },
     { name: "Colmena Conduit", src: "/assets/aliados/AllieColmena.png" },
     { name: "MetalCoraza", src: "/assets/aliados/AllieMetalCoraza.png" },
@@ -156,7 +156,7 @@ function LogoItem({ src, alt }) {
     { name: "Tercol", src: "/assets/aliados/AllieTercol.png" },
   ];
 
-  // ✅ agrupa allies de 2 en 2 para móvil (misma idea de quickPairs)
+  // ✅ agrupa allies de 2 en 2 para móvil
   const alliesPairs = useMemo(() => {
     const pairs = [];
     for (let i = 0; i < allies.length; i += 2) {
@@ -166,20 +166,10 @@ function LogoItem({ src, alt }) {
   }, [allies]);
 
   // =========================
-  // HELPERS
-  // =========================
-  const getHeroImage = (b) => {
-    if (width < 640) return b.images.mobile;
-    if (width < 1024) return b.images.tablet;
-    return b.images.desktop;
-  };
-
-  // =========================
   // ACTIONS
   // =========================
   const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % brands.length);
-  const prevSlide = () =>
-    setCurrentSlide((prev) => (prev - 1 + brands.length) % brands.length);
+  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + brands.length) % brands.length);
 
   // =========================
   // EFFECTS
@@ -209,13 +199,6 @@ function LogoItem({ src, alt }) {
   }, [isLoading]);
 
   useEffect(() => {
-    const onResize = () => setWidth(window.innerWidth);
-    onResize();
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
-
-  useEffect(() => {
     if (isHeroPaused) return;
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % brands.length);
@@ -240,9 +223,7 @@ function LogoItem({ src, alt }) {
               priority
               unoptimized
             />
-            <span className="text-equielect-blue font-medium text-sm">
-              Cargando...
-            </span>
+            <span className="text-equielect-blue font-medium text-sm">Cargando...</span>
           </div>
         </div>
       )}
@@ -339,12 +320,27 @@ function LogoItem({ src, alt }) {
                 currentSlide === i ? "opacity-100" : "opacity-0"
               }`}
             >
-              <img
-                src={getHeroImage(b)}
-                alt={b.name}
-                className="w-full h-full object-cover"
-                draggable={false}
-              />
+              {/* ✅ ART DIRECTION + RETINA 2X (ideal para pantallas tipo Mac/Retina) */}
+              <picture className="block w-full h-full">
+                <source
+                  media="(min-width: 1024px)"
+                  srcSet={makeSrcSet(b.images.desktop, b.images.desktop2x)}
+                />
+                <source
+                  media="(min-width: 640px)"
+                  srcSet={makeSrcSet(b.images.tablet, b.images.tablet2x)}
+                />
+                <img
+                  src={b.images.mobile}
+                  srcSet={makeSrcSet(b.images.mobile, b.images.mobile2x)}
+                  alt={b.name}
+                  className="w-full h-full object-cover object-top block"
+                  draggable={false}
+                  loading={i === 0 ? "eager" : "lazy"}
+                  decoding="async"
+                />
+              </picture>
+
               <div className="absolute inset-0 bg-black/15" />
             </div>
           ))}
@@ -391,9 +387,7 @@ function LogoItem({ src, alt }) {
                 key={i}
                 onClick={() => setCurrentSlide(i)}
                 className={`h-2.5 w-2.5 transition-all ${
-                  currentSlide === i
-                    ? "bg-white w-6"
-                    : "bg-white/60 hover:bg-white/80"
+                  currentSlide === i ? "bg-white w-6" : "bg-white/60 hover:bg-white/80"
                 }`}
                 style={{ borderRadius: 0 }}
                 aria-label={`Ir al slide ${i + 1}`}
@@ -405,366 +399,330 @@ function LogoItem({ src, alt }) {
       </section>
 
       {/* ✅ EXPLORA POR MARCAS */}
-<Reveal delay={80}>
-  <section className="bg-white border-b border-gray-200">
-    <div className="max-w-7xl mx-auto px-4 py-10">
-      <div className="mb-6 text-center">
-          <h3 className="text-xl sm:text-xl text-equielect-blue">
-            <span className="font-semibold">Marcas </span>
-            <span className="font-extrabold" style={{ fontWeight: 900 }}>
-              Aliadas
-            </span>
-          </h3>
-        </div>
-
-
-
-
-      {/* MOBILE (con flechas + dots) */}
-<div className="sm:hidden relative">
-  {/* Flecha izq */}
-  <button
-    type="button"
-    onClick={() => scrollQuick(-1)}
-    className="absolute left-0 top-1/2 -translate-y-1/2 z-10 h-9 w-9 bg-white/90 border border-gray-200 shadow-sm grid place-items-center"
-    style={{ borderRadius: 9999 }}
-    aria-label="Anterior"
-  >
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-      <path
-        d="M15 19l-7-7 7-7"
-        stroke="#1c355e"
-        strokeWidth="2.7"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  </button>
-
-  {/* Flecha der */}
-  <button
-    type="button"
-    onClick={() => scrollQuick(1)}
-    className="absolute right-0 top-1/2 -translate-y-1/2 z-10 h-9 w-9 bg-white/90 border border-gray-200 shadow-sm grid place-items-center"
-    style={{ borderRadius: 9999 }}
-    aria-label="Siguiente"
-  >
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-      <path
-        d="M9 5l7 7-7 7"
-        stroke="#1c355e"
-        strokeWidth="2.7"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  </button>
-
-  {/* Carrusel */}
-  <div
-    ref={quickScrollRef}
-    onScroll={(e) => {
-      const el = e.currentTarget;
-      const idx = Math.round(el.scrollLeft / el.clientWidth);
-      setQuickMobileIndex(idx);
-    }}
-    className="overflow-x-auto overflow-y-hidden scrollbar-hide snap-x snap-mandatory scroll-px-4 px-10"
-  >
-    <div className="flex gap-4">
-      {quickPairs.map((pair, pageIndex) => (
-        <div
-          key={pageIndex}
-          className="snap-start flex-shrink-0 w-[calc(100vw-5rem)]"
-        >
-          <div className="grid grid-cols-2 gap-10 justify-items-center py-2">
-            {pair.map((c) => (
-              <Link
-                key={c.title}
-                href={c.href || "/"}
-                className="group flex flex-col items-center"
-                aria-label={`Ir a ${c.title}`}
-              >
-                <div className="relative w-[96px] h-[96px] rounded-full border border-gray-200 bg-white shadow-sm grid place-items-center transition-all duration-200 active:scale-[0.98]">
-                  <div className="relative w-[72%] h-[72%]">
-                    <Image
-                      src={c.icon}
-                      alt={c.title}
-                      fill
-                      className="object-contain partnerLogo"
-                      sizes="96px"
-                    />
-                  </div>
-                </div>
-
-                <p className="mt-3 text-center text-[13px] font-medium text-gray-900">
-                  {c.title}
-                </p>
-              </Link>
-            ))}
-          </div>
-        </div>
-      ))}
-    </div>
-  </div>
-
-  {/* Dots */}
-  <div className="mt-4 flex justify-center gap-2">
-    {quickPairs.map((_, i) => (
-      <button
-        key={i}
-        type="button"
-        onClick={() => {
-          const el = quickScrollRef.current;
-          if (!el) return;
-          el.scrollTo({ left: i * el.clientWidth, behavior: "smooth" });
-        }}
-        className={`h-2 transition-all ${
-          i === quickMobileIndex ? "w-6 bg-equielect-blue" : "w-2 bg-gray-300"
-        }`}
-        style={{ borderRadius: 9999 }}
-        aria-label={`Ir a página ${i + 1}`}
-      />
-    ))}
-  </div>
-
-  {/* Hint (opcional) */}
-  <div className="mt-2 text-center text-xs text-gray-500">
-    Desliza para ver más →
-  </div>
-</div>
-
-      {/* TABLET/PC */}
-      <div className="hidden sm:flex sm:flex-wrap sm:justify-center sm:gap-10">
-        {quickCategories.map((c) => (
-          <Link
-            key={c.title}
-            href={c.href || "/"}
-            className="group flex flex-col items-center"
-            aria-label={`Ir a ${c.title}`}
-          >
-            <div className="relative w-[108px] h-[108px] rounded-full border border-gray-200 bg-white shadow-sm grid place-items-center transition-all duration-200 group-hover:-translate-y-1 group-hover:shadow-lg">
-              <div className="relative w-[72%] h-[72%]">
-                <Image
-                  src={c.icon}
-                  alt={c.title}
-                  fill
-                  className="object-contain partnerLogo"
-                  sizes="108px"
-                />
-              </div>
+      <Reveal delay={80}>
+        <section className="bg-white border-b border-gray-200">
+          <div className="max-w-7xl mx-auto px-4 py-10">
+            <div className="mb-6 text-center">
+              <h3 className="text-xl sm:text-xl text-equielect-blue">
+                <span className="font-semibold">Marcas </span>
+                <span className="font-extrabold" style={{ fontWeight: 900 }}>
+                  Aliadas
+                </span>
+              </h3>
             </div>
 
-            <p className="mt-3 text-center text-sm font-medium text-gray-900 group-hover:text-equielect-blue">
-              {c.title}
-            </p>
-
-            <span className="block mt-2 h-[2px] w-0 opacity-0 bg-equielect-yellow transition-all duration-200 group-hover:w-10 group-hover:opacity-100" />
-          </Link>
-        ))}
-      </div>
-    </div>
-  </section>
-</Reveal>
-
-
-      {/* ✅ PLANTILLA DE CELULAR + VIDEO (con fondo imagen) */}
-<Reveal delay={120}>
-  <section className="relative border-b border-gray-200 overflow-hidden">
-    {/* ✅ Fondo imagen */}
-    <div className="absolute inset-0 -z-0">
-      <Image
-        src="/assets/fondos/espacio_EQ.png" // 👈 cambia por tu imagen
-        alt="Fondo Equielect"
-        fill
-        className="object-cover"
-        priority={false}
-      />
-      {/* Overlay para que el texto se lea */}
-      <div className="absolute inset-0 bg-white/20" />
-      {/* Toque corporativo suave */}
-      <div
-        className="absolute inset-0 opacity-60"
-        style={{
-          background:
-            "radial-gradient(circle at 70% 40%, rgba(28,53,94,0.12), rgba(28,53,94,0) 55%)",
-        }}
-      />
-    </div>
-
-    {/* Contenido (por encima del fondo) */}
-    <div className="relative z-10 max-w-7xl mx-auto px-4 py-12 sm:py-14">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
-        <div className="text-center lg:text-left">
-          <h3 className="text-2xl sm:text-3xl font-semibold text-white">
-            Conoce Equielect en 1 minuto
-          </h3>
-
-          <p className="mt-3 text-white text-sm sm:text-base font-medium leading-relaxed">
-            Queremos que además de comprar, puedas entender quiénes somos,
-            cómo te apoyamos y por qué trabajamos con marcas líderes.
-          </p>
-
-          <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
-            <Link
-              href="/nosotros"
-              className="inline-flex items-center justify-center px-6 py-3 bg-equielect-yellow text-black font-semibold hover:opacity-90 transition"
-              style={{ borderRadius: 6 }}
-            >
-              Ver institucional
-            </Link>
-
-            <Link
-              href="/productos"
-              className="inline-flex items-center justify-center px-6 py-3 border border-gray-200 bg-white/70 text-black font-semibold hover:bg-white transition"
-              style={{ borderRadius: 6 }}
-            >
-              Ir a productos
-            </Link>
-          </div>
-        </div>
-
-        {/* Celular encima del fondo */}
-        <div className="flex justify-center">
-          <div
-            className="relative w-[260px] h-[520px] sm:w-[300px] sm:h-[600px] bg-[#0b1220] shadow-2xl overflow-hidden"
-            style={{ borderRadius: 40 }}
-          >
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                borderRadius: 40,
-                border: "1px solid rgba(255,255,255,.10)",
-              }}
-            />
-
-            <div
-              className="absolute top-3 left-1/2 -translate-x-1/2 w-[110px] h-[22px] bg-black/55"
-              style={{ borderRadius: 9999 }}
-            />
-
-            <div
-              className="absolute inset-[10px] bg-black overflow-hidden"
-              style={{ borderRadius: 32 }}
-            >
-              <video
-                className="w-full h-full object-cover"
-                controls
-                playsInline
-                preload="metadata"
-                poster="/assets/video/empresa-poster.jpg"
+            {/* MOBILE (con flechas + dots) */}
+            <div className="sm:hidden relative">
+              <button
+                type="button"
+                onClick={() => scrollQuick(-1)}
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 h-9 w-9 bg-white/90 border border-gray-200 shadow-sm grid place-items-center"
+                style={{ borderRadius: 9999 }}
+                aria-label="Anterior"
               >
-                <source src="/assets/videos/video.mp4" type="video/mp4" />
-                Tu navegador no soporta video HTML5.
-              </video>
-            </div>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M15 19l-7-7 7-7"
+                    stroke="#1c355e"
+                    strokeWidth="2.7"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
 
-            <div
-              className="absolute bottom-3 left-1/2 -translate-x-1/2 w-[120px] h-[5px] bg-white/20"
-              style={{ borderRadius: 9999 }}
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-</Reveal>
+              <button
+                type="button"
+                onClick={() => scrollQuick(1)}
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 h-9 w-9 bg-white/90 border border-gray-200 shadow-sm grid place-items-center"
+                style={{ borderRadius: 9999 }}
+                aria-label="Siguiente"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M9 5l7 7-7 7"
+                    stroke="#1c355e"
+                    strokeWidth="2.7"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
 
+              <div
+                ref={quickScrollRef}
+                onScroll={(e) => {
+                  const el = e.currentTarget;
+                  const idx = Math.round(el.scrollLeft / el.clientWidth);
+                  setQuickMobileIndex(idx);
+                }}
+                className="overflow-x-auto overflow-y-hidden scrollbar-hide snap-x snap-mandatory scroll-px-4 px-10"
+              >
+                <div className="flex gap-4">
+                  {quickPairs.map((pair, pageIndex) => (
+                    <div key={pageIndex} className="snap-start flex-shrink-0 w-[calc(100vw-5rem)]">
+                      <div className="grid grid-cols-2 gap-10 justify-items-center py-2">
+                        {pair.map((c) => (
+                          <Link
+                            key={c.title}
+                            href={c.href || "/"}
+                            className="group flex flex-col items-center"
+                            aria-label={`Ir a ${c.title}`}
+                          >
+                            <div className="relative w-[96px] h-[96px] rounded-full border border-gray-200 bg-white shadow-sm grid place-items-center transition-all duration-200 active:scale-[0.98]">
+                              <div className="relative w-[72%] h-[72%]">
+                                <Image
+                                  src={c.icon}
+                                  alt={c.title}
+                                  fill
+                                  className="object-contain partnerLogo"
+                                  sizes="96px"
+                                />
+                              </div>
+                            </div>
 
-       {/* ✅ BLOQUE “MEJORES MARCAS” (OPCIÓN 1 + RESPONSIVE + PANEL DEGRADADO) */}
-<Reveal delay={120}>
-  <section className="bg-white py-8 sm:py-10">
-    <div className="max-w-7xl mx-auto px-4">
-      <div
-        className="bg-equielect-blue overflow-hidden"
-        style={{ borderRadius: 5 }}
-      >
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-7 lg:gap-10 p-6 sm:p-8 lg:p-10 items-center">
-          {/* Texto */}
-          <div>
-            <p className="text-white/80 text-sm font-semibold">
-              Nuestras mejores marcas.
-            </p>
-
-            <h2 className="mt-2 text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white leading-tight">
-              Compra con respaldo y disponibilidad inmediata.
-            </h2>
-
-            <p className="mt-3 text-white/75 text-sm sm:text-base max-w-xl font-medium">
-              Productos originales, garantía y asesoría para tu proyecto.
-            </p>
-
-            <Link
-              href="/productos"
-              className="inline-flex items-center justify-center mt-5 sm:mt-6 bg-white text-black font-semibold px-6 py-3 hover:opacity-90 transition"
-              style={{ borderRadius: 5 }}
-            >
-              Ir a productos
-            </Link>
-          </div>
-
-          {/* ✅ LOGOS (panel con degradado blanco, no “cuadro”) */}
-          <div className="flex items-center justify-end">
-            {/* Panel tipo “glass” */}
-            <div
-              className="w-full lg:w-[520px] px-5 sm:px-6 py-5 sm:py-6"
-              style={{
-                borderRadius: 10,
-                background:
-                  "linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.85) 45%, rgba(255,255,255,0.98) 100%)",
-              }}
-            >
-              {/* ✅ MÓVIL/TABLET: scroll suave */}
-              <div className="lg:hidden">
-                <div className="flex gap-10 overflow-x-auto scrollbar-hide snap-x snap-mandatory">
-                  {[
-                    { src: "/assets/Sliderhome/ProcablesBG.png", alt: "Procables" },
-                    { src: "/assets/Sliderhome/LegrandBG.png", alt: "Legrand" },
-                    { src: "/assets/Sliderhome/ScheneiderBG.png", alt: "Schneider" },
-                  ].map((item) => (
-                    <div
-                      key={item.src}
-                      className="snap-start flex-shrink-0 w-[210px] h-[58px] relative"
-                    >
-                      <Image
-                        src={item.src}
-                        alt={item.alt}
-                        fill
-                        className="object-contain"
-                        sizes="210px"
-                      />
+                            <p className="mt-3 text-center text-[13px] font-medium text-gray-900">
+                              {c.title}
+                            </p>
+                          </Link>
+                        ))}
+                      </div>
                     </div>
                   ))}
                 </div>
+              </div>
 
-                <div className="mt-3 text-xs text-[#1c355e]/70 font-medium">
-                  Marcas líderes • Soporte • Garantía
+              <div className="mt-4 flex justify-center gap-2">
+                {quickPairs.map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => {
+                      const el = quickScrollRef.current;
+                      if (!el) return;
+                      el.scrollTo({ left: i * el.clientWidth, behavior: "smooth" });
+                    }}
+                    className={`h-2 transition-all ${
+                      i === quickMobileIndex ? "w-6 bg-equielect-blue" : "w-2 bg-gray-300"
+                    }`}
+                    style={{ borderRadius: 9999 }}
+                    aria-label={`Ir a página ${i + 1}`}
+                  />
+                ))}
+              </div>
+
+              <div className="mt-2 text-center text-xs text-gray-500">
+                Desliza para ver más →
+              </div>
+            </div>
+
+            {/* TABLET/PC */}
+            <div className="hidden sm:flex sm:flex-wrap sm:justify-center sm:gap-10">
+              {quickCategories.map((c) => (
+                <Link
+                  key={c.title}
+                  href={c.href || "/"}
+                  className="group flex flex-col items-center"
+                  aria-label={`Ir a ${c.title}`}
+                >
+                  <div className="relative w-[108px] h-[108px] rounded-full border border-gray-200 bg-white shadow-sm grid place-items-center transition-all duration-200 group-hover:-translate-y-1 group-hover:shadow-lg">
+                    <div className="relative w-[72%] h-[72%]">
+                      <Image
+                        src={c.icon}
+                        alt={c.title}
+                        fill
+                        className="object-contain partnerLogo"
+                        sizes="108px"
+                      />
+                    </div>
+                  </div>
+
+                  <p className="mt-3 text-center text-sm font-medium text-gray-900 group-hover:text-equielect-blue">
+                    {c.title}
+                  </p>
+
+                  <span className="block mt-2 h-[2px] w-0 opacity-0 bg-equielect-yellow transition-all duration-200 group-hover:w-10 group-hover:opacity-100" />
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      </Reveal>
+
+      {/* ✅ PLANTILLA DE CELULAR + VIDEO (con fondo imagen) */}
+      <Reveal delay={120}>
+        <section className="relative border-b border-gray-200 overflow-hidden">
+          <div className="absolute inset-0 -z-0">
+            <Image
+              src="/assets/fondos/espacio_EQ.png"
+              alt="Fondo Equielect"
+              fill
+              className="object-cover"
+              priority={false}
+            />
+            <div className="absolute inset-0 bg-white/20" />
+            <div
+              className="absolute inset-0 opacity-60"
+              style={{
+                background:
+                  "radial-gradient(circle at 70% 40%, rgba(28,53,94,0.12), rgba(28,53,94,0) 55%)",
+              }}
+            />
+          </div>
+
+          <div className="relative z-10 max-w-7xl mx-auto px-4 py-12 sm:py-14">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+              <div className="text-center lg:text-left">
+                <h3 className="text-2xl sm:text-3xl font-semibold text-white">
+                  Conoce Equielect en 1 minuto
+                </h3>
+
+                <p className="mt-3 text-white text-sm sm:text-base font-medium leading-relaxed">
+                  Queremos que además de comprar, puedas entender quiénes somos,
+                  cómo te apoyamos y por qué trabajamos con marcas líderes.
+                </p>
+
+                <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
+                  <Link
+                    href="/nosotros"
+                    className="inline-flex items-center justify-center px-6 py-3 bg-equielect-yellow text-black font-semibold hover:opacity-90 transition"
+                    style={{ borderRadius: 6 }}
+                  >
+                    Ver institucional
+                  </Link>
+
+                  <Link
+                    href="/productos"
+                    className="inline-flex items-center justify-center px-6 py-3 border border-gray-200 bg-white/70 text-black font-semibold hover:bg-white transition"
+                    style={{ borderRadius: 6 }}
+                  >
+                    Ir a productos
+                  </Link>
                 </div>
               </div>
 
-              {/* ✅ DESKTOP: logos en fila + separador “|” */}
-              <div className="hidden lg:block">
-                <div className="flex items-center justify-between gap-6">
-                  <LogoItem src="/assets/Sliderhome/ProcablesBG.png" alt="Procables" />
-                  <LogoItem src="/assets/Sliderhome/LegrandBG.png" alt="Legrand" />
-                  <span className="text-[#1c355e]/35 font-bold">|</span>
-                  <LogoItem src="/assets/Sliderhome/ScheneiderBG.png" alt="Schneider" />
-                  <span className="text-[#1c355e]/35 font-bold">|</span>
-                </div>
+              <div className="flex justify-center">
+                <div
+                  className="relative w-[260px] h-[520px] sm:w-[300px] sm:h-[600px] bg-[#0b1220] shadow-2xl overflow-hidden"
+                  style={{ borderRadius: 40 }}
+                >
+                  <div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{
+                      borderRadius: 40,
+                      border: "1px solid rgba(255,255,255,.10)",
+                    }}
+                  />
 
-                <div className="mt-4 text-xs text-[#1c355e]/65 font-medium text-center">
-                  Marcas líderes • Soporte • Garantía
+                  <div
+                    className="absolute top-3 left-1/2 -translate-x-1/2 w-[110px] h-[22px] bg-black/55"
+                    style={{ borderRadius: 9999 }}
+                  />
+
+                  <div
+                    className="absolute inset-[10px] bg-black overflow-hidden"
+                    style={{ borderRadius: 32 }}
+                  >
+                    <video
+                      className="w-full h-full object-cover"
+                      controls
+                      playsInline
+                      preload="metadata"
+                      poster="/assets/video/empresa-poster.jpg"
+                    >
+                      <source src="/assets/videos/video.mp4" type="video/mp4" />
+                      Tu navegador no soporta video HTML5.
+                    </video>
+                  </div>
+
+                  <div
+                    className="absolute bottom-3 left-1/2 -translate-x-1/2 w-[120px] h-[5px] bg-white/20"
+                    style={{ borderRadius: 9999 }}
+                  />
                 </div>
               </div>
             </div>
           </div>
-          {/* /logos */}
-        </div>
-      </div>
-    </div>
-  </section>
-</Reveal>
+        </section>
+      </Reveal>
 
+      {/* ✅ BLOQUE “MEJORES MARCAS” */}
+      <Reveal delay={120}>
+        <section className="bg-white py-8 sm:py-10">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="bg-equielect-blue overflow-hidden" style={{ borderRadius: 5 }}>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-7 lg:gap-10 p-6 sm:p-8 lg:p-10 items-center">
+                <div>
+                  <p className="text-white/80 text-sm font-semibold">Nuestras mejores marcas.</p>
 
+                  <h2 className="mt-2 text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white leading-tight">
+                    Compra con respaldo y disponibilidad inmediata.
+                  </h2>
+
+                  <p className="mt-3 text-white/75 text-sm sm:text-base max-w-xl font-medium">
+                    Productos originales, garantía y asesoría para tu proyecto.
+                  </p>
+
+                  <Link
+                    href="/productos"
+                    className="inline-flex items-center justify-center mt-5 sm:mt-6 bg-white text-black font-semibold px-6 py-3 hover:opacity-90 transition"
+                    style={{ borderRadius: 5 }}
+                  >
+                    Ir a productos
+                  </Link>
+                </div>
+
+                <div className="flex items-center justify-end">
+                  <div
+                    className="w-full lg:w-[520px] px-5 sm:px-6 py-5 sm:py-6"
+                    style={{
+                      borderRadius: 10,
+                      background:
+                        "linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.85) 45%, rgba(255,255,255,0.98) 100%)",
+                    }}
+                  >
+                    <div className="lg:hidden">
+                      <div className="flex gap-10 overflow-x-auto scrollbar-hide snap-x snap-mandatory">
+                        {[
+                          { src: "/assets/Sliderhome/ProcablesBG.png", alt: "Procables" },
+                          { src: "/assets/Sliderhome/LegrandBG.png", alt: "Legrand" },
+                          { src: "/assets/Sliderhome/ScheneiderBG.png", alt: "Schneider" },
+                        ].map((item) => (
+                          <div
+                            key={item.src}
+                            className="snap-start flex-shrink-0 w-[210px] h-[58px] relative"
+                          >
+                            <Image src={item.src} alt={item.alt} fill className="object-contain" sizes="210px" />
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="mt-3 text-xs text-[#1c355e]/70 font-medium">
+                        Marcas líderes • Soporte • Garantía
+                      </div>
+                    </div>
+
+                    <div className="hidden lg:block">
+                      <div className="flex items-center justify-between gap-6">
+                        <LogoItem src="/assets/Sliderhome/ProcablesBG.png" alt="Procables" />
+                        <LogoItem src="/assets/Sliderhome/LegrandBG.png" alt="Legrand" />
+                        <span className="text-[#1c355e]/35 font-bold">|</span>
+                        <LogoItem src="/assets/Sliderhome/ScheneiderBG.png" alt="Schneider" />
+                        <span className="text-[#1c355e]/35 font-bold">|</span>
+                      </div>
+
+                      <div className="mt-4 text-xs text-[#1c355e]/65 font-medium text-center">
+                        Marcas líderes • Soporte • Garantía
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {/* /logos */}
+              </div>
+            </div>
+          </div>
+        </section>
+      </Reveal>
 
       {/* ✅ OTRAS MARCAS ALIADAS (CÍRCULOS) */}
       <Reveal delay={120}>
@@ -778,7 +736,6 @@ function LogoItem({ src, alt }) {
                 </span>
               </h2>
 
-              {/* ✅ Ver todas sin cuadro: transparente + negrita */}
               <Link
                 href="/marcas"
                 className="bg-transparent text-equielect-blue font-bold text-sm hover:underline underline-offset-4"
@@ -787,8 +744,6 @@ function LogoItem({ src, alt }) {
               </Link>
             </div>
 
-
-            {/* ✅ MOBILE: mostrar 2 aliados por “página”, como quickPairs */}
             <div className="sm:hidden overflow-x-auto overflow-y-hidden scrollbar-hide snap-x snap-mandatory scroll-px-4">
               <div className="flex gap-4 px-4">
                 {alliesPairs.map((pair, pageIndex) => (
@@ -824,9 +779,7 @@ function LogoItem({ src, alt }) {
               </div>
             </div>
 
-            {/* ✅ DESKTOP/TABLET: carrusel con flechas (como ya lo tenías) */}
             <div className="hidden sm:grid grid-cols-1 sm:grid-cols-[56px_1fr_56px] items-center gap-2">
-              {/* Flecha izq */}
               <div className="hidden sm:flex justify-center">
                 <button
                   onClick={() => scrollAllies(-1)}
@@ -846,7 +799,6 @@ function LogoItem({ src, alt }) {
                 </button>
               </div>
 
-              {/* Cajón */}
               <div className="overflow-hidden">
                 <div
                   ref={alliesScrollRef}
@@ -878,7 +830,6 @@ function LogoItem({ src, alt }) {
                 </div>
               </div>
 
-              {/* Flecha der */}
               <div className="hidden sm:flex justify-center">
                 <button
                   onClick={() => scrollAllies(1)}
@@ -900,76 +851,75 @@ function LogoItem({ src, alt }) {
             </div>
           </div>
         </section>
+
         {/* ✅ SECCIÓN CORPORATIVA FULL WIDTH (más delgada) */}
-<section className="w-full border-t border-gray-200">
-  <div className="w-full">
-    <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[240px] lg:min-h-[320px]">
-      {/* Imagen izquierda */}
-      <div className="relative min-h-[220px] lg:min-h-[320px] bg-gray-200">
-        <Image
-          src="/assets/sucursal/corporacion.png" // 👈 cambia por tu foto real
-          alt="Equipo Equielect"
-          fill
-          className="object-cover"
-          sizes="(max-width: 1024px) 100vw, 50vw"
-        />
-        <div className="absolute inset-0 bg-black/10" />
-      </div>
+        <section className="w-full border-t border-gray-200">
+          <div className="w-full">
+            <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[240px] lg:min-h-[320px]">
+              <div className="relative min-h-[220px] lg:min-h-[320px] bg-gray-200">
+                <Image
+                  src="/assets/sucursal/corporacion.png"
+                  alt="Equipo Equielect"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+                <div className="absolute inset-0 bg-black/10" />
+              </div>
 
-      {/* Bloque derecho */}
-      <div className="relative bg-[#ffcd00] flex items-center">
-        {/* textura sutil */}
-        <div
-          className="absolute inset-0 opacity-10 pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(circle at 25% 20%, rgba(28,53,94,.9), rgba(28,53,94,0) 55%)",
-          }}
-        />
+              <div className="relative bg-[#ffcd00] flex items-center">
+                <div
+                  className="absolute inset-0 opacity-10 pointer-events-none"
+                  style={{
+                    background:
+                      "radial-gradient(circle at 25% 20%, rgba(28,53,94,.9), rgba(28,53,94,0) 55%)",
+                  }}
+                />
 
-        <div className="relative w-full px-6 sm:px-10 lg:px-14 py-8 lg:py-10">
-          <p className="text-white/90 text-sm sm:text-base font-semibold">
-            Servicios y <span className="font-extrabold">Atención al Cliente</span>
-          </p>
+                <div className="relative w-full px-6 sm:px-10 lg:px-14 py-8 lg:py-10">
+                  <p className="text-white/90 text-sm sm:text-base font-semibold">
+                    Servicios y{" "}
+                    <span className="font-extrabold">Atención al Cliente</span>
+                  </p>
 
-          <h3 className="mt-3 text-[#1c355e] text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight">
-            Oficina Virtual Equielect
-          </h3>
+                  <h3 className="mt-3 text-[#1c355e] text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight">
+                    Oficina Virtual Equielect
+                  </h3>
 
-          <p className="mt-3 text-[#1c355e]/90 text-sm sm:text-base leading-relaxed font-medium max-w-2xl">
-            Encuentra atención rápida y asesoría profesional para tus compras y
-            proyectos. Nuestro equipo está a un clic de distancia.
-          </p>
+                  <p className="mt-3 text-[#1c355e]/90 text-sm sm:text-base leading-relaxed font-medium max-w-2xl">
+                    Encuentra atención rápida y asesoría profesional para tus
+                    compras y proyectos. Nuestro equipo está a un clic de
+                    distancia.
+                  </p>
 
-          <div className="mt-6 flex flex-col sm:flex-row gap-3">
-            <Link
-              href="/contacto"
-              className="inline-flex items-center justify-center px-7 py-3 bg-[#1c355e] text-white font-extrabold text-sm sm:text-base hover:opacity-90 transition"
-              style={{ borderRadius: 2 }}
-            >
-              Atención en línea
-            </Link>
+                  <div className="mt-6 flex flex-col sm:flex-row gap-3">
+                    <Link
+                      href="/contacto"
+                      className="inline-flex items-center justify-center px-7 py-3 bg-[#1c355e] text-white font-extrabold text-sm sm:text-base hover:opacity-90 transition"
+                      style={{ borderRadius: 2 }}
+                    >
+                      Atención en línea
+                    </Link>
 
-            <a
-              href="https://wa.me/573001112233?text=Hola%2C%20quiero%20cotizar%20con%20un%20asesor%20de%20Equielect."
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center justify-center px-7 py-3 bg-white text-[#1c355e] font-extrabold text-sm sm:text-base hover:opacity-90 transition"
-              style={{ borderRadius: 2 }}
-            >
-              Solicitar cotización
-            </a>
+                    <a
+                      href="https://wa.me/573001112233?text=Hola%2C%20quiero%20cotizar%20con%20un%20asesor%20de%20Equielect."
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center justify-center px-7 py-3 bg-white text-[#1c355e] font-extrabold text-sm sm:text-base hover:opacity-90 transition"
+                      style={{ borderRadius: 2 }}
+                    >
+                      Solicitar cotización
+                    </a>
+                  </div>
+
+                  <p className="mt-5 text-[12px] sm:text-sm text-[#1c355e]/80 font-medium">
+                    Horario: Lun–Vie 8:00–5:30 | Sáb 8:00–12:00
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
-
-          <p className="mt-5 text-[12px] sm:text-sm text-[#1c355e]/80 font-medium">
-            Horario: Lun–Vie 8:00–5:30 | Sáb 8:00–12:00
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
+        </section>
       </Reveal>
     </div>
   );

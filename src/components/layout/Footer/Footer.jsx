@@ -26,9 +26,9 @@ export default function FooterEcommerce() {
           {/* Izquierda: LOGO + redes */}
           <div>
             {/* Logo */}
-            <div className="relative w-[220px] max-w-full h-[252px]">
+            <div className="relative w-[220px] max-w-full h-[52px]">
               <Image
-                src="/assets/Logs/logo-equielect.png" // 👈 pon aquí la ruta real donde guardes ese logo
+                src="/assets/Logs/eqwhite_bg.png"
                 alt="Equielect"
                 fill
                 className="object-contain object-left"
