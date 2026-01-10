@@ -3,8 +3,12 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Reveal from "@/components/ui/reveal";
+import LoginModal from "@/components/auth/LoginModal";
 
 export default function Home() {
+
+  const [loginOpen, setLoginOpen] = useState(false);
+
   // =========================
   // STATE
   // =========================
@@ -306,6 +310,21 @@ export default function Home() {
         }
       `}</style>
 
+      <button
+  onClick={() => setLoginOpen(true)}
+  className="fixed bottom-5 right-5 z-[50] px-5 py-3 font-extrabold shadow-lg"
+  style={{
+    borderRadius: 9999,
+    background: "var(--color-equielect-yellow)",
+    color: "#000",
+  }}
+>
+  Iniciar sesión
+</button>
+
+<LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} />
+
+
       {/* ✅ HERO (SIN REVEAL) */}
       <section className="bg-transparent">
         <div
@@ -389,7 +408,7 @@ export default function Home() {
                 className={`h-2.5 w-2.5 transition-all ${
                   currentSlide === i ? "bg-white w-6" : "bg-white/60 hover:bg-white/80"
                 }`}
-                style={{ borderRadius: 0 }}
+                style={{ borderRadius: 50 }}
                 aria-label={`Ir al slide ${i + 1}`}
                 type="button"
               />

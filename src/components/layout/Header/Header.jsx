@@ -15,6 +15,7 @@ import {
 
 import { useCart } from "@/context/Cart/CartContext";
 import { useFavorites } from "@/context/Favorites/FavoritesContext";
+import LoginModal from "@/components/auth/LoginModal";
 
 import CartDrawer from "@/components/Cart/CartDrawer";
 import MegaMenuEquielect from "@/components/category/MegaMenuEquielect";
@@ -23,6 +24,10 @@ export default function Header() {
   const { cartCount } = useCart();
   const { count: favCount } = useFavorites();
 
+  // ✅ Login modal
+  const [loginOpen, setLoginOpen] = useState(false);
+
+  // Cart
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -69,8 +74,11 @@ export default function Header() {
 
   return (
     <>
+      {/* ✅ Modal Login */}
+      <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} />
+
       <header
-        className={`spicky top-0 z-[1000] w-full transition-shadow ${
+        className={`sticky top-0 z-[1000] w-full transition-shadow ${
           isScrolled ? "shadow-md" : ""
         } bg-white`}
       >
@@ -92,7 +100,15 @@ export default function Header() {
 
               <span className="hidden md:flex items-center gap-3">
                 <span className="text-gray-300">|</span>
-                <button className="hover:underline">Mi cuenta</button>
+
+                {/* ✅ Mi cuenta abre modal */}
+                <button
+                  type="button"
+                  onClick={() => setLoginOpen(true)}
+                  className="hover:underline"
+                >
+                  Mi cuenta
+                </button>
               </span>
             </div>
           </div>
@@ -140,7 +156,10 @@ export default function Header() {
                       onBlur={() => setIsMobileSearching(false)}
                     />
                   </div>
-                  <button className="bg-equielect-yellow px-3 text-equielect-blue">
+                  <button
+                    type="button"
+                    className="bg-equielect-yellow px-3 text-equielect-blue"
+                  >
                     <Search size={18} strokeWidth={2.5} />
                   </button>
                 </div>
@@ -156,7 +175,7 @@ export default function Header() {
               {/* Favoritos */}
               <Link
                 href="/favoritos"
-              className="relative hidden sm:flex items-center gap-2 px-2 py-[6px] text-sm font-medium text-equielect-blue hover:text-equielect-yellow transition"
+                className="relative hidden sm:flex items-center gap-2 px-2 py-[6px] text-sm font-medium text-equielect-blue hover:text-equielect-yellow transition"
                 aria-label="Favoritos"
               >
                 <Heart size={16} />
@@ -169,14 +188,18 @@ export default function Header() {
                 )}
               </Link>
 
-              {/* Cuenta */}
-              <button className="hidden sm:flex items-center gap-2 px-2 py-[6px] text-sm font-medium text-equielect-blue hover:text-equielect-yellow transition"
+              {/* ✅ Cuenta abre modal */}
+              <button
+                type="button"
+                onClick={() => setLoginOpen(true)}
+                className="hidden sm:flex items-center gap-2 px-2 py-[6px] text-sm font-medium text-equielect-blue hover:text-equielect-yellow transition"
               >
                 <User size={16} /> Cuenta
               </button>
 
               {/* Carrito */}
               <button
+                type="button"
                 onClick={() => setIsCartOpen(true)}
                 className="relative bg-equielect-yellow px-3 py-[6px] font-semibold text-equielect-blue flex items-center gap-1"
               >
@@ -198,11 +221,13 @@ export default function Header() {
           <div className="max-w-7xl mx-auto px-2 flex items-center gap-3">
             {/* MOBILE BUTTON */}
             <button
+              type="button"
               className="md:hidden text-white px-3 py-2"
               onClick={() => {
                 setIsMobileMenuOpen((v) => !v);
                 setMobileActiveCategory(null);
               }}
+              aria-label="Abrir menú"
             >
               <Menu size={20} />
             </button>
@@ -215,6 +240,7 @@ export default function Header() {
                 return (
                   <button
                     key={cat}
+                    type="button"
                     onMouseEnter={() => {
                       clearCloseTimer();
                       setActiveCategory(cat);
@@ -269,6 +295,7 @@ export default function Header() {
                 headerNavCategories.map((cat) => (
                   <button
                     key={cat}
+                    type="button"
                     onClick={() => setMobileActiveCategory(cat)}
                     className="w-full px-4 py-3 text-white font-medium border-b border-white/10 flex justify-between"
                   >
@@ -279,7 +306,11 @@ export default function Header() {
               {mobileActiveCategory && (
                 <div className="bg-white">
                   <div className="flex items-center gap-3 px-4 py-3 bg-equielect-blue text-white">
-                    <button onClick={() => setMobileActiveCategory(null)}>
+                    <button
+                      type="button"
+                      onClick={() => setMobileActiveCategory(null)}
+                      aria-label="Volver"
+                    >
                       ←
                     </button>
                     <span className="font-semibold text-sm">
@@ -288,10 +319,7 @@ export default function Header() {
                   </div>
 
                   <div className="max-h-[65vh] overflow-y-auto">
-                    <MegaMenuEquielect
-                      category={mobileActiveCategory}
-                      isMobile
-                    />
+                    <MegaMenuEquielect category={mobileActiveCategory} isMobile />
                   </div>
                 </div>
               )}

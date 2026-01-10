@@ -62,7 +62,7 @@ export default function FooterEcommerce() {
           <div>
             <h4 className="text-sm font-bold tracking-wide">Atención</h4>
             <ul className="mt-4 space-y-3 text-sm text-white/75">
-              <FooterLink href="/contacto" label="Contacto" />
+              <FooterLink href="/contactanos" label="Contacto" />
               <FooterLink href="/preguntas-frecuentes" label="Preguntas frecuentes" />
               <FooterLink href="/envios" label="Envíos" />
               <FooterLink href="/garantias" label="Garantías y devoluciones" />
@@ -117,7 +117,7 @@ export default function FooterEcommerce() {
             <Link className="hover:text-white" href="/politica-privacidad">
               Privacidad
             </Link>
-            <Link className="hover:text-white" href="/terminos">
+            <Link className="hover:text-white" href="/terminos-y-condiciones">
               Términos
             </Link>
             <Link className="hover:text-white" href="/cookies">
