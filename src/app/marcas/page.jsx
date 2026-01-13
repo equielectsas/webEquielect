@@ -22,6 +22,8 @@ const ALL_BRANDS = [
   { name: "Telemecanique", src: "/assets/aliados/AllieTelemecanique.png" },
   { name: "Tercol", src: "/assets/aliados/AllieTercol.png" },
   { name: "WEG", src: "/assets/aliados/AllieWeg.png" },
+  { name: "Schneider", src: "/assets/aliados/SchneiderBG.png" },
+  { name: "Legrand", src: "/assets/aliados/LegrandBG.png" },
 ];
 
 export default function MarcasPage() {

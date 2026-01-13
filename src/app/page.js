@@ -4,6 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import Reveal from "@/components/ui/reveal";
 import LoginModal from "@/components/auth/LoginModal";
+// ✅ IMPORT DE PRODUCTOS DESTACADOS
+import FeaturedBrandProducts from "@/components/home/FeaturedBrandsProducts.jsx";
+
 
 export default function Home() {
 
@@ -62,7 +65,7 @@ export default function Home() {
         "Productos innovadores en seguridad, electrónica y soluciones industriales.",
       images: {
         mobile: "/assets/Sliderhome/mobile/bannerproc_c.png",
-        mobile2x: "/assets/Sliderhome/mobile/ProcablesM.png", // 👉 pon tu @2x cuando lo tengas
+        mobile2x: "/assets/Sliderhome/mobile/bannerproc_m.png", // 👉 pon tu @2x cuando lo tengas
         tablet: "/assets/Sliderhome/tablet/bannerproc_t.png",
         tablet2x: "/assets/Sliderhome/tablet/ProcablesT.png", // 👉 pon tu @2x cuando lo tengas
         desktop: "/assets/Sliderhome/desktop/bannerproc_pc.png",
@@ -78,8 +81,8 @@ export default function Home() {
       description:
         "Productos eléctricos y digitales para edificaciones residenciales y comerciales",
       images: {
-        mobile: "/assets/Sliderhome/mobile/legrandM.png",
-        mobile2x: "/assets/Sliderhome/mobile/legrandM.png", // 👉 pon tu @2x cuando lo tengas
+        mobile: "/assets/Sliderhome/mobile/banner_leg_m.png",
+        mobile2x: "/assets/Sliderhome/mobile/banner_leg_m.png", // 👉 pon tu @2x cuando lo tengas
         tablet: "/assets/Sliderhome/tablet/legrandT.png",
         tablet2x: "/assets/Sliderhome/tablet/legrandT.png", // 👉 pon tu @2x cuando lo tengas
         desktop: "/assets/Sliderhome/desktop/bannerleg_pc.png",
@@ -153,11 +156,11 @@ export default function Home() {
     { name: "Weg", src: "/assets/aliados/AllieWeg.png" },
     { name: "Connect VCP", src: "/assets/aliados/AllieConnectVCP.png" },
     { name: "Teldor", src: "/assets/aliados/AllieTeldor.png", width: 200 },
-    { name: "Siemon", src: "/assets/aliados/AllieSiemon.png" },
-    { name: "Colmena Conduit", src: "/assets/aliados/AllieColmena.png" },
-    { name: "MetalCoraza", src: "/assets/aliados/AllieMetalCoraza.png" },
     { name: "Plastimec", src: "/assets/aliados/AlliePlastimec.png" },
+    { name: "Colmena Conduit", src: "/assets/aliados/AllieColmena.png" },
     { name: "Tercol", src: "/assets/aliados/AllieTercol.png" },
+    { name: "Siemon", src: "/assets/aliados/AllieSiemon.png" },
+    { name: "MetalCoraza", src: "/assets/aliados/AllieMetalCoraza.png" },
   ];
 
   // ✅ agrupa allies de 2 en 2 para móvil
@@ -309,18 +312,6 @@ export default function Home() {
           }
         }
       `}</style>
-
-      <button
-  onClick={() => setLoginOpen(true)}
-  className="fixed bottom-5 right-5 z-[50] px-5 py-3 font-extrabold shadow-lg"
-  style={{
-    borderRadius: 9999,
-    background: "var(--color-equielect-yellow)",
-    color: "#000",
-  }}
->
-  Iniciar sesión
-</button>
 
 <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} />
 
@@ -742,7 +733,27 @@ export default function Home() {
           </div>
         </section>
       </Reveal>
+      {/* ✅ PRODUCTOS DESTACADOS (cards) debajo del cajón */}
+      <Reveal delay={120}>
+        <section className="bg-white pb-10">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="mt-6">
+              <h3 className="text-lg sm:text-xl font-extrabold text-equielect-blue">
+                Productos destacados por marca
+              </h3>
+              <p className="mt-1 text-sm text-gray-600">
+                Selección rápida para comprar con soporte y garantía.
+              </p>
+            </div>
 
+            <div className="mt-5">
+              <FeaturedBrandProducts />
+            </div>
+          </div>
+        </section>
+      </Reveal>
+
+      
       {/* ✅ OTRAS MARCAS ALIADAS (CÍRCULOS) */}
       <Reveal delay={120}>
         <section className="bg-white py-12 sm:py-16 border-t border-gray-200">
@@ -911,14 +922,7 @@ export default function Home() {
                     distancia.
                   </p>
 
-                  <div className="mt-6 flex flex-col sm:flex-row gap-3">
-                    <Link
-                      href="/contacto"
-                      className="inline-flex items-center justify-center px-7 py-3 bg-[#1c355e] text-white font-extrabold text-sm sm:text-base hover:opacity-90 transition"
-                      style={{ borderRadius: 2 }}
-                    >
-                      Atención en línea
-                    </Link>
+                  <div className="mt-6">
 
                     <a
                       href="https://wa.me/573001112233?text=Hola%2C%20quiero%20cotizar%20con%20un%20asesor%20de%20Equielect."

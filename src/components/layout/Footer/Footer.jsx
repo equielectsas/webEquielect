@@ -3,7 +3,15 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Mail, MapPin, Phone, Clock, Instagram, Linkedin, Facebook } from "lucide-react";
+import {
+  Mail,
+  MapPin,
+  Phone,
+  Clock,
+  Instagram,
+  Linkedin,
+  Facebook,
+} from "lucide-react";
 
 export default function FooterEcommerce() {
   const year = new Date().getFullYear();
@@ -15,6 +23,14 @@ export default function FooterEcommerce() {
     whatsappMsg
   )}`;
 
+  // =========================
+  // ✅ AJUSTES DEL LOGO (SOLO TOCA ESTO)
+  // =========================
+  const LOGO_BOX_H = "h-[180px] md:h-[90px]"; // espacio reservado (NO cambia aunque agrandes el logo)
+  const LOGO_W = "w-[320px] md:w-[380px]";   // tamaño del logo (puedes subirlo sin mover nada)
+  const LOGO_H = "h-[90px] md:h-[110px]";    // alto del logo (puedes subirlo sin mover nada)
+  const LOGO_ZOOM = "scale-[1.20] md:scale-[1.25]"; // “recorta” padding del PNG (zoom visual)
+
   return (
     <footer className="bg-[#0b2a4d] text-white">
       {/* Línea superior (acento corporativo) */}
@@ -25,19 +41,32 @@ export default function FooterEcommerce() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {/* Izquierda: LOGO + redes */}
           <div>
-            {/* Logo */}
-            <div className="relative w-[220px] max-w-full h-[52px]">
-              <Image
-                src="/assets/Logs/eqwhite_bg.png"
-                alt="Equielect"
-                fill
-                className="object-contain object-left"
-                priority={false}
-              />
+            {/* ✅ Logo LIBRE (no empuja nada) */}
+            <div className="relative">
+              {/* Espacio reservado fijo: mantiene el layout estable */}
+              <div className={LOGO_BOX_H} />
+
+              {/* Logo absoluto: puedes agrandarlo sin mover redes ni columnas */}
+              <div className="absolute left-0 top-0 z-0 pointer-events-none">
+                {/* Caja que “corta” el padding visual del PNG */}
+                <div className={`relative ${LOGO_W} ${LOGO_H} overflow-hidden`}>
+                  <Image
+                    src="/assets/Logs/eqwhite_bg.png"
+                    alt="Equielect"
+                    fill
+                    className={[
+                      "object-contain object-left",
+                      "origin-left",
+                      LOGO_ZOOM, // 👈 zoom para quitar padding “visual”
+                    ].join(" ")}
+                    priority={false}
+                  />
+                </div>
+              </div>
             </div>
 
-            {/* Redes debajo del logo */}
-            <div className="mt-5 flex items-center gap-3">
+            {/* Redes debajo del logo (NO se mueven aunque agrandes el logo) */}
+            <div className="mt-4 flex items-center gap-3 relative z-10">
               <SocialIcon href="https://instagram.com/" label="Instagram">
                 <Instagram className="w-4 h-4" />
               </SocialIcon>
@@ -51,7 +80,7 @@ export default function FooterEcommerce() {
               </SocialIcon>
             </div>
 
-            {/* Mensajito corto (opcional y sin cansar) */}
+            {/* Mensajito corto */}
             <div className="mt-5 inline-flex items-center gap-2 text-xs text-white/75">
               <span className="w-2 h-2 bg-[#ffcd00]" />
               Suministros eléctricos • Telecom • Iluminación
@@ -63,13 +92,16 @@ export default function FooterEcommerce() {
             <h4 className="text-sm font-bold tracking-wide">Atención</h4>
             <ul className="mt-4 space-y-3 text-sm text-white/75">
               <FooterLink href="/contactanos" label="Contacto" />
-              <FooterLink href="/preguntas-frecuentes" label="Preguntas frecuentes" />
+              <FooterLink
+                href="/preguntas-frecuentes"
+                label="Preguntas frecuentes"
+              />
               <FooterLink href="/envios" label="Envíos" />
               <FooterLink href="/garantias" label="Garantías y devoluciones" />
             </ul>
           </div>
 
-          {/* Derecha: contacto + CTA */}
+          {/* Derecha: contacto */}
           <div>
             <h4 className="text-sm font-bold tracking-wide">Contacto</h4>
 
@@ -88,7 +120,10 @@ export default function FooterEcommerce() {
 
               <div className="flex items-start gap-3">
                 <Mail className="w-4 h-4 mt-0.5 text-white/60" />
-                <a className="hover:text-white" href="mailto:soporte@equielect.com">
+                <a
+                  className="hover:text-white"
+                  href="mailto:soporte@equielect.com"
+                >
                   soporte@equielect.com
                 </a>
               </div>
@@ -102,6 +137,15 @@ export default function FooterEcommerce() {
             <div className="mt-2 text-[11px] text-white/60">
               Te atiende un asesor (horario laboral).
             </div>
+
+            {/* (Opcional) WhatsApp */}
+            {/* 
+            <a href={whatsappLink} target="_blank" rel="noreferrer"
+              className="mt-4 inline-flex items-center justify-center bg-[#ffcd00] text-[#0b2a4d] font-extrabold px-4 py-2"
+              style={{ borderRadius: 2 }}>
+              WhatsApp asesor
+            </a> 
+            */}
           </div>
         </div>
       </div>
@@ -114,7 +158,7 @@ export default function FooterEcommerce() {
           </div>
 
           <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs text-white/60">
-            <Link className="hover:text-white" href="/politica-privacidad">
+            <Link className="hover:text-white" href="/terminos-y-condiciones">
               Privacidad
             </Link>
             <Link className="hover:text-white" href="/terminos-y-condiciones">

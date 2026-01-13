@@ -6,9 +6,9 @@ import { FavoritesProvider } from "@/context/Favorites/FavoritesContext";
 import { ThemeProvider } from "@/utils/tailwind/index";
 import { AppThemeProvider } from "@/context/Theme/ThemeProvider";
 import { AppProductProvider } from "@/context/Products/ProductProvider";
-import { AppCotizacionProvider } from "@/context/Cotizacion/CotizacionProvider";
 import { CartProvider } from "@/context/Cart/CartContext";
 import CookieBanner from "@/components/CookieBanner";
+import CartWidgetLeft from "@/components/Cart/CartWidgetLeft";
 
 import MainLayout from "@/components/layout/MainLayout";
 import { GA_TRACKING_ID } from "../../lib/analytics";
@@ -58,20 +58,16 @@ export default function RootLayout({ children }) {
         <ThemeProvider>
           <AppThemeProvider>
             <AppProductProvider>
-              <AppCotizacionProvider>
                 <CartProvider>
-                  {/* ✅ AQUÍ debe envolver todo */}
+                  <CartWidgetLeft />
                   <FavoritesProvider isLoggedIn={false}>
                     <MainLayout>
                       {children}
-
-                      {/* ✅ Clara (flotante en TODO el sitio) */}
-                       <CookieBanner />
+                      <CookieBanner />
                       <ClaraChatWidget />
                     </MainLayout>
                   </FavoritesProvider>
                 </CartProvider>
-              </AppCotizacionProvider>
             </AppProductProvider>
           </AppThemeProvider>
         </ThemeProvider>

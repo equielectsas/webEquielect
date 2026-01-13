@@ -1,14 +1,11 @@
 "use client";
 import useTheme from "@/hooks/useTheme";
 import useProduct from "@/hooks/useProduct";
-import useCotizacion from "@/hooks/useCotizacion";
 import { ACTIONS } from "@/constants/ACTIONS.js";
 
 const Overlay = () => {
   const { state, dispatch } = useTheme();
-  const { state: stateProduct, dispatch: dispatchProduct } = useProduct();
-  const { state: stateCotizacion, dispatch: dispatchCotizacion } =
-    useCotizacion();
+  const { state: stateProduct, dispatch: dispatchProduct } = useProduct();;
 
   const Overlay = (
     <div
@@ -23,9 +20,8 @@ const Overlay = () => {
 
   return (
     (state.isMainMenuAvailable ||
-      stateProduct.areFiltersAvailable ||
-      stateCotizacion.isCotizacionAvailable) &&
-    Overlay
+      stateProduct.areFiltersAvailable &&
+    Overlay)
   );
 };
 

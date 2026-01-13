@@ -3,12 +3,10 @@
 import { useState } from "react";
 import ThankYouPage from "@/components/utils/ThankYouPage/ThankYouPage";
 import { Card } from "@/utils/tailwind/index";
-import useCotizacion from "@/hooks/useCotizacion";
 import ProductItem from "./ProductItem";
 import CotizacionForm from "@/components/cotizacion/CotizacionPage/Form";
 
 const ProductsList = () => {
-  const { state } = useCotizacion();
   const { cotizacionProducts } = state;
 
   const [isSubmitted, setIsSubmitted] = useState(false);

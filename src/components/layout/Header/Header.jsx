@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -20,16 +20,16 @@ import LoginModal from "@/components/auth/LoginModal";
 import CartDrawer from "@/components/Cart/CartDrawer";
 import MegaMenuEquielect from "@/components/category/MegaMenuEquielect";
 
-export default function Header() {
+export default function Header({
+  isCartOpen,
+  onOpenCart,
+  onCloseCart,
+}) {
   const { cartCount } = useCart();
   const { count: favCount } = useFavorites();
 
   // ✅ Login modal
   const [loginOpen, setLoginOpen] = useState(false);
-
-  // Cart
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
 
   // Desktop
   const [activeCategory, setActiveCategory] = useState(null);
@@ -66,22 +66,13 @@ export default function Header() {
     "Minería",
   ];
 
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 10);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
     <>
       {/* ✅ Modal Login */}
       <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} />
 
-      <header
-        className={`sticky top-0 z-[1000] w-full transition-shadow ${
-          isScrolled ? "shadow-md" : ""
-        } bg-white`}
-      >
+      {/* ✅ Header ESTÁTICO */}
+      <header className="relative z-[50] w-full bg-white">
         {/* ===== TOPBAR ===== */}
         <div className="bg-gray-50 border-b border-gray-200">
           <div className="max-w-7xl mx-auto px-4 h-7 flex items-center justify-between text-[11px]">
@@ -100,8 +91,6 @@ export default function Header() {
 
               <span className="hidden md:flex items-center gap-3">
                 <span className="text-gray-300">|</span>
-
-                {/* ✅ Mi cuenta abre modal */}
                 <button
                   type="button"
                   onClick={() => setLoginOpen(true)}
@@ -179,8 +168,6 @@ export default function Header() {
                 aria-label="Favoritos"
               >
                 <Heart size={16} />
-                <span className="hidden lg:inline"></span>
-
                 {favCount > 0 && (
                   <span className="absolute -top-2 -right-2 bg-equielect-blue text-white text-xs w-5 h-5 flex items-center justify-center">
                     {favCount}
@@ -188,7 +175,7 @@ export default function Header() {
                 )}
               </Link>
 
-              {/* ✅ Cuenta abre modal */}
+              {/* Cuenta */}
               <button
                 type="button"
                 onClick={() => setLoginOpen(true)}
@@ -197,10 +184,11 @@ export default function Header() {
                 <User size={16} /> Cuenta
               </button>
 
-              {/* Carrito */}
+              {/* Carrito (ahora usa props del MainLayout) */}
               <button
                 type="button"
-                onClick={() => setIsCartOpen(true)}
+                data-open-cart
+                onClick={onOpenCart}
                 className="relative bg-equielect-yellow px-3 py-[6px] font-semibold text-equielect-blue flex items-center gap-1"
               >
                 <ShoppingCart size={16} />
@@ -261,7 +249,6 @@ export default function Header() {
                         }`}
                       />
                     </span>
-
                     <ChevronDown size={12} />
                   </button>
                 );
@@ -269,7 +256,7 @@ export default function Header() {
             </div>
           </div>
 
-          {/* ===== DESKTOP MEGAMENU ===== */}
+          {/* DESKTOP MEGAMENU */}
           {activeCategory && (
             <div
               className="hidden md:block absolute top-full left-0 w-full z-[999]"
@@ -280,7 +267,7 @@ export default function Header() {
             </div>
           )}
 
-          {/* ===== MOBILE OVERLAY ===== */}
+          {/* MOBILE OVERLAY */}
           {isMobileMenuOpen && (
             <div
               className="fixed inset-0 z-[998] bg-black/30 md:hidden"
@@ -288,7 +275,7 @@ export default function Header() {
             />
           )}
 
-          {/* ===== MOBILE MENU ===== */}
+          {/* MOBILE MENU */}
           {isMobileMenuOpen && (
             <div className="md:hidden absolute left-0 top-full w-full bg-equielect-blue z-[999]">
               {!mobileActiveCategory &&
@@ -328,7 +315,8 @@ export default function Header() {
         </div>
       </header>
 
-      <CartDrawer open={isCartOpen} onClose={() => setIsCartOpen(false)} />
+      {/* ✅ Drawer controlado por MainLayout */}
+      <CartDrawer open={!!isCartOpen} onClose={onCloseCart} />
     </>
   );
 }

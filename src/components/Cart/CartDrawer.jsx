@@ -1,103 +1,166 @@
 "use client";
-import React, { useEffect } from "react";
+
+import React, { useEffect, useCallback } from "react";
+import Image from "next/image";
 import { useCart } from "@/context/Cart/CartContext";
 
-const formatCOP = (n) =>
-  Number(n).toLocaleString("es-CO", {
+const money = (value) =>
+  new Intl.NumberFormat("es-CO", {
     style: "currency",
     currency: "COP",
     maximumFractionDigits: 0,
-  });
+  }).format(value || 0);
 
 export default function CartDrawer({ open, onClose }) {
-  const { items, total, incQty, decQty, removeItem, clear } = useCart();
+  const { items, total, cartCount, incQty, decQty, removeItem, clear } =
+    useCart();
 
-  // ✅ AVISA AL BOT (y a cualquier UI) si el carrito está abierto/cerrado
+  // ✅ Cerrar con eventos (para esconder/mostrar widgets/bot)
+  const closeWithEvents = useCallback(() => {
+    // Notifica que el carrito se cerró
+    window.dispatchEvent(new Event("cart:close"));
+    window.dispatchEvent(new CustomEvent("ui:cart", { detail: { open: false } }));
+
+    onClose?.();
+  }, [onClose]);
+
+  // ✅ Cuando abre, dispara eventos
   useEffect(() => {
-    window.dispatchEvent(new CustomEvent("ui:cart", { detail: { open } }));
+    if (!open) return;
+
+    window.dispatchEvent(new Event("cart:open"));
+    window.dispatchEvent(new CustomEvent("ui:cart", { detail: { open: true } }));
   }, [open]);
+
+  // ✅ Bloquea scroll del body cuando el drawer está abierto
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev || "";
+    };
+  }, [open]);
+
+  // ✅ ESC para cerrar
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => {
+      if (e.key === "Escape") closeWithEvents();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open, closeWithEvents]);
+
+  if (!open) return null;
 
   return (
     <>
-      {/* Overlay */}
+      {/* ✅ OVERLAY (encima de TODO, incluido el header) */}
       <div
-        className={`fixed inset-0 z-[90] bg-black/40 transition-opacity ${
-          open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-        }`}
-        onClick={onClose}
+        className="fixed inset-0 z-[999998] bg-black/35"
+        onClick={closeWithEvents}
+        aria-hidden="true"
       />
 
-      {/* Drawer */}
+      {/* ✅ PANEL (encima de TODO) */}
       <aside
-        className={`fixed top-0 right-0 z-[100] h-full w-[360px] bg-white shadow-2xl border-l border-gray-200 transform transition-transform duration-300 ${
-          open ? "translate-x-0" : "translate-x-full"
-        }`}
-        style={{ borderRadius: 0 }}
+        className="
+          fixed top-0 right-0 z-[999999]
+          h-screen w-[380px] max-w-[92vw]
+          bg-white border-l border-gray-200 shadow-2xl
+          flex flex-col
+        "
+        role="dialog"
+        aria-modal="true"
+        aria-label="Carrito"
       >
         {/* Header */}
-        <div className="bg-[#1c355e] text-white px-4 py-4 flex items-center justify-between">
-          <div className="font-extrabold">Tu carrito</div>
+        <div className="px-4 py-4 border-b border-gray-200 flex items-center justify-between">
+          <div className="font-extrabold text-[#1c355e]">
+            Carrito ({cartCount})
+          </div>
+
           <button
-            className="text-white/90 hover:text-white"
-            onClick={onClose}
+            type="button"
+            onClick={closeWithEvents}
+            className="w-9 h-9 grid place-items-center rounded-full hover:bg-gray-100"
             aria-label="Cerrar"
           >
             ✕
           </button>
         </div>
 
-        {/* Body */}
-        <div className="p-4 overflow-y-auto h-[calc(100%-160px)]">
+        {/* Lista (scroll) */}
+        <div className="flex-1 overflow-y-auto p-4">
           {items.length === 0 ? (
-            <div className="border border-gray-200 p-4 text-sm text-gray-600">
-              Tu carrito está vacío.
-            </div>
+            <div className="text-sm text-gray-500">Tu carrito está vacío.</div>
           ) : (
-            <div className="grid gap-3">
+            <div className="space-y-4">
               {items.map((it) => (
                 <div key={it.id} className="border border-gray-200 p-3">
                   <div className="flex gap-3">
-                    <div className="w-16 h-16 border border-gray-200 bg-gray-50 overflow-hidden">
-                      <img
-                        src={it.image}
-                        alt={it.name}
-                        className="w-full h-full object-cover"
-                      />
+                    {/* Imagen si existe */}
+                    <div className="relative w-16 h-16 bg-gray-50 border border-gray-200 flex-shrink-0">
+                      {it.image ? (
+                        <Image
+                          src={it.image}
+                          alt={it.name || it.title || "Producto"}
+                          fill
+                          className="object-contain p-1"
+                          sizes="64px"
+                        />
+                      ) : null}
                     </div>
 
-                    <div className="flex-1">
-                      <div className="text-xs text-gray-500 font-semibold">{it.brand}</div>
-                      <div className="text-sm font-bold text-[#1c355e] line-clamp-2">
-                        {it.name}
+                    <div className="min-w-0 flex-1">
+                      <div className="text-xs font-extrabold text-[#1c355e] uppercase">
+                        {it.brand || ""}
                       </div>
-                      <div className="text-sm font-extrabold mt-1">{formatCOP(it.price)}</div>
+                      <div className="text-sm font-bold text-gray-900 truncate">
+                        {it.name || it.title || "Producto"}
+                      </div>
 
-                      <div className="mt-2 flex items-center gap-2">
-                        <button
-                          className="w-8 h-8 border border-gray-300 font-bold hover:bg-gray-50"
-                          onClick={() => decQty(it.id)}
-                        >
-                          -
-                        </button>
-                        <div className="min-w-[36px] text-center font-bold">{it.qty}</div>
-                        <button
-                          className="w-8 h-8 border border-gray-300 font-bold hover:bg-gray-50"
-                          onClick={() => incQty(it.id)}
-                        >
-                          +
-                        </button>
+                      <div className="mt-2 flex items-center justify-between">
+                        <div className="text-sm font-extrabold text-gray-900">
+                          {money(it.price)}
+                        </div>
 
                         <button
-                          className="ml-auto text-xs font-bold text-red-600 hover:underline"
+                          type="button"
                           onClick={() => removeItem(it.id)}
+                          className="text-xs font-bold text-red-500 hover:underline"
                         >
                           Quitar
                         </button>
                       </div>
 
-                      <div className="mt-2 text-xs text-gray-600">
+                      {/* Cantidad */}
+                      <div className="mt-2 flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => decQty(it.id)}
+                          className="w-9 h-9 border border-gray-300 font-extrabold"
+                        >
+                          −
+                        </button>
+                        <div className="w-10 text-center font-bold">
+                          {it.qty}
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => incQty(it.id)}
+                          className="w-9 h-9 border border-gray-300 font-extrabold"
+                        >
+                          +
+                        </button>
+                      </div>
+
+                      <div className="mt-2 text-xs text-gray-500">
                         Subtotal:{" "}
-                        <span className="font-bold">{formatCOP(it.qty * Number(it.price))}</span>
+                        <span className="font-bold">
+                          {money((it.qty || 0) * (it.price || 0))}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -110,15 +173,24 @@ export default function CartDrawer({ open, onClose }) {
         {/* Footer */}
         <div className="border-t border-gray-200 p-4">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-sm font-semibold text-gray-700">Total</span>
-            <span className="text-lg font-extrabold text-[#1c355e]">{formatCOP(total)}</span>
+            <div className="font-bold text-gray-700">Total</div>
+            <div className="font-extrabold text-[#1c355e] text-lg">
+              {money(total)}
+            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-2">
-            <button className="border border-gray-300 font-bold py-2 hover:bg-gray-50" onClick={clear}>
+            <button
+              type="button"
+              onClick={clear}
+              className="border border-gray-300 py-3 font-bold"
+            >
               Vaciar
             </button>
-            <button className="bg-[#ffcd00] font-extrabold py-2 hover:opacity-90">
+            <button
+              type="button"
+              className="bg-[#ffcd00] py-3 font-extrabold"
+            >
               Comprar
             </button>
           </div>

@@ -4,13 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { BsFillTrashFill } from "react-icons/bs";
-import useCotizacion from "@/hooks/useCotizacion";
 import Counter from "@/components/utils/Counter/Counter";
 import { ACTIONS } from "@/constants/ACTIONS";
 
 const ProductItem = ({ product, hideCounterAndDelete = false }) => {
   const { name, brand, reference, quantity, color, model, images, _id } = product;
-  const { dispatch } = useCotizacion();
   const [quantityState, setQuantityState] = useState(quantity);
 
   const handleQuantityChange = (quantity) => {

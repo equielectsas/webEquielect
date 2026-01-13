@@ -19,7 +19,6 @@ import {
 } from "@material-tailwind/react";
 import Counter from "@/components/utils/Counter/Counter";
 import APIproducts from "@/services/products.services";
-import useCotizacion from "@/hooks/useCotizacion";
 import { ACTIONS } from "@/constants/ACTIONS";
 import ToastMessage from "@/components/utils/Toastify/ToastMessage";
 import AllyCard from "@/components/ui/AllyCard";
@@ -27,7 +26,7 @@ import ProductCarousel from "@/components/products/ProductCarousel";
 
 const PDPPage = () => {
   const { pid } = useParams();
-  const { state, dispatch } = useCotizacion();
+
 
   const [product, setProduct] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
