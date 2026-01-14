@@ -117,8 +117,8 @@ export default function Home() {
     { title: "Centelsa", icon: "/assets/aliados/AllieCentelsa.png", href: "/categoria/iluminacion" },
     { title: "3M", icon: "/assets/aliados/Allie3M.png", href: "/categoria/cableado" },
     { title: "Schmersal", icon: "/assets/aliados/AllieSchmersal.png", href: "/categoria/sistemas-portacables" },
-    { title: "Panduit", icon: "/assets/aliados/AlliePanduit.png", href: "/categoria/automatizacion-y-control" },
-    { title: "Phoenix Contact", icon: "/assets/aliados/AlliePhoenix.png", href: "/categoria/areas-clasificadas" },
+    { title: "Panduit", icon: "/assets/aliados/AlliePanduit.png", href: "/marcas/panduit" },
+    { title: "Phoenix Contact", icon: "/assets/aliados/AlliePhoenix.png", href: "/Marca/Phoenix-Contact" },
     { title: "Sylvania", icon: "/assets/aliados/AllieSylvania.png", href: "/categoria/mineria" },
   ];
 
