@@ -6,6 +6,8 @@ import Reveal from "@/components/ui/reveal";
 import LoginModal from "@/components/auth/LoginModal";
 // ✅ IMPORT DE PRODUCTOS DESTACADOS
 import FeaturedBrandProducts from "@/components/home/FeaturedBrandsProducts.jsx";
+import StatsBand from "@/components/home/StatsBand";
+
 
 export default function Home() {
   const [loginOpen, setLoginOpen] = useState(false);
@@ -848,6 +850,7 @@ export default function Home() {
 
       {/* ✅ OTRAS MARCAS ALIADAS */}
       <Reveal delay={120}>
+        <StatsBand />
         <section className="bg-white py-12 sm:py-16 border-t border-gray-200">
           <div className="max-w-7xl mx-auto px-4">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-8 sm:mb-12">
@@ -859,7 +862,7 @@ export default function Home() {
               </h2>
 
               <Link
-                href="/marcas"
+                href="/aliados"
                 className="bg-transparent text-equielect-blue font-bold text-sm hover:underline underline-offset-4"
               >
                 Ver todas
