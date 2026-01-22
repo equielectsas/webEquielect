@@ -7,9 +7,7 @@ import LoginModal from "@/components/auth/LoginModal";
 // ✅ IMPORT DE PRODUCTOS DESTACADOS
 import FeaturedBrandProducts from "@/components/home/FeaturedBrandsProducts.jsx";
 
-
 export default function Home() {
-
   const [loginOpen, setLoginOpen] = useState(false);
 
   // =========================
@@ -19,21 +17,29 @@ export default function Home() {
   const [isHeroPaused, setIsHeroPaused] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
+  // ✅ refs separados (IMPORTANTE) para que NO se dañen móvil/desktop
+  const quickScrollRefMobile = useRef(null);
+  const quickScrollRefDesktop = useRef(null);
   const [quickMobileIndex, setQuickMobileIndex] = useState(0);
-  const quickScrollRef = useRef(null);
 
-  const scrollQuick = (dir = 1) => {
-    const el = quickScrollRef.current;
+  // ✅ helper para scroll (sirve para móvil y desktop)
+  const scrollByPage = (ref, dir = 1) => {
+    const el = ref.current;
     if (!el) return;
-
-    const step = el.clientWidth; // 1 “página” completa
+    const step = el.clientWidth; // 1 “página” completa visible
     el.scrollBy({ left: dir * step, behavior: "smooth" });
   };
 
   function LogoItem({ src, alt }) {
     return (
       <div className="relative w-[150px] h-[56px]">
-        <Image src={src} alt={alt} fill className="object-contain" sizes="150px" />
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          className="object-contain"
+          sizes="150px"
+        />
       </div>
     );
   }
@@ -46,12 +52,12 @@ export default function Home() {
     if (!el) return;
 
     // ✅ paso por click (ajústalo si quieres)
-    const step = 320; // un poquito más para que "salte" mejor por el gap
+    const step = 320;
     el.scrollBy({ left: dir * step, behavior: "smooth" });
   };
 
   // ✅ helper para retina (2x). Si no tienes 2x, usa 1x como fallback (NO rompe).
-  const makeSrcSet = (x1, x2) => `${x1} 1x, ${(x2 || x1)} 2x`;
+  const makeSrcSet = (x1, x2) => `${x1} 1x, ${x2 || x1} 2x`;
 
   // =========================
   // DATA
@@ -65,11 +71,11 @@ export default function Home() {
         "Productos innovadores en seguridad, electrónica y soluciones industriales.",
       images: {
         mobile: "/assets/Sliderhome/mobile/bannerproc_c.png",
-        mobile2x: "/assets/Sliderhome/mobile/bannerproc_m.png", // 👉 pon tu @2x cuando lo tengas
+        mobile2x: "/assets/Sliderhome/mobile/bannerproc_m.png",
         tablet: "/assets/Sliderhome/tablet/bannerproc_t.png",
-        tablet2x: "/assets/Sliderhome/tablet/ProcablesT.png", // 👉 pon tu @2x cuando lo tengas
+        tablet2x: "/assets/Sliderhome/tablet/ProcablesT.png",
         desktop: "/assets/Sliderhome/desktop/bannerproc_pc.png",
-        desktop2x: "/assets/Sliderhome/desktop/bannerproc_mac.png", // 👉 pon tu @2x cuando lo tengas
+        desktop2x: "/assets/Sliderhome/desktop/bannerproc_mac.png",
       },
       color: "from-blue-700 to-blue-500",
       exampleProducts: "Seguridad Industrial, Adhesivos, Soluciones Eléctricas",
@@ -82,11 +88,11 @@ export default function Home() {
         "Productos eléctricos y digitales para edificaciones residenciales y comerciales",
       images: {
         mobile: "/assets/Sliderhome/mobile/banner_leg_m.png",
-        mobile2x: "/assets/Sliderhome/mobile/banner_leg_m.png", // 👉 pon tu @2x cuando lo tengas
+        mobile2x: "/assets/Sliderhome/mobile/banner_leg_m.png",
         tablet: "/assets/Sliderhome/tablet/legrandT.png",
-        tablet2x: "/assets/Sliderhome/tablet/legrandT.png", // 👉 pon tu @2x cuando lo tengas
+        tablet2x: "/assets/Sliderhome/tablet/legrandT.png",
         desktop: "/assets/Sliderhome/desktop/bannerleg_pc.png",
-        desktop2x: "/assets/Sliderhome/desktop/bannerleg_mac.png", // 👉 pon tu @2x cuando lo tengas
+        desktop2x: "/assets/Sliderhome/desktop/bannerleg_mac.png",
       },
       color: "from-red-700 to-red-500",
       exampleProducts: "Tomas, Interruptores, Sistemas de Gestión de Cables",
@@ -99,11 +105,11 @@ export default function Home() {
         "Automatización y gestión de energía para un mundo más sostenible",
       images: {
         mobile: "/assets/Sliderhome/mobile/bannersch_movil.png",
-        mobile2x: "/assets/Sliderhome/mobile/bannersch_movil.png", // 👉 ideal: bannersch_movil@2x.png
+        mobile2x: "/assets/Sliderhome/mobile/bannersch_movil.png",
         tablet: "/assets/Sliderhome/tablet/bannersch_tablet.png",
-        tablet2x: "/assets/Sliderhome/tablet/bannersch_tablet.png", // 👉 ideal: bannersch_tablet@2x.png
+        tablet2x: "/assets/Sliderhome/tablet/bannersch_tablet.png",
         desktop: "/assets/Sliderhome/desktop/bannersch_pc.png",
-        desktop2x: "/assets/Sliderhome/desktop/bannersch_mac.png", // 👉 aquí puedes poner tu "mac" (ej: bannersch_mac.png)
+        desktop2x: "/assets/Sliderhome/desktop/bannersch_mac.png",
       },
       color: "from-green-700 to-green-500",
       exampleProducts:
@@ -111,34 +117,46 @@ export default function Home() {
     },
   ];
 
-  // ✅ Explora por marcas (logos transparentes en /assets/aliados)
+  // ✅ Explora por marcas
   const quickCategories = [
-    { title: "Gonvarri", icon: "/assets/aliados/AllieGonvarri.png", href: "/categoria/telecomunicaciones" },
-    { title: "Centelsa", icon: "/assets/aliados/AllieCentelsa.png", href: "/categoria/iluminacion" },
+    {
+      title: "Schneider",
+      icon: "/assets/aliados/SchneiderBG.png",
+      href: "/categoria/telecomunicaciones",
+    },
+    {
+      title: "Legrand",
+      icon: "/assets/aliados/legrandBG.png",
+      href: "/categoria/telecomunicaciones",
+    },
+    {
+      title: "Procables",
+      icon: "/assets/aliados/AllieProCables.png",
+      href: "/categoria/telecomunicaciones",
+    },
+    {
+      title: "Gonvarri",
+      icon: "/assets/aliados/AllieGonvarri.png",
+      href: "/categoria/telecomunicaciones",
+    },
+    {
+      title: "Centelsa",
+      icon: "/assets/aliados/AllieCentelsa.png",
+      href: "/categoria/iluminacion",
+    },
     { title: "3M", icon: "/assets/aliados/Allie3M.png", href: "/categoria/cableado" },
-    { title: "Schmersal", icon: "/assets/aliados/AllieSchmersal.png", href: "/categoria/sistemas-portacables" },
-    { title: "Panduit", icon: "/assets/aliados/AlliePanduit.png", href: "/marcas/panduit" },
-    { title: "Phoenix Contact", icon: "/assets/aliados/AlliePhoenix.png", href: "/Marca/Phoenix-Contact" },
+    {
+      title: "Telemecanique",
+      icon: "/assets/aliados/AllieTelemecanica.png",
+      href: "/categoria/sistemas-portacables",
+    },
+
+    // ✅ corrige rutas para que no te tire 404
+    { title: "Panduit", icon: "/assets/aliados/AlliePanduit.png", href: "/marca/panduit" },
+    { title: "Phoenix Contact", icon: "/assets/aliados/AlliePhoenix.png", href: "/marca/phoenix-contact" },
+
     { title: "Sylvania", icon: "/assets/aliados/AllieSylvania.png", href: "/categoria/mineria" },
   ];
-
-  const quickCategoriesExtra = [
-  {
-    title: "Weg",
-    icon: "/assets/aliados/AllieWeg.png",
-    href: "/categoria/weg",
-  },
-  {
-    title: "Siemon",
-    icon: "/assets/aliados/AllieSiemon.png",
-    href: "/categoria/siemon",
-  },
-  {
-    title: "Phoenix",
-    icon: "/assets/aliados/AlliePhoenix.png",
-    href: "/categoria/phoenix-contact",
-  },
-];
 
   // ✅ agrupa quickCategories de 2 en 2 para el carrusel móvil
   const quickPairs = useMemo(() => {
@@ -152,7 +170,7 @@ export default function Home() {
   // ✅ Otras marcas aliadas
   const allies = [
     { name: "Philips", src: "/assets/aliados/AlliePhilips.png" },
-    { name: "Telemecanique", src: "/assets/aliados/AllieTelemecanique.png" },
+    { name: "Schmersal", src: "/assets/aliados/AllieSchmersal.png" },
     { name: "Weg", src: "/assets/aliados/AllieWeg.png" },
     { name: "Connect VCP", src: "/assets/aliados/AllieConnectVCP.png" },
     { name: "Teldor", src: "/assets/aliados/AllieTeldor.png", width: 200 },
@@ -175,8 +193,10 @@ export default function Home() {
   // =========================
   // ACTIONS
   // =========================
-  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % brands.length);
-  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + brands.length) % brands.length);
+  const nextSlide = () =>
+    setCurrentSlide((prev) => (prev + 1) % brands.length);
+  const prevSlide = () =>
+    setCurrentSlide((prev) => (prev - 1 + brands.length) % brands.length);
 
   // =========================
   // EFFECTS
@@ -230,7 +250,9 @@ export default function Home() {
               priority
               unoptimized
             />
-            <span className="text-equielect-blue font-medium text-sm">Cargando...</span>
+            <span className="text-equielect-blue font-medium text-sm">
+              Cargando...
+            </span>
           </div>
         </div>
       )}
@@ -267,13 +289,11 @@ export default function Home() {
           -ms-overflow-style: none;
           scrollbar-width: none;
         }
-
         .partnerLogo {
           filter: drop-shadow(0 6px 14px rgba(16, 24, 40, 0.12));
           opacity: 0.95;
           transition: opacity 0.2s ease, transform 0.2s ease;
         }
-
         .brandLogoCard {
           position: absolute;
           display: grid;
@@ -313,10 +333,9 @@ export default function Home() {
         }
       `}</style>
 
-<LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} />
+      <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} />
 
-
-      {/* ✅ HERO (SIN REVEAL) */}
+      {/* ✅ HERO */}
       <section className="bg-transparent">
         <div
           className="relative w-full h-[220px] sm:h-[320px] lg:h-[420px] overflow-hidden"
@@ -330,7 +349,6 @@ export default function Home() {
                 currentSlide === i ? "opacity-100" : "opacity-0"
               }`}
             >
-              {/* ✅ ART DIRECTION + RETINA 2X (ideal para pantallas tipo Mac/Retina) */}
               <picture className="block w-full h-full">
                 <source
                   media="(min-width: 1024px)"
@@ -397,7 +415,9 @@ export default function Home() {
                 key={i}
                 onClick={() => setCurrentSlide(i)}
                 className={`h-2.5 w-2.5 transition-all ${
-                  currentSlide === i ? "bg-white w-6" : "bg-white/60 hover:bg-white/80"
+                  currentSlide === i
+                    ? "bg-white w-6"
+                    : "bg-white/60 hover:bg-white/80"
                 }`}
                 style={{ borderRadius: 50 }}
                 aria-label={`Ir al slide ${i + 1}`}
@@ -421,11 +441,11 @@ export default function Home() {
               </h3>
             </div>
 
-            {/* MOBILE (con flechas + dots) */}
+            {/* ✅ MOBILE (con flechas + dots) */}
             <div className="sm:hidden relative">
               <button
                 type="button"
-                onClick={() => scrollQuick(-1)}
+                onClick={() => scrollByPage(quickScrollRefMobile, -1)}
                 className="absolute left-0 top-1/2 -translate-y-1/2 z-10 h-9 w-9 bg-white/90 border border-gray-200 shadow-sm grid place-items-center"
                 style={{ borderRadius: 9999 }}
                 aria-label="Anterior"
@@ -443,7 +463,7 @@ export default function Home() {
 
               <button
                 type="button"
-                onClick={() => scrollQuick(1)}
+                onClick={() => scrollByPage(quickScrollRefMobile, 1)}
                 className="absolute right-0 top-1/2 -translate-y-1/2 z-10 h-9 w-9 bg-white/90 border border-gray-200 shadow-sm grid place-items-center"
                 style={{ borderRadius: 9999 }}
                 aria-label="Siguiente"
@@ -460,7 +480,7 @@ export default function Home() {
               </button>
 
               <div
-                ref={quickScrollRef}
+                ref={quickScrollRefMobile}
                 onScroll={(e) => {
                   const el = e.currentTarget;
                   const idx = Math.round(el.scrollLeft / el.clientWidth);
@@ -470,7 +490,10 @@ export default function Home() {
               >
                 <div className="flex gap-4">
                   {quickPairs.map((pair, pageIndex) => (
-                    <div key={pageIndex} className="snap-start flex-shrink-0 w-[calc(100vw-5rem)]">
+                    <div
+                      key={pageIndex}
+                      className="snap-start flex-shrink-0 w-[calc(100vw-5rem)]"
+                    >
                       <div className="grid grid-cols-2 gap-10 justify-items-center py-2">
                         {pair.map((c) => (
                           <Link
@@ -508,12 +531,17 @@ export default function Home() {
                     key={i}
                     type="button"
                     onClick={() => {
-                      const el = quickScrollRef.current;
+                      const el = quickScrollRefMobile.current;
                       if (!el) return;
-                      el.scrollTo({ left: i * el.clientWidth, behavior: "smooth" });
+                      el.scrollTo({
+                        left: i * el.clientWidth,
+                        behavior: "smooth",
+                      });
                     }}
                     className={`h-2 transition-all ${
-                      i === quickMobileIndex ? "w-6 bg-equielect-blue" : "w-2 bg-gray-300"
+                      i === quickMobileIndex
+                        ? "w-6 bg-equielect-blue"
+                        : "w-2 bg-gray-300"
                     }`}
                     style={{ borderRadius: 9999 }}
                     aria-label={`Ir a página ${i + 1}`}
@@ -526,34 +554,90 @@ export default function Home() {
               </div>
             </div>
 
-            {/* TABLET/PC */}
-            <div className="hidden sm:flex sm:flex-wrap sm:justify-center sm:gap-10">
-              {quickCategories.map((c) => (
-                <Link
-                  key={c.title}
-                  href={c.href || "/"}
-                  className="group flex flex-col items-center"
-                  aria-label={`Ir a ${c.title}`}
+            {/* ✅ TABLET/PC (UNA SOLA FILA + FLECHAS) */}
+            <div className="hidden sm:grid grid-cols-[56px_1fr_56px] items-center gap-2">
+              {/* Flecha izquierda */}
+              <div className="flex justify-center">
+                <button
+                  type="button"
+                  onClick={() => scrollByPage(quickScrollRefDesktop, -1)}
+                  className="h-10 w-10 rounded-full bg-transparent hover:bg-black/5 active:bg-black/10 flex items-center justify-center transition-transform hover:scale-110"
+                  aria-label="Marcas anteriores"
                 >
-                  <div className="relative w-[108px] h-[108px] rounded-full border border-gray-200 bg-white shadow-sm grid place-items-center transition-all duration-200 group-hover:-translate-y-1 group-hover:shadow-lg">
-                    <div className="relative w-[72%] h-[72%]">
-                      <Image
-                        src={c.icon}
-                        alt={c.title}
-                        fill
-                        className="object-contain partnerLogo"
-                        sizes="108px"
-                      />
-                    </div>
-                  </div>
+                  <svg
+                    className="w-7 h-7 text-black"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    style={{ strokeWidth: 2.75 }}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15 19l-7-7 7-7"
+                    />
+                  </svg>
+                </button>
+              </div>
 
-                  <p className="mt-3 text-center text-sm font-medium text-gray-900 group-hover:text-equielect-blue">
-                    {c.title}
-                  </p>
+              {/* Carrusel */}
+              <div className="overflow-hidden">
+                <div
+                  ref={quickScrollRefDesktop}
+                  className="flex gap-10 overflow-x-auto scrollbar-hide snap-x snap-mandatory px-2 pr-32 py-6"
+                >
+                  {quickCategories.map((c) => (
+                    <Link
+                      key={c.title}
+                      href={c.href || "/"}
+                      className="snap-center flex-shrink-0 group flex flex-col items-center"
+                      aria-label={`Ir a ${c.title}`}
+                    >
+                      <div className="relative w-[108px] h-[108px] rounded-full border border-gray-200 bg-white shadow-sm grid place-items-center transition-all duration-200 group-hover:-translate-y-1 group-hover:shadow-lg">
+                        <div className="relative w-[72%] h-[72%]">
+                          <Image
+                            src={c.icon}
+                            alt={c.title}
+                            fill
+                            className="object-contain partnerLogo"
+                            sizes="108px"
+                          />
+                        </div>
+                      </div>
 
-                  <span className="block mt-2 h-[2px] w-0 opacity-0 bg-equielect-yellow transition-all duration-200 group-hover:w-10 group-hover:opacity-100" />
-                </Link>
-              ))}
+                      <p className="mt-3 text-center text-sm font-medium text-gray-900 group-hover:text-equielect-blue">
+                        {c.title}
+                      </p>
+
+                      <span className="block mt-2 h-[2px] w-0 opacity-0 bg-equielect-yellow transition-all duration-200 group-hover:w-10 group-hover:opacity-100" />
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              {/* Flecha derecha */}
+              <div className="flex justify-center">
+                <button
+                  type="button"
+                  onClick={() => scrollByPage(quickScrollRefDesktop, 1)}
+                  className="h-10 w-10 rounded-full bg-transparent hover:bg-black/5 active:bg-black/10 flex items-center justify-center transition-transform hover:scale-110"
+                  aria-label="Siguientes marcas"
+                >
+                  <svg
+                    className="w-7 h-7 text-black"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    style={{ strokeWidth: 2.75 }}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
         </section>
@@ -663,7 +747,9 @@ export default function Home() {
             <div className="bg-equielect-blue overflow-hidden" style={{ borderRadius: 5 }}>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-7 lg:gap-10 p-6 sm:p-8 lg:p-10 items-center">
                 <div>
-                  <p className="text-white/80 text-sm font-semibold">Nuestras mejores marcas.</p>
+                  <p className="text-white/80 text-sm font-semibold">
+                    Nuestras mejores marcas.
+                  </p>
 
                   <h2 className="mt-2 text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white leading-tight">
                     Compra con respaldo y disponibilidad inmediata.
@@ -702,7 +788,13 @@ export default function Home() {
                             key={item.src}
                             className="snap-start flex-shrink-0 w-[210px] h-[58px] relative"
                           >
-                            <Image src={item.src} alt={item.alt} fill className="object-contain" sizes="210px" />
+                            <Image
+                              src={item.src}
+                              alt={item.alt}
+                              fill
+                              className="object-contain"
+                              sizes="210px"
+                            />
                           </div>
                         ))}
                       </div>
@@ -733,7 +825,8 @@ export default function Home() {
           </div>
         </section>
       </Reveal>
-      {/* ✅ PRODUCTOS DESTACADOS (cards) debajo del cajón */}
+
+      {/* ✅ PRODUCTOS DESTACADOS */}
       <Reveal delay={120}>
         <section className="bg-white pb-10">
           <div className="max-w-7xl mx-auto px-4">
@@ -753,8 +846,7 @@ export default function Home() {
         </section>
       </Reveal>
 
-      
-      {/* ✅ OTRAS MARCAS ALIADAS (CÍRCULOS) */}
+      {/* ✅ OTRAS MARCAS ALIADAS */}
       <Reveal delay={120}>
         <section className="bg-white py-12 sm:py-16 border-t border-gray-200">
           <div className="max-w-7xl mx-auto px-4">
@@ -774,6 +866,7 @@ export default function Home() {
               </Link>
             </div>
 
+            {/* Móvil (2 columnas por página) */}
             <div className="sm:hidden overflow-x-auto overflow-y-hidden scrollbar-hide snap-x snap-mandatory scroll-px-4">
               <div className="flex gap-4 px-4">
                 {alliesPairs.map((pair, pageIndex) => (
@@ -809,6 +902,7 @@ export default function Home() {
               </div>
             </div>
 
+            {/* Desktop / Tablet (una fila + flechas) */}
             <div className="hidden sm:grid grid-cols-1 sm:grid-cols-[56px_1fr_56px] items-center gap-2">
               <div className="hidden sm:flex justify-center">
                 <button
@@ -824,7 +918,11 @@ export default function Home() {
                     viewBox="0 0 24 24"
                     style={{ strokeWidth: 2.75 }}
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15 19l-7-7 7-7"
+                    />
                   </svg>
                 </button>
               </div>
@@ -874,7 +972,11 @@ export default function Home() {
                     viewBox="0 0 24 24"
                     style={{ strokeWidth: 2.75 }}
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M9 5l7 7-7 7"
+                    />
                   </svg>
                 </button>
               </div>
@@ -882,7 +984,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ✅ SECCIÓN CORPORATIVA FULL WIDTH (más delgada) */}
+        {/* ✅ SECCIÓN CORPORATIVA FULL WIDTH */}
         <section className="w-full border-t border-gray-200">
           <div className="w-full">
             <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[240px] lg:min-h-[320px]">
@@ -923,7 +1025,6 @@ export default function Home() {
                   </p>
 
                   <div className="mt-6">
-
                     <a
                       href="https://wa.me/573001112233?text=Hola%2C%20quiero%20cotizar%20con%20un%20asesor%20de%20Equielect."
                       target="_blank"

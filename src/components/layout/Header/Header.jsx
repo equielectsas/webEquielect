@@ -3,34 +3,11 @@
 import React, { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  ChevronDown,
-  ShoppingCart,
-  User,
-  Search,
-  MapPin,
-  Menu,
-  Heart,
-} from "lucide-react";
+import { ChevronDown, Search, MapPin, Menu } from "lucide-react";
 
-import { useCart } from "@/context/Cart/CartContext";
-import { useFavorites } from "@/context/Favorites/FavoritesContext";
-import LoginModal from "@/components/auth/LoginModal";
-
-import CartDrawer from "@/components/Cart/CartDrawer";
 import MegaMenuEquielect from "@/components/category/MegaMenuEquielect";
 
-export default function Header({
-  isCartOpen,
-  onOpenCart,
-  onCloseCart,
-}) {
-  const { cartCount } = useCart();
-  const { count: favCount } = useFavorites();
-
-  // ✅ Login modal
-  const [loginOpen, setLoginOpen] = useState(false);
-
+export default function Header() {
   // Desktop
   const [activeCategory, setActiveCategory] = useState(null);
 
@@ -68,9 +45,6 @@ export default function Header({
 
   return (
     <>
-      {/* ✅ Modal Login */}
-      <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} />
-
       {/* ✅ Header ESTÁTICO */}
       <header className="relative z-[50] w-full bg-white">
         {/* ===== TOPBAR ===== */}
@@ -88,17 +62,6 @@ export default function Header({
               <a href="#ayuda" className="hover:underline">
                 Centro de ayuda
               </a>
-
-              <span className="hidden md:flex items-center gap-3">
-                <span className="text-gray-300">|</span>
-                <button
-                  type="button"
-                  onClick={() => setLoginOpen(true)}
-                  className="hover:underline"
-                >
-                  Mi cuenta
-                </button>
-              </span>
             </div>
           </div>
         </div>
@@ -148,6 +111,7 @@ export default function Header({
                   <button
                     type="button"
                     className="bg-equielect-yellow px-3 text-equielect-blue"
+                    aria-label="Buscar"
                   >
                     <Search size={18} strokeWidth={2.5} />
                   </button>
@@ -155,49 +119,8 @@ export default function Header({
               </div>
             </div>
 
-            {/* ACTIONS */}
-            <div
-              className={`flex items-center gap-3 ${
-                isMobileSearching ? "hidden md:flex" : "flex"
-              }`}
-            >
-              {/* Favoritos */}
-              <Link
-                href="/favoritos"
-                className="relative hidden sm:flex items-center gap-2 px-2 py-[6px] text-sm font-medium text-equielect-blue hover:text-equielect-yellow transition"
-                aria-label="Favoritos"
-              >
-                <Heart size={16} />
-                {favCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-equielect-blue text-white text-xs w-5 h-5 flex items-center justify-center">
-                    {favCount}
-                  </span>
-                )}
-              </Link>
-
-              {/* Cuenta */}
-              <button
-                type="button"
-                onClick={() => setLoginOpen(true)}
-                className="hidden sm:flex items-center gap-2 px-2 py-[6px] text-sm font-medium text-equielect-blue hover:text-equielect-yellow transition"
-              >
-                <User size={16} /> Cuenta
-              </button>
-
-              {/* Carrito (ahora usa props del MainLayout) */}
-              <button
-                type="button"
-                data-open-cart
-                onClick={onOpenCart}
-                className="relative bg-equielect-yellow px-3 py-[6px] font-semibold text-equielect-blue flex items-center gap-1"
-              >
-                <ShoppingCart size={16} />
-                <span className="hidden sm:inline">Carrito</span>
-                <span className="absolute -top-2 -right-2 bg-equielect-blue text-white text-xs w-5 h-5 flex items-center justify-center">
-                  {cartCount}
-                </span>
-              </button>
-            </div>
+            {/* ✅ SIN acciones (carrito/cuenta/favoritos) */}
+            <div className={`${isMobileSearching ? "hidden md:block" : "block"}`} />
           </div>
         </div>
 
@@ -314,9 +237,6 @@ export default function Header({
           )}
         </div>
       </header>
-
-      {/* ✅ Drawer controlado por MainLayout */}
-      <CartDrawer open={!!isCartOpen} onClose={onCloseCart} />
     </>
   );
 }

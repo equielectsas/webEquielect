@@ -2,14 +2,6 @@
 
 import React, { useMemo, useState, useEffect } from "react";
 import Image from "next/image";
-import { useCart } from "@/context/Cart/CartContext";
-
-const money = (value) =>
-  new Intl.NumberFormat("es-CO", {
-    style: "currency",
-    currency: "COP",
-    maximumFractionDigits: 0,
-  }).format(value);
 
 const PRODUCTS = [
   {
@@ -18,7 +10,6 @@ const PRODUCTS = [
     brandDesc:
       "Cables certificados para instalaciones seguras y proyectos industriales.",
     title: "Cable THHN 12 AWG (Rollo)",
-    price: 189000,
     images: [
       "/assets/products/cable-de-cobre THHN.jpg",
       "/assets/products/cable-de-cobre THHN2.png",
@@ -31,7 +22,6 @@ const PRODUCTS = [
     brandDesc:
       "Soluciones eléctricas y canalización para edificaciones residenciales y comerciales.",
     title: "Tomacorriente Doble Línea Premium",
-    price: 45900,
     images: [
       "/assets/products/toma-corriente.png",
       "/assets/products/toma-corriente2.png",
@@ -43,7 +33,6 @@ const PRODUCTS = [
     brand: "Schneider Electric",
     brandDesc: "Automatización y gestión de energía para un mundo más eficiente.",
     title: "Breaker Termomagnético 2P 20A",
-    price: 98000,
     images: [
       "/assets/products/breaker_termosch.jpg",
       "/assets/products/breaker_termosch2.png",
@@ -55,7 +44,6 @@ const PRODUCTS = [
     brand: "Gonvarri",
     brandDesc: "Líderes en la trasformación del acero.",
     title: "GRAPA 3/4 P/COLGAR TUBERIA",
-    price: 108000,
     images: [
       "/assets/products/gonvarri.jpg",
       "/assets/products/gonvarri3.png",
@@ -65,118 +53,46 @@ const PRODUCTS = [
 ];
 
 export default function FeaturedBrandProducts() {
-  const cart = useCart();
-
-  // ✅ Cola de toasts (por si agregas varios rápido)
-  const [toasts, setToasts] = useState([]);
-
-  const pushToast = (message) => {
-    const id = Date.now() + Math.random();
-    setToasts((prev) => [...prev, { id, message }]);
-    // Auto close
-    setTimeout(() => {
-      setToasts((prev) => prev.filter((t) => t.id !== id));
-    }, 2200);
-  };
-
-  // ✅ TU CONTEXTO usa addItem(payload, qty)
-  const addToCartSafe = (p) => {
-    const payload = {
-      id: p.id,
-      name: p.title,
-      price: p.price,
-      image: p.images?.[0],
-      brand: p.brand,
-    };
-
-    cart.addItem(payload, 1);
-
-    // ✅ toast
-    pushToast("Producto agregado al carrito ✅");
-  };
-
   const items = useMemo(() => PRODUCTS, []);
 
   return (
     <section className="mt-5 relative">
-      {/* ✅ Toasts */}
-      <ToastStack toasts={toasts} onClose={(id) => setToasts((p) => p.filter((t) => t.id !== id))} />
-
       {/* ✅ Grid compacto */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
         {items.map((p) => (
-          <ProductCard key={p.id} p={p} onAdd={() => addToCartSafe(p)} />
+          <ProductCard key={p.id} p={p} />
         ))}
       </div>
 
       <style jsx global>{`
-        .text-equielect-blue { color: #1c355e; }
-        .bg-equielect-blue { background-color: #1c355e; }
-        .border-equielect-blue { border-color: #1c355e; }
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
-        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-        .line-clamp-2{
-          display:-webkit-box;
-          -webkit-line-clamp:2;
-          -webkit-box-orient:vertical;
-          overflow:hidden;
+        .text-equielect-blue {
+          color: #1c355e;
+        }
+        .bg-equielect-blue {
+          background-color: #1c355e;
+        }
+        .border-equielect-blue {
+          border-color: #1c355e;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+        .line-clamp-2 {
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
         }
       `}</style>
     </section>
   );
 }
 
-/** ✅ Toast flotante */
-function ToastStack({ toasts, onClose }) {
-  if (!toasts?.length) return null;
-
-  return (
-    <div
-      className="
-        fixed z-[99999]
-        top-4 right-4
-        flex flex-col gap-2
-        max-w-[92vw] sm:max-w-[360px]
-      "
-      aria-live="polite"
-      aria-relevant="additions"
-    >
-      {toasts.map((t) => (
-        <div
-          key={t.id}
-          className="
-            bg-white border border-gray-200
-            shadow-lg
-            px-3 py-2
-            flex items-start gap-3
-          "
-          style={{ borderRadius: 10 }}
-        >
-          <div className="mt-0.5 h-2.5 w-2.5 rounded-full bg-equielect-blue" />
-          <div className="flex-1">
-            <div className="text-[13px] font-semibold text-gray-900">
-              {t.message}
-            </div>
-            <div className="text-[11px] text-gray-500 mt-0.5">
-              Puedes abrir el carrito desde el ícono arriba.
-            </div>
-          </div>
-
-          <button
-            type="button"
-            onClick={() => onClose(t.id)}
-            className="text-gray-400 hover:text-gray-700 font-bold leading-none"
-            aria-label="Cerrar"
-          >
-            ✕
-          </button>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function ProductCard({ p, onAdd }) {
+function ProductCard({ p }) {
   const [active, setActive] = useState(0);
   const [open, setOpen] = useState(false);
 
@@ -276,23 +192,12 @@ function ProductCard({ p, onAdd }) {
           {p.brandDesc}
         </div>
 
-        <div className="mt-2 flex items-center justify-between gap-2">
-          <div className="text-[13px] font-extrabold text-gray-900">
-            {money(p.price)}
-          </div>
-
-          <button
-            type="button"
-            onClick={onAdd}
-            className="px-3 py-1.5 bg-equielect-blue text-white font-extrabold text-[12px] hover:opacity-90 transition"
-            style={{ borderRadius: 6 }}
-          >
-            Agregar
-          </button>
-        </div>
+        {/* ✅ Eliminado: precio + botón Agregar */}
       </div>
 
-      {open && <ZoomModal title={p.title} src={mainSrc} onClose={() => setOpen(false)} />}
+      {open && (
+        <ZoomModal title={p.title} src={mainSrc} onClose={() => setOpen(false)} />
+      )}
     </div>
   );
 }

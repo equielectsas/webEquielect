@@ -8,7 +8,6 @@ import { AppThemeProvider } from "@/context/Theme/ThemeProvider";
 import { AppProductProvider } from "@/context/Products/ProductProvider";
 import { CartProvider } from "@/context/Cart/CartContext";
 import CookieBanner from "@/components/CookieBanner";
-import CartWidgetLeft from "@/components/Cart/CartWidgetLeft";
 
 import MainLayout from "@/components/layout/MainLayout";
 import { GA_TRACKING_ID } from "../../lib/analytics";
@@ -54,20 +53,19 @@ export default function RootLayout({ children }) {
           }}
         />
 
-        {/* ✅ Providers */}
+        {/* ✅ Providers (se dejan para no romper imports existentes) */}
         <ThemeProvider>
           <AppThemeProvider>
             <AppProductProvider>
-                <CartProvider>
-                  <CartWidgetLeft />
-                  <FavoritesProvider isLoggedIn={false}>
-                    <MainLayout>
-                      {children}
-                      <CookieBanner />
-                      <ClaraChatWidget />
-                    </MainLayout>
-                  </FavoritesProvider>
-                </CartProvider>
+              <CartProvider>
+                <FavoritesProvider isLoggedIn={false}>
+                  <MainLayout>
+                    {children}
+                    <CookieBanner />
+                    <ClaraChatWidget />
+                  </MainLayout>
+                </FavoritesProvider>
+              </CartProvider>
             </AppProductProvider>
           </AppThemeProvider>
         </ThemeProvider>

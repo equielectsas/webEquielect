@@ -1,16 +1,42 @@
 import Image from "next/image";
-import { notFound } from "next/navigation";
+import Link from "next/link";
 import { brands } from "@/data/brands";
 
-export default function BrandPage({ params }) {
-  const brand = brands.find((b) => b.slug === params.slug);
-  if (!brand) return notFound();
+export const metadata = {
+  title: "Panduit | Equielect",
+  description:
+    "Panduit en Equielect: infraestructura, identificación, conectividad y organización profesional.",
+};
+
+export default function PanduitPage() {
+  const brand = brands.find((b) => b.slug === "panduit");
+
+  if (!brand) {
+    return (
+      <main className="bg-white">
+        <div className="max-w-3xl mx-auto px-4 py-16">
+          <h1 className="text-2xl font-extrabold text-[#1c355e]">
+            Falta Panduit en brands.js
+          </h1>
+          <p className="mt-3 text-gray-600">
+            Agrega un objeto con <code>slug: "panduit"</code> y sus imágenes.
+          </p>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="bg-white">
-      {/* ✅ BANNER debajo del header (responsive images + 2x) */}
+      {/* ✅ BANNER debajo del header (responsive + PC aspect ratio 2763/893) */}
       <section className="mt-3">
-        <div className="relative w-full h-[220px] md:h-[260px] lg:h-[300px] overflow-hidden">
+        <div
+          className="
+            relative w-full overflow-hidden
+            h-[220px] md:h-[260px]
+            lg:h-auto lg:aspect-[2763/893]
+          "
+        >
           <picture>
             {/* Desktop */}
             <source
@@ -36,7 +62,7 @@ export default function BrandPage({ params }) {
           {/* Overlay (suave) */}
           <div className="absolute inset-0 bg-black/30" />
 
-          {/* Texto opcional arriba izquierda */}
+          {/* Texto arriba izquierda */}
           <div className="absolute left-6 md:left-10 top-6 md:top-10 max-w-[720px] text-white">
             <p className="text-xs md:text-sm font-semibold text-white/90">
               {brand.title}
@@ -65,7 +91,7 @@ export default function BrandPage({ params }) {
         </div>
       </section>
 
-      {/* ✅ BLOQUE de título + descripción centrado (como tu mock) */}
+      {/* ✅ BLOQUE de título + descripción centrado */}
       <section className="max-w-4xl mx-auto px-4 py-12 md:py-16 text-center">
         <h1 className="text-5xl md:text-6xl font-black tracking-wide text-black">
           {brand.name.toUpperCase()}
@@ -75,26 +101,22 @@ export default function BrandPage({ params }) {
           {brand.description}
         </p>
 
-        {/* Botones opcionales */}
+        {/* Botones */}
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
-          <a
+          <Link
             href="/productos"
             className="bg-[#ffcd00] text-[#0b2a4d] font-extrabold px-6 py-3 rounded-lg"
           >
             Ver productos
-          </a>
-          <a
+          </Link>
+          <Link
             href="/contactanos"
             className="border border-gray-300 text-gray-900 font-bold px-6 py-3 rounded-lg hover:bg-gray-50"
           >
             Cotizar con un asesor
-          </a>
+          </Link>
         </div>
       </section>
     </main>
   );
-}
-
-export function generateStaticParams() {
-  return brands.map((b) => ({ slug: b.slug }));
 }
