@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState } from "react";
 import Image from "next/image";
 
 const PRODUCTS = [
@@ -31,7 +31,8 @@ const PRODUCTS = [
   {
     id: "schneider-1",
     brand: "Schneider Electric",
-    brandDesc: "Automatización y gestión de energía para un mundo más eficiente.",
+    brandDesc:
+      "Automatización y gestión de energía para un mundo más eficiente.",
     title: "Breaker Termomagnético 2P 20A",
     images: [
       "/assets/products/breaker_termosch.jpg",
@@ -57,11 +58,14 @@ export default function FeaturedBrandProducts() {
 
   return (
     <section className="mt-5 relative">
-      {/* ✅ Grid compacto */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-        {items.map((p) => (
-          <ProductCard key={p.id} p={p} />
-        ))}
+      {/* ✅ Contenedor con padding lateral (para que NO queden pegados) */}
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+        {/* ✅ Grid más ordenado + más aire a los lados */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
+          {items.map((p) => (
+            <ProductCard key={p.id} p={p} />
+          ))}
+        </div>
       </div>
 
       <style jsx global>{`
@@ -113,20 +117,27 @@ function ProductCard({ p }) {
   };
 
   return (
-    <div className="bg-white border border-gray-200 overflow-hidden">
+    // ✅ Cajón más pequeño y más “premium”
+    <div
+      className="bg-white border border-gray-200 overflow-hidden hover:shadow-md transition-shadow"
+      style={{ borderRadius: 14 }}
+    >
       {/* ✅ Imagen principal con zoom */}
       <div className="relative w-full bg-gray-50">
         <div
-          className="relative w-full aspect-[16/10] overflow-hidden"
+          // ✅ un poquito más bajo para que el cajón sea más pequeño
+          className="relative w-full aspect-[16/11] overflow-hidden"
           onMouseEnter={() => setIsZoom(true)}
           onMouseLeave={() => setIsZoom(false)}
           onMouseMove={handleMove}
         >
+          {/* ✅ IMPORTANTE: sin transition en scroll/jitter; solo micro animación */}
           <div
-            className="absolute inset-0 transition-transform duration-150"
+            className="absolute inset-0"
             style={{
-              transform: isZoom ? "scale(1.35)" : "scale(1)",
+              transform: isZoom ? "scale(1.25)" : "scale(1)",
               transformOrigin: `${origin.x}% ${origin.y}%`,
+              transition: "transform 120ms ease",
             }}
           >
             <Image
@@ -144,16 +155,16 @@ function ProductCard({ p }) {
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="absolute right-2 top-2 px-2 py-1 bg-white/90 border border-gray-200 text-[11px] font-bold text-equielect-blue hover:bg-white transition"
-          style={{ borderRadius: 6 }}
+          className="absolute right-2 top-2 px-2 py-1 bg-white/95 border border-gray-200 text-[11px] font-extrabold text-equielect-blue hover:bg-white transition"
+          style={{ borderRadius: 10 }}
         >
           Ver
         </button>
       </div>
 
-      {/* ✅ Miniaturas: cambia con hover */}
+      {/* ✅ Miniaturas: más pequeñas y ordenadas */}
       {p.images?.length > 1 && (
-        <div className="px-2 pt-2 flex gap-1.5 overflow-x-auto scrollbar-hide">
+        <div className="px-3 pt-2 flex gap-2 overflow-x-auto scrollbar-hide">
           {p.images.map((src, idx) => (
             <button
               key={src + idx}
@@ -161,10 +172,10 @@ function ProductCard({ p }) {
               onMouseEnter={() => setActive(idx)}
               onFocus={() => setActive(idx)}
               onClick={() => setActive(idx)}
-              className={`relative w-9 h-9 border transition ${
+              className={`relative w-8 h-8 border transition ${
                 idx === active ? "border-equielect-blue" : "border-gray-200"
               }`}
-              style={{ borderRadius: 6 }}
+              style={{ borderRadius: 8 }}
               aria-label={`Ver imagen ${idx + 1}`}
             >
               <Image
@@ -178,21 +189,19 @@ function ProductCard({ p }) {
         </div>
       )}
 
-      {/* Info */}
-      <div className="px-2 py-2">
+      {/* ✅ Info (más compacta) */}
+      <div className="px-3 pt-2 pb-3">
         <div className="text-[10px] font-extrabold text-equielect-blue uppercase tracking-wide leading-tight">
           {p.brand}
         </div>
 
-        <div className="mt-0.5 text-[12px] font-bold text-gray-900 leading-snug line-clamp-2">
+        <div className="mt-1 text-[12px] font-extrabold text-gray-900 leading-snug line-clamp-2">
           {p.title}
         </div>
 
         <div className="mt-1 text-[11px] text-gray-600 leading-snug line-clamp-2">
           {p.brandDesc}
         </div>
-
-        {/* ✅ Eliminado: precio + botón Agregar */}
       </div>
 
       {open && (
@@ -207,24 +216,27 @@ function ZoomModal({ src, title, onClose }) {
 
   return (
     <div className="fixed inset-0 z-[9999] bg-black/60 flex items-center justify-center p-3">
-      <div className="bg-white w-full max-w-4xl border border-gray-200 overflow-hidden">
+      <div
+        className="bg-white w-full max-w-4xl border border-gray-200 overflow-hidden"
+        style={{ borderRadius: 16 }}
+      >
         <div className="px-4 py-3 border-b border-gray-200 flex items-center justify-between">
-          <div className="font-bold text-sm text-gray-900">{title}</div>
+          <div className="font-extrabold text-sm text-gray-900">{title}</div>
 
           <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={() => setZoom((z) => Math.max(1, +(z - 0.25).toFixed(2)))}
-              className="px-3 py-2 border border-gray-200 text-sm font-bold hover:bg-gray-50"
-              style={{ borderRadius: 6 }}
+              className="px-3 py-2 border border-gray-200 text-sm font-extrabold hover:bg-gray-50"
+              style={{ borderRadius: 10 }}
             >
               −
             </button>
             <button
               type="button"
               onClick={() => setZoom((z) => Math.min(3, +(z + 0.25).toFixed(2)))}
-              className="px-3 py-2 border border-gray-200 text-sm font-bold hover:bg-gray-50"
-              style={{ borderRadius: 6 }}
+              className="px-3 py-2 border border-gray-200 text-sm font-extrabold hover:bg-gray-50"
+              style={{ borderRadius: 10 }}
             >
               +
             </button>
