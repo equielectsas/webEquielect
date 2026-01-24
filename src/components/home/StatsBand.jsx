@@ -5,8 +5,8 @@ import Link from "next/link";
 
 export default function StatsBand() {
   const stats = [
-    { value: "40+", label1: "AÑOS", label2: "DE EXPERIENCIA" },
-    { value: "70.000+", label1: "VENTAS", label2: "ANUALES" },
+    { value: "+40", label1: "AÑOS", label2: "DE EXPERIENCIA" },
+    { value: "+70.000", label1: "VENTAS", label2: "ANUALES" },
     { value: "100%", label1: "CALIDAD", label2: "CERTIFICADA" },
     { value: "EQUIPO", label1: "COTIZACIÓN", label2: "Y ASESORES" },
   ];

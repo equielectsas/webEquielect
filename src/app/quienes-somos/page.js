@@ -93,11 +93,11 @@ const AboutUsPage = () => {
           className="absolute inset-0 bg-cover bg-center will-change-transform"
           style={{
             backgroundImage:
-              "url('https://ennuestrocampo.co/wp-content/uploads/2023/01/Empleados-1DOC3.jpg')",
+              "url('/assets/fondos/espacio_EQ.png')",
             transform: "translate3d(0,0,0) scale(1.12)", // ✅ evita bordes al mover
           }}
         />
-        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-black/5" />
 
         <div className="relative z-10 text-center max-w-4xl mx-auto px-4">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight">
@@ -129,10 +129,10 @@ const AboutUsPage = () => {
 
           <div className="relative h-[400px] overflow-hidden shadow-2xl group">
             <div
-              className="absolute inset-0 bg-cover bg-center transform transition-transform duration-700 group-hover:scale-110"
+              className="absolute inset-0 bg-cover bg-center transform transition-transform duration-700 group-hover:scale-110 border radius-10"
               style={{
                 backgroundImage:
-                  "url('https://edge.sitecorecloud.io/giclimited1-qiccom-prod-94af/media/Project/QIC/QIC/Articles/Images/article_FY2025.png?h=600&iar=0&w=1200')",
+                  "url('/assets/quienes-somos/equipo.jpg')",
               }}
             />
             <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-700" />

@@ -491,104 +491,121 @@ export default function Home() {
           </div>
         </section>
       </Reveal>
-
-      {/* ✅ PLANTILLA DE CELULAR + VIDEO (con fondo imagen) */}
+      {/* ✅ PLANTILLA DE CELULAR + VIDEO (SIN FONDO IMAGEN / BLANCA) */}
       <Reveal delay={120}>
-        <section className="relative border-b border-gray-200 overflow-hidden">
-          <div className="absolute inset-0 -z-0">
-            <Image
-              src="/assets/fondos/espacio_EQ.png"
-              alt="Fondo Equielect"
-              fill
-              className="object-cover"
-              priority={false}
-            />
-            <div className="absolute inset-0 bg-white/20" />
-            <div
-              className="absolute inset-0 opacity-60"
-              style={{
-                background:
-                  "radial-gradient(circle at 70% 40%, rgba(28,53,94,0.12), rgba(28,53,94,0) 55%)",
-              }}
-            />
-          </div>
-
-          <div className="relative z-10 max-w-7xl mx-auto px-4 py-12 sm:py-14">
+        <section className="bg-white border-b border-gray-200">
+          <div className="max-w-7xl mx-auto px-4 py-12 sm:py-14">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
-              <div className="text-center lg:text-left">
-                <h3 className="text-2xl sm:text-3xl font-semibold text-white">
-                  Conoce Equielect en 1 minuto
-                </h3>
+              {/* IZQUIERDA: TEXTO (MÁS LIBRE) */}
+                <div className="text-center lg:text-left">
+                  <div className="max-w-[560px] mx-auto lg:mx-0">
+                    <p className="text-equielect-blue/70 text-sm font-semibold">
+                      Institucional
+                    </p>
 
-                <p className="mt-3 text-white text-sm sm:text-base font-medium leading-relaxed">
-                  Queremos que además de comprar, puedas entender quiénes somos,
-                  cómo te apoyamos y por qué trabajamos con marcas líderes.
-                </p>
+                    <h3 className="mt-2 text-3xl sm:text-4xl font-extrabold leading-tight text-equielect-blue">
+                      Conoce Equielect en 1 minuto
+                    </h3>
 
-                <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
-                  <Link
-                    href="/nosotros"
-                    className="inline-flex items-center justify-center px-6 py-3 bg-equielect-yellow text-black font-semibold hover:opacity-90 transition"
-                    style={{ borderRadius: 6 }}
-                  >
-                    Ver institucional
-                  </Link>
+                    <p className="mt-4 text-gray-700 text-sm sm:text-base leading-relaxed">
+                      En Equielect te ayudamos a elegir bien para tu proyecto: asesoría,
+                      disponibilidad y respaldo con marcas líderes.
+                    </p>
 
-                  <Link
-                    href="/productos"
-                    className="inline-flex items-center justify-center px-6 py-3 border border-gray-200 bg-white/70 text-black font-semibold hover:bg-white transition"
-                    style={{ borderRadius: 6 }}
-                  >
-                    Ir a productos
-                  </Link>
+                    <p className="mt-3 text-gray-600 text-sm sm:text-base leading-relaxed">
+                      Somos de Medellín (desde 1986) y atendemos industria, comercio y
+                      construcción con soluciones eléctricas, electrónicas y de telecomunicaciones.
+                    </p>
+
+                    {/* “Sello” de marca (no parece IA) */}
+                    <div className="mt-6 inline-flex items-center gap-3 border border-gray-200 bg-white px-4 py-3"
+                        style={{ borderRadius: 12 }}>
+                      <span className="inline-flex items-center justify-center w-9 h-9 bg-equielect-yellow text-black font-extrabold"
+                            style={{ borderRadius: 10 }}>
+                        ✓
+                      </span>
+                      <div className="text-left">
+                        <p className="text-equielect-blue font-extrabold leading-none">
+                          Asesoría real
+                        </p>
+                        <p className="text-gray-600 text-sm">
+                          Te acompañamos antes y después de comprar.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="mt-7 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
+                      <Link
+                        href="/nosotros"
+                        className="h-[48px] inline-flex items-center justify-center px-6 bg-equielect-yellow text-black font-extrabold hover:opacity-90 transition"
+                        style={{ borderRadius: 10 }}
+                      >
+                        Ver quiénes somos
+                      </Link>
+
+                      <Link
+                        href="/productos"
+                        className="h-[48px] inline-flex items-center justify-center px-6 border border-gray-200 bg-white text-equielect-blue font-extrabold hover:bg-gray-50 transition"
+                        style={{ borderRadius: 10 }}
+                      >
+                        Ir a productos
+                      </Link>
+                    </div>
+                  </div>
                 </div>
-              </div>
 
+              {/* CELULAR + VIDEO (SIN MARCO BLANCO) */}
               <div className="flex justify-center">
-                <div
-                  className="relative w-[260px] h-[520px] sm:w-[300px] sm:h-[600px] bg-[#0b1220] shadow-2xl overflow-hidden"
-                  style={{ borderRadius: 40 }}
-                >
+                <div>
                   <div
-                    className="absolute inset-0 pointer-events-none"
-                    style={{
-                      borderRadius: 40,
-                      border: "1px solid rgba(255,255,255,.10)",
-                    }}
-                  />
-
-                  <div
-                    className="absolute top-3 left-1/2 -translate-x-1/2 w-[110px] h-[22px] bg-black/55"
-                    style={{ borderRadius: 9999 }}
-                  />
-
-                  <div
-                    className="absolute inset-[10px] bg-black overflow-hidden"
-                    style={{ borderRadius: 32 }}
+                    className="relative w-[260px] h-[520px] sm:w-[300px] sm:h-[600px] bg-[#0b1220] overflow-hidden shadow-2xl"
+                    style={{ borderRadius: 40 }}
                   >
-                    <video
-                      className="w-full h-full object-cover"
-                      controls
-                      playsInline
-                      preload="metadata"
-                      poster="/assets/video/empresa-poster.jpg"
+                    <div
+                      className="absolute inset-0 pointer-events-none"
+                      style={{
+                        borderRadius: 40,
+                        border: "1px solid rgba(255,255,255,.10)",
+                      }}
+                    />
+
+                    <div
+                      className="absolute top-3 left-1/2 -translate-x-1/2 w-[110px] h-[22px] bg-black/55"
+                      style={{ borderRadius: 9999 }}
+                    />
+
+                    <div
+                      className="absolute inset-[10px] bg-black overflow-hidden"
+                      style={{ borderRadius: 32 }}
                     >
-                      <source src="/assets/videos/video.mp4" type="video/mp4" />
-                      Tu navegador no soporta video HTML5.
-                    </video>
+                      <video
+                        className="w-full h-full object-cover"
+                        controls
+                        playsInline
+                        preload="metadata"
+                        poster="/assets/video/empresa-poster.jpg"
+                      >
+                        <source src="/assets/videos/video.mp4" type="video/mp4" />
+                        Tu navegador no soporta video HTML5.
+                      </video>
+                    </div>
+
+                    <div
+                      className="absolute bottom-3 left-1/2 -translate-x-1/2 w-[120px] h-[5px] bg-white/20"
+                      style={{ borderRadius: 9999 }}
+                    />
                   </div>
 
-                  <div
-                    className="absolute bottom-3 left-1/2 -translate-x-1/2 w-[120px] h-[5px] bg-white/20"
-                    style={{ borderRadius: 9999 }}
-                  />
+                  {/* Si también quieres quitar este texto, bórralo */}
+                  <p className="mt-3 text-xs text-gray-500 font-medium text-center">
+                    Video institucional • 1 minuto
+                  </p>
                 </div>
               </div>
             </div>
           </div>
         </section>
       </Reveal>
-
       {/* ✅ OTRAS MARCAS ALIADAS (360 + FLECHAS) */}
       <Reveal delay={120}>
         <StatsBand />
