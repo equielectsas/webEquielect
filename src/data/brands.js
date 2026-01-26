@@ -797,5 +797,47 @@ export const brands = [
       desktop2x: "/assets/banners/desktop/schmersal.jpg",
     },
   },
+  {
+    slug: "metalcoraza",
+    name: "MetalCoraza",
+    logoPath: "/assets/aliados/AllieMetalCoraza.png",
+    // Texto principal
+    description:
+      "Panduit ofrece soluciones de identificación, conectividad, canalización y organización de cableado para proyectos profesionales.",
+
+    // Secciones extra (distintas por marca)
+    sections: [
+      {
+        title: "¿Qué soluciones ofrece?",
+        text:
+          "Sistemas de etiquetado, marcadores, canaletas, racks y conectividad para redes y energía.",
+      },
+      {
+        title: "Aplicaciones comunes",
+        list: [
+          "Data centers",
+          "Tableros eléctricos",
+          "Infraestructura de telecomunicaciones",
+          "Industria y automatización",
+        ],
+      },
+    ],
+
+    // CTA / links
+    ctas: [
+      { label: "Ver productos", href: "/productos?marca=panduit", primary: true },
+      { label: "Cotizar con un asesor", href: "/contactanos" },
+    ],
+
+    // Imágenes responsive
+    images: {
+      mobile: "/assets/banners/mobile/panduit_m.png",
+      mobile2x: "/assets/banners/mobile/panduit_m2x.png",
+      tablet: "/assets/banners/tablet/panduit_t.png",
+      tablet2x: "/assets/banners/tablet/panduit_t2x.png",
+      desktop: "/assets/banners/desktop/metalcoraza.png",
+      desktop2x: "/assets/banners/desktop/metalcoraza.png",
+    },
+  },
   // otra marca...
 ];

@@ -313,7 +313,6 @@ const fetchAllyByBrand = async (brand) => {
               onClick={handleAddToCart}
             >
               <ShoppingCart className="w-5 h-5" />
-              Añadir a la cotización
             </Button>
           </div>
 
