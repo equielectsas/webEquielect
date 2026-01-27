@@ -45,8 +45,8 @@ export default function Header() {
 
   return (
     <>
-      {/* ✅ Header ESTÁTICO */}
-      <header className="relative z-[50] w-full bg-white">
+      {/* ✅ HEADER STICKY Y CON Z-INDEX ALTO */}
+      <header className="sticky top-0 z-[100] w-full bg-white shadow-sm">
         {/* ===== TOPBAR ===== */}
         <div className="bg-gray-50 border-b border-gray-200">
           <div className="max-w-7xl mx-auto px-4 h-7 flex items-center justify-between text-[11px]">
@@ -119,7 +119,6 @@ export default function Header() {
               </div>
             </div>
 
-            {/* ✅ SIN acciones (carrito/cuenta/favoritos) */}
             <div className={`${isMobileSearching ? "hidden md:block" : "block"}`} />
           </div>
         </div>
@@ -182,7 +181,7 @@ export default function Header() {
           {/* DESKTOP MEGAMENU */}
           {activeCategory && (
             <div
-              className="hidden md:block absolute top-full left-0 w-full z-[999]"
+              className="hidden md:block absolute top-full left-0 w-full z-[1000] shadow-2xl"
               onMouseEnter={clearCloseTimer}
               onMouseLeave={scheduleClose}
             >
@@ -193,21 +192,21 @@ export default function Header() {
           {/* MOBILE OVERLAY */}
           {isMobileMenuOpen && (
             <div
-              className="fixed inset-0 z-[998] bg-black/30 md:hidden"
+              className="fixed inset-0 z-[998] bg-black/40 md:hidden backdrop-blur-sm"
               onClick={() => setIsMobileMenuOpen(false)}
             />
           )}
 
           {/* MOBILE MENU */}
           {isMobileMenuOpen && (
-            <div className="md:hidden absolute left-0 top-full w-full bg-equielect-blue z-[999]">
+            <div className="md:hidden absolute left-0 top-full w-full bg-equielect-blue z-[999] shadow-xl">
               {!mobileActiveCategory &&
                 headerNavCategories.map((cat) => (
                   <button
                     key={cat}
                     type="button"
                     onClick={() => setMobileActiveCategory(cat)}
-                    className="w-full px-4 py-3 text-white font-medium border-b border-white/10 flex justify-between"
+                    className="w-full px-4 py-4 text-white font-medium border-b border-white/10 flex justify-between items-center"
                   >
                     {cat} <ChevronDown size={14} />
                   </button>
@@ -219,7 +218,7 @@ export default function Header() {
                     <button
                       type="button"
                       onClick={() => setMobileActiveCategory(null)}
-                      aria-label="Volver"
+                      className="p-1 hover:bg-white/10 rounded-full"
                     >
                       ←
                     </button>
@@ -228,7 +227,7 @@ export default function Header() {
                     </span>
                   </div>
 
-                  <div className="max-h-[65vh] overflow-y-auto">
+                  <div className="max-h-[70vh] overflow-y-auto">
                     <MegaMenuEquielect category={mobileActiveCategory} isMobile />
                   </div>
                 </div>

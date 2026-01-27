@@ -1,79 +1,95 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Info, Truck, Store, Search, ShieldCheck, ArrowRight } from "lucide-react";
 import Button from "@/components/ui/Button";
-import { useState } from "react";
 
 const ProductItemPLP = ({ product }) => {
-  const { name, reference, brand, images, createdAt } = product;
-  const [isHovered, setIsHovered] = useState(false);
+  const { 
+    _id, 
+    name = "Producto Técnico", 
+    brand = "Equielect", 
+    reference = "N/A",
+    images = [], 
+    stock = true 
+  } = product || {};
 
-  const isNew = new Date() - new Date(createdAt) < 30 * 24 * 60 * 60 * 1000;
+  const productUrl = `/productos/${_id}`;
 
   return (
-    <div
-      className="group relative bg-white rounded-lg shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md transform hover:-translate-y-2 w-full max-w-[300px] flex flex-col justify-between"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <Link href={`/productos/${product._id}`} className="block">
-        <div className="relative">
-          <div className="w-full aspect-square flex items-center justify-center p-4 bg-gray-50 relative">
-            <Image
-              src={images[0]}
-              width={200}
-              height={200}
-              alt={name || "Product image"}
-              className={`object-contain transition-transform duration-300 ${
-                isHovered ? "scale-110" : "scale-100"
-              }`}
-            />
-          </div>
-
-          <div className="absolute top-2 left-2 flex gap-2">
-            {isNew && (
-              <span className="bg-blue-300 text-white text-xs px-2 py-1 rounded">
-                Nuevo
-              </span>
-            )}
-          </div>
+    <div className="group bg-white border border-gray-200 rounded-sm flex flex-col h-full hover:shadow-[0_10px_30px_rgba(0,0,0,0.1)] transition-all duration-300 relative overflow-hidden">
+      
+      {/* --- BADGES INDUSTRIALES --- */}
+      <div className="absolute top-3 left-0 z-10 flex flex-col items-start gap-1">
+        {/* Referencia con fondo oscuro sólido */}
+        <div className="bg-[#2d3748] text-white text-[10px] font-bold px-3 py-1 uppercase tracking-wider shadow-sm">
+          REF: {reference}
         </div>
-
-        <div className="p-4 flex flex-col">
-          <p className="text-sm text-gray-500 truncate max-w-[200px]">
-            {reference}
-          </p>
-          <div className="flex items-center">
-            <span className="text-sm text-gray-600 truncate max-w-[140px]">
-              {brand}
-            </span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#52abff"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="ml-1"
-            >
-              <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
-              <path d="m9 12 2 2 4-4" />
-            </svg>
+        
+        {/* Badge de Stock con estilo "Grey Label" para mayor sutileza */}
+        {stock ? (
+          <div className="bg-gray-100 text-gray-700 text-[9px] font-extrabold px-3 py-0.5 border-l-4 border-emerald-500 uppercase">
+            Stock Disponible
           </div>
-          <h3 className="font-semibold text-gray-900 truncate text-base mt-1">
+        ) : (
+          <div className="bg-gray-50 text-gray-400 text-[9px] font-extrabold px-3 py-0.5 border-l-4 border-red-400 uppercase">
+            Bajo Pedido
+          </div>
+        )}
+      </div>
+
+      {/* --- IMAGEN CON ENFOQUE EN CALIDAD --- */}
+      <Link href={productUrl} className="relative block aspect-square w-full overflow-hidden p-8 border-b border-gray-100 bg-white">
+        <Image
+          src={images[0] || "/placeholder.png"}
+          alt={`${name} - ${brand}`}
+          fill
+          className="object-contain transition-transform duration-700 ease-out group-hover:scale-105 mix-blend-multiply"
+        />
+        <div className="absolute inset-0 bg-blue-900/0 group-hover:bg-blue-900/5 transition-colors duration-300" />
+      </Link>
+
+      {/* --- CUERPO DE INFORMACIÓN TÉCNICA --- */}
+      <div className="p-5 flex flex-col flex-grow">
+        <div className="mb-4">
+          <p className="text-[12px] font-bold text-blue-600 uppercase tracking-widest mb-1.5 italic">
+            {brand}
+          </p>
+          <h3 className="text-[15px] text-slate-800 font-bold line-clamp-2 h-11 leading-tight group-hover:text-blue-700 transition-colors">
             {name}
           </h3>
         </div>
-      </Link>
 
-      <div className="px-4 pb-4 mt-auto">
-        <Link href={`/productos/${product._id}`}>
-          <Button className="bg-[#FFCD00] text-white border-[#FFCD00] text-sm w-full text-center p-2 duration-200 md:bg-transparent md:text-[#343434] md:border-[#343434] md:border-[1px] md:p3 md:hover:bg-[#FFCD00] md:hover:border-transparent">
-            Ver producto
-          </Button>
-        </Link>
+        {/* Bloque de Confianza Industrial */}
+        <div className="grid grid-cols-1 gap-2 mb-5">
+          <div className="flex items-center gap-2.5 text-[11px] text-slate-500 font-medium bg-slate-50 p-2 rounded-sm">
+            <ShieldCheck size={16} className="text-blue-600 shrink-0" />
+            <span>Certificación de calidad garantizada</span>
+          </div>
+        </div>
+
+        {/* Logística Profesional */}
+        <div className="mt-auto space-y-2 pt-4 border-t border-gray-50">
+          <div className="flex items-center justify-between text-[11px]">
+            <div className="flex items-center gap-2 text-slate-400">
+              <Truck size={14} />
+              <span>Despacho a nivel nacional</span>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 text-[11px] text-slate-400">
+            <Store size={14} />
+            <span>Recogida en sede principal</span>
+          </div>
+        </div>
+
+        {/* --- BOTÓN AZUL EQUIELECT --- */}
+        <div className="mt-5">
+          <Link href={productUrl}>
+            <Button className="w-full bg-[#0056b3] hover:bg-[#004494] text-white text-[12px] font-bold py-4 rounded-none transition-all uppercase tracking-widest flex items-center justify-center gap-3 group/btn shadow-md active:translate-y-0.5">
+              <span>Ver detalles</span>
+              <ArrowRight size={16} className="transition-transform group-hover/btn:translate-x-1" />
+            </Button>
+          </Link>
+        </div>
       </div>
     </div>
   );
