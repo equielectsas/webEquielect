@@ -2,10 +2,10 @@ export const brands = [
   {
     slug: "schneider",
     name: "Schneider Electric",
-    logoPath: "/assets/aliados/AllieSchneider.png",
+    logoPath: "/assets/aliados/SchneiderBG.png",
     // Texto principal
     description:
-      "Panduit ofrece soluciones de identificación, conectividad, canalización y organización de cableado para proyectos profesionales.",
+      "Schneider Electric es un líder mundial en tecnología energética, especializado en la gestión de energía, automatización industrial y transformación digital de hogares y empresas para mejorar su sostenibilidad. Con origen en el siglo XIX, la empresa proporciona soluciones que incluyen dispositivos inteligentes y software para centros de datos, industrias e infraestructuras. ",
 
     // Secciones extra (distintas por marca)
     sections: [
@@ -44,10 +44,10 @@ export const brands = [
   {
     slug: "legrand",
     name: "Legrand",
-    logoPath: "/assets/aliados/AllieLegrand.png",
+    logoPath: "/assets/aliados/LegrandBG.png",
     // Texto principal
     description:
-      "Panduit ofrece soluciones de identificación, conectividad, canalización y organización de cableado para proyectos profesionales.",
+      "Especialista global francés en infraestructuras eléctricas y digitales para edificios, fundado en 1860. Ofrece soluciones de alto valor añadido para iluminación, energía, redes y acceso en espacios residenciales, comerciales e industriales.",
 
     // Secciones extra (distintas por marca)
     sections: [
@@ -89,7 +89,7 @@ export const brands = [
     logoPath: "/assets/aliados/AllieProcables.png",
     // Texto principal
     description:
-      "Panduit ofrece soluciones de identificación, conectividad, canalización y organización de cableado para proyectos profesionales.",
+      "Marca líder en Colombia dedicada a la fabricación y comercialización de cables y alambres eléctricos de cobre y aluminio para sectores industriales, comerciales y residenciales",
 
     // Secciones extra (distintas por marca)
     sections: [
@@ -131,7 +131,7 @@ export const brands = [
     logoPath: "/assets/aliados/AllieGonvarri.png",
     // Texto principal
     description:
-      "Panduit ofrece soluciones de identificación, conectividad, canalización y organización de cableado para proyectos profesionales.",
+      "Compañia perteneciente al grupo Gonvarri, líderes en la transformación del acero, con más de 60 años de experiencia en el diseño, fabricación y suministro de productos metálicos; enfocados en satisfacer necesidades en diferentes sectores de la economía.",
 
     // Secciones extra (distintas por marca)
     sections: [
@@ -173,7 +173,7 @@ export const brands = [
     logoPath: "/assets/aliados/AllieCentelsa.png",
     // Texto principal
     description:
-      "Panduit ofrece soluciones de identificación, conectividad, canalización y organización de cableado para proyectos profesionales.",
+      "CENTELSA by Nexans es una empresa manufacturera de cables para energía y comunicaciones, que ha hecho parte de la industria, conservado su liderazgo como fabricante de cables en Colombia. Presentes en toda la cadena de la electrificación, desde la generación y transmisión de la energía, distribución para abastecer la demanda de electricidad de las grandes ciudades y los usos",
 
     // Secciones extra (distintas por marca)
     sections: [
@@ -215,7 +215,7 @@ export const brands = [
     logoPath: "/assets/aliados/Allie3M.png",
     // Texto principal
     description:
-      "Panduit ofrece soluciones de identificación, conectividad, canalización y organización de cableado para proyectos profesionales.",
+      "Compañía multinacional estadounidense, fundada en 1902, reconocida por aplicar ciencia e innovación en diversos sectores. Produce abrasivos, adhesivos, cintas, materiales de seguridad y productos de cuidado personal.",
 
     // Secciones extra (distintas por marca)
     sections: [
@@ -254,10 +254,10 @@ export const brands = [
   {
     slug: "telemecanique",
     name: "telemecanique",
-    logoPath: "/assets/aliados/AllieTelemecanique.png",
+    logoPath: "/assets/aliados/AllieTelemecanica.png",
     // Texto principal
     description:
-      "Panduit ofrece soluciones de identificación, conectividad, canalización y organización de cableado para proyectos profesionales.",
+      "Una marca líder mundial con más de 90 años de experiencia especializada en el diseño y fabricación de sensores y tecnología de automatización para la seguridad de máquinas.",
 
     // Secciones extra (distintas por marca)
     sections: [
@@ -335,13 +335,55 @@ export const brands = [
       desktop2x: "/assets/banners/desktop/panduit.jpg",
     },
   },
+    {
+    slug: "phoenix-contact",
+    name: "Phoenix Contact",
+    logoPath: "/assets/aliados/AlliePhoenix.png",
+    // Texto principal
+    description:
+      "Phoenix Contact es un líder mundial independiente con sede en Alemania (Blomberg), especializado en componentes, sistemas y soluciones de automatización industrial, interconexión e interfaces",
+
+    // Secciones extra (distintas por marca)
+    sections: [
+      {
+        title: "¿Qué soluciones ofrece?",
+        text:
+          "Sistemas de etiquetado, marcadores, canaletas, racks y conectividad para redes y energía.",
+      },
+      {
+        title: "Aplicaciones comunes",
+        list: [
+          "Data centers",
+          "Tableros eléctricos",
+          "Infraestructura de telecomunicaciones",
+          "Industria y automatización",
+        ],
+      },
+    ],
+
+    // CTA / links
+    ctas: [
+      { label: "Ver productos", href: "/productos?marca=panduit", primary: true },
+      { label: "Cotizar con un asesor", href: "/contactanos" },
+    ],
+
+    // Imágenes responsive
+    images: {
+      mobile: "/assets/banners/mobile/panduit_m.png",
+      mobile2x: "/assets/banners/mobile/panduit_m2x.png",
+      tablet: "/assets/banners/tablet/panduit_t.png",
+      tablet2x: "/assets/banners/tablet/panduit_t2x.png",
+      desktop: "/assets/banners/desktop/phoenix.jpg",
+      desktop2x: "/assets/banners/desktop/phoenix.jpg",
+    },
+  },
   {
     slug: "sylvania",
     name: "Sylvania",
     logoPath: "/assets/aliados/AllieSylvania.png",
     // Texto principal
     description:
-      "Panduit ofrece soluciones de identificación, conectividad, canalización y organización de cableado para proyectos profesionales.",
+      "Marca global líder en soluciones de iluminación profesional, arquitectónica y de consumo",
 
     // Secciones extra (distintas por marca)
     sections: [
@@ -383,7 +425,7 @@ export const brands = [
     logoPath: "/assets/aliados/AlliePhilips.png",
     // Texto principal
     description:
-      "Panduit ofrece soluciones de identificación, conectividad, canalización y organización de cableado para proyectos profesionales.",
+      "Líder mundial en iluminación profesional, para el consumidor y el Internet de las cosas, ofreciendo productos, sistemas y servicios de alta calidad, eficientes y sostenibles",
 
     // Secciones extra (distintas por marca)
     sections: [
