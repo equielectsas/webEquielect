@@ -268,7 +268,7 @@ const PDPPage = () => {
             </div>
 
             <Button
-              className="w-full bg-[#0056b3] hover:bg-black text-white py-5 rounded-none flex items-center justify-center gap-3 text-xs font-black tracking-[0.2em] shadow-md transition-all"
+              className="w-full bg-[#1c355e] hover:bg-black text-white py-5 rounded-none flex items-center justify-center gap-3 text-xs font-black tracking-[0.2em] shadow-md transition-all"
               onClick={handleAddToCart}
             >
               <ShoppingCart size={18} />
@@ -307,7 +307,7 @@ const PDPPage = () => {
                 onClick={() => setActiveTab(tab)}
                 className={`w-max py-4 text-[11px] font-black uppercase tracking-[0.2em] transition-all ${
                   activeTab === tab
-                    ? "text-[#0056b3] border-b-2 border-[#0056b3]"
+                    ? "text-[#0056b3] border-b-2 border-[#1c355e]"
                     : "text-gray-400"
                 }`}
               >

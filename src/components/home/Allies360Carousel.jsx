@@ -6,15 +6,13 @@ import Link from "next/link";
 
 /**
  * Carousel infinito 360 + flechas manuales.
- * - Se mueve solo (CSS marquee)
- * - Flechas hacen scrollBy sin romper el loop
- * - Pausa al hover (opcional)
+ * Corregido: Flechas fuera del área de logos.
  */
 export default function Allies360Carousel({
   items = [],
   title = "Marcas Aliadas",
-  speedSeconds = 28, // menor = más rápido
-  stepPx = 320, // cuánto avanza con flechas
+  speedSeconds = 28, 
+  stepPx = 320, 
   pauseOnHover = true,
 }) {
   const wrapRef = useRef(null);
@@ -29,8 +27,10 @@ export default function Allies360Carousel({
   };
 
   return (
-    <section className="bg-white">
+    <section className="bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 py-10">
+        
+        {/* Título de la sección */}
         <div className="mb-6 text-center">
           <h3 className="text-xl sm:text-xl text-equielect-blue">
             <span className="font-semibold">{title.split(" ")[0]} </span>
@@ -40,61 +40,55 @@ export default function Allies360Carousel({
           </h3>
         </div>
 
-        <div className="relative">
-          {/* Flecha izquierda */}
+        {/* Contenedor Relativo con Padding extra para las flechas */}
+        <div className="relative px-2 sm:px-14">
+          
+          {/* Flecha izquierda - Fuera del carrusel */}
           <button
             type="button"
             onClick={() => scrollByStep(-1)}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full bg-transparent hover:bg-black/5 active:bg-black/10 flex items-center justify-center transition-transform hover:scale-110"
+            className="absolute left-0 sm:-left-2 top-1/2 -translate-y-1/2 z-20 h-10 w-10 rounded-full bg-white shadow-md border border-gray-100 hover:bg-gray-50 active:bg-gray-100 flex items-center justify-center transition-all hover:scale-110"
             aria-label="Anterior"
           >
             <svg
-              className="w-7 h-7 text-black"
+              className="w-6 h-6 text-black"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
-              style={{ strokeWidth: 2.75 }}
+              style={{ strokeWidth: 2.5 }}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15 19l-7-7 7-7"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
 
-          {/* Flecha derecha */}
+          {/* Flecha derecha - Fuera del carrusel */}
           <button
             type="button"
             onClick={() => scrollByStep(1)}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full bg-transparent hover:bg-black/5 active:bg-black/10 flex items-center justify-center transition-transform hover:scale-110"
+            className="absolute right-0 sm:-right-2 top-1/2 -translate-y-1/2 z-20 h-10 w-10 rounded-full bg-white shadow-md border border-gray-100 hover:bg-gray-50 active:bg-gray-100 flex items-center justify-center transition-all hover:scale-110"
             aria-label="Siguiente"
           >
             <svg
-              className="w-7 h-7 text-black"
+              className="w-6 h-6 text-black"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
-              style={{ strokeWidth: 2.75 }}
+              style={{ strokeWidth: 2.5 }}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M9 5l7 7-7 7"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </button>
 
-          {/* Área visible */}
+          {/* Área visible (Corta los logos que se salen) */}
           <div
             ref={wrapRef}
-            className="overflow-x-auto scrollbar-hide"
+            className="overflow-hidden scrollbar-hide"
             onMouseEnter={() => pauseOnHover && setPaused(true)}
             onMouseLeave={() => pauseOnHover && setPaused(false)}
           >
             {/* Track infinito */}
             <div
-              className={`marquee-track flex items-center gap-10 px-12 py-6 min-w-max ${
+              className={`marquee-track flex items-center gap-10 py-6 min-w-max ${
                 paused ? "is-paused" : ""
               }`}
               style={{

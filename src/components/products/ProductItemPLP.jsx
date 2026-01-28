@@ -84,7 +84,7 @@ const ProductItemPLP = ({ product }) => {
         {/* --- BOTÓN AZUL EQUIELECT --- */}
         <div className="mt-5">
           <Link href={productUrl}>
-            <Button className="w-full bg-[#0056b3] hover:bg-[#004494] text-white text-[12px] font-bold py-4 rounded-none transition-all uppercase tracking-widest flex items-center justify-center gap-3 group/btn shadow-md active:translate-y-0.5">
+            <Button className="w-full bg-[#1c355e] hover:bg-[#1c355e] text-white text-[12px] font-bold py-4 rounded-none transition-all uppercase tracking-widest flex items-center justify-center gap-3 group/btn shadow-md active:translate-y-0.5">
               <span>Ver detalles</span>
               <ArrowRight size={16} className="transition-transform group-hover/btn:translate-x-1" />
             </Button>
