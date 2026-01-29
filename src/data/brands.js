@@ -14,6 +14,28 @@ export const brands = [
       desktop: "/assets/banners/desktop/schneider.jpg",
       desktop2x: "/assets/banners/desktop/schneider.jpg",
     },
+      
+  // ✅ 3 imágenes (cards) manuales para mostrar debajo de “Productos destacados”
+  featuredCards: [
+    {
+      img: "/assets/products/schneider/interruptor.png",
+      title: "Interruptores",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=schneider",
+    },
+    {
+      img: "/assets/products/schneider/variador.jpg",
+      title: "Variadores",
+      text: "Dispositivos de control a par y torque de motores eléctricos trifásicos de CA",
+      href: "/productos?marca=schneider",
+    },
+    {
+      img: "/assets/products/schneider/arrancador.png",
+      title: "Arranque motor",
+      text: "Diseñados para gestionar arranque, parada y protección de motores eléctricos",
+      href: "/productos?marca=schneider",
+    },
+  ],
   },
   {
     slug: "legrand",
