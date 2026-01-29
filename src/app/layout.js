@@ -8,7 +8,8 @@ import { AppThemeProvider } from "@/context/Theme/ThemeProvider";
 import { AppProductProvider } from "@/context/Products/ProductProvider";
 import { CartProvider } from "@/context/Cart/CartContext";
 import CookieBanner from "@/components/CookieBanner";
-
+import { QuoteProvider } from "@/context/Quote/QuoteContext";
+import QuoteWidget from "@/components/Quote/QuoteWidget";
 import MainLayout from "@/components/layout/MainLayout";
 import { GA_TRACKING_ID } from "../../lib/analytics";
 
@@ -60,9 +61,12 @@ export default function RootLayout({ children }) {
               <CartProvider>
                 <FavoritesProvider isLoggedIn={false}>
                   <MainLayout>
+                    <QuoteProvider>
+                       <QuoteWidget />
                     {children}
                     <CookieBanner />
                     <ClaraChatWidget />
+                    </QuoteProvider>
                   </MainLayout>
                 </FavoritesProvider>
               </CartProvider>

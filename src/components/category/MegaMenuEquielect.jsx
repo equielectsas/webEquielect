@@ -7,7 +7,7 @@ const MEGA_MENU_DATA = {
     columns: [
       {
         title: "Cableado",
-        href: "/telecomunicaciones/cableado",
+        href: "/marca/teldor",
         items: [
           "Cable UTP",
           "Cables libres de halógenos",

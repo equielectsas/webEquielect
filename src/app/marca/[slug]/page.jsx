@@ -66,8 +66,8 @@ export default function BrandPage({ params }) {
         </div>
 
         {/* Título de Sección Productos */}
-        <h2 className="text-5xl font-black text-black uppercase tracking-tight mb-12">
-          Productos
+        <h2 className="text-xl font-blue-equielect text-gray uppercase tracking-tight mb-12">
+          Productos destacados
         </h2>
       </section>
 

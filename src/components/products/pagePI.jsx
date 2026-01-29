@@ -29,6 +29,9 @@ import APIproducts from "@/services/products.services";
 import ToastMessage from "@/components/utils/Toastify/ToastMessage";
 import ProductCarousel from "@/components/products/ProductCarousel";
 
+// ✅ IMPORTA EL CONTEXT DE COTIZACIÓN
+import { useQuote } from "@/context/Quote/QuoteContext";
+
 const PDPPage = () => {
   const { pid } = useParams();
 
@@ -43,6 +46,9 @@ const PDPPage = () => {
   const [activeTab, setActiveTab] = React.useState("description");
   const [openModal, setOpenModal] = React.useState(false);
   const [allyInfo, setAllyInfo] = React.useState(null);
+
+  // ✅ CONTEXT DE COTIZACIÓN
+  const { addItem } = useQuote();
 
   // --- LÓGICA DE DATOS ---
   const fetchAllyByBrand = async (brand) => {
@@ -85,7 +91,29 @@ const PDPPage = () => {
     }
   };
 
+  // ✅ AHORA SÍ AGREGA A LA LISTA DE COTIZACIÓN
   const handleAddToCart = () => {
+    if (!product) return;
+
+    // id único: usa _id si existe, si no pid, si no reference
+    const id =
+      product._id ||
+      pid ||
+      product.reference ||
+      product.name;
+
+    addItem({
+      id,
+      title: product.name || "Producto",
+      code: product.reference || product.codigo || "",
+      brand: product.brand || "",
+      qty: quantity, // 👈 respetar cantidad seleccionada
+    });
+
+    // ✅ abrir sidebar al agregar (si tienes el listener en QuoteWidget)
+    window.dispatchEvent(new CustomEvent("open-quote-drawer"));
+
+    // ✅ tu toast
     setIsMessageAvailable(true);
     setTimeout(() => setIsMessageAvailable(false), 3000);
   };
@@ -140,7 +168,7 @@ const PDPPage = () => {
         <div className="flex gap-4">
           {/* Listado Vertical de Miniaturas */}
           <div className="flex flex-col gap-3 shrink-0">
-            {product.images.map((image, index) => (
+            {(product.images || []).map((image, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentImageIndex(index)}
@@ -171,7 +199,7 @@ const PDPPage = () => {
               style={{ transformOrigin: `${mousePosition.x}% ${mousePosition.y}%` }}
             >
               <img
-                src={product.images[currentImageIndex]}
+                src={(product.images || [])[currentImageIndex]}
                 alt={product.name}
                 className="w-full h-full object-contain p-10 mix-blend-multiply"
               />
@@ -182,7 +210,7 @@ const PDPPage = () => {
                 onClick={(e) => {
                   e.preventDefault();
                   setCurrentImageIndex((prev) =>
-                    prev === 0 ? product.images.length - 1 : prev - 1
+                    prev === 0 ? (product.images || []).length - 1 : prev - 1
                   );
                 }}
                 className="p-2 rounded-full bg-white shadow-md pointer-events-auto hover:bg-[#0056b3] hover:text-white transition-colors"
@@ -193,7 +221,7 @@ const PDPPage = () => {
                 onClick={(e) => {
                   e.preventDefault();
                   setCurrentImageIndex((prev) =>
-                    prev === product.images.length - 1 ? 0 : prev + 1
+                    prev === (product.images || []).length - 1 ? 0 : prev + 1
                   );
                 }}
                 className="p-2 rounded-full bg-white shadow-md pointer-events-auto hover:bg-[#0056b3] hover:text-white transition-colors"
@@ -272,7 +300,7 @@ const PDPPage = () => {
               onClick={handleAddToCart}
             >
               <ShoppingCart size={18} />
-              SOLICITAR COTIZACIÓN TÉCNICA
+              AGREGAR A COTIZACIÓN
             </Button>
 
             <div className="flex items-center justify-between py-4 px-2 border-t border-gray-100">
@@ -408,7 +436,6 @@ const PDPPage = () => {
               </Typography>
             </div>
 
-            {/* Badge superior con logo más grande (h-10) */}
             <div className="hidden md:flex items-center gap-4 px-4 py-3 bg-white border border-slate-200">
               <img
                 src={allyInfo.imageUrl}
@@ -430,7 +457,6 @@ const PDPPage = () => {
                   Marca
                 </Typography>
 
-                {/* Logo Sidebar más grande (w-40) */}
                 <img
                   src={allyInfo.imageUrl}
                   className="w-40 mb-5 object-contain mix-blend-multiply"
