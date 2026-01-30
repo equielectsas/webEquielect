@@ -5,50 +5,50 @@ import Image from "next/image";
 
 const PRODUCTS = [
   {
-    id: "procables-1",
-    brand: "Procables",
+    id: "schneider-1",
+    brand: "Schneider Electric",
     brandDesc:
-      "Cables certificados para instalaciones seguras y proyectos industriales.",
-    title: "Cable THHN 12 AWG (Rollo)",
+      "Variador de velocidad, Altivar Machine ATV320, 1.1 kW, 200...240 V, 1 fase, compacto",
+    title: "Variador de velocidad",
     images: [
-      "/assets/products/cable-de-cobre THHN.jpg",
-      "/assets/products/cable-de-cobre THHN2.png",
-      "/assets/products/cable-de-cobre THHN3.png",
+      "/assets/products/schneider/variador.jpg",
+      "/assets/products/schneider/variador2.jpg",
+      "/assets/products/schneider/variador3.jpg",
     ],
   },
   {
     id: "legrand-1",
     brand: "Legrand",
     brandDesc:
-      "Soluciones eléctricas y canalización para edificaciones residenciales y comerciales.",
-    title: "Tomacorriente Doble Línea Premium",
+      "Clavija turnlock-250V 30A 2F+N+T",
+    title: "Clavija turnlock",
     images: [
-      "/assets/products/toma-corriente.png",
-      "/assets/products/toma-corriente2.png",
-      "/assets/products/toma-corriente3.png",
+      "/assets/products/legrand/clavija.jpg",
+      "/assets/products/legrand/clavija.jpg",
+      "/assets/products/legrand/clavija.jpg",
     ],
   },
   {
-    id: "schneider-1",
-    brand: "Schneider Electric",
+    id: "procables-1",
+    brand: "Procables",
     brandDesc:
-      "Automatización y gestión de energía para un mundo más eficiente.",
-    title: "Breaker Termomagnético 2P 20A",
+      "Cable EXZH (ExZhellent ) Calibre 1/0 AWG Negro Marca Procables",
+    title: "Cable EXZH",
     images: [
-      "/assets/products/breaker_termosch.jpg",
-      "/assets/products/breaker_termosch2.png",
-      "/assets/products/breaker_termosch3.png",
+      "/assets/products/procables/ex.png",
+      "/assets/products/procables/ex.png",
+      "/assets/products/procables/ex.png",
     ],
   },
   {
-    id: "gonvarri-1",
-    brand: "Gonvarri",
-    brandDesc: "Líderes en la trasformación del acero.",
-    title: "GRAPA 3/4 P/COLGAR TUBERIA",
+    id: "panduit-1",
+    brand: "Panduit",
+    brandDesc: "Dispositivo de impresion de etiquetado marca panduit",
+    title: "Impresora de etiquetas",
     images: [
-      "/assets/products/gonvarri.jpg",
-      "/assets/products/gonvarri3.png",
-      "/assets/products/gonvarri2.png",
+      "/assets/products/panduit/22.jpg",
+      "/assets/products/panduit/22.jpg",
+      "/assets/products/panduit/22.jpg",
     ],
   },
 ];

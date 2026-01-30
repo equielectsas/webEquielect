@@ -82,6 +82,20 @@ export default function Home() {
         desktop2x: "/assets/Sliderhome/desktop/bannersch_mac.png",
       },
     },
+      {
+      name: "EQUIELECT",
+      logoPath: "/assets/Sliderhome/schneiderlogo.png",
+      title: "Gestión Energética Eficiente",
+      description: "Automatización y gestión de energía para un mundo más sostenible",
+      images: {
+        mobile: "/assets/Sliderhome/mobile/bannersch_movil.png",
+        mobile2x: "/assets/Sliderhome/mobile/bannersch_movil.png",
+        tablet: "/assets/Sliderhome/tablet/bannersch_tablet.png",
+        tablet2x: "/assets/Sliderhome/tablet/bannersch_tablet.png",
+        desktop: "/assets/Sliderhome/desktop/eqmac.jpeg",
+        desktop2x: "/assets/Sliderhome/desktop/eqmac.jpeg",
+      },
+    },
   ];
 
   const quickCategories = [
@@ -108,6 +122,7 @@ export default function Home() {
     { name: "Tercol", src: "/assets/aliados/AllieTercol.png", href: "/marca/tercol" },
     { name: "Siemon", src: "/assets/aliados/AllieSiemon.png", href: "/marca/siemon" },
     { name: "MetalCoraza", src: "/assets/aliados/AllieMetalCoraza.png", href: "/marca/metalcoraza" },
+    { name: "Crouse Hinds", src: "/assets/aliados/AllieCH.png", href: "/marca/crouse-hinds" },
   ];
 
   // =========================
@@ -335,7 +350,7 @@ export default function Home() {
                 <h3 className="mt-2 text-[#1c355e] text-3xl lg:text-4xl font-extrabold">Oficina Virtual Equielect</h3>
                 <p className="mt-4 text-[#1c355e]/90 max-w-md">Atención rápida y asesoría profesional a un clic de distancia.</p>
                 <div className="mt-6">
-                  <a href="https://wa.me/..." target="_blank" className="inline-block px-7 py-3 bg-white text-[#1c355e] font-extrabold" style={{ borderRadius: 2 }}>
+                  <a href="https://api.whatsapp.com/send/?phone=573146453033" target="_blank" className="inline-block px-7 py-3 bg-white text-[#1c355e] font-extrabold" style={{ borderRadius: 2 }}>
                     Solicitar cotización
                   </a>
                 </div>

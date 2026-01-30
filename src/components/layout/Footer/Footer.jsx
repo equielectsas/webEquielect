@@ -52,9 +52,9 @@ export default function FooterEcommerce() {
             </p>
 
             <div className="flex items-center gap-3">
-              <SocialIcon href="#" label="LinkedIn"><Linkedin className="w-5 h-5" /></SocialIcon>
-              <SocialIcon href="#" label="Instagram"><Instagram className="w-5 h-5" /></SocialIcon>
-              <SocialIcon href="#" label="Facebook"><Facebook className="w-5 h-5" /></SocialIcon>
+              <SocialIcon href="https://www.linkedin.com/company/equielect/posts/?feedView=all" label="LinkedIn"><Linkedin className="w-5 h-5" /></SocialIcon>
+              <SocialIcon href="https://www.instagram.com/equielectsas/" label="Instagram"><Instagram className="w-5 h-5" /></SocialIcon>
+              <SocialIcon href="https://www.facebook.com/equielect" label="Facebook"><Facebook className="w-5 h-5" /></SocialIcon>
             </div>
           </div>
 
@@ -81,13 +81,26 @@ export default function FooterEcommerce() {
                 Medellín, Antioquia - Colombia
               </ContactItem>
               <ContactItem icon={<Phone className="w-4 h-4" />}>
-                +57 300 111 2233
+                <a
+                  href="https://api.whatsapp.com/send/?phone=573146453033"
+                  className="hover:underline underline-offset-4"
+                >
+                  +57 3146453033
+                </a>
+                <span className="text-slate-400"> - </span>
+                <a
+                  href="tel: 6044443133"
+                  className="hover:underline underline-offset-4"
+                >
+                  (604) 444 3133
+                </a>
               </ContactItem>
+
               <ContactItem icon={<Mail className="w-4 h-4" />}>
-                soporte@equielect.com
+                equielect@equielect.com
               </ContactItem>
               <ContactItem icon={<Clock className="w-4 h-4" />}>
-                Lun–Vie 8:00–5:30 | Sáb 8:00–12:00
+                Lun–Vie 7:00–5:45 | Sáb 8:00–12:00
               </ContactItem>
             </div>
             

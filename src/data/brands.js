@@ -53,6 +53,28 @@ export const brands = [
       desktop: "/assets/banners/desktop/legrand.jpg",
       desktop2x: "/assets/banners/desktop/legrand.jpg",
     },
+         
+  // ✅ 3 imágenes (cards) manuales para mostrar debajo de “Productos destacados”
+  featuredCards: [
+    {
+      img: "/assets/products/legrand/dps.jpg",
+      title: "DPS",
+      text: "Dispositivos de control a par y torque de motores eléctricos trifásicos de CA",
+      href: "/productos?marca=legrand",
+    },
+    {
+      img: "/assets/products/legrand/tipomalla.jpg",
+      title: "Portacables",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=legrand",
+    },
+    {
+      img: "/assets/products/legrand/tomasyclavijas.jpg",
+      title: "Tomas y Clavijas",
+      text: "Diseñados para gestionar arranque, parada y protección de motores eléctricos",
+      href: "/productos?marca=legrand",
+    },
+  ],
   },
   {
     slug: "procables",
@@ -70,6 +92,28 @@ export const brands = [
       desktop: "/assets/banners/desktop/prysmian.jpg",
       desktop2x: "/assets/banners/desktop/prysmian.jpg",
     },
+         
+  // ✅ 3 imágenes (cards) manuales para mostrar debajo de “Productos destacados”
+  featuredCards: [
+    {
+      img: "/assets/products/procables/media-tension.png",
+      title: "Cable media tensión",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=procables",
+    },
+    {
+      img: "/assets/products/procables/alambre-cobre.png",
+      title: "Alambre de cobre",
+      text: "Dispositivos de control a par y torque de motores eléctricos trifásicos de CA",
+      href: "/productos?marca=procables",
+    },
+    {
+      img: "/assets/products/procables/cable-fotovoltaico.png",
+      title: "Cable fotovoltáico",
+      text: "Diseñados para gestionar arranque, parada y protección de motores eléctricos",
+      href: "/productos?marca=procables",
+    },
+  ],
   },
   {
     slug: "gonvarri",
@@ -87,6 +131,28 @@ export const brands = [
       desktop: "/assets/banners/desktop/gonvarri.jpg",
       desktop2x: "/assets/banners/desktop/gonvarri.jpg",
     },
+         
+  // ✅ 3 imágenes (cards) manuales para mostrar debajo de “Productos destacados”
+  featuredCards: [
+    {
+      img: "/assets/products/gonvarri/bandeja-portacables.png",
+      title: "Bandejas Portacables",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=schneider",
+    },
+    {
+      img: "/assets/products/gonvarri/perfil-ranurado.png",
+      title: "Perfiles ranurados",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=schneider",
+    },
+    {
+      img: "/assets/products/gonvarri/banda-soporte-tubo.png",
+      title: "Bandas soportes para tubos",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=gonvarri",
+    },
+  ],
   },
   {
     slug: "centelsa",
@@ -104,6 +170,22 @@ export const brands = [
       desktop: "/assets/banners/desktop/centelsa.jpg",
       desktop2x: "/assets/banners/desktop/centelsa.jpg",
     },
+         
+  // ✅ 3 imágenes (cards) manuales para mostrar debajo de “Productos destacados”
+  featuredCards: [
+    {
+      img: "/assets/products/centelsa/28.jpg",
+      title: "Cables para minería",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=centelsa",
+    },
+    {
+      img: "/assets/products/centelsa/aluminio-desnudo.png",
+      title: "Cables de aluminio desnudo",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=centelsa",
+    },
+  ],
   },
   {
     slug: "3M",
@@ -121,6 +203,28 @@ export const brands = [
       desktop: "/assets/banners/desktop/3m.jpg",
       desktop2x: "/assets/banners/desktop/3m.jpg",
     },
+         
+  // ✅ 3 imágenes (cards) manuales para mostrar debajo de “Productos destacados”
+  featuredCards: [
+    {
+      img: "/assets/products/3M/19.jpg",
+      title: "Seguridad",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=3M",
+    },
+    {
+      img: "/assets/products/3M/18.jpg",
+      title: "Cintas",
+      text: "Dispositivos de control a par y torque de motores eléctricos trifásicos de CA",
+      href: "/productos?marca=3M",
+    },
+    {
+      img: "/assets/products/3M/20.jpg",
+      title: "Conectores de autodesforre",
+      text: "Dispositivos de control a par y torque de motores eléctricos trifásicos de CA",
+      href: "/productos?marca=3M",
+    },
+  ],
   },
   {
     slug: "telemecanique",
@@ -138,6 +242,28 @@ export const brands = [
       desktop: "/assets/banners/desktop/telemecanique.jpg",
       desktop2x: "/assets/banners/desktop/telemecanique.jpg",
     },
+         
+  // ✅ 3 imágenes (cards) manuales para mostrar debajo de “Productos destacados”
+  featuredCards: [
+    {
+      img: "/assets/products/telemecanique/finalc.jpg",
+      title: "Finales de carrera",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=telemecanique",
+    },
+     {
+      img: "/assets/products/telemecanique/sensores-fotoelectricos.png",
+      title: "Sensores fotoeléctricos",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=telemecanique",
+    },
+    {
+      img: "/assets/products/telemecanique/sensores-ultrasonicos.jpg",
+      title: "Sensores ultrasónicos",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=telemecanique",
+    },
+  ],
   },
   {
     slug: "panduit",
@@ -155,6 +281,28 @@ export const brands = [
       desktop: "/assets/banners/desktop/panduit.jpg",
       desktop2x: "/assets/banners/desktop/panduit.jpg",
     },
+         
+  // ✅ 3 imágenes (cards) manuales para mostrar debajo de “Productos destacados”
+  featuredCards: [
+    {
+      img: "/assets/products/panduit/22.jpg",
+      title: "Impresora de etiquetas",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=panduit",
+    },
+    {
+      img: "/assets/products/panduit/23.jpg",
+      title: "Impresora Etiquetadora",
+      text: "Cables de instalación para sistemas eléctricos industriales",
+      href: "/productos?marca=panduit",
+    },
+    {
+      img: "/assets/products/panduit/24.jpg",
+      title: "Terminales de compresión",
+      text: "Conectores para sistemas de cableado industrial y comercial",
+      href: "/productos?marca=panduit",
+    },
+  ],
   },
     {
     slug: "phoenix-contact",
@@ -172,6 +320,28 @@ export const brands = [
       desktop: "/assets/banners/desktop/phoenix.jpg",
       desktop2x: "/assets/banners/desktop/phoenix.jpg",
     },
+         
+  // ✅ 3 imágenes (cards) manuales para mostrar debajo de “Productos destacados”
+  featuredCards: [
+    {
+      img: "/assets/products/phoenix-contact/32.jpg",
+      title: "DPS",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=phoenix-contact",
+    },
+    {
+      img: "/assets/products/phoenix-contact/ups.jpg",
+      title: "UPS",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=phoenix-contact",
+    },
+    {
+      img: "/assets/products/phoenix-contact/fuentes.jpg",
+      title: "Fuentes de alimentación",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=phoenix-contact",
+    },
+  ],
   },
   {
     slug: "sylvania",
@@ -189,6 +359,28 @@ export const brands = [
       desktop: "/assets/banners/desktop/sylvania.jpg",
       desktop2x: "/assets/banners/desktop/sylvania.jpg",
     },
+         
+  // ✅ 3 imágenes (cards) manuales para mostrar debajo de “Productos destacados”
+  featuredCards: [
+    {
+      img: "/assets/products/sylvania/10.jpg",
+      title: "Reflectores solares",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=sylvania",
+    },
+    {
+      img: "/assets/products/sylvania/11.jpg",
+      title: "Iluminación exterior",
+      text: "Lámparas de iluminación para uso residencial y comercial",
+      href: "/productos?marca=sylvania",
+    },
+    {
+      img: "/assets/products/sylvania/12.jpg",
+      title: "Alumbrado publico",
+      text: "Sistemas completos de iluminación para edificios y espacios comerciales",
+      href: "/productos?marca=sylvania",
+    },
+  ],
   },
   {
     slug: "philips",
@@ -206,6 +398,28 @@ export const brands = [
       desktop: "/assets/banners/desktop/philips.jpg",
       desktop2x: "/assets/banners/desktop/philips.jpg",
     },
+         
+  // ✅ 3 imágenes (cards) manuales para mostrar debajo de “Productos destacados”
+  featuredCards: [
+    {
+      img: "/assets/products/philips/14.jpg",
+      title: "Reflectores",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=philips",
+    },
+    {
+      img: "/assets/products/philips/15.jpg",
+      title: "Luminaria high bay",
+      text: "Lámparas de iluminación para uso residencial y comercial",
+      href: "/productos?marca=philips",
+    },
+    {
+      img: "/assets/products/philips/16.jpg",
+      title: "Panel de empotrar",
+      text: "Sistemas completos de iluminación para edificios y espacios comerciales",
+      href: "/productos?marca=philips",
+    },
+  ],
   },
   {
     slug: "schmersal",
@@ -223,6 +437,16 @@ export const brands = [
       desktop: "/assets/banners/desktop/schmersal.jpg",
       desktop2x: "/assets/banners/desktop/schmersal.jpg",
     },
+         
+  // ✅ 3 imágenes (cards) manuales para mostrar debajo de “Productos destacados”
+  featuredCards: [
+    {
+      img: "/assets/products/schmersal/48.jpg",
+      title: "Interruptores",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=schmersal",
+    },
+  ],
   },
   {
     slug: "weg",
@@ -240,6 +464,28 @@ export const brands = [
       desktop: "/assets/banners/desktop/weg.jpg",
       desktop2x: "/assets/banners/desktop/weg.jpg",
     },
+         
+  // ✅ 3 imágenes (cards) manuales para mostrar debajo de “Productos destacados”
+  featuredCards: [
+    {
+      img: "/assets/products/weg/30.jpg",
+      title: "Motores mining",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=weg",
+    },
+    {
+      img: "/assets/products/weg/motor-monofasico.jpg",
+      title: "Motores monofásicos",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=weg",
+    },
+    {
+      img: "/assets/products/weg/motorw22.jpg",
+      title: "Motores trifásicos",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=weg",
+    },
+  ],
   },
   {
     slug: "connect-vcp",
@@ -257,6 +503,28 @@ export const brands = [
       desktop: "/assets/banners/desktop/connectvpc.jpg",
       desktop2x: "/assets/banners/desktop/connectvpc.jpg",
     },
+         
+  // ✅ 3 imágenes (cards) manuales para mostrar debajo de “Productos destacados”
+  featuredCards: [
+    {
+      img: "/assets/products/connect-vcp/38.jpg",
+      title: "UTP para telecomunicaciones",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=schneider",
+    },
+    {
+      img: "/assets/products/connect-vcp/patch.jpg",
+      title: "Patch cord",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=schneider",
+    },
+    {
+      img: "/assets/products/connect-vcp/herraje.png",
+      title: "Herrajes UTP",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=schneider",
+    },
+  ],
   },
   {
     slug: "teldor",
@@ -274,6 +542,28 @@ export const brands = [
       desktop: "/assets/banners/desktop/teldor.jpg",
       desktop2x: "/assets/banners/desktop/teldor.jpg",
     },
+         
+  // ✅ 3 imágenes (cards) manuales para mostrar debajo de “Productos destacados”
+  featuredCards: [
+    {
+      img: "/assets/products/teldor/cable-control.jpg",
+      title: "Cable de control",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=teldor",
+    },
+    {
+      img: "/assets/products/teldor/fibra-optica.png",
+      title: "Fibra óptica",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=teldor",
+    },
+    {
+      img: "/assets/products/teldor/cable-alarma.jpg",
+      title: "Cable de alarma",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=teldor",
+    },
+  ],
   },
   {
     slug: "plastimec",
@@ -291,6 +581,28 @@ export const brands = [
       desktop: "/assets/banners/desktop/plastimec.jpg",
       desktop2x: "/assets/banners/desktop/plastimec.jpg",
     },
+         
+  // ✅ 3 imágenes (cards) manuales para mostrar debajo de “Productos destacados”
+  featuredCards: [
+    {
+      img: "/assets/products/plastimec/46-.png",
+      title: "Tuberias conduit para uso eléctrico y telefónico",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=schneider",
+    },
+    {
+      img: "/assets/products/plastimec/ducto-liso.png",
+      title: "Ducto Liso telefónico DB",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=schneider",
+    },
+    {
+      img: "/assets/products/plastimec/5.png",
+      title: "Tubería Extrafuerte",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=schneider",
+    },
+  ],
   },
   {
     slug: "colmena-conduit",
@@ -308,6 +620,28 @@ export const brands = [
       desktop: "/assets/banners/desktop/colmena.jpg",
       desktop2x: "/assets/banners/desktop/colmena.jpg",
     },
+         
+  // ✅ 3 imágenes (cards) manuales para mostrar debajo de “Productos destacados”
+  featuredCards: [
+    {
+      img: "/assets/products/colmena-conduit/44.jpg",
+      title: "Tubo galvanizado imc",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=colmena-conduit",
+    },
+    {
+      img: "/assets/products/colmena-conduit/Tubo-emt.jpg",
+      title: "Tubo galvanizado emt",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=colmena-conduit",
+    },
+    {
+      img: "/assets/products/colmena-conduit/Tubo-rigid.jpg",
+      title: "Tubo galvanizado rigid",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=colmena-conduit",
+    },
+  ],
   },
   {
     slug: "tercol",
@@ -325,6 +659,28 @@ export const brands = [
       desktop: "/assets/banners/desktop/tercol.jpg",
       desktop2x: "/assets/banners/desktop/tercol.jpg",
     },
+         
+  // ✅ 3 imágenes (cards) manuales para mostrar debajo de “Productos destacados”
+  featuredCards: [
+    {
+      img: "/assets/products/tercol/34.jpg",
+      title: "Tablero metalico",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=tercol",
+    },
+    {
+      img: "/assets/products/tercol/caja-empalme.jpg",
+      title: "Cajas de empalme",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=tercol",
+    },
+    {
+      img: "/assets/products/tercol/repuestos.png",
+      title: "Accesorios para tableros y cajas",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=tercol",
+    },
+  ],
   },
   {
     slug: "siemon",
@@ -342,6 +698,28 @@ export const brands = [
       desktop: "/assets/banners/desktop/siemon.jpg",
       desktop2x: "/assets/banners/desktop/siemon.jpg",
     },
+         
+  // ✅ 3 imágenes (cards) manuales para mostrar debajo de “Productos destacados”
+  featuredCards: [
+    {
+      img: "/assets/products/siemon/42.jpg",
+      title: "utp para comunicaciones",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=siemon",
+    },
+    {
+      img: "/assets/products/siemon/utp-cat.jpg",
+      title: "FUTP CAT 6A",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=siemon",
+    },
+    {
+      img: "/assets/products/siemon/faceplate.jpg",
+      title: "Conectores: JACK - PLUG - FACEPLATE",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=siemon",
+    },
+  ],
   },
   {
     slug: "metalcoraza",
@@ -359,5 +737,54 @@ export const brands = [
       desktop: "/assets/banners/desktop/metalcoraza.png",
       desktop2x: "/assets/banners/desktop/metalcoraza.png",
     },
+         
+  // ✅ 3 imágenes (cards) manuales para mostrar debajo de “Productos destacados”
+  featuredCards: [
+    {
+      img: "/assets/products/mc/36.jpg",
+      title: "Conector liquid tight",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=metalcoraza",
+    },
+    {
+      img: "/assets/products/mc/coraza.jpg",
+      title: "Coraza americana liquid tight",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=metalcoraza",
+    },
+     ],
+  },
+    {
+    slug: "crouse-hinds",
+    name: "Crouse Hinds",
+    logoPath: "/assets/aliados/AllieCH.png",
+    // Texto principal
+    description:
+      "Marca líder en soluciones eléctricas, de instrumentación y de iluminación diseñadas para entornos industriales, hostiles y peligrosos",
+    // Imágenes responsive
+    images: {
+      mobile: "/assets/banners/mobile/panduit_m.png",
+      mobile2x: "/assets/banners/mobile/panduit_m2x.png",
+      tablet: "/assets/banners/tablet/panduit_t.png",
+      tablet2x: "/assets/banners/tablet/panduit_t2x.png",
+      desktop: "/assets/banners/desktop/21.jpg",
+      desktop2x: "/assets/banners/desktop/21.jpg",
+    },
+         
+  // ✅ 3 imágenes (cards) manuales para mostrar debajo de “Productos destacados”
+  featuredCards: [
+    {
+      img: "/assets/products/crouse-hinds/industrial.png",
+      title: "Luminarias IHBE LED industriales",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=crouse-hinds",
+    },
+    {
+      img: "/assets/products/crouse-hinds/explosiones.png",
+      title: "Luminarias LED lineales industriales",
+      text: "Productos para ambientes con riesgo de explosión",
+      href: "/productos?marca=crouse-hinds",
+    },
+  ],
   },
 ];

@@ -47,14 +47,14 @@ const AboutUsPage = () => {
         {/* Imagen fondo.png con overlay para elegancia empresarial */}
         <div className="absolute inset-0 z-0">
           <img 
-            src="/assets/fondos/espacio_EQ.png" 
-            alt="Circuitos Equielect"
-            className="w-full h-full object-cover opacity-55"
+            src="/assets/fondos/quienes-somos.jpeg" 
+            alt="Equielect"
+            className="w-full h-full object-cover opacity-95"
           />
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
           <p className="text-[#fae100] font-bold tracking-[0.4em] text-xl uppercase mb-4 border-l-4 border-[#fae100] pl-4">
-            QUIENES SOMOS
+            QUIÉNES SOMOS
           </p>
           <h1 className="text-4xl md:text-6xl font-light text-white max-w-4xl leading-tight">
             Lideres en la comercialización de equipos <br />
@@ -191,7 +191,7 @@ const AboutUsPage = () => {
             </p>
           </div>
           <div className="space-y-8">
-            <h3 className="text-white text-3xl font-black uppercase italic tracking-tighter border-b-2 border-white pb-4 inline-block">Visión</h3>
+            <h3 className="text-[#fae100] text-3xl font-black uppercase italic tracking-tighter border-b-2 border-[#fae100] pb-4 inline-block">Visión</h3>
             <p className="text-xl font-light leading-relaxed opacity-90 italic">
               "Consolidarnos como el referente nacional en confianza y garantía técnica, liderando el suministro de materiales para una infraestructura eléctrica resiliente y sostenible."
             </p>
