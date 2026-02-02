@@ -11,14 +11,9 @@ const MEGA_MENU_DATA = {
         items: [
           { label: "Cable UTP", href: "/marca/siemon" }, // ✅ directo a siemon
           { label: "Cables libres de halógenos", href: "/marca/procables" },
-          "Cables de control y comunicación",
-          "Aluminio",
+          { label: "Cables de control y comunicación", href: "/marca/connect-vcp" },
+          { label: "Aluminio", href: "/marca/centelsa" },
         ],
-      },
-      {
-        title: "Redes",
-        href: "/telecomunicaciones/redes",
-        items: ["Switches", "Routers", "Access Points", "Gabinetes", "Racks"],
       },
     ],
   },
@@ -28,12 +23,20 @@ const MEGA_MENU_DATA = {
       {
         title: "Interior",
         href: "/iluminacion/interior",
-        items: ["Industrial", "Residencial", "Solar", ""],
+        items: [
+          { label: "Industrial", href: "/marca/philips" },
+          { label: "Residencial", href: "/marca/sylvania" },
+          { label: "Solar", href: "/marca/sylvania" },
+        ],
       },
       {
         title: "Exterior",
         href: "/iluminacion/exterior",
-        items: ["Reflectores", "Alumbrado público", "Industrial", "Emergencia"],
+        items: [
+          { label: "Reflectores", href: "/marca/philips" },
+          { label: "Alumbrado público", href: "/marca/sylvania" },
+          { label: "Industrial", href: "/marca/crouse-hinds" },
+          { label: "Emergencia", href: "/marca/crouse-hinds" }],
       },
     ],
   },
@@ -43,7 +46,9 @@ const MEGA_MENU_DATA = {
       {
         title: "Eléctrico",
         href: "/cableado/electrico",
-        items: ["Baja tensión", "Media tensión"],
+        items: [
+          { label: "Baja tensión", href: "/marca/procables" },
+          { label: "Media tensión", href: "/marca/procables" }],
       },
     ],
   },
@@ -53,7 +58,11 @@ const MEGA_MENU_DATA = {
       {
         title: "Portacables",
         href: "/portacables",
-        items: ["Tipo Escalera", "Tipo Malla", "Canastillas", "Soportes"],
+        items: [
+          { label: "Tipo Escalera", href: "/marca/legrand" },
+          { label: "Tipo Malla", href: "/marca/legrand" },
+          { label: "Canastillas", href: "/marca/gonvarri" },
+          { label: "Soportes", href: "/marca/gonvarri" }],
       },
     ],
   },
@@ -63,7 +72,12 @@ const MEGA_MENU_DATA = {
       {
         title: "Control",
         href: "/automatizacion",
-        items: ["Variadores", "Arranque Motor", "Pulsadores", "Interruptores", "Otros"],
+        items: [
+          { label: "Variadores", href: "/marca/schneider" },
+          { label: "Arranque Motor", href: "/marca/schneider" },
+          { label: "Pulsadores", href: "/marca/schneider" },
+          { label: "Interruptores", href: "/marca/schmersal" },
+        ],
       },
     ],
   },
@@ -73,7 +87,11 @@ const MEGA_MENU_DATA = {
       {
         title: "Explosión",
         href: "/areas-clasificadas",
-        items: ["Cajas", "Sellos", "Iluminación", "Resina-CH CHICO"],
+        items: [
+          "Cajas", 
+          "Sellos", 
+          "Iluminación", 
+          "Resina-CH CHICO"],
       },
     ],
   },
@@ -83,7 +101,9 @@ const MEGA_MENU_DATA = {
       {
         title: "Industrial",
         href: "/mineria",
-        items: ["Mineria liviana", "Mineria pesada"],
+        items: [
+          {"label": "Minería liviana", "href": "/marca/centelsa"},
+          {"label": "Minería pesada", "href": "/marca/centelsa"}],
       },
     ],
   },
