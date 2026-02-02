@@ -239,16 +239,31 @@ export default function BrandPage({ params }) {
 
       <section className="max-w-[1212px] mx-auto px-4 pt-12">
         {/* 2) LOGO + 3) TEXTO */}
-        <header className="flex flex-col items-center text-center mb-14">
-          <img
-            src={brand.logoPath}
-            alt={brand.name}
-            className="h-20 w-auto object-contain mb-6"
-          />
-          <p className="max-w-4xl text-slate-600 text-sm md:text-[15px] leading-relaxed font-medium">
-            {brand.description || ""}
-          </p>
-        </header>
+          <header className="flex flex-col items-center text-center mb-14">
+            {(() => {
+              const h = brand.logo?.h ?? 80;          // default 80px (igual a h-20)
+              const scale = brand.logo?.scale ?? 1;  // default normal
+
+              return (
+                <div
+                  className="mb-6 flex items-center justify-center"
+                  style={{ height: h }}
+                >
+                  <img
+                    src={brand.logoPath}
+                    alt={brand.name}
+                    className="w-auto h-full object-contain"
+                    style={{ transform: `scale(${scale})` }}
+                  />
+                </div>
+              );
+            })()}
+
+            <p className="max-w-4xl text-slate-600 text-sm md:text-[15px] leading-relaxed font-medium">
+              {brand.description || ""}
+            </p>
+          </header>
+
 
         {/* 4) CARDS (centradas si hay 1 o 2) */}
         {cards.length > 0 && (

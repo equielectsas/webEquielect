@@ -158,6 +158,11 @@ export const brands = [
     slug: "centelsa",
     name: "Centelsa",
     logoPath: "/assets/aliados/AllieCentelsa.png",
+      logo: {
+    h: 150,      // alto en px (default lo pones en el componente)
+    scale: 1.2,  // agranda “el dibujo” si el PNG trae padding
+  },
+
     // Texto principal
     description:
       "CENTELSA by Nexans es una empresa manufacturera de cables para energía y comunicaciones, que ha hecho parte de la industria, conservado su liderazgo como fabricante de cables en Colombia. Presentes en toda la cadena de la electrificación, desde la generación y transmisión de la energía, distribución para abastecer la demanda de electricidad de las grandes ciudades y los usos",
@@ -230,6 +235,10 @@ export const brands = [
     slug: "telemecanique",
     name: "telemecanique",
     logoPath: "/assets/aliados/AllieTelemecanica.png",
+     logo: {
+    h: 200,      // alto en px (default lo pones en el componente)
+    scale: 1.2,  // agranda “el dibujo” si el PNG trae padding
+  },
     // Texto principal
     description:
       "Una marca líder mundial con más de 90 años de experiencia especializada en el diseño y fabricación de sensores y tecnología de automatización para la seguridad de máquinas.",
@@ -269,6 +278,10 @@ export const brands = [
     slug: "panduit",
     name: "Panduit",
     logoPath: "/assets/aliados/AlliePanduit.png",
+     logo: {
+    h: 130,      // alto en px (default lo pones en el componente)
+    scale: 1.2,  // agranda “el dibujo” si el PNG trae padding
+  },
     // Texto principal
     description:
       "Panduit ofrece soluciones de identificación, conectividad, canalización y organización de cableado para proyectos profesionales.",
@@ -425,6 +438,10 @@ export const brands = [
     slug: "schmersal",
     name: "Schmersal",
     logoPath: "/assets/aliados/AllieSchmersal.png",
+     logo: {
+    h: 170,      // alto en px (default lo pones en el componente)
+    scale: 1.2,  // agranda “el dibujo” si el PNG trae padding
+  },
     // Texto principal
     description:
       "Multinacional alemana líder mundial en el desarrollo y producción de componentes, sistemas y soluciones de seguridad industrial para máquinas, automatización y ascensores",
@@ -452,6 +469,10 @@ export const brands = [
     slug: "weg",
     name: "Weg",
     logoPath: "/assets/aliados/AllieWeg.png",
+     logo: {
+    h: 120,      // alto en px (default lo pones en el componente)
+    scale: 1.2,  // agranda “el dibujo” si el PNG trae padding
+  },
     // Texto principal
     description:
       "Empresa multinacional brasileña, fundada en 1961, líder global en la fabricación de equipos electroelectrónicos, motores eléctricos, generadores, transformadores, sistemas de automatización y soluciones de energía",
@@ -491,6 +512,10 @@ export const brands = [
     slug: "connect-vcp",
     name: "Connect VCP",
     logoPath: "/assets/aliados/AllieConnectVCP.png",
+     logo: {
+    h: 150,      // alto en px (default lo pones en el componente)
+    scale: 1.2,  // agranda “el dibujo” si el PNG trae padding
+  },
     // Texto principal
     description:
       "VCP Connect+ es una marca de Laumayer especializada en soluciones integrales para infraestructura de redes, comunicaciones y seguridad electrónica, tanto pasivas como activas. Vende equipos de alta calidad para datos, voz y video, incluyendo cableado estructurado, fibra óptica, gabinetes, switches y convertidores de medios. ",
@@ -608,6 +633,10 @@ export const brands = [
     slug: "colmena-conduit",
     name: "Colmena Conduit",
     logoPath: "/assets/aliados/AllieColmena.png",
+     logo: {
+    h: 150,      // alto en px (default lo pones en el componente)
+    scale: 1.2,  // agranda “el dibujo” si el PNG trae padding
+  },
     // Texto principal
     description:
       "Empresa líder en Colombia con más de 67 años de experiencia en la fabricación y comercialización de productos de acero, especializada en soluciones integrales para la construcción y la industria. Vende tuberías de acero galvanizado (conduit), perfiles estructurales, cerramientos y sistemas para la construcción liviana en seco.",
