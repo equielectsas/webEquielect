@@ -78,8 +78,9 @@ export const brands = [
   },
   {
     slug: "procables",
-    name: "Procables",
-    logoPath: "/assets/aliados/AllieProcables.png",
+    name: "Procables by Prysmian",
+    logoPath: "/assets/aliados/AlliePrysmian.png",
+    
     // Texto principal
     description:
       "Marca líder en Colombia dedicada a la fabricación y comercialización de cables y alambres eléctricos de cobre y aluminio para sectores industriales, comerciales y residenciales",
@@ -399,6 +400,10 @@ export const brands = [
     slug: "philips",
     name: "Philips",
     logoPath: "/assets/aliados/AlliePhilips.png",
+     logo: {
+    h: 150,      // alto en px (default lo pones en el componente)
+    scale: 1.2,  // agranda “el dibujo” si el PNG trae padding
+  },
     // Texto principal
     description:
       "Líder mundial en iluminación profesional, para el consumidor y el Internet de las cosas, ofreciendo productos, sistemas y servicios de alta calidad, eficientes y sostenibles",
@@ -555,6 +560,10 @@ export const brands = [
     slug: "teldor",
     name: "Teldor",
     logoPath: "/assets/aliados/AllieTeldor.png",
+     logo: {
+    h: 150,      // alto en px (default lo pones en el componente)
+    scale: 1.2,  // agranda “el dibujo” si el PNG trae padding
+  },
     // Texto principal
     description:
       "Teldor ha sido pionera e innovadora en el campo del diseño y fabricación de cables sofisticados de alta tecnología.",
@@ -676,6 +685,10 @@ export const brands = [
     slug: "tercol",
     name: "Tercol",
     logoPath: "/assets/aliados/AllieTercol.png",
+     logo: {
+    h: 150,      // alto en px (default lo pones en el componente)
+    scale: 1.2,  // agranda “el dibujo” si el PNG trae padding
+  },
     // Texto principal
     description:
       "Empresa colombiana con sede en Medellín, fundada en 1977, especializada en la fabricación y comercialización de productos para instalaciones eléctricas, industriales y de telecomunicaciones",
@@ -715,6 +728,10 @@ export const brands = [
     slug: "siemon",
     name: "Siemon",
     logoPath: "/assets/aliados/AllieSiemon.png",
+     logo: {
+    h: 150,      // alto en px (default lo pones en el componente)
+    scale: 1.2,  // agranda “el dibujo” si el PNG trae padding
+  },
     // Texto principal
     description:
       "Empresa estadounidense líder mundial, fundada en 1903, especializada en el diseño y fabricación de infraestructura de red de alto rendimiento, incluyendo cableado de cobre y fibra óptica, soluciones para centros de datos, gabinetes y edificios inteligentes.",

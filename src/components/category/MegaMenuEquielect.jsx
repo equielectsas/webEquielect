@@ -9,23 +9,16 @@ const MEGA_MENU_DATA = {
         title: "Cableado",
         href: "/marca/siemon",
         items: [
-          "Cable UTP",
-          "Cables libres de halógenos",
+          { label: "Cable UTP", href: "/marca/siemon" }, // ✅ directo a siemon
+          { label: "Cables libres de halógenos", href: "/marca/procables" },
           "Cables de control y comunicación",
           "Aluminio",
-          "",
         ],
       },
       {
         title: "Redes",
         href: "/telecomunicaciones/redes",
-        items: [
-          "Switches",
-          "Routers",
-          "Access Points",
-          "Gabinetes",
-          "Racks",
-        ],
+        items: ["Switches", "Routers", "Access Points", "Gabinetes", "Racks"],
       },
     ],
   },
@@ -35,22 +28,12 @@ const MEGA_MENU_DATA = {
       {
         title: "Interior",
         href: "/iluminacion/interior",
-        items: [
-          "Industrial",
-          "Residencial",
-          "Solar",
-          "",
-        ],
+        items: ["Industrial", "Residencial", "Solar", ""],
       },
       {
         title: "Exterior",
         href: "/iluminacion/exterior",
-        items: [
-          "Reflectores",
-          "Alumbrado público",
-          "Industrial",
-          "Emergencia",
-        ],
+        items: ["Reflectores", "Alumbrado público", "Industrial", "Emergencia"],
       },
     ],
   },
@@ -60,10 +43,7 @@ const MEGA_MENU_DATA = {
       {
         title: "Eléctrico",
         href: "/cableado/electrico",
-        items: [
-          "Baja tensión",
-          "Media tensión",
-        ],
+        items: ["Baja tensión", "Media tensión"],
       },
     ],
   },
@@ -73,12 +53,7 @@ const MEGA_MENU_DATA = {
       {
         title: "Portacables",
         href: "/portacables",
-        items: [
-          "Tipo Escalera",
-          "Tipo Malla",
-          "Canastillas",
-          "Soportes",
-        ],
+        items: ["Tipo Escalera", "Tipo Malla", "Canastillas", "Soportes"],
       },
     ],
   },
@@ -88,13 +63,7 @@ const MEGA_MENU_DATA = {
       {
         title: "Control",
         href: "/automatizacion",
-        items: [
-          "Variadores",
-          "Arranque Motor",
-          "Pulsadores",
-          "Interruptores",
-          "Otros",
-        ],
+        items: ["Variadores", "Arranque Motor", "Pulsadores", "Interruptores", "Otros"],
       },
     ],
   },
@@ -104,12 +73,7 @@ const MEGA_MENU_DATA = {
       {
         title: "Explosión",
         href: "/areas-clasificadas",
-        items: [
-          "Cajas",
-          "Sellos",
-          "Iluminación",
-          "Resina-CH CHICO",
-        ],
+        items: ["Cajas", "Sellos", "Iluminación", "Resina-CH CHICO"],
       },
     ],
   },
@@ -119,13 +83,26 @@ const MEGA_MENU_DATA = {
       {
         title: "Industrial",
         href: "/mineria",
-        items: [
-          "Mineria liviana",
-          "Mineria pesada",
-        ],
+        items: ["Mineria liviana", "Mineria pesada"],
       },
     ],
   },
+};
+
+// ✅ helper para slug
+const slugify = (text) =>
+  String(text)
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+
+// ✅ helper: soporta string o {label, href}
+const normalizeItem = (item) => {
+  if (!item) return null; // evita "" o null
+  if (typeof item === "string") return { label: item, href: null };
+  if (typeof item === "object" && item.label) return item;
+  return null;
 };
 
 export default function MegaMenuEquielect({ category }) {
@@ -151,18 +128,24 @@ export default function MegaMenuEquielect({ category }) {
               </Link>
 
               <ul className="space-y-2">
-                {col.items.map((item) => (
-                  <li key={item}>
-                    <Link
-                      href={`${col.href}/${item
-                        .toLowerCase()
-                        .replace(/[^a-z0-9]+/g, "-")}`}
-                      className="text-sm text-gray-700 hover:text-equielect-blue"
-                    >
-                      {item}
-                    </Link>
-                  </li>
-                ))}
+                {col.items
+                  .map(normalizeItem)
+                  .filter(Boolean)
+                  .map((it) => {
+                    // ✅ si el item trae href propio, úsalo
+                    const href = it.href || `${col.href}/${slugify(it.label)}`;
+
+                    return (
+                      <li key={`${col.title}-${it.label}`}>
+                        <Link
+                          href={href}
+                          className="text-sm text-gray-700 hover:text-equielect-blue"
+                        >
+                          {it.label}
+                        </Link>
+                      </li>
+                    );
+                  })}
               </ul>
 
               <Link

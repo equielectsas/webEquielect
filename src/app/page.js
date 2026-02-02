@@ -92,8 +92,8 @@ export default function Home() {
         mobile2x: "/assets/Sliderhome/mobile/bannersch_movil.png",
         tablet: "/assets/Sliderhome/tablet/bannersch_tablet.png",
         tablet2x: "/assets/Sliderhome/tablet/bannersch_tablet.png",
-        desktop: "/assets/Sliderhome/desktop/eqmac.jpeg",
-        desktop2x: "/assets/Sliderhome/desktop/eqmac.jpeg",
+        desktop: "/assets/Sliderhome/desktop/eqw.jpg",
+        desktop2x: "/assets/Sliderhome/desktop/eqmac.jpg",
       },
     },
   ];
@@ -342,7 +342,7 @@ export default function Home() {
         <section className="w-full border-t border-gray-200">
           <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[320px]">
             <div className="relative min-h-[220px] bg-gray-200">
-              <Image src="/assets/sucursal/corporacion.png" alt="Equipo" fill className="object-cover" />
+              <Image src="/assets/sucursal/cotizacion.png" alt="Equipo" fill className="object-cover" />
             </div>
             <div className="relative bg-[#ffcd00] flex items-center px-6 lg:px-14 py-10">
               <div className="relative z-10">
