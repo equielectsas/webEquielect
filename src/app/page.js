@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react"; // ✅ Se agregó useRef
+import React, { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Reveal from "@/components/ui/reveal";
@@ -13,9 +13,34 @@ export default function Home() {
   // STATE & REFS
   // =========================
   const [loginOpen, setLoginOpen] = useState(false);
+
+  // ✅ Video del celular (manteniendo tus nombres)
   const [videoStarted, setVideoStarted] = useState(false);
   const videoRef = useRef(null);
 
+  // ✅ Selector (cuadritos)
+  const PHONE_VIDEOS = [
+    {
+      id: "v1",
+      title: "Video 1",
+      src: "/assets/videos/1.mp4",
+      poster: "/assets/videos/poster1.jpg", // opcional
+    },
+    {
+      id: "v2",
+      title: "Video 2",
+      src: "/assets/videos/2.mp4",
+      poster: "/assets/videos/poster2.jpg", // opcional
+    },
+  ];
+
+  const DEFAULT_PHONE_VIDEO_ID = "v1";
+  const [activePhoneVideoId, setActivePhoneVideoId] = useState(DEFAULT_PHONE_VIDEO_ID);
+
+  const activePhoneVideo =
+    PHONE_VIDEOS.find((v) => v.id === activePhoneVideoId) || PHONE_VIDEOS[0];
+
+  // HERO
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isHeroPaused, setIsHeroPaused] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -23,10 +48,53 @@ export default function Home() {
   // =========================
   // ACTIONS
   // =========================
-  const handleStartVideo = () => {
-    if (videoRef.current) {
-      videoRef.current.play();
+  const handleStartVideo = async () => {
+    if (!videoRef.current) return;
+
+    try {
+      await videoRef.current.play();
       setVideoStarted(true);
+    } catch {
+      setVideoStarted(true);
+    }
+  };
+
+  // ✅ click en cuadrito: cambia video del celular y reproduce
+  const handleSelectPhoneVideo = async (id) => {
+    setActivePhoneVideoId(id);
+    setVideoStarted(true);
+
+    requestAnimationFrame(async () => {
+      const el = videoRef.current;
+      if (!el) return;
+
+      try {
+        el.pause();
+        el.currentTime = 0;
+        el.load();
+        await el.play();
+      } catch {
+        // si se bloquea autoplay, quedarán los controls
+      }
+    });
+  };
+
+  // ✅ al terminar: vuelve a portada negra + EQ
+  const handleVideoEnded = () => {
+    const el = videoRef.current;
+
+    // vuelve a portada
+    setVideoStarted(false);
+
+    // opcional: volver al predeterminado (v1)
+    setActivePhoneVideoId(DEFAULT_PHONE_VIDEO_ID);
+
+    if (el) {
+      try {
+        el.pause();
+        el.currentTime = 0;
+        el.load();
+      } catch {}
     }
   };
 
@@ -82,7 +150,7 @@ export default function Home() {
         desktop2x: "/assets/Sliderhome/desktop/bannersch_mac.png",
       },
     },
-      {
+    {
       name: "EQUIELECT",
       logoPath: "/assets/Sliderhome/schneiderlogo.png",
       title: "Gestión Energética Eficiente",
@@ -144,7 +212,9 @@ export default function Home() {
 
   useEffect(() => {
     document.body.style.overflow = isLoading ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [isLoading]);
 
   useEffect(() => {
@@ -164,7 +234,14 @@ export default function Home() {
       {isLoading && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-gray-200/70 backdrop-blur-[1px]">
           <div className="flex flex-col items-center gap-4">
-            <Image src="/assets/Logs/loader_points.gif" alt="Cargando..." width={220} height={220} priority unoptimized />
+            <Image
+              src="/assets/Logs/loader_points.gif"
+              alt="Cargando..."
+              width={220}
+              height={220}
+              priority
+              unoptimized
+            />
             <span className="text-equielect-blue font-medium text-sm">Cargando...</span>
           </div>
         </div>
@@ -177,10 +254,18 @@ export default function Home() {
           --color-equielect-blue: #1c355e;
           --color-equielect-gray: #98989a;
         }
-        .text-equielect-gray { color: var(--color-equielect-gray); }
-        .text-equielect-blue { color: var(--color-equielect-blue); }
-        .bg-equielect-yellow { background-color: var(--color-equielect-yellow); }
-        .bg-equielect-blue { background-color: var(--color-equielect-blue); }
+        .text-equielect-gray {
+          color: var(--color-equielect-gray);
+        }
+        .text-equielect-blue {
+          color: var(--color-equielect-blue);
+        }
+        .bg-equielect-yellow {
+          background-color: var(--color-equielect-yellow);
+        }
+        .bg-equielect-blue {
+          background-color: var(--color-equielect-blue);
+        }
       `}</style>
 
       <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} />
@@ -193,22 +278,42 @@ export default function Home() {
           onMouseLeave={() => setIsHeroPaused(false)}
         >
           {brands.map((b, i) => (
-            <div key={i} className={`absolute inset-0 transition-opacity duration-700 ${currentSlide === i ? "opacity-100" : "opacity-0"}`}>
+            <div
+              key={i}
+              className={`absolute inset-0 transition-opacity duration-700 ${
+                currentSlide === i ? "opacity-100" : "opacity-0"
+              }`}
+            >
               <picture className="block w-full h-full">
                 <source media="(min-width: 1024px)" srcSet={makeSrcSet(b.images.desktop, b.images.desktop2x)} />
                 <source media="(min-width: 640px)" srcSet={makeSrcSet(b.images.tablet, b.images.tablet2x)} />
-                <img src={b.images.mobile} srcSet={makeSrcSet(b.images.mobile, b.images.mobile2x)} alt={b.name} className="w-full h-full object-cover object-top block" />
+                <img
+                  src={b.images.mobile}
+                  srcSet={makeSrcSet(b.images.mobile, b.images.mobile2x)}
+                  alt={b.name}
+                  className="w-full h-full object-cover object-top block"
+                />
               </picture>
               <div className="absolute inset-0 bg-black/15" />
             </div>
           ))}
 
           {/* Botones Hero */}
-          <button onClick={prevSlide} className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-black/45 hover:bg-black/60 text-white flex items-center justify-center">
-             <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M15 19l-7-7 7-7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+          <button
+            onClick={prevSlide}
+            className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-black/45 hover:bg-black/60 text-white flex items-center justify-center"
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M15 19l-7-7 7-7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
           </button>
-          <button onClick={nextSlide} className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-black/45 hover:bg-black/60 text-white flex items-center justify-center">
-             <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+          <button
+            onClick={nextSlide}
+            className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-black/45 hover:bg-black/60 text-white flex items-center justify-center"
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
           </button>
         </div>
       </section>
@@ -229,14 +334,20 @@ export default function Home() {
         <section className="bg-white pb-10">
           <div className="max-w-7xl mx-auto px-4">
             <div className="mt-6">
-              <h3 className="text-lg sm:text-xl font-extrabold text-equielect-blue">Productos destacados por marca</h3>
-              <p className="mt-1 text-sm text-gray-600">Selección rápida para comprar con soporte y garantía.</p>
+              <h3 className="text-lg sm:text-xl font-extrabold text-equielect-blue">
+                Productos destacados por marca
+              </h3>
+              <p className="mt-1 text-sm text-gray-600">
+                Selección rápida para comprar con soporte y garantía.
+              </p>
             </div>
-            <div className="mt-5"><FeaturedBrandProducts /></div>
+            <div className="mt-5">
+              <FeaturedBrandProducts />
+            </div>
             <div className="flex justify-center mt-10">
-              <Link 
-                href="/productos" 
-                className="px-8 py-3 bg-[#1c355e] text-white font-bold text-xs hover:bg-[#ffcd00] hover:text-[#1c355e] transition-colors" 
+              <Link
+                href="/productos"
+                className="px-8 py-3 bg-[#1c355e] text-white font-bold text-xs hover:bg-[#ffcd00] hover:text-[#1c355e] transition-colors"
                 style={{ borderRadius: 2 }}
               >
                 Ver productos
@@ -246,81 +357,175 @@ export default function Home() {
         </section>
       </Reveal>
 
-      {/* SECCIÓN INSTITUCIONAL CON VIDEO Y COLLAGE */}
+      {/* SECCIÓN INSTITUCIONAL CON VIDEO Y COLLAGE (NUEVO DISEÑO) */}
       <Reveal delay={120}>
         <section className="bg-white overflow-hidden py-16 sm:py-24">
           <div className="max-w-7xl mx-auto px-6">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-12 items-center">
-              
-              {/* IZQUIERDA: TEXTOS */}
-              <div className="lg:col-span-5 text-left z-10">
-                <h2 className="text-6xl sm:text-7xl lg:text-[50px] xl:text-[50px] font-black text-[#1c355e] tracking-tighter leading-[0.8] mb-10">
-                  Equielect
-                </h2>
-                <div className="space-y-6 mb-12">
-                  <p className="text-gray-500 text-lg sm:text-xl font-normal leading-snug max-w-md">
-                    En Equielect te ayudamos a elegir bien para tu proyecto: asesoría, disponibilidad y respaldo con marcas líderes.
-                  </p>
-                  <p className="text-gray-500 text-lg sm:text-xl font-normal leading-snug max-w-md">
-                    Somos de Medellín (desde 1986) y atendemos industria, comercio y construcción.
-                  </p>
-                </div>
-                <Link href="/quienes-somos" className="px-8 py-3 bg-[#f2c219] text-black font-bold text-xs hover:bg-[#d9af16]" style={{ borderRadius: 2 }}>
+            {/* TÍTULO + TEXTO CENTRADOS */}
+            <header className="text-center max-w-3xl mx-auto">
+              <h2 className="text-5xl sm:text-6xl lg:text-6xl font-black text-[#1c355e] tracking-tight">
+                Equielect
+              </h2>
+
+              <div className="mt-6 space-y-4">
+                <p className="text-gray-500 text-base sm:text-lg leading-relaxed">
+                  En Equielect te ayudamos a elegir bien para tu proyecto: asesoría,
+                  disponibilidad y respaldo con marcas líderes.
+                </p>
+                <p className="text-gray-500 text-base sm:text-lg leading-relaxed">
+                  Somos de Medellín (desde 1986) y atendemos industria, comercio y construcción.
+                </p>
+              </div>
+
+              <div className="mt-8 flex justify-center">
+                <Link
+                  href="/quienes-somos"
+                  className="px-8 py-3 bg-[#f2c219] text-black font-bold text-xs hover:bg-[#d9af16]"
+                  style={{ borderRadius: 2 }}
+                >
                   Ver quienes somos
                 </Link>
               </div>
+            </header>
 
-              {/* DERECHA: COLLAGE + CELULAR */}
-              <div className="lg:col-span-7 grid grid-cols-1 lg:grid-cols-7 items-center mt-16 lg:mt-0">
-                
-                {/* Collage decorativo (Escritorio) */}
-                <div className="lg:col-span-3 hidden lg:flex justify-center relative h-[480px]">
-                  <div className="absolute left-0 top-0 w-[190px] h-[270px] overflow-hidden shadow-2xl z-20 border-[8px] border-white rounded-[32px]">
-                    <Image src="/assets/sucursal/corporativa1.jpg" alt="Staff" fill className="object-cover" />
-                  </div>
-                  <div className="absolute right-[-10px] bottom-8 w-[190px] h-[270px] overflow-hidden shadow-2xl z-30 border-[8px] border-white rounded-[32px]">
-                    <Image src="/assets/sucursal/corporativa2.jpg" alt="Instalación" fill className="object-cover" />
-                  </div>
-                </div>
+            {/* ZONA VIDEO: IZQ - CELULAR - DER */}
+            <div className="mt-14 flex items-center justify-center gap-8 lg:gap-12">
+              {/* PREVIEW IZQUIERDA */}
+              <button
+                type="button"
+                onClick={() => handleSelectPhoneVideo("v1")}
+                className={`hidden md:block relative w-[150px] h-[270px] overflow-hidden shadow-2xl border-[3px] rounded-[32px] transition-transform ${
+                  activePhoneVideoId === "v1"
+                    ? "border-[#005cb9] ring-4 ring-[#005cb9]/20 scale-[1.03]"
+                    : "border-white hover:scale-[1.03]"
+                }`}
+                aria-label="Reproducir video 1 en el celular"
+              >
+                <video
+                  src={PHONE_VIDEOS[0].src}
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-black/10" />
+              </button>
 
-                {/* CELULAR VIDEO */}
-                <div className="lg:col-span-4 flex flex-col items-center lg:items-end">
-                  <div className="relative w-[280px] h-[560px] bg-black border-[12px] border-[#1a1a1a] shadow-2xl rounded-[3.5rem]">
-                    {/* Notch */}
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-[#1a1a1a] rounded-b-2xl z-40" />
-                    
-                    <div className="relative w-full h-full overflow-hidden rounded-[2.5rem] bg-black group">
-                      {/* Portada con Logo */}
-                      {!videoStarted && (
-                        <div 
-                          className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-black cursor-pointer transition-opacity duration-500"
-                          onClick={handleStartVideo}
-                        >
-                          <div className="relative w-32 h-32 transition-transform duration-300 group-hover:scale-110">
-                            <Image src="/assets/Logs/LogoEQmovil.jpg" alt="Logo EQ" fill className="object-contain opacity-90" />
-                          </div>
-                          <div className="mt-4 flex items-center gap-2 px-4 py-2 border border-white/20 rounded-full bg-white/5">
-                            <div className="w-0 h-0 border-t-[5px] border-t-transparent border-l-[8px] border-l-white border-b-[5px] border-b-transparent ml-1" />
-                            <span className="text-white text-[10px] font-bold uppercase tracking-widest">Reproducir</span>
-                          </div>
-                        </div>
-                      )}
+              {/* CELULAR CENTRAL */}
+              <div className="flex flex-col items-center">
+                <div className="relative w-[300px] sm:w-[340px] h-[610px] sm:h-[680px] bg-black border-[12px] border-[#1a1a1a] shadow-2xl rounded-[3.5rem]">
+                  {/* Notch */}
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-[#1a1a1a] rounded-b-2xl z-40" />
 
-                      <video
-                        ref={videoRef}
-                        className="w-full h-full object-cover"
-                        controls={videoStarted}
-                        playsInline
-                        onPlay={() => setVideoStarted(true)}
+                  <div className="relative w-full h-full overflow-hidden rounded-[2.5rem] bg-black group">
+                    {/* PORTADA */}
+                    {!videoStarted && (
+                      <div
+                        className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-black cursor-pointer transition-opacity duration-500"
+                        onClick={handleStartVideo}
                       >
-                        <source src="/assets/videos/video.mp4" type="video/mp4" />
-                      </video>
-                    </div>
+                        <div className="relative w-32 h-32 transition-transform duration-300 group-hover:scale-110">
+                          <Image
+                            src="/assets/Logs/LogoEQmovil.jpg"
+                            alt="Logo EQ"
+                            fill
+                            className="object-contain opacity-90"
+                          />
+                        </div>
+                        <div className="mt-4 flex items-center gap-2 px-4 py-2 border border-white/20 rounded-full bg-white/5">
+                          <div className="w-0 h-0 border-t-[5px] border-t-transparent border-l-[8px] border-l-white border-b-[5px] border-b-transparent ml-1" />
+                          <span className="text-white text-[10px] font-bold uppercase tracking-widest">
+                            Reproducir
+                          </span>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* VIDEO PRINCIPAL */}
+                    <video
+                      ref={videoRef}
+                      key={activePhoneVideo.src}
+                      className="w-full h-full object-cover"
+                      controls={videoStarted}
+                      playsInline
+                      preload="metadata"
+                      poster={activePhoneVideo.poster}
+                      onPlay={() => setVideoStarted(true)}
+                      onEnded={handleVideoEnded}
+                    >
+                      <source src={activePhoneVideo.src} type="video/mp4" />
+                    </video>
                   </div>
-                  <p className="mt-4 text-[11px] text-gray-400 font-bold uppercase tracking-widest pr-4">Video institucional · 1 minuto</p>
                 </div>
 
+                <p className="mt-4 text-[11px] text-gray-400 font-bold uppercase tracking-widest">
+                  Video institucional · 1 minuto
+                </p>
               </div>
+
+              {/* PREVIEW DERECHA */}
+              <button
+                type="button"
+                onClick={() => handleSelectPhoneVideo("v2")}
+                className={`hidden md:block relative w-[150px] h-[270px] overflow-hidden shadow-2xl border-[3px] rounded-[32px] transition-transform ${
+                  activePhoneVideoId === "v2"
+                    ? "border-[#005cb9] ring-4 ring-[#005cb9]/20 scale-[1.03]"
+                    : "border-white hover:scale-[1.03]"
+                }`}
+                aria-label="Reproducir video 2 en el celular"
+              >
+                <video
+                  src={PHONE_VIDEOS[1].src}
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-black/10" />
+              </button>
+            </div>
+
+            {/* PREVIEWS EN MÓVIL (debajo) */}
+            <div className="mt-10 md:hidden flex justify-center gap-4">
+              <button
+                type="button"
+                onClick={() => handleSelectPhoneVideo("v1")}
+                className={`relative w-[140px] h-[240px] overflow-hidden shadow-xl border-[3px] rounded-[28px] ${
+                  activePhoneVideoId === "v1"
+                    ? "border-[#005cb9] ring-4 ring-[#005cb9]/20"
+                    : "border-white"
+                }`}
+              >
+                <video
+                  src={PHONE_VIDEOS[0].src}
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleSelectPhoneVideo("v2")}
+                className={`relative w-[140px] h-[240px] overflow-hidden shadow-xl border-[3px] rounded-[28px] ${
+                  activePhoneVideoId === "v2"
+                    ? "border-[#005cb9] ring-4 ring-[#005cb9]/20"
+                    : "border-white"
+                }`}
+              >
+                <video
+                  src={PHONE_VIDEOS[1].src}
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              </button>
             </div>
           </div>
         </section>
@@ -333,9 +538,12 @@ export default function Home() {
             <h2 className="text-2xl sm:text-3xl text-equielect-blue font-semibold">
               Otras Marcas <span className="font-black">Aliadas</span>
             </h2>
-            <Link href="/aliados" className="text-equielect-blue font-bold text-sm hover:underline">Ver todas</Link>
+            <Link href="/aliados" className="text-equielect-blue font-bold text-sm hover:underline">
+              Ver todas
+            </Link>
           </div>
-          <Allies360Carousel items={allies.map(a => ({ name: a.name, icon: a.src, href: a.href }))} speedSeconds={30} />
+
+          <Allies360Carousel items={allies.map((a) => ({ name: a.name, icon: a.src, href: a.href }))} speedSeconds={30} />
         </section>
 
         {/* SECCIÓN CORPORATIVA FINAL */}
@@ -344,13 +552,26 @@ export default function Home() {
             <div className="relative min-h-[220px] bg-gray-200">
               <Image src="/assets/sucursal/cotizacion.png" alt="Equipo" fill className="object-cover" />
             </div>
+
             <div className="relative bg-[#ffcd00] flex items-center px-6 lg:px-14 py-10">
               <div className="relative z-10">
-                <p className="text-[#1c355e] text-sm font-semibold uppercase tracking-wider">Atención al Cliente</p>
-                <h3 className="mt-2 text-[#1c355e] text-3xl lg:text-4xl font-extrabold">Oficina Virtual Equielect</h3>
-                <p className="mt-4 text-[#1c355e]/90 max-w-md">Atención rápida y asesoría profesional a un clic de distancia.</p>
+                <p className="text-[#1c355e] text-sm font-semibold uppercase tracking-wider">
+                  Atención al Cliente
+                </p>
+                <h3 className="mt-2 text-[#1c355e] text-3xl lg:text-4xl font-extrabold">
+                  Oficina Virtual Equielect
+                </h3>
+                <p className="mt-4 text-[#1c355e]/90 max-w-md">
+                  Atención rápida y asesoría profesional a un clic de distancia.
+                </p>
                 <div className="mt-6">
-                  <a href="https://api.whatsapp.com/send/?phone=573146453033" target="_blank" className="inline-block px-7 py-3 bg-white text-[#1c355e] font-extrabold" style={{ borderRadius: 2 }}>
+                  <a
+                    href="https://api.whatsapp.com/send/?phone=573146453033"
+                    target="_blank"
+                    className="inline-block px-7 py-3 bg-white text-[#1c355e] font-extrabold"
+                    style={{ borderRadius: 2 }}
+                    rel="noreferrer"
+                  >
                     Solicitar cotización
                   </a>
                 </div>
