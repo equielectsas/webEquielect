@@ -43,6 +43,11 @@ export default function Header() {
     "Minería",
   ];
 
+  // ✅ URL Google Maps (Equielect)
+const EQU_MAPS_URL =
+  "https://www.google.com/maps/search/?api=1&query=Equielect%20S.A.S.%20Carrera%2072%20No.%2030-53%20Medell%C3%ADn%20Antioquia";
+
+
   return (
     <>
       {/* ✅ HEADER STICKY Y CON Z-INDEX ALTO */}
@@ -55,13 +60,25 @@ export default function Header() {
             </span>
 
             <div className="flex items-center gap-3 text-equielect-gray">
-              <span className="flex items-center gap-1">
-                <MapPin size={12} /> Medellín
-              </span>
-              <span className="text-gray-300">|</span>
-              <a href="#ayuda" className="hover:underline">
-                Centro de ayuda
+              {/* ✅ UBICACIÓN (sin decir “Medellín”) + link a Google Maps */}
+              <a
+                href={EQU_MAPS_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-1 hover:underline"
+                aria-label="Ver ubicación en Google Maps"
+                title="Ver ubicación en Google Maps"
+              >
+                <MapPin size={12} />
+                Ubicación
               </a>
+
+              <span className="text-gray-300">|</span>
+
+              {/* ✅ CONTACTANOS (en vez de Centro de ayuda) */}
+              <Link href="/contactanos" className="hover:underline">
+                Contáctanos
+              </Link>
             </div>
           </div>
         </div>

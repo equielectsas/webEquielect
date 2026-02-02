@@ -7,7 +7,6 @@ import { ThemeProvider } from "@/utils/tailwind/index";
 import { AppThemeProvider } from "@/context/Theme/ThemeProvider";
 import { AppProductProvider } from "@/context/Products/ProductProvider";
 import { CartProvider } from "@/context/Cart/CartContext";
-import CookieBanner from "@/components/CookieBanner";
 import MainLayout from "@/components/layout/MainLayout";
 import { GA_TRACKING_ID } from "../../lib/analytics";
 
@@ -60,7 +59,6 @@ export default function RootLayout({ children }) {
                 <FavoritesProvider isLoggedIn={false}>
                   <MainLayout>
                     {children}
-                    <CookieBanner />
                     <ClaraChatWidget />
                   </MainLayout>
                 </FavoritesProvider>
