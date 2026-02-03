@@ -9,11 +9,11 @@ const ALL_BRANDS = [
   // ⚠️ Estos suelen tener mucho espacio transparente → les subimos scale
   { name: "Schneider", src: "/assets/aliados/SchneiderBG.png", scale: 0.8 },
   { name: "Legrand", src: "/assets/aliados/LegrandBG.png", scale: 1.0 },
-  { name: "Procables", src: "/assets/aliados/AllieProCables.png", scale: 1.0 },
+  { name: "Procables", src: "/assets/aliados/AlliePrysmian.png", scale: 1.0 },
   { name: "Gonvarri", src: "/assets/aliados/AllieGonvarri.png", scale: 1.05 },
   { name: "Centelsa", src: "/assets/aliados/AllieCentelsa.png", scale: 1.7 },
   { name: "3M", src: "/assets/aliados/Allie3M.png", scale: 0.5 },
-  { name: "Telemecanique", src: "/assets/aliados/AllieTelemecanique.png", scale: 2.0 },
+  { name: "Telemecanique", src: "/assets/aliados/AllieTelemecanica.png", scale: 2.0 },
   { name: "Panduit", src: "/assets/aliados/AlliePanduit.png", scale: 1.25 },
   { name: "Phoenix Contact", src: "/assets/aliados/AlliePhoenix.png", scale: 1.05 },
   { name: "Sylvania", src: "/assets/aliados/AllieSylvania.png", scale: 0.8 },
@@ -28,7 +28,7 @@ const ALL_BRANDS = [
   { name: "Siemon", src: "/assets/aliados/AllieSiemon.png", scale: 1.6 },
   { name: "Tercol", src: "/assets/aliados/AllieTercol.png", scale: 1.25 },
   { name: "Colmena Conduit", src: "/assets/aliados/AllieColmena.png", scale: 1.35 },
-
+    { name: "Crouse-hinds", src: "/assets/aliados/AllieCH.png", scale: 1.0 },
 
 ];
 
