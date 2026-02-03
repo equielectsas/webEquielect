@@ -17,27 +17,27 @@ const PRODUCTS = [
     ],
   },
   {
-    id: "legrand-1",
-    brand: "Legrand",
+    id: "phoenix-contact-1",
+    brand: "Phoenix Contact",
     brandDesc:
-      "Clavija turnlock-250V 30A 2F+N+T",
+      "DPS. Protección contra sobretensiones.",
     title: "Clavija turnlock",
     images: [
-      "/assets/products/legrand/clavija.jpg",
-      "/assets/products/legrand/clavija.jpg",
-      "/assets/products/legrand/clavija.jpg",
+      "/assets/products/phoenix-contact/32.jpg",
+      "/assets/products/phoenix-contact/32.jpg",
+      "/assets/products/phoenix-contact/32.jpg",
     ],
   },
   {
-    id: "procables-1",
-    brand: "Procables",
+    id: "siemon-1",
+    brand: "Siemon",
     brandDesc:
-      "Cable EXZH (ExZhellent ) Calibre 1/0 AWG Negro Marca Procables",
-    title: "Cable EXZH",
+      "Cable UTP para telecomunicaciones Marca Siemon",
+    title: "Cable UTP Siemon",
     images: [
-      "/assets/products/procables/ex.png",
-      "/assets/products/procables/ex.png",
-      "/assets/products/procables/ex.png",
+      "/assets/products/siemon/n42.png",
+      "/assets/products/siemon/n42.png",
+      "/assets/products/siemon/n42.png",
     ],
   },
   {

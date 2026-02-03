@@ -104,9 +104,9 @@ export default function ContactoPage() {
       <header className="relative h-[46vh] md:h-[52vh] bg-[#1c355e] flex items-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
-            src="/assets/fondos/espacio_EQ.png"
+            src="/assets/banners/contactanosbanner.png"
             alt="Fondo Equielect"
-            className="w-full h-full object-cover opacity-55"
+            className="w-full h-full object-cover"
           />
         </div>
         <div className="absolute inset-0 z-0 bg-gradient-to-r from-[#1c355e] via-[#1c355e]/70 to-transparent" />

@@ -21,9 +21,9 @@ export default function Home() {
   // ✅ 3 videos (centro inicia en clip)
   const PHONE_VIDEOS = useMemo(
     () => [
-      { id: "clip", title: "Clip", src: "/assets/videos/clip.mp4", poster: "/assets/logs/11.png" },
-      { id: "v1", title: "Video 1", src: "/assets/videos/1.mp4", poster: "/assets/logs/22.png" },
-      { id: "v2", title: "Video 2", src: "/assets/videos/2.mp4", poster: "/assets/logs/33.png" },
+      { id: "clip", title: "Clip", src: "/assets/videos/clip.mp4", poster: "/assets/fondos/portadacentro.png" },
+      { id: "v1", title: "Video 1", src: "/assets/videos/3.mp4", poster: "/assets/logs/22.png" },
+      { id: "v2", title: "Video 2", src: "/assets/videos/4.mp4", poster: "/assets/logs/33.png" },
     ],
     []
   );
@@ -349,13 +349,12 @@ export default function Home() {
         <section className="bg-white overflow-hidden py-16 sm:py-24">
           <div className="max-w-7xl mx-auto px-6">
             <header className="text-center max-w-3xl mx-auto">
-              <h2 className="text-5xl sm:text-6xl lg:text-6xl font-black text-[#1c355e] tracking-tight">Equielect</h2>
+              <h2 className="text-[14px] sm:text-[46px] lg:text-[62px] font-bold text-[#1c355e] tracking-tight">
+                Equielect
+              </h2>
               <div className="mt-6 space-y-4">
                 <p className="text-gray-500 text-base sm:text-lg leading-relaxed">
                   En Equielect te ayudamos a elegir bien para tu proyecto: asesoría, disponibilidad y respaldo con marcas líderes.
-                </p>
-                <p className="text-gray-500 text-base sm:text-lg leading-relaxed">
-                  Somos de Medellín (desde 1986) y atendemos industria, comercio y construcción.
                 </p>
               </div>
             </header>
@@ -411,52 +410,71 @@ export default function Home() {
                 </button>
 
                 {/* CENTRAL (solo teléfono + debajo texto/botón sin afectar altura) */}
-                <div className="flex flex-col items-center">
-                  {/* wrapper del teléfono central */}
-                  <div className="flex items-center">
-                    <div className="relative w-[260px] sm:w-[290px] h-[520px] sm:h-[580px] bg-black border-[10px] border-[#1a1a1a] shadow-2xl rounded-[3.2rem]">
-                      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-5 bg-[#1a1a1a] rounded-b-2xl z-40" />
-                      <div className="relative w-full h-full overflow-hidden rounded-[2.4rem] bg-black group">
-                        {!videoStarted && (
-                          <div
-                            className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-black cursor-pointer transition-opacity duration-500"
-                            onClick={handleStartVideo}
-                          >
-                            <div className="relative w-30 h-30 transition-transform duration-300 group-hover:scale-110">
-                              <Image src="/assets/Logs/Logo-equielect.png" alt="Logo EQ" fill className="object-contain opacity-90" />
-                            </div>
-                            <div className="mt-4 flex items-center gap-2 px-4 py-2 border border-white/20 rounded-full bg-white/5">
-                              <div className="w-0 h-0 border-t-[5px] border-t-transparent border-l-[8px] border-l-white border-b-[5px] border-b-transparent ml-1" />
-                              <span className="text-white text-[10px] font-bold uppercase tracking-widest">Reproducir</span>
-                            </div>
-                          </div>
-                        )}
+                  <div className="flex flex-col items-center">
+                    {/* wrapper del teléfono central */}
+                    <div className="flex items-center">
+                      <div className="relative w-[260px] sm:w-[290px] h-[520px] sm:h-[580px] bg-black border-[10px] border-[#1a1a1a] shadow-2xl rounded-[3.2rem]">
+                        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-5 bg-[#1a1a1a] rounded-b-2xl z-40" />
 
-                        <video
-                          ref={videoRef}
-                          key={`center-${centerId}-${rotationTick}`}
-                          className="w-full h-full object-cover"
-                          controls={videoStarted}
-                          playsInline
-                          preload="metadata"
-                          poster={centerVideo?.poster}
-                          onPlay={() => setVideoStarted(true)}
-                          onEnded={handleVideoEnded}
-                        >
-                          <source src={centerVideo?.src} type="video/mp4" />
-                        </video>
+                        <div className="relative w-full h-full overflow-hidden rounded-[2.4rem] bg-black group">
+                          {/* ✅ Overlay SOLO para invitar a reproducir (NO tapa el poster) */}
+                          {!videoStarted && (
+                            <div
+                              className="absolute inset-0 z-30 flex flex-col items-center justify-center cursor-pointer transition-opacity duration-500 bg-black/15"
+                              onClick={handleStartVideo}
+                            >
+                              {/* Puedes dejar tu logo si quieres, pero ya no tapa la portada */}
+                              <div className="relative w-28 h-28 transition-transform duration-300 group-hover:scale-110">
+                                <Image
+                                  src="/assets/Logs/Logo-equielect.png"
+                                  alt="Logo EQ"
+                                  fill
+                                  className="object-contain opacity-95"
+                                />
+                              </div>
+
+                              <div className="mt-4 flex items-center gap-2 px-4 py-2 border border-white/20 rounded-full bg-white/10 backdrop-blur-sm">
+                                <div className="w-0 h-0 border-t-[5px] border-t-transparent border-l-[8px] border-l-white border-b-[5px] border-b-transparent ml-1" />
+                                <span className="text-white text-[10px] font-bold uppercase tracking-widest">
+                                  Reproducir
+                                </span>
+                              </div>
+                            </div>
+                          )}
+
+                          {/* ✅ VIDEO CENTRAL con POSTER */}
+                          <video
+                            ref={videoRef}
+                            key={`center-${centerId}-${rotationTick}`}
+                            className="w-full h-full object-cover"
+                            controls={videoStarted}
+                            playsInline
+                            preload="metadata"
+                            poster={centerVideo?.poster}
+                            onPlay={() => setVideoStarted(true)}
+                            onEnded={handleVideoEnded}
+                          >
+                            <source src={centerVideo?.src} type="video/mp4" />
+                          </video>
+                        </div>
                       </div>
+                    </div>
+
+                    {/* debajo (más cerca) */}
+                    <div className="mt-4 flex flex-col items-center gap-2">
+                      <p className="text-[11px] text-gray-400 font-bold uppercase tracking-widest">
+                        Conócenos en 30 segundos · EQUIELECT
+                      </p>
+                      <Link
+                        href="/quienes-somos"
+                        className="px-8 py-3 bg-[#f2c219] text-black font-bold text-xs hover:bg-[#d9af16]"
+                        style={{ borderRadius: 2 }}
+                      >
+                        Ver quienes somos
+                      </Link>
                     </div>
                   </div>
 
-                  {/* debajo (más cerca) */}
-                  <div className="mt-4 flex flex-col items-center gap-2">
-                    <p className="text-[11px] text-gray-400 font-bold uppercase tracking-widest">Video institucional · 1 minuto</p>
-                    <Link href="/quienes-somos" className="px-8 py-3 bg-[#f2c219] text-black font-bold text-xs hover:bg-[#d9af16]" style={{ borderRadius: 2 }}>
-                      Ver quienes somos
-                    </Link>
-                  </div>
-                </div>
 
                 {/* LATERAL DERECHO */}
                 <button
@@ -531,8 +549,8 @@ export default function Home() {
 
         {/* SECCIÓN CORPORATIVA FINAL */}
         <section className="w-full border-t border-gray-200">
-          <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[320px]">
-            <div className="relative min-h-[220px] bg-gray-200">
+          <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[330px]">
+            <div className="relative min-h-[210px] bg-gray-200">
               <Image src="/assets/sucursal/cotiza.png" alt="Equipo" fill className="object-cover" />
             </div>
             <div className="relative bg-[#ffcd00] flex items-center px-6 lg:px-14 py-10">
