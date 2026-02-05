@@ -2,6 +2,8 @@
 
 import { notFound } from "next/navigation";
 import { brands } from "@/data/brands";
+import Link from "next/link";
+import Allies360Carousel from "@/components/home/Allies360Carousel";
 
 /**
  * Página: /aliados/[slug]
@@ -15,6 +17,31 @@ import { brands } from "@/data/brands";
  */
 
 const DEFAULT_WA_PHONE = "+573146453033";
+const allies = [
+    { name: "Philips", src: "/assets/aliados/AlliePhilips.png", href: "/marca/philips" },
+    { name: "Schmersal", src: "/assets/aliados/AllieSchmersal.png", href: "/marca/schmersal" },
+    { name: "Weg", src: "/assets/aliados/AllieWeg.png", href: "/marca/weg" },
+    { name: "Connect VCP", src: "/assets/aliados/AllieConnectVCP.png", href: "/marca/connect-vcp" },
+    { name: "Teldor", src: "/assets/aliados/AllieTeldor.png", href: "/marca/teldor" },
+    { name: "Plastimec", src: "/assets/aliados/AlliePlastimec.png", href: "/marca/plastimec" },
+    { name: "Colmena Conduit", src: "/assets/aliados/AllieColmena.png", href: "/marca/colmena-conduit" },
+    { name: "Tercol", src: "/assets/aliados/AllieTercol.png", href: "/marca/tercol" },
+    { name: "Siemon", src: "/assets/aliados/AllieSiemon.png", href: "/marca/siemon" },
+    { name: "MetalCoraza", src: "/assets/aliados/AllieMetalCoraza.png", href: "/marca/metalcoraza" },
+    { name: "Crouse Hinds", src: "/assets/aliados/AllieCH.png", href: "/marca/crouse-hinds" },
+    { name: "Schneider", src: "/assets/aliados/SchneiderBG.png", href: "/marca/schneider" },
+    { name: "Legrand", src: "/assets/aliados/legrandBG.png", href: "/marca/legrand" },
+    { name: "Procables", src: "/assets/aliados/AllieProCables.png", href: "/marca/procables" },
+    { name: "Gonvarri", src: "/assets/aliados/AllieGonvarri.png", href: "/marca/gonvarri" },
+    { name: "Centelsa", src: "/assets/aliados/AllieCentelsa.png", href: "/marca/centelsa" },
+    { name: "3M", src: "/assets/aliados/Allie3M.png", href: "/marca/3M" },
+    { name: "Telemecanique", src: "/assets/aliados/AllieTelemecanica.png", href: "/marca/telemecanique" },
+    { name: "Panduit", src: "/assets/aliados/AlliePanduit.png", href: "/marca/panduit" },
+    { name: "Phoenix Contact", src: "/assets/aliados/AlliePhoenix.png", href: "/marca/phoenix-contact" },
+    { name: "Sylvania", src: "/assets/aliados/AllieSylvania.png", href: "/marca/sylvania" },
+  ];
+
+
 
 const BRAND_BULLETS = {
   schneider: [
@@ -160,6 +187,17 @@ const BRAND_BULLETS = {
     "Cajas 2x4 y 4x4 en aluminio.",
     "Universales y HUBS.",
     "Compuesto CHICO A4 y fibras retenedoras.",
+  ],
+  "gonvarri": [
+    "Electrobarras o blindobarras.",
+    "Sistemas portacables tipo escalera en acero.",
+    "Sistemas portacables tipo escalera en aluminio.",
+    "Sistemas portacables tipo malla en acero inoxidable.",
+    "Sistemas portacables tipo ducto con fondo liso y perforado.",
+    "Sistema portacable tipo canaleta superficial en acero.",
+    "Sistema estructural MECANO.",
+    "Platinas, conectores y acoples.",
+    "Fijadores para tubería.",
   ],
 };
 
@@ -346,6 +384,12 @@ export default function BrandPage({ params }) {
               <WhatsAppIcon className="w-5 h-5" />
               Ir a cotizar por WhatsApp
             </button>
+            {/* OTRAS MARCAS */}
+        <section className="bg-white py-12 border-t border-gray-200">
+          <div className="max-w-7xl mx-auto px-4 mb-8 flex justify-between items-center">
+          </div>
+          <Allies360Carousel items={allies.map((a) => ({ name: a.name, icon: a.src, href: a.href }))} speedSeconds={30} />
+        </section>
           </div>
         </section>
       </section>
