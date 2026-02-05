@@ -249,8 +249,8 @@ export const brands = [
       mobile2x: "/assets/banners/mobile/panduit_m2x.png",
       tablet: "/assets/banners/tablet/panduit_t.png",
       tablet2x: "/assets/banners/tablet/panduit_t2x.png",
-      desktop: "/assets/banners/desktop/telemecanique.jpg",
-      desktop2x: "/assets/banners/desktop/telemecanique.jpg",
+      desktop: "/assets/banners/desktop/banner_tl.jpg",
+      desktop2x: "/assets/banners/desktop/banner_tl.jpg",
     },
          
   // ✅ 3 imágenes (cards) manuales para mostrar debajo de “Productos destacados”
@@ -465,6 +465,18 @@ export const brands = [
     {
       img: "/assets/products/schmersal/48.jpg",
       title: "Interruptores",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=schmersal",
+    },
+    {
+      img: "/assets/products/schmersal/cortinas.png",
+      title: "Cortina de seguridad",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=schmersal",
+    },
+    {
+      img: "/assets/products/schmersal/modulo-sch.png",
+      title: "Modulo de seguridad",
       text: "Dispositivos de control para protección, control y maniobra de circuitos ",
       href: "/productos?marca=schmersal",
     },
