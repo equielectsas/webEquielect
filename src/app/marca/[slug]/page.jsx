@@ -5,43 +5,31 @@ import { brands } from "@/data/brands";
 import Link from "next/link";
 import Allies360Carousel from "@/components/home/Allies360Carousel";
 
-/**
- * Página: /aliados/[slug]
- * Jerarquía:
- * 1) Banner
- * 2) Logo
- * 3) Texto de marca (description)
- * 4) Cards (featuredCards) -> opcional (centradas si son 1 o 2)
- * 5) Viñetas (tomadas del PDF) -> por slug
- * 6) Botón WhatsApp al final
- */
-
 const DEFAULT_WA_PHONE = "+573146453033";
+
 const allies = [
-    { name: "Philips", src: "/assets/aliados/AlliePhilips.png", href: "/marca/philips" },
-    { name: "Schmersal", src: "/assets/aliados/AllieSchmersal.png", href: "/marca/schmersal" },
-    { name: "Weg", src: "/assets/aliados/AllieWeg.png", href: "/marca/weg" },
-    { name: "Connect VCP", src: "/assets/aliados/AllieConnectVCP.png", href: "/marca/connect-vcp" },
-    { name: "Teldor", src: "/assets/aliados/AllieTeldor.png", href: "/marca/teldor" },
-    { name: "Plastimec", src: "/assets/aliados/AlliePlastimec.png", href: "/marca/plastimec" },
-    { name: "Colmena Conduit", src: "/assets/aliados/AllieColmena.png", href: "/marca/colmena-conduit" },
-    { name: "Tercol", src: "/assets/aliados/AllieTercol.png", href: "/marca/tercol" },
-    { name: "Siemon", src: "/assets/aliados/AllieSiemon.png", href: "/marca/siemon" },
-    { name: "MetalCoraza", src: "/assets/aliados/AllieMetalCoraza.png", href: "/marca/metalcoraza" },
-    { name: "Crouse Hinds", src: "/assets/aliados/AllieCH.png", href: "/marca/crouse-hinds" },
-    { name: "Schneider", src: "/assets/aliados/SchneiderBG.png", href: "/marca/schneider" },
-    { name: "Legrand", src: "/assets/aliados/legrandBG.png", href: "/marca/legrand" },
-    { name: "Procables", src: "/assets/aliados/AllieProCables.png", href: "/marca/procables" },
-    { name: "Gonvarri", src: "/assets/aliados/AllieGonvarri.png", href: "/marca/gonvarri" },
-    { name: "Centelsa", src: "/assets/aliados/AllieCentelsa.png", href: "/marca/centelsa" },
-    { name: "3M", src: "/assets/aliados/Allie3M.png", href: "/marca/3M" },
-    { name: "Telemecanique", src: "/assets/aliados/AllieTelemecanica.png", href: "/marca/telemecanique" },
-    { name: "Panduit", src: "/assets/aliados/AlliePanduit.png", href: "/marca/panduit" },
-    { name: "Phoenix Contact", src: "/assets/aliados/AlliePhoenix.png", href: "/marca/phoenix-contact" },
-    { name: "Sylvania", src: "/assets/aliados/AllieSylvania.png", href: "/marca/sylvania" },
-  ];
-
-
+  { name: "Philips", src: "/assets/aliados/AlliePhilips.png", href: "/marca/philips" },
+  { name: "Schmersal", src: "/assets/aliados/AllieSchmersal.png", href: "/marca/schmersal" },
+  { name: "Weg", src: "/assets/aliados/AllieWeg.png", href: "/marca/weg" },
+  { name: "Connect VCP", src: "/assets/aliados/AllieConnectVCP.png", href: "/marca/connect-vcp" },
+  { name: "Teldor", src: "/assets/aliados/AllieTeldor.png", href: "/marca/teldor" },
+  { name: "Plastimec", src: "/assets/aliados/AlliePlastimec.png", href: "/marca/plastimec" },
+  { name: "Colmena Conduit", src: "/assets/aliados/AllieColmena.png", href: "/marca/colmena-conduit" },
+  { name: "Tercol", src: "/assets/aliados/AllieTercol.png", href: "/marca/tercol" },
+  { name: "Siemon", src: "/assets/aliados/AllieSiemon.png", href: "/marca/siemon" },
+  { name: "MetalCoraza", src: "/assets/aliados/AllieMetalCoraza.png", href: "/marca/metalcoraza" },
+  { name: "Crouse Hinds", src: "/assets/aliados/AllieCH.png", href: "/marca/crouse-hinds" },
+  { name: "Schneider", src: "/assets/aliados/SchneiderBG.png", href: "/marca/schneider" },
+  { name: "Legrand", src: "/assets/aliados/legrandBG.png", href: "/marca/legrand" },
+  { name: "Procables", src: "/assets/aliados/AllieProCables.png", href: "/marca/procables" },
+  { name: "Gonvarri", src: "/assets/aliados/AllieGonvarri.png", href: "/marca/gonvarri" },
+  { name: "Centelsa", src: "/assets/aliados/AllieCentelsa.png", href: "/marca/centelsa" },
+  { name: "3M", src: "/assets/aliados/Allie3M.png", href: "/marca/3M" },
+  { name: "Telemecanique", src: "/assets/aliados/AllieTelemecanica.png", href: "/marca/telemecanique" },
+  { name: "Panduit", src: "/assets/aliados/AlliePanduit.png", href: "/marca/panduit" },
+  { name: "Phoenix Contact", src: "/assets/aliados/AlliePhoenix.png", href: "/marca/phoenix-contact" },
+  { name: "Sylvania", src: "/assets/aliados/AllieSylvania.png", href: "/marca/sylvania" },
+];
 
 const BRAND_BULLETS = {
   schneider: [
@@ -130,19 +118,8 @@ const BRAND_BULLETS = {
     "Cables de cobre y aluminio desnudo.",
     "Cables para telecomunicaciones.",
   ],
-  weg: [
-    "Motores eléctricos IEC y NEMA.",
-    "Accionamiento de control.",
-    "Variadores y arrancadores suaves.",
-  ],
-  "phoenix-contact": [
-    "DPS.",
-    "Fuentes de alimentación.",
-    "Bornas de control y potencia.",
-    "Relés de interface para salidas PLC.",
-    "Switchs Ethernet.",
-    "UPS.",
-  ],
+  weg: ["Motores eléctricos IEC y NEMA.", "Accionamiento de control.", "Variadores y arrancadores suaves."],
+  "phoenix-contact": ["DPS.", "Fuentes de alimentación.", "Bornas de control y potencia.", "Relés de interface para salidas PLC.", "Switchs Ethernet.", "UPS."],
   metalcoraza: ["Coraza americana liquid tight.", "Conectores liquid tight."],
   "connect-vcp": [
     "Cables UTP para Telecomunicaciones CAT 5E - 6.",
@@ -188,7 +165,7 @@ const BRAND_BULLETS = {
     "Universales y HUBS.",
     "Compuesto CHICO A4 y fibras retenedoras.",
   ],
-  "gonvarri": [
+  gonvarri: [
     "Electrobarras o blindobarras.",
     "Sistemas portacables tipo escalera en acero.",
     "Sistemas portacables tipo escalera en aluminio.",
@@ -224,93 +201,74 @@ export default function BrandPage({ params }) {
     `Hola Equielect, estoy interesado en cotizar productos de ${brand.name}. ¿Me ayudas con disponibilidad y precios?`;
 
   const goToWhatsApp = () => {
-    window.open(
-      `https://wa.me/${waPhone}?text=${encodeURIComponent(waMessage)}`,
-      "_blank",
-      "noopener,noreferrer"
-    );
+    window.open(`https://wa.me/${waPhone}?text=${encodeURIComponent(waMessage)}`, "_blank", "noopener,noreferrer");
   };
 
-  // ✅ Cards: tomar máximo 3, pero respetar si hay 1 o 2.
   const cards = (brand.featuredCards || []).slice(0, 3);
+
+  // ✅ ENFOQUE 2 REAL: 1 sola imagen para todo (sin recorte, siempre completa)
+  // Usa la mejor disponible; idealmente pon aquí tu banner único por aliado en "desktop"
+  const banner1x =
+    brand.images?.desktop ||
+    brand.images?.tablet ||
+    brand.images?.mobile ||
+    "";
+
+  const banner2x =
+    brand.images?.desktop2x ||
+    brand.images?.tablet2x ||
+    brand.images?.mobile2x ||
+    "";
 
   return (
     <main className="bg-white min-h-screen pb-24 font-sans">
-      {/* 1) BANNER */}
+      {/* 1) BANNER (1 sola imagen - se adapta al ancho y mantiene proporción) */}
       <section className="w-full">
-        <div className="relative w-full overflow-hidden aspect-[1212/250] bg-gray-50">
-          <picture>
-            {!!brand.images?.desktop && (
-              <source
-                media="(min-width: 1024px)"
-                srcSet={
-                  brand.images?.desktop2x
-                    ? `${brand.images.desktop} 1x, ${brand.images.desktop2x} 2x`
-                    : `${brand.images.desktop} 1x`
-                }
-              />
-            )}
-            {!!brand.images?.tablet && (
-              <source
-                media="(min-width: 768px)"
-                srcSet={
-                  brand.images?.tablet2x
-                    ? `${brand.images.tablet} 1x, ${brand.images.tablet2x} 2x`
-                    : `${brand.images.tablet} 1x`
-                }
-              />
-            )}
+        <div className="w-full bg-gray-50">
+          {!!banner1x && (
             <img
-              src={brand.images?.mobile || brand.images?.desktop}
-              srcSet={
-                brand.images?.mobile2x
-                  ? `${brand.images.mobile} 1x, ${brand.images.mobile2x} 2x`
-                  : undefined
-              }
+              src={banner1x}
+              srcSet={banner2x ? `${banner1x} 1x, ${banner2x} 2x` : undefined}
               alt={`Banner ${brand.name}`}
-              className="w-full h-full object-cover"
+              className="w-full h-auto block"
               loading="eager"
+              decoding="async"
             />
-          </picture>
+          )}
         </div>
       </section>
 
       <section className="max-w-[1212px] mx-auto px-4 pt-12">
         {/* 2) LOGO + 3) TEXTO */}
-          <header className="flex flex-col items-center text-center mb-14">
-            {(() => {
-              const h = brand.logo?.h ?? 80;          // default 80px (igual a h-20)
-              const scale = brand.logo?.scale ?? 1;  // default normal
+        <header className="flex flex-col items-center text-center mb-14">
+          {(() => {
+            const h = brand.logo?.h ?? 80;
+            const scale = brand.logo?.scale ?? 1;
 
-              return (
-                <div
-                  className="mb-6 flex items-center justify-center"
-                  style={{ height: h }}
-                >
-                  <img
-                    src={brand.logoPath}
-                    alt={brand.name}
-                    className="w-auto h-full object-contain"
-                    style={{ transform: `scale(${scale})` }}
-                  />
-                </div>
-              );
-            })()}
+            return (
+              <div className="mb-6 flex items-center justify-center" style={{ height: h }}>
+                <img
+                  src={brand.logoPath}
+                  alt={brand.name}
+                  className="w-auto h-full object-contain"
+                  style={{ transform: `scale(${scale})` }}
+                />
+              </div>
+            );
+          })()}
 
-            <p className="max-w-4xl text-slate-600 text-sm md:text-[15px] leading-relaxed font-medium">
-              {brand.description || ""}
-            </p>
-          </header>
+          <p className="max-w-4xl text-slate-600 text-sm md:text-[15px] leading-relaxed font-medium">
+            {brand.description || ""}
+          </p>
+        </header>
 
-
-        {/* 4) CARDS (centradas si hay 1 o 2) */}
+        {/* 4) CARDS */}
         {cards.length > 0 && (
           <section className="max-w-6xl mx-auto mb-16">
             <h2 className="text-xl font-bold text-black mb-10 text-center uppercase tracking-[0.2em]">
               Productos destacados
             </h2>
 
-            {/* ✅ Flex centrado: 1 y 2 quedan centradas automáticamente */}
             <div className="flex flex-wrap justify-center gap-8">
               {cards.map((c, idx) => (
                 <article
@@ -330,11 +288,7 @@ export default function BrandPage({ params }) {
                       {c.title}
                     </p>
 
-                    {!!c.text && (
-                      <p className="text-sm text-slate-600 leading-relaxed">
-                        {c.text}
-                      </p>
-                    )}
+                    {!!c.text && <p className="text-sm text-slate-600 leading-relaxed">{c.text}</p>}
                   </div>
                 </article>
               ))}
@@ -349,20 +303,20 @@ export default function BrandPage({ params }) {
               Otras líneas de productos {brand.name}
             </h3>
 
-            {/* ✅ UNA SOLA COLUMNA SIEMPRE */}
-              <div className="flex flex-col items-center space-y-4">
-                {bullets.map((line, idx) => (
-                  <div key={idx} className="flex items-start gap-3">
-                    <span className="mt-2 h-2 w-2 rounded-full bg-[#005cb9] shrink-0" />
-                    <p className="text-slate-700 text-sm md:text-[15px] font-medium leading-relaxed">
-                      {line}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </section>
-          )}
-        {/* 6) BOTÓN WHATSAPP (FINAL) */}
+            <div className="flex flex-col items-center space-y-4">
+              {bullets.map((line, idx) => (
+                <div key={idx} className="flex items-start gap-3">
+                  <span className="mt-2 h-2 w-2 rounded-full bg-[#005cb9] shrink-0" />
+                  <p className="text-slate-700 text-sm md:text-[15px] font-medium leading-relaxed">
+                    {line}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* 6) BOTÓN WHATSAPP + OTRAS MARCAS */}
         <section className="max-w-4xl mx-auto mt-12 px-1">
           <div className="border-t pt-8 flex flex-col items-center text-center gap-6">
             <div>
@@ -384,12 +338,13 @@ export default function BrandPage({ params }) {
               <WhatsAppIcon className="w-5 h-5" />
               Ir a cotizar por WhatsApp
             </button>
-            {/* OTRAS MARCAS */}
-        <section className="bg-white py-12 border-t border-gray-200">
-          <div className="max-w-7xl mx-auto px-4 mb-8 flex justify-between items-center">
-          </div>
-          <Allies360Carousel items={allies.map((a) => ({ name: a.name, icon: a.src, href: a.href }))} speedSeconds={30} />
-        </section>
+
+            <section className="bg-white py-12 border-t border-gray-200 w-full">
+              <Allies360Carousel
+                items={allies.map((a) => ({ name: a.name, icon: a.src, href: a.href }))}
+                speedSeconds={30}
+              />
+            </section>
           </div>
         </section>
       </section>

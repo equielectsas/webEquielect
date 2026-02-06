@@ -132,8 +132,6 @@ export default function Home() {
   // =========================
   // HERO SLIDER HELPERS
   // =========================
-  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % brands.length);
-  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + brands.length) % brands.length);
   const makeSrcSet = (x1, x2) => `${x1} 1x, ${x2 || x1} 2x`;
 
   // =========================
@@ -141,62 +139,54 @@ export default function Home() {
   // =========================
   const brands = [
     {
-      name: "3M",
-      logoPath: "/assets/aliados/4-3m.png",
-      title: "Innovación en Adhesivos y Seguridad",
-      description: "Productos innovadores en seguridad, electrónica y soluciones industriales.",
+      name: "Prysmian",
       images: {
-        mobile: "/assets/Sliderhome/mobile/bannerproc_c.png",
-        mobile2x: "/assets/Sliderhome/mobile/bannerproc_m.png",
-        tablet: "/assets/Sliderhome/tablet/bannerproc_t.png",
-        tablet2x: "/assets/Sliderhome/tablet/ProcablesT.png",
+        mobile: "/assets/Sliderhome/mobile/slider_prysmian.png",
+        mobile2x: "/assets/Sliderhome/mobile/slider_prysmian.png",
+        tablet: "/assets/Sliderhome/tablet/slider_tablet_prysmian.png",
+        tablet2x: "/assets/Sliderhome/tablet/slider_tablet_prysmian.png",
         desktop: "/assets/Sliderhome/desktop/bannerproc_pc.png",
         desktop2x: "/assets/Sliderhome/desktop/bannerproc_mac.png",
       },
     },
     {
-      name: "LEGRAND",
-      logoPath: "/assets/Sliderhome/Legrandlog.jpg",
-      title: "Innovación en Instalaciones",
-      description: "Productos eléctricos y digitales para edificaciones residenciales y comerciales",
+      name: "Legrand",
       images: {
-        mobile: "/assets/Sliderhome/mobile/banner_leg_m.png",
-        mobile2x: "/assets/Sliderhome/mobile/banner_leg_m.png",
-        tablet: "/assets/Sliderhome/tablet/legrandT.png",
-        tablet2x: "/assets/Sliderhome/tablet/legrandT.png",
+        mobile: "/assets/Sliderhome/mobile/slider_legrand.png",
+        mobile2x: "/assets/Sliderhome/mobile/slider_legrand.png",
+        tablet: "/assets/Sliderhome/tablet/slider_tablet_legrand.png",
+        tablet2x: "/assets/Sliderhome/tablet/slider_tablet_legrand.png",
         desktop: "/assets/Sliderhome/desktop/bannerleg_pc.png",
         desktop2x: "/assets/Sliderhome/desktop/bannerleg_mac.png",
       },
     },
     {
-      name: "SCHNEIDER",
-      logoPath: "/assets/Sliderhome/schneiderlogo.png",
-      title: "Gestión Energética Eficiente",
-      description: "Automatización y gestión de energía para un mundo más sostenible",
+      name: "Schneider",
       images: {
-        mobile: "/assets/Sliderhome/mobile/bannersch_movil.png",
-        mobile2x: "/assets/Sliderhome/mobile/bannersch_movil.png",
-        tablet: "/assets/Sliderhome/tablet/bannersch_tablet.png",
-        tablet2x: "/assets/Sliderhome/tablet/bannersch_tablet.png",
+        mobile: "/assets/Sliderhome/mobile/slider_schneider.png",
+        mobile2x: "/assets/Sliderhome/mobile/slider_schneider.png",
+        tablet: "/assets/Sliderhome/tablet/slider_tablet_schneider.png",
+        tablet2x: "/assets/Sliderhome/tablet/slider_tablet_schneider.png",
         desktop: "/assets/Sliderhome/desktop/bannersch_pc.png",
         desktop2x: "/assets/Sliderhome/desktop/bannersch_mac.png",
       },
     },
     {
-      name: "EQUIELECT",
-      logoPath: "/assets/Sliderhome/schneiderlogo.png",
-      title: "Gestión Energética Eficiente",
-      description: "Automatización y gestión de energía para un mundo más sostenible",
+      name: "Equielect",
       images: {
-        mobile: "/assets/Sliderhome/mobile/bannersch_movil.png",
-        mobile2x: "/assets/Sliderhome/mobile/bannersch_movil.png",
-        tablet: "/assets/Sliderhome/tablet/bannersch_tablet.png",
-        tablet2x: "/assets/Sliderhome/tablet/bannersch_tablet.png",
+        mobile: "/assets/Sliderhome/mobile/slider_equielect.jpg",
+        mobile2x: "/assets/Sliderhome/mobile/slider_equielect.jpg",
+        tablet: "/assets/Sliderhome/tablet/slider_tablet_equielect.jpg",
+        tablet2x: "/assets/Sliderhome/tablet/slider_tablet_equielect.jpg",
         desktop: "/assets/Sliderhome/desktop/eqw.jpg",
         desktop2x: "/assets/Sliderhome/desktop/eqmac.jpg",
       },
     },
   ];
+
+  // ✅ HERO SLIDER HELPERS (después de brands para usar brands.length)
+  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % brands.length);
+  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + brands.length) % brands.length);
 
   const quickCategories = [
     { title: "Schneider", icon: "/assets/aliados/SchneiderBG.png", href: "/marca/schneider" },
@@ -288,30 +278,70 @@ export default function Home() {
 
       <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} />
 
-      {/* HERO SLIDER */}
+      {/* HERO SLIDER (ENFOQUE 2: altura automática según la imagen, sin recorte) */}
       <section className="bg-transparent">
         <div
-          className="relative w-full h-[220px] sm:h-[320px] lg:h-[420px] overflow-hidden"
+          className="relative w-full"
           onMouseEnter={() => setIsHeroPaused(true)}
           onMouseLeave={() => setIsHeroPaused(false)}
         >
-          {brands.map((b, i) => (
-            <div key={i} className={`absolute inset-0 transition-opacity duration-700 ${currentSlide === i ? "opacity-100" : "opacity-0"}`}>
-              <picture className="block w-full h-full">
-                <source media="(min-width: 1024px)" srcSet={makeSrcSet(b.images.desktop, b.images.desktop2x)} />
-                <source media="(min-width: 640px)" srcSet={makeSrcSet(b.images.tablet, b.images.tablet2x)} />
-                <img src={b.images.mobile} srcSet={makeSrcSet(b.images.mobile, b.images.mobile2x)} alt={b.name} className="w-full h-full object-cover object-top block" />
-              </picture>
-              <div className="absolute inset-0 bg-black/15" />
-            </div>
-          ))}
+          {brands.map((b, i) => {
+            const isActive = currentSlide === i;
 
-          <button onClick={prevSlide} className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-black/45 hover:bg-black/60 text-white flex items-center justify-center">
+            return (
+              <div
+                key={i}
+                className={[
+                  "transition-opacity duration-700",
+                  isActive
+                    ? "relative opacity-100" // ✅ el activo define la altura
+                    : "absolute inset-0 opacity-0 pointer-events-none", // ✅ los demás no afectan altura
+                ].join(" ")}
+                aria-hidden={!isActive}
+              >
+                <picture className="block w-full">
+                  <source
+                    media="(min-width: 1024px)"
+                    srcSet={makeSrcSet(b.images.desktop, b.images.desktop2x)}
+                  />
+                  <source
+                    media="(min-width: 640px)"
+                    srcSet={makeSrcSet(b.images.tablet, b.images.tablet2x)}
+                  />
+                  <img
+                    src={b.images.mobile}
+                    srcSet={makeSrcSet(b.images.mobile, b.images.mobile2x)}
+                    alt={b.name}
+                    className="w-full h-auto block"
+                    loading={i === 0 ? "eager" : "lazy"}
+                    decoding="async"
+                  />
+                </picture>
+
+                {/* Overlay suave */}
+                <div className="absolute inset-0 bg-black/15 pointer-events-none" />
+              </div>
+            );
+          })}
+
+          {/* Flechas */}
+          <button
+            onClick={prevSlide}
+            className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-black/45 hover:bg-black/60 text-white flex items-center justify-center"
+            type="button"
+            aria-label="Anterior"
+          >
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
               <path d="M15 19l-7-7 7-7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
-          <button onClick={nextSlide} className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-black/45 hover:bg-black/60 text-white flex items-center justify-center">
+
+          <button
+            onClick={nextSlide}
+            className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-black/45 hover:bg-black/60 text-white flex items-center justify-center"
+            type="button"
+            aria-label="Siguiente"
+          >
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
               <path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
@@ -322,7 +352,11 @@ export default function Home() {
       {/* MARCAS ALIADAS CAROUSEL */}
       <Reveal delay={80}>
         <section className="bg-white border-b border-gray-200">
-          <Allies360Carousel title="Marcas Aliadas" items={quickCategories.map((c) => ({ name: c.title, icon: c.icon, href: c.href }))} speedSeconds={26} />
+          <Allies360Carousel
+            title="Marcas Aliadas"
+            items={quickCategories.map((c) => ({ name: c.title, icon: c.icon, href: c.href }))}
+            speedSeconds={26}
+          />
         </section>
       </Reveal>
 
@@ -334,9 +368,15 @@ export default function Home() {
               <h3 className="text-lg sm:text-xl font-extrabold text-equielect-blue">Productos destacados por marca</h3>
               <p className="mt-1 text-sm text-gray-600">Selección rápida para comprar con soporte y garantía.</p>
             </div>
-            <div className="mt-5"><FeaturedBrandProducts /></div>
+            <div className="mt-5">
+              <FeaturedBrandProducts />
+            </div>
             <div className="flex justify-center mt-10">
-              <Link href="/productos" className="px-8 py-3 bg-[#1c355e] text-white font-bold text-xs hover:bg-[#ffcd00] hover:text-[#1c355e] transition-colors" style={{ borderRadius: 2 }}>
+              <Link
+                href="/productos"
+                className="px-8 py-3 bg-[#f2c219] text-black font-bold text-xs hover:bg-[#d9af16] transition-colors"
+                style={{ borderRadius: 2 }}
+              >
                 Ver productos
               </Link>
             </div>
@@ -409,72 +449,66 @@ export default function Home() {
                   <div className="absolute inset-0 bg-black/10" />
                 </button>
 
-                {/* CENTRAL (solo teléfono + debajo texto/botón sin afectar altura) */}
-                  <div className="flex flex-col items-center">
-                    {/* wrapper del teléfono central */}
-                    <div className="flex items-center">
-                      <div className="relative w-[260px] sm:w-[290px] h-[520px] sm:h-[580px] bg-black border-[10px] border-[#1a1a1a] shadow-2xl rounded-[3.2rem]">
-                        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-5 bg-[#1a1a1a] rounded-b-2xl z-40" />
+                {/* CENTRAL */}
+                <div className="flex flex-col items-center">
+                  <div className="flex items-center">
+                    <div className="relative w-[260px] sm:w-[290px] h-[520px] sm:h-[580px] bg-black border-[10px] border-[#1a1a1a] shadow-2xl rounded-[3.2rem]">
+                      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-5 bg-[#1a1a1a] rounded-b-2xl z-40" />
 
-                        <div className="relative w-full h-full overflow-hidden rounded-[2.4rem] bg-black group">
-                          {/* ✅ Overlay SOLO para invitar a reproducir (NO tapa el poster) */}
-                          {!videoStarted && (
-                            <div
-                              className="absolute inset-0 z-30 flex flex-col items-center justify-center cursor-pointer transition-opacity duration-500 bg-black/15"
-                              onClick={handleStartVideo}
-                            >
-                              {/* Puedes dejar tu logo si quieres, pero ya no tapa la portada */}
-                              <div className="relative w-28 h-28 transition-transform duration-300 group-hover:scale-110">
-                                <Image
-                                  src="/assets/Logs/Logo-equielect.png"
-                                  alt="Logo EQ"
-                                  fill
-                                  className="object-contain opacity-95"
-                                />
-                              </div>
-
-                              <div className="mt-4 flex items-center gap-2 px-4 py-2 border border-white/20 rounded-full bg-white/10 backdrop-blur-sm">
-                                <div className="w-0 h-0 border-t-[5px] border-t-transparent border-l-[8px] border-l-white border-b-[5px] border-b-transparent ml-1" />
-                                <span className="text-white text-[10px] font-bold uppercase tracking-widest">
-                                  Reproducir
-                                </span>
-                              </div>
-                            </div>
-                          )}
-
-                          {/* ✅ VIDEO CENTRAL con POSTER */}
-                          <video
-                            ref={videoRef}
-                            key={`center-${centerId}-${rotationTick}`}
-                            className="w-full h-full object-cover"
-                            controls={videoStarted}
-                            playsInline
-                            preload="metadata"
-                            poster={centerVideo?.poster}
-                            onPlay={() => setVideoStarted(true)}
-                            onEnded={handleVideoEnded}
+                      <div className="relative w-full h-full overflow-hidden rounded-[2.4rem] bg-black group">
+                        {!videoStarted && (
+                          <div
+                            className="absolute inset-0 z-30 flex flex-col items-center justify-center cursor-pointer transition-opacity duration-500 bg-black/15"
+                            onClick={handleStartVideo}
                           >
-                            <source src={centerVideo?.src} type="video/mp4" />
-                          </video>
-                        </div>
-                      </div>
-                    </div>
+                            <div className="relative w-28 h-28 transition-transform duration-300 group-hover:scale-110">
+                              <Image
+                                src="/assets/Logs/Logo-equielect.png"
+                                alt="Logo EQ"
+                                fill
+                                className="object-contain opacity-95"
+                              />
+                            </div>
 
-                    {/* debajo (más cerca) */}
-                    <div className="mt-4 flex flex-col items-center gap-2">
-                      <p className="text-[11px] text-gray-400 font-bold uppercase tracking-widest">
-                        Conócenos en 30 segundos · EQUIELECT
-                      </p>
-                      <Link
-                        href="/quienes-somos"
-                        className="px-8 py-3 bg-[#f2c219] text-black font-bold text-xs hover:bg-[#d9af16]"
-                        style={{ borderRadius: 2 }}
-                      >
-                        Ver quienes somos
-                      </Link>
+                            <div className="mt-4 flex items-center gap-2 px-4 py-2 border border-white/20 rounded-full bg-white/10 backdrop-blur-sm">
+                              <div className="w-0 h-0 border-t-[5px] border-t-transparent border-l-[8px] border-l-white border-b-[5px] border-b-transparent ml-1" />
+                              <span className="text-white text-[10px] font-bold uppercase tracking-widest">
+                                Reproducir
+                              </span>
+                            </div>
+                          </div>
+                        )}
+
+                        <video
+                          ref={videoRef}
+                          key={`center-${centerId}-${rotationTick}`}
+                          className="w-full h-full object-cover"
+                          controls={videoStarted}
+                          playsInline
+                          preload="metadata"
+                          poster={centerVideo?.poster}
+                          onPlay={() => setVideoStarted(true)}
+                          onEnded={handleVideoEnded}
+                        >
+                          <source src={centerVideo?.src} type="video/mp4" />
+                        </video>
+                      </div>
                     </div>
                   </div>
 
+                  <div className="mt-4 flex flex-col items-center gap-2">
+                    <p className="text-[11px] text-gray-400 font-bold uppercase tracking-widest">
+                      Conócenos en 30 segundos · EQUIELECT
+                    </p>
+                    <Link
+                      href="/quienes-somos"
+                      className="px-8 py-3 bg-[#f2c219] text-black font-bold text-xs hover:bg-[#d9af16]"
+                      style={{ borderRadius: 2 }}
+                    >
+                      Ver quienes somos
+                    </Link>
+                  </div>
+                </div>
 
                 {/* LATERAL DERECHO */}
                 <button
@@ -500,7 +534,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* MÓVIL: central + dos previews debajo (rotan también) */}
+            {/* MÓVIL */}
             <div className="mt-10 md:hidden flex justify-center gap-4">
               <button type="button" onClick={goPrevPhoneVideo} className="w-12 h-12 rounded-full bg-white border border-gray-200 shadow flex items-center justify-center">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
@@ -547,19 +581,52 @@ export default function Home() {
           <Allies360Carousel items={allies.map((a) => ({ name: a.name, icon: a.src, href: a.href }))} speedSeconds={30} />
         </section>
 
-        {/* SECCIÓN CORPORATIVA FINAL */}
+        {/* SECCIÓN CORPORATIVA FINAL (FULL BLEED, sin bordes, enfoque controlado) */}
         <section className="w-full border-t border-gray-200">
-          <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[330px]">
-            <div className="relative min-h-[210px] bg-gray-200">
-              <Image src="/assets/sucursal/cotiza.png" alt="Equipo" fill className="object-cover" />
+          <div className="grid grid-cols-1 md:grid-cols-2">
+            {/* IZQUIERDA: Imagen */}
+            <div className="relative bg-gray-200 md:min-h-[260px] lg:min-h-[330px]">
+              {/* En móvil se ve en bloque con altura fija; en md+ se estira con la columna */}
+              <div className="relative w-full h-[220px] sm:h-[260px] md:absolute md:inset-0">
+                <Image
+                  src="/assets/sucursal/cotiza.png"
+                  alt="Equipo"
+                  fill
+                  priority
+                  sizes="(min-width: 1024px) 50vw, (min-width: 768px) 50vw, 100vw"
+                  className="
+                    object-cover
+                    object-left
+                    sm:object-left
+                    md:object-center
+                    lg:object-center
+                  "
+                />
+                {/* (Opcional) si quieres una capa suave para que el texto del banner se lea mejor */}
+                <div className="absolute inset-0 bg-black/0" />
+              </div>
             </div>
-            <div className="relative bg-[#ffcd00] flex items-center px-6 lg:px-14 py-10">
+
+            {/* DERECHA: Texto */}
+            <div className="relative bg-[#ffcd00] flex items-center px-6 lg:px-14 py-10 md:min-h-[260px] lg:min-h-[330px]">
               <div className="relative z-10">
-                <p className="text-[#1c355e] text-sm font-semibold uppercase tracking-wider">Atención al Cliente</p>
-                <h3 className="mt-2 text-[#1c355e] text-3xl lg:text-4xl font-extrabold">Oficina Virtual Equielect</h3>
-                <p className="mt-4 text-[#1c355e]/90 max-w-md">Atención rápida y asesoría profesional a un clic de distancia.</p>
+                <p className="text-[#1c355e] text-sm font-semibold uppercase tracking-wider">
+                  Atención al Cliente
+                </p>
+                <h3 className="mt-2 text-[#1c355e] text-3xl lg:text-4xl font-extrabold">
+                  Oficina Virtual Equielect
+                </h3>
+                <p className="mt-4 text-[#1c355e]/90 max-w-md">
+                  Atención rápida y asesoría profesional a un clic de distancia.
+                </p>
                 <div className="mt-6">
-                  <a href="https://api.whatsapp.com/send/?phone=573146453033" target="_blank" className="inline-block px-7 py-3 bg-white text-[#1c355e] font-extrabold" style={{ borderRadius: 2 }} rel="noreferrer">
+                  <a
+                    href="https://api.whatsapp.com/send/?phone=573146453033"
+                    target="_blank"
+                    className="inline-block px-7 py-3 bg-white text-[#1c355e] font-extrabold"
+                    style={{ borderRadius: 2 }}
+                    rel="noreferrer"
+                  >
                     Solicitar cotización
                   </a>
                 </div>
@@ -567,6 +634,8 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+
       </Reveal>
     </div>
   );

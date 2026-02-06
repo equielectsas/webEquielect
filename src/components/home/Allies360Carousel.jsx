@@ -10,7 +10,7 @@ import Link from "next/link";
  */
 export default function Allies360Carousel({
   items = [],
-  title = "Marcas Aliadas",
+  title = "",
   speedSeconds = 28, 
   stepPx = 320, 
   pauseOnHover = true,
