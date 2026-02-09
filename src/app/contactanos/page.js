@@ -119,27 +119,29 @@ export default function ContactoPage() {
             Estamos para <span className="font-bold">ayudarte</span>.
           </h1>
           <p className="text-white/80 mt-5 max-w-2xl leading-relaxed">
-            Productos eléctricos, electrónicos y de telecomunicaciones para soluciones técnicas y novedosas.
+            Productos eléctricos, electrónicos y de telecomunicaciones para soluciones técnicas y
+            novedosas.
           </p>
         </div>
       </header>
 
-      {/* Fondo técnico sutil */}
-      <section className="relative overflow-hidden">
+      {/* ✅ SECCIÓN FULL WIDTH CON FONDO (FIX RESPONSIVE/ZOOM) */}
+      <section className="relative w-full overflow-hidden">
+        {/* Patrón en TODO el ancho */}
         <div
-          className="absolute inset-0 z-0 opacity-[0.16]"
+          aria-hidden="true"
+          className="absolute inset-0 z-0 opacity-[0.22]"
           style={{
-            backgroundImage: `url('/assets/banners/fondo.png')`,
-            backgroundSize: "680px",
+            backgroundImage: "url('/assets/banners/fondo.png')",
             backgroundRepeat: "repeat",
             backgroundPosition: "center",
+            backgroundSize: "clamp(420px, 42vw, 900px)",
           }}
         />
-        <div className="absolute inset-0 z-0 bg-gradient-to-b from-white via-white/70 to-white" />
-
+        {/* Contenido */}
         <div className="relative z-10 max-w-7xl mx-auto px-6 py-16 md:py-20">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
-            {/* INFO COLUMN (DATOS REALES) */}
+            {/* INFO COLUMN */}
             <aside className="lg:col-span-4 space-y-6">
               {/* Perfil */}
               <div className="p-8 bg-gray-50 border-l-8 border-[#fae100] shadow-sm">
@@ -161,9 +163,7 @@ export default function ContactoPage() {
                 <div className="mt-5 flex items-start gap-3 text-sm text-gray-700">
                   <MapPin className="w-4 h-4 text-[#fae100] mt-0.5" />
                   <div className="leading-relaxed">
-                    <p className="font-semibold text-[#1c355e]">
-                      Carrera 72 No. 30-53
-                    </p>
+                    <p className="font-semibold text-[#1c355e]">Carrera 72 No. 30-53</p>
                     <p>Medellín – Colombia</p>
                   </div>
                 </div>
@@ -209,9 +209,7 @@ export default function ContactoPage() {
                     <Clock className="w-4 h-4 text-[#fae100] mt-0.5" />
                     <div className="leading-relaxed">
                       <p className="font-semibold">Lunes a Viernes</p>
-                      <p className="text-white/85">
-                        7:00 am a 5:45 pm (jornada continua)
-                      </p>
+                      <p className="text-white/85">7:00 am a 5:45 pm (jornada continua)</p>
                     </div>
                   </div>
 
@@ -293,7 +291,6 @@ export default function ContactoPage() {
                       Al enviar, aceptas ser contactado por Equielect para atender tu solicitud.
                     </p>
 
-                    {/* ✅ Botón menos redondo */}
                     <button
                       disabled={loading}
                       className="group inline-flex items-center justify-center gap-4 bg-[#1c355e] text-white px-10 py-4 rounded-xl hover:bg-black transition disabled:opacity-60 disabled:cursor-not-allowed shadow-lg"
@@ -343,7 +340,9 @@ function Field({
         onBlur={onBlur}
         className={[
           "w-full border-b py-3 outline-none bg-transparent transition-colors",
-          error ? "border-red-400 focus:border-red-500" : "border-gray-200 focus:border-[#1c355e]",
+          error
+            ? "border-red-400 focus:border-red-500"
+            : "border-gray-200 focus:border-[#1c355e]",
           "placeholder:text-gray-300",
         ].join(" ")}
       />
@@ -376,7 +375,9 @@ function Textarea({
         onBlur={onBlur}
         className={[
           "w-full border-b py-3 outline-none bg-transparent transition-colors resize-none",
-          error ? "border-red-400 focus:border-red-500" : "border-gray-200 focus:border-[#1c355e]",
+          error
+            ? "border-red-400 focus:border-red-500"
+            : "border-gray-200 focus:border-[#1c355e]",
           "placeholder:text-gray-300",
         ].join(" ")}
       />

@@ -37,7 +37,6 @@ export default function Home() {
   // ✅ Orden 360: [left, center, right]
   const DEFAULT_ORDER = useMemo(() => ["v1", "clip", "v2"], []);
   const [phoneOrder, setPhoneOrder] = useState(DEFAULT_ORDER);
-
   const [rotationTick, setRotationTick] = useState(0);
 
   const leftId = phoneOrder[0];
@@ -47,6 +46,10 @@ export default function Home() {
   const leftVideo = videoMap[leftId];
   const centerVideo = videoMap[centerId];
   const rightVideo = videoMap[rightId];
+
+  // ✅ control de animación (para que “se muevan” como 360 y no spameen clicks)
+  const [isRotating, setIsRotating] = useState(false);
+  const [rotateDir, setRotateDir] = useState(null); // "next" | "prev" | null
 
   // HERO
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -76,29 +79,41 @@ export default function Home() {
     });
   };
 
-  // ✅ click en lateral: rota para llevar ese lateral al centro
-  const handleClickLeft = () => {
-    // Left -> center = rotación "prev": [L,C,R] -> [R,L,C]
-    goPrevPhoneVideo();
-  };
-
-  const handleClickRight = () => {
-    // Right -> center = rotación "next": [L,C,R] -> [C,R,L]
-    goNextPhoneVideo();
-  };
-
-  // ✅ Rotación 360
+  // ✅ Rotación 360 con animación física de los “celulares”
   const goNextPhoneVideo = () => {
+    if (isRotating) return;
+    setIsRotating(true);
+    setRotateDir("next");
+
     setPhoneOrder(([l, c, r]) => [c, r, l]);
     setRotationTick((t) => t + 1);
     setVideoStarted(true);
+
+    // duración de la animación (debe coincidir con CSS)
+    window.setTimeout(() => {
+      setIsRotating(false);
+      setRotateDir(null);
+    }, 650);
   };
 
   const goPrevPhoneVideo = () => {
+    if (isRotating) return;
+    setIsRotating(true);
+    setRotateDir("prev");
+
     setPhoneOrder(([l, c, r]) => [r, l, c]);
     setRotationTick((t) => t + 1);
     setVideoStarted(true);
+
+    window.setTimeout(() => {
+      setIsRotating(false);
+      setRotateDir(null);
+    }, 650);
   };
+
+  // ✅ click en lateral: rota para llevar ese lateral al centro
+  const handleClickLeft = () => goPrevPhoneVideo();
+  const handleClickRight = () => goNextPhoneVideo();
 
   // ✅ cuando cambia el video central (por rotación), intenta reproducir si ya está "started"
   useEffect(() => {
@@ -109,7 +124,7 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [centerId]);
 
-  // ✅ al terminar: vuelve al estado inicial (centro = clip + portada)
+  // ✅ al terminar: vuelve al estado inicial
   const resetToDefault = () => {
     setVideoStarted(false);
     setPhoneOrder(DEFAULT_ORDER);
@@ -184,7 +199,6 @@ export default function Home() {
     },
   ];
 
-  // ✅ HERO SLIDER HELPERS (después de brands para usar brands.length)
   const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % brands.length);
   const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + brands.length) % brands.length);
 
@@ -215,8 +229,21 @@ export default function Home() {
     { name: "Crouse Hinds", src: "/assets/aliados/AllieCH.png", href: "/marca/crouse-hinds" },
   ];
 
+  // ✅ 3 IMÁGENES PARA SECCIÓN CORPORATIVA (MISMO ENFOQUE QUE SLIDER)
+  const CORPORATE = useMemo(
+    () => ({
+      mobile: "/assets/sucursal/cot_celular.png",
+      tablet: "/assets/sucursal/cot_celular.png",
+      desktop: "/assets/sucursal/cot_pc.png",
+      desktop2x: "/assets/sucursal/cot_pc.png",
+      tablet2x: "/assets/sucursal/cot_celular.png",
+      mobile2x: "/assets/sucursal/cot_celular.png",
+    }),
+    []
+  );
+
   // =========================
-  // EFFECTS
+  // EFECTOS
   // =========================
   useEffect(() => {
     const done = () => setIsLoading(false);
@@ -248,43 +275,114 @@ export default function Home() {
   }, [brands.length, isHeroPaused]);
 
   // =========================
+  // ✅ POSES para “360° físico” (los 3 se mueven, no solo cambia el video)
+  // =========================
+  const getPhonePose = (posIndex) => {
+    // posIndex: 0 (izq), 1 (centro), 2 (der)
+    if (posIndex === 1) {
+      return {
+        z: 30,
+        opacity: 1,
+        filter: "none",
+        transform: "translate3d(0px, 0px, 0px) scale(1) rotateY(0deg) rotateZ(0deg)",
+        pointerEvents: "auto",
+      };
+    }
+
+    if (posIndex === 0) {
+      return {
+        z: 10,
+        opacity: 0.98,
+        filter: "saturate(0.95) contrast(0.95) brightness(0.95)",
+        transform: "translate3d(-320px, 55px, -80px) scale(0.86) rotateY(28deg) rotateZ(-1deg)",
+        pointerEvents: "auto",
+      };
+    }
+
+    return {
+      z: 10,
+      opacity: 0.98,
+      filter: "saturate(0.95) contrast(0.95) brightness(0.95)",
+      transform: "translate3d(320px, 55px, -80px) scale(0.86) rotateY(-28deg) rotateZ(1deg)",
+      pointerEvents: "auto",
+    };
+  };
+
+  // =========================
   // RENDER
   // =========================
   return (
     <div className="relative">
-      {/* CSS GLOBAL INTERNO */}
       <style jsx global>{`
         :root {
           --color-equielect-yellow: #ffcd00;
           --color-equielect-blue: #1c355e;
           --color-equielect-gray: #98989a;
         }
-        .text-equielect-gray { color: var(--color-equielect-gray); }
-        .text-equielect-blue { color: var(--color-equielect-blue); }
-        .bg-equielect-yellow { background-color: var(--color-equielect-yellow); }
-        .bg-equielect-blue { background-color: var(--color-equielect-blue); }
+        .text-equielect-gray {
+          color: var(--color-equielect-gray);
+        }
+        .text-equielect-blue {
+          color: var(--color-equielect-blue);
+        }
+        .bg-equielect-yellow {
+          background-color: var(--color-equielect-yellow);
+        }
+        .bg-equielect-blue {
+          background-color: var(--color-equielect-blue);
+        }
 
         @keyframes eqSlideInLeft {
-          0% { opacity: 0; transform: translateX(-38px); }
-          100% { opacity: 1; transform: translateX(0); }
+          0% {
+            opacity: 0;
+            transform: translateX(-38px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateX(0);
+          }
         }
         @keyframes eqSlideInRight {
-          0% { opacity: 0; transform: translateX(38px); }
-          100% { opacity: 1; transform: translateX(0); }
+          0% {
+            opacity: 0;
+            transform: translateX(38px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateX(0);
+          }
         }
-        .eq-slide-in-left { animation: eqSlideInLeft 650ms ease-out both; }
-        .eq-slide-in-right { animation: eqSlideInRight 650ms ease-out both; }
+        .eq-slide-in-left {
+          animation: eqSlideInLeft 650ms ease-out both;
+        }
+        .eq-slide-in-right {
+          animation: eqSlideInRight 650ms ease-out both;
+        }
+
+        /* ✅ carrusel 3D tipo historias */
+        .eq-phones-stage {
+          perspective: 1200px;
+          transform-style: preserve-3d;
+        }
+        .eq-phone-item {
+          transition: transform 650ms cubic-bezier(0.22, 0.9, 0.2, 1),
+            filter 650ms cubic-bezier(0.22, 0.9, 0.2, 1),
+            opacity 650ms cubic-bezier(0.22, 0.9, 0.2, 1);
+          will-change: transform, opacity, filter;
+        }
+        .eq-rotate-next .eq-phone-item {
+          transition-timing-function: cubic-bezier(0.2, 0.9, 0.15, 1);
+        }
+        .eq-rotate-prev .eq-phone-item {
+          transition-timing-function: cubic-bezier(0.2, 0.9, 0.15, 1);
+        }
       `}</style>
 
       <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} />
 
-      {/* HERO SLIDER (ENFOQUE 2: altura automática según la imagen, sin recorte) */}
+      {/* HERO SLIDER */}
       <section className="bg-transparent">
-        <div
-          className="relative w-full"
-          onMouseEnter={() => setIsHeroPaused(true)}
-          onMouseLeave={() => setIsHeroPaused(false)}
-        >
+        <div className="relative w-full" onMouseEnter={() => setIsHeroPaused(true)} onMouseLeave={() => setIsHeroPaused(false)}>
           {brands.map((b, i) => {
             const isActive = currentSlide === i;
 
@@ -293,21 +391,13 @@ export default function Home() {
                 key={i}
                 className={[
                   "transition-opacity duration-700",
-                  isActive
-                    ? "relative opacity-100" // ✅ el activo define la altura
-                    : "absolute inset-0 opacity-0 pointer-events-none", // ✅ los demás no afectan altura
+                  isActive ? "relative opacity-100" : "absolute inset-0 opacity-0 pointer-events-none",
                 ].join(" ")}
                 aria-hidden={!isActive}
               >
                 <picture className="block w-full">
-                  <source
-                    media="(min-width: 1024px)"
-                    srcSet={makeSrcSet(b.images.desktop, b.images.desktop2x)}
-                  />
-                  <source
-                    media="(min-width: 640px)"
-                    srcSet={makeSrcSet(b.images.tablet, b.images.tablet2x)}
-                  />
+                  <source media="(min-width: 1024px)" srcSet={makeSrcSet(b.images.desktop, b.images.desktop2x)} />
+                  <source media="(min-width: 640px)" srcSet={makeSrcSet(b.images.tablet, b.images.tablet2x)} />
                   <img
                     src={b.images.mobile}
                     srcSet={makeSrcSet(b.images.mobile, b.images.mobile2x)}
@@ -318,13 +408,11 @@ export default function Home() {
                   />
                 </picture>
 
-                {/* Overlay suave */}
                 <div className="absolute inset-0 bg-black/15 pointer-events-none" />
               </div>
             );
           })}
 
-          {/* Flechas */}
           <button
             onClick={prevSlide}
             className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-black/45 hover:bg-black/60 text-white flex items-center justify-center"
@@ -384,7 +472,7 @@ export default function Home() {
         </section>
       </Reveal>
 
-      {/* SECCIÓN INSTITUCIONAL (ROTACIÓN 360) */}
+      {/* ✅ SECCIÓN INSTITUCIONAL (HISTORIAS + MOVIMIENTO 360 REAL) */}
       <Reveal delay={120}>
         <section className="bg-white overflow-hidden py-16 sm:py-24">
           <div className="max-w-7xl mx-auto px-6">
@@ -394,180 +482,212 @@ export default function Home() {
               </h2>
               <div className="mt-6 space-y-4">
                 <p className="text-gray-500 text-base sm:text-lg leading-relaxed">
-                  En Equielect te ayudamos a elegir bien para tu proyecto: asesoría, disponibilidad y respaldo con marcas líderes.
+                  En Equielect te ayudamos a elegir bien para tu proyecto: asesoría, disponibilidad y respaldo con marcas
+                  líderes.
                 </p>
               </div>
             </header>
 
-            {/* Wrapper para flechas en blanco */}
             <div className="relative mt-14">
-              {/* Flecha izquierda */}
+              {/* Flecha IZQ */}
               <button
                 type="button"
                 onClick={goPrevPhoneVideo}
-                className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-[999] w-12 h-12 rounded-full bg-white/95 border border-gray-200 shadow-lg hover:bg-white hover:shadow-xl text-gray-700 items-center justify-center"
-                aria-label="Video anterior"
+                disabled={isRotating}
+                className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-[999] w-12 h-12 rounded-full bg-white/95 border border-gray-200 shadow-lg hover:bg-white hover:shadow-xl text-gray-700 items-center justify-center disabled:opacity-60 disabled:cursor-not-allowed"
+                aria-label="Historia anterior"
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                   <path d="M15 19l-7-7 7-7" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </button>
 
-              {/* Flecha derecha */}
+              {/* Flecha DER */}
               <button
                 type="button"
                 onClick={goNextPhoneVideo}
-                className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-[999] w-12 h-12 rounded-full bg-white/95 border border-gray-200 shadow-lg hover:bg-white hover:shadow-xl text-gray-700 items-center justify-center"
-                aria-label="Siguiente video"
+                disabled={isRotating}
+                className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-[999] w-12 h-12 rounded-full bg-white/95 border border-gray-200 shadow-lg hover:bg-white hover:shadow-xl text-gray-700 items-center justify-center disabled:opacity-60 disabled:cursor-not-allowed"
+                aria-label="Siguiente historia"
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                   <path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </button>
 
-              {/* Zona teléfonos */}
-              <div className="flex items-center justify-center gap-12 lg:gap-20 px-14">
-                {/* LATERAL IZQUIERDO */}
-                <button
-                  key={`left-${leftId}-${rotationTick}`}
-                  type="button"
-                  onClick={handleClickLeft}
-                  className={`hidden md:block eq-slide-in-left relative w-[235px] h-[405px] lg:w-[255px] lg:h-[450px] overflow-hidden shadow-2xl border-[3px] rounded-[36px] transition-transform ${
-                    centerId === leftId ? "border-[#005cb9] ring-4 ring-[#005cb9]/20" : "border-white hover:scale-[1.02]"
-                  }`}
-                  aria-label="Llevar este video al centro"
+              {/* ✅ STAGE 3D: aquí se mueven los 3 “celulares” */}
+              <div
+                className={[
+                  "eq-phones-stage relative mx-auto",
+                  "h-[660px] sm:h-[760px] md:h-[800px] lg:h-[860px]",
+                  rotateDir === "next" ? "eq-rotate-next" : "",
+                  rotateDir === "prev" ? "eq-rotate-prev" : "",
+                ].join(" ")}
+              >
+                {PHONE_VIDEOS.map((vid) => {
+                  const posIndex = phoneOrder.indexOf(vid.id); // 0 izq, 1 centro, 2 der
+                  const pose = getPhonePose(posIndex);
+                  const isCenter = posIndex === 1;
+                  const isLeft = posIndex === 0;
+                  const isRight = posIndex === 2;
+
+                  return (
+                    <div
+                      key={vid.id}
+                      className="eq-phone-item absolute left-1/2 top-1/2"
+                      style={{
+                        transform: `translate3d(-50%, -50%, 0px) ${pose.transform}`,
+                        zIndex: pose.z,
+                        opacity: pose.opacity,
+                        filter: pose.filter,
+                        pointerEvents: pose.pointerEvents,
+                      }}
+                    >
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (isRotating) return;
+                          if (isLeft) handleClickLeft();
+                          if (isRight) handleClickRight();
+                          if (isCenter && !videoStarted) handleStartVideo();
+                        }}
+                        className={[
+                          // ✅ MÁS GRANDES (todos)
+                          "relative block",
+                          "w-[260px] h-[450px] lg:w-[285px] lg:h-[505px]",
+                          isCenter ? "w-[290px] sm:w-[330px] h-[580px] sm:h-[650px]" : "",
+
+                          // ✅ carcasa limpia (sin “raya” extra)
+                          "rounded-[3.2rem] overflow-hidden shadow-2xl",
+                          isCenter ? "bg-[#0b0b0b] p-[10px]" : "bg-white p-[3px]",
+                          isCenter ? "" : "hover:scale-[1.02]",
+                          isRotating ? "cursor-default" : "cursor-pointer",
+                        ].join(" ")}
+                        aria-label={isCenter ? "Historia actual" : "Llevar historia al centro"}
+                        disabled={isRotating}
+                      >
+                        {/* notch (solo centro) */}
+                        {isCenter ? (
+                          <div className="absolute top-[6px] left-1/2 -translate-x-1/2 w-28 h-5 bg-[#111] rounded-b-2xl z-40 pointer-events-none" />
+                        ) : null}
+
+                        {/* Screen pegado (sin margen -> sin raya) */}
+                        <div
+                          className={[
+                            "absolute inset-0",
+                            isCenter ? "rounded-[2.4rem] overflow-hidden bg-black" : "rounded-[36px] overflow-hidden bg-black",
+                          ].join(" ")}
+                        >
+                          {/* Overlay play tipo historias */}
+                          {isCenter && !videoStarted && (
+                            <div className="absolute inset-0 z-30 flex flex-col items-center justify-center transition-opacity duration-500 bg-black/15">
+                              <div className="relative w-28 h-28 transition-transform duration-300 hover:scale-110">
+                                <Image
+                                  src="/assets/Logs/Logo-equielect.png"
+                                  alt="Logo EQ"
+                                  fill
+                                  className="object-contain opacity-95"
+                                />
+                              </div>
+
+                              <div className="mt-4 flex items-center gap-2 px-4 py-2 border border-white/20 rounded-full bg-white/10 backdrop-blur-sm">
+                                <div className="w-0 h-0 border-t-[5px] border-t-transparent border-l-[8px] border-l-white border-b-[5px] border-b-transparent ml-1" />
+                                <span className="text-white text-[10px] font-bold uppercase tracking-widest">Reproducir</span>
+                              </div>
+                            </div>
+                          )}
+
+                          {/* VIDEO */}
+                          {isCenter ? (
+                            <video
+                              ref={videoRef}
+                              key={`center-${centerId}-${rotationTick}`}
+                              className="w-full h-full object-cover"
+                              controls={videoStarted}
+                              playsInline
+                              preload="metadata"
+                              poster={centerVideo?.poster}
+                              onPlay={() => setVideoStarted(true)}
+                              onEnded={handleVideoEnded}
+                            >
+                              <source src={centerVideo?.src} type="video/mp4" />
+                            </video>
+                          ) : (
+                            <video
+                              src={vid.src}
+                              autoPlay
+                              muted
+                              loop
+                              playsInline
+                              preload="metadata"
+                              className="w-full h-full object-cover"
+                              poster={vid.poster}
+                            />
+                          )}
+
+                          <div className="absolute inset-0 bg-black/10 pointer-events-none" />
+                        </div>
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Texto / botón debajo */}
+              <div className="mt-4 flex flex-col items-center gap-2">
+                <p className="text-[11px] text-gray-400 font-bold uppercase tracking-widest">
+                  Conócenos en 30 segundos · EQUIELECT
+                </p>
+                <Link
+                  href="/quienes-somos"
+                  className="px-8 py-3 bg-[#f2c219] text-black font-bold text-xs hover:bg-[#d9af16]"
+                  style={{ borderRadius: 2 }}
                 >
-                  <video
-                    src={leftVideo?.src}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="metadata"
-                    className="absolute inset-0 w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-black/10" />
+                  Ver quienes somos
+                </Link>
+              </div>
+
+              {/* Mobile nav simple */}
+              <div className="mt-10 md:hidden flex justify-center gap-4">
+                <button
+                  type="button"
+                  onClick={goPrevPhoneVideo}
+                  disabled={isRotating}
+                  className="w-12 h-12 rounded-full bg-white border border-gray-200 shadow flex items-center justify-center disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                    <path d="M15 19l-7-7 7-7" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
                 </button>
 
-                {/* CENTRAL */}
-                <div className="flex flex-col items-center">
-                  <div className="flex items-center">
-                    <div className="relative w-[260px] sm:w-[290px] h-[520px] sm:h-[580px] bg-black border-[10px] border-[#1a1a1a] shadow-2xl rounded-[3.2rem]">
-                      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-5 bg-[#1a1a1a] rounded-b-2xl z-40" />
-
-                      <div className="relative w-full h-full overflow-hidden rounded-[2.4rem] bg-black group">
-                        {!videoStarted && (
-                          <div
-                            className="absolute inset-0 z-30 flex flex-col items-center justify-center cursor-pointer transition-opacity duration-500 bg-black/15"
-                            onClick={handleStartVideo}
-                          >
-                            <div className="relative w-28 h-28 transition-transform duration-300 group-hover:scale-110">
-                              <Image
-                                src="/assets/Logs/Logo-equielect.png"
-                                alt="Logo EQ"
-                                fill
-                                className="object-contain opacity-95"
-                              />
-                            </div>
-
-                            <div className="mt-4 flex items-center gap-2 px-4 py-2 border border-white/20 rounded-full bg-white/10 backdrop-blur-sm">
-                              <div className="w-0 h-0 border-t-[5px] border-t-transparent border-l-[8px] border-l-white border-b-[5px] border-b-transparent ml-1" />
-                              <span className="text-white text-[10px] font-bold uppercase tracking-widest">
-                                Reproducir
-                              </span>
-                            </div>
-                          </div>
-                        )}
-
-                        <video
-                          ref={videoRef}
-                          key={`center-${centerId}-${rotationTick}`}
-                          className="w-full h-full object-cover"
-                          controls={videoStarted}
-                          playsInline
-                          preload="metadata"
-                          poster={centerVideo?.poster}
-                          onPlay={() => setVideoStarted(true)}
-                          onEnded={handleVideoEnded}
-                        >
-                          <source src={centerVideo?.src} type="video/mp4" />
-                        </video>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="mt-4 flex flex-col items-center gap-2">
-                    <p className="text-[11px] text-gray-400 font-bold uppercase tracking-widest">
-                      Conócenos en 30 segundos · EQUIELECT
-                    </p>
-                    <Link
-                      href="/quienes-somos"
-                      className="px-8 py-3 bg-[#f2c219] text-black font-bold text-xs hover:bg-[#d9af16]"
-                      style={{ borderRadius: 2 }}
-                    >
-                      Ver quienes somos
-                    </Link>
-                  </div>
-                </div>
-
-                {/* LATERAL DERECHO */}
                 <button
-                  key={`right-${rightId}-${rotationTick}`}
                   type="button"
-                  onClick={handleClickRight}
-                  className={`hidden md:block eq-slide-in-right relative w-[235px] h-[405px] lg:w-[255px] lg:h-[450px] overflow-hidden shadow-2xl border-[3px] rounded-[36px] transition-transform ${
-                    centerId === rightId ? "border-[#005cb9] ring-4 ring-[#005cb9]/20" : "border-white hover:scale-[1.02]"
-                  }`}
-                  aria-label="Llevar este video al centro"
+                  onClick={handleStartVideo}
+                  disabled={isRotating}
+                  className="w-12 h-12 rounded-full bg-white border border-gray-200 shadow flex items-center justify-center disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  <video
-                    src={rightVideo?.src}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="metadata"
-                    className="absolute inset-0 w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-black/10" />
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                    <path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={goNextPhoneVideo}
+                  disabled={isRotating}
+                  className="w-12 h-12 rounded-full bg-white border border-gray-200 shadow flex items-center justify-center disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                    <path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
                 </button>
               </div>
-            </div>
-
-            {/* MÓVIL */}
-            <div className="mt-10 md:hidden flex justify-center gap-4">
-              <button type="button" onClick={goPrevPhoneVideo} className="w-12 h-12 rounded-full bg-white border border-gray-200 shadow flex items-center justify-center">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                  <path d="M15 19l-7-7 7-7" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
-
-              <button
-                type="button"
-                onClick={handleStartVideo}
-                className="relative w-[170px] h-[290px] overflow-hidden shadow-xl border-[3px] rounded-[28px] border-gray-200"
-              >
-                <video src={centerVideo?.src} muted playsInline preload="metadata" className="absolute inset-0 w-full h-full object-cover" />
-                {!videoStarted && <div className="absolute inset-0 bg-black/35 flex items-center justify-center text-white text-xs font-bold">TOCA PARA VER</div>}
-              </button>
-
-              <button type="button" onClick={goNextPhoneVideo} className="w-12 h-12 rounded-full bg-white border border-gray-200 shadow flex items-center justify-center">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                  <path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
-            </div>
-
-            <div className="mt-6 md:hidden flex justify-center">
-              <Link href="/quienes-somos" className="px-8 py-3 bg-[#f2c219] text-black font-bold text-xs hover:bg-[#d9af16]" style={{ borderRadius: 2 }}>
-                Ver quienes somos
-              </Link>
             </div>
           </div>
         </section>
       </Reveal>
 
-      {/* OTRAS MARCAS */}
+      {/* OTRAS MARCAS + SECCIÓN CORPORATIVA */}
       <Reveal delay={120}>
         <section className="bg-white py-12 border-t border-gray-200">
           <div className="max-w-7xl mx-auto px-4 mb-8 flex justify-between items-center">
@@ -581,61 +701,51 @@ export default function Home() {
           <Allies360Carousel items={allies.map((a) => ({ name: a.name, icon: a.src, href: a.href }))} speedSeconds={30} />
         </section>
 
-        {/* SECCIÓN CORPORATIVA FINAL (FULL BLEED, sin bordes, enfoque controlado) */}
-        <section className="w-full border-t border-gray-200">
-          <div className="grid grid-cols-1 md:grid-cols-2">
-            {/* IZQUIERDA: Imagen */}
-            <div className="relative bg-gray-200 md:min-h-[260px] lg:min-h-[330px]">
-              {/* En móvil se ve en bloque con altura fija; en md+ se estira con la columna */}
-              <div className="relative w-full h-[220px] sm:h-[260px] md:absolute md:inset-0">
-                <Image
-                  src="/assets/sucursal/cotiza.png"
-                  alt="Equipo"
-                  fill
-                  priority
-                  sizes="(min-width: 1024px) 50vw, (min-width: 768px) 50vw, 100vw"
-                  className="
-                    object-cover
-                    object-left
-                    sm:object-left
-                    md:object-center
-                    lg:object-center
-                  "
+        {/* ✅ SECCIÓN CORPORATIVA FINAL (IGUAL QUE SLIDERHOME) */}
+        <section className="w-full border-t border-gray-200 bg-white">
+          <div className="grid grid-cols-1 md:grid-cols-2 items-stretch">
+            <div className="w-full">
+              <picture className="block w-full">
+                <source media="(min-width: 1024px)" srcSet={makeSrcSet(CORPORATE.desktop, CORPORATE.desktop2x)} />
+                <source media="(min-width: 768px)" srcSet={makeSrcSet(CORPORATE.tablet, CORPORATE.tablet2x)} />
+                <img
+                  src={CORPORATE.mobile}
+                  srcSet={makeSrcSet(CORPORATE.mobile, CORPORATE.mobile2x)}
+                  alt="Acompañamiento técnico especializado - Equielect"
+                  className="w-full h-auto block"
+                  loading="eager"
+                  decoding="async"
                 />
-                {/* (Opcional) si quieres una capa suave para que el texto del banner se lea mejor */}
-                <div className="absolute inset-0 bg-black/0" />
-              </div>
+              </picture>
             </div>
 
-            {/* DERECHA: Texto */}
-            <div className="relative bg-[#ffcd00] flex items-center px-6 lg:px-14 py-10 md:min-h-[260px] lg:min-h-[330px]">
-              <div className="relative z-10">
-                <p className="text-[#1c355e] text-sm font-semibold uppercase tracking-wider">
-                  Atención al Cliente
-                </p>
-                <h3 className="mt-2 text-[#1c355e] text-3xl lg:text-4xl font-extrabold">
-                  Oficina Virtual Equielect
-                </h3>
-                <p className="mt-4 text-[#1c355e]/90 max-w-md">
-                  Atención rápida y asesoría profesional a un clic de distancia.
-                </p>
-                <div className="mt-6">
-                  <a
-                    href="https://api.whatsapp.com/send/?phone=573146453033"
-                    target="_blank"
-                    className="inline-block px-7 py-3 bg-white text-[#1c355e] font-extrabold"
-                    style={{ borderRadius: 2 }}
-                    rel="noreferrer"
-                  >
-                    Solicitar cotización
-                  </a>
+            <div className="bg-[#ffcd00] flex items-center">
+              <div className="w-full px-6 md:px-8 lg:px-14 py-10 md:py-0">
+                <div className="max-w-xl">
+                  <p className="text-[#1c355e] text-sm font-semibold uppercase tracking-wider">Atención al Cliente</p>
+
+                  <h3 className="mt-2 text-[#1c355e] text-3xl lg:text-4xl font-extrabold">Oficina Virtual Equielect</h3>
+
+                  <p className="mt-4 text-[#1c355e]/90">Atención rápida y asesoría profesional a un clic de distancia.</p>
+
+                  <div className="mt-6">
+                    <a
+                      href="https://api.whatsapp.com/send/?phone=573146453033"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center justify-center px-7 py-3 bg-white text-[#1c355e] font-extrabold"
+                      style={{ borderRadius: 2 }}
+                    >
+                      Solicitar cotización
+                    </a>
+                  </div>
+
+                  <div className="h-3 md:hidden" />
                 </div>
               </div>
             </div>
           </div>
         </section>
-
-
       </Reveal>
     </div>
   );
