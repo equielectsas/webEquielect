@@ -51,6 +51,7 @@ export default function MarcasPage() {
               Aliados
             </h1>
           </div>
+          
 
           {/* GRID centrado (incluye última fila centrada) */}
           <div className="mt-10">

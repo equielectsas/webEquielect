@@ -22,18 +22,31 @@ export const brands = [
       title: "Interruptores y pulsadores",
       text: "Interruptores y pulsadores Schneider Electric para la industria: maniobra y control confiables en tableros y maquinaria, alta durabilidad y seguridad para operación continua en entornos exigentes.",
       href: "/productos?marca=schneider",
+      images: [
+      "/assets/products/schneider/interruptor.png",
+      "/assets/products/schneider/pulsadores.png",
+      "/assets/products/schneider/interruptores.png",
+    ],
     },
     {
       img: "/assets/products/schneider/variador.jpg",
       title: "Variación de velocidad y arranque motor",
-      text: "Variación de velocidad y arranque de motores Schneider Electric: control preciso, arranque suave y mayor eficiencia para procesos industriales exigentes.",
+      text: "Variación de velocidad y arranque de motores: control preciso y arranque suave para proteger el motor, reducir picos de corriente y mejorar la eficiencia energética. Ideal para optimizar procesos industriales exigentes.",
       href: "/productos?marca=schneider",
+      images: [
+      "/assets/products/schneider/arranque_motor.png",
+      "/assets/products/schneider/variador_.png",
+    ],
     },
     {
       img: "/assets/products/schneider/UPS.png",
       title: "UPS",
       text: "Energía sin pausas para la industria: las UPS Schneider Electric protegen equipos críticos ante cortes, picos y caídas de tensión, entregando respaldo inmediato y voltaje estable para procesos que no pueden detenerse.",
       href: "/productos?marca=schneider",
+      images: [
+      "/assets/products/schneider/ups_.png",
+      "/assets/products/schneider/ups__.png",
+    ],
     },
   ],
   },
@@ -67,6 +80,7 @@ export const brands = [
       title: "Portacables",
       text: "Orden y seguridad en canalización industrial: los portacables Legrand-Cablofil soportan y guían el tendido de cables con alta resistencia y ventilación, facilitando el montaje y el mantenimiento en instalaciones exigentes.",
       href: "/productos?marca=legrand",
+
     },
     {
       img: "/assets/products/legrand/tomasyclavijas.jpg",
@@ -101,18 +115,33 @@ export const brands = [
       title: "Cable media tensión",
       text: "Dispositivos de control para protección, control y maniobra de circuitos ",
       href: "/productos?marca=procables",
+      images: [
+      "/assets/products/schneider/interruptor.png",
+      "/assets/products/schneider/interruptor-2.png",
+      "/assets/products/schneider/interruptor-3.png",
+    ],
     },
     {
       img: "/assets/products/procables/alambre-cobre.png",
       title: "Alambre de cobre",
       text: "Dispositivos de control a par y torque de motores eléctricos trifásicos de CA",
       href: "/productos?marca=procables",
+      images: [
+      "/assets/products/schneider/interruptor.png",
+      "/assets/products/schneider/interruptor-2.png",
+      "/assets/products/schneider/interruptor-3.png",
+    ],
     },
     {
       img: "/assets/products/procables/cable-fotovoltaico.png",
       title: "Cable fotovoltáico",
       text: "Diseñados para gestionar arranque, parada y protección de motores eléctricos",
       href: "/productos?marca=procables",
+      images: [
+      "/assets/products/schneider/interruptor.png",
+      "/assets/products/schneider/interruptor-2.png",
+      "/assets/products/schneider/interruptor-3.png",
+    ],
     },
   ],
   },
@@ -140,18 +169,30 @@ export const brands = [
       title: "Bandejas Portacables",
       text: "Canalización robusta para instalaciones industriales: las bandejas portacables Gonvarri Mecano ofrecen alta resistencia y capacidad de carga para organizar y proteger el cableado, facilitando el montaje, la ampliación y el mantenimiento en planta.",
       href: "/productos?marca=gonvarri",
+      images: [
+      "/assets/products/gonvarri/bandeja_malla.png",
+      "/assets/products/gonvarri/platina.png",
+    ],
     },
     {
       img: "/assets/products/gonvarri/perfil-ranurado.png",
       title: "Sistemas estructurales",
       text: "Soporte sólido para infraestructura industrial: los sistemas estructurales Gonvarri Mecano permiten montar y organizar bandejas, tuberías y equipos con alta resistencia, modularidad y rápida instalación, ideales para proyectos exigentes y expansiones.",
       href: "/productos?marca=gonvarri",
+      images: [
+      "/assets/products/gonvarri/perfil_liso.png",
+      "/assets/products/gonvarri/soporte_peldaño.png",
+    ],
     },
     {
       img: "/assets/products/gonvarri/banda-soporte-tubo.png",
       title: "Soporteria",
       text: "Soportes Gonvarri Mecano para instalaciones industriales: soluciones robustas y modulares para fijar y sostener bandejas, canalizaciones y equipos, con montaje rápido, alta capacidad de carga y adaptación a cada proyecto.",
       href: "/productos?marca=gonvarri",
+      images: [
+      "/assets/products/gonvarri/perno.png",
+      "/assets/products/gonvarri/abrazadera.png",
+    ],
     },
   ],
   },
@@ -184,12 +225,22 @@ export const brands = [
       title: "Cables para minería",
       text: "Dispositivos de control para protección, control y maniobra de circuitos ",
       href: "/productos?marca=centelsa",
+      images: [
+      "/assets/products/schneider/interruptor.png",
+      "/assets/products/schneider/interruptor-2.png",
+      "/assets/products/schneider/interruptor-3.png",
+    ],
     },
     {
       img: "/assets/products/centelsa/aluminio-desnudo.png",
       title: "Cables de aluminio desnudo",
       text: "Dispositivos de control para protección, control y maniobra de circuitos ",
       href: "/productos?marca=centelsa",
+      images: [
+      "/assets/products/schneider/interruptor.png",
+      "/assets/products/schneider/interruptor-2.png",
+      "/assets/products/schneider/interruptor-3.png",
+    ],
     },
   ],
   },
@@ -223,12 +274,20 @@ export const brands = [
       title: "Cintas",
       text: "Cintas 3M para la industria: aislamiento, protección y sujeción confiables en cableado y mantenimiento eléctrico. Alta adherencia y resistencia para trabajos exigentes en tableros, empalmes e instalaciones.",
       href: "/productos?marca=3M",
+      images: [
+      "/assets/products/3M/super33_white.png",
+      "/assets/products/3M/super33_violet.png",
+    ],
     },
     {
       img: "/assets/products/3M/conectores.png",
       title: "Conectores",
       text: "Conectores 3M para la industria: uniones eléctricas seguras y de baja resistencia, diseñadas para instalaciones confiables y mantenimiento eficiente en tableros, redes y equipos de alto desempeño.",
       href: "/productos?marca=3M",
+      images: [
+      "/assets/products/3M/conector2.png",
+      "/assets/products/3M/conector3.png",
+    ],
     },
   ],
   },
@@ -303,18 +362,29 @@ export const brands = [
       title: "Marcación-Impresoras y cartuchos",
       text: "Marcación industrial Panduit: impresoras y cartuchos para rotulado profesional de cables, tableros y activos. Impresiones durables y legibles, ideales para mantenimiento, seguridad y trazabilidad en planta.",
       href: "/productos?marca=panduit",
+      images: [
+      "/assets/products/panduit/23.jpg",
+      "/assets/products/panduit/cartucho_.png",
+    ],
     },
     {
       img: "/assets/products/panduit/loto.png",
       title: "Bloqueo y etiquetado",
       text: "Bloqueo y etiquetado (LOTO) para la industria: soluciones para aislar energías y señalizar equipos en mantenimiento, reduciendo riesgos y cumpliendo procedimientos de seguridad con control y trazabilidad.",
       href: "/productos?marca=panduit",
+      images: [
+      "/assets/products/panduit/loto_panduit.png",
+    ],
     },
     {
       img: "/assets/products/panduit/24.jpg",
       title: "Terminales de compresión",
       text: "Terminaciones de alta confiabilidad para uniones firmes y de baja resistencia en cableado industrial. Ideales para tableros y potencia, ayudan a reducir calentamientos y asegurar conexiones duraderas.",
       href: "/productos?marca=panduit",
+      images: [
+      "/assets/products/panduit/terminal2.png",
+      "/assets/products/panduit/cilindro.png",
+    ],
     },
   ],
   },
@@ -339,21 +409,31 @@ export const brands = [
   featuredCards: [
     {
       img: "/assets/products/phoenix-contact/32.jpg",
-      title: "DPS",
+      title: "DPS y Medición de energía",
       text: "DPS Phoenix Contact: protección industrial confiable contra sobretensiones y transientes, cuidando tableros, fuentes, PLC y comunicaciones para evitar daños y paradas inesperadas.",
       href: "/productos?marca=phoenix-contact",
+      images: [
+      "/assets/products/phoenix-contact/medidor.png",
+    ],
     },
     {
       img: "/assets/products/phoenix-contact/bornas.png",
-      title: "Bornas de control",
+      title: "UPS, Bornas de Control y bateria de respaldo",
       text: "Bornas de control Phoenix Contact: conexión ordenada y segura para señales y mando en tableros industriales. Facilitan el cableado, las pruebas y el mantenimiento, con alta confiabilidad en operación continua.",
       href: "/productos?marca=phoenix-contact",
+      images: [
+      "/assets/products/phoenix-contact/ups.png",
+      "/assets/products/phoenix-contact/bateria.png",
+    ],
     },
     {
       img: "/assets/products/phoenix-contact/fuentes.jpg",
-      title: "Fuentes de alimentación",
+      title: "Fuentes de alimentación y Módulo de redundancia",
       text: "Fuentes de alimentación Phoenix Contact: energía estable y protegida para automatización industrial. Alimentan PLC, sensores y control con alta eficiencia y confiabilidad, ideales para tableros en operación continua.",
       href: "/productos?marca=phoenix-contact",
+      images: [
+      "/assets/products/phoenix-contact/m_redundancia.png",
+    ],
     },
   ],
   },
@@ -381,12 +461,19 @@ export const brands = [
       title: "Reflectores",
       text: "Reflectores Sylvania para la industria: iluminación potente y uniforme para áreas de trabajo, patios y bodegas. Alta eficiencia y durabilidad para mejorar visibilidad y seguridad en entornos exigentes.",
       href: "/productos?marca=sylvania",
+      images: [
+      "/assets/products/sylvania/syl_cct.png",
+    ],
     },
     {
       img: "/assets/products/sylvania/11.jpg",
       title: "Iluminación exterior",
       text: "Iluminación exterior Sylvania: soluciones resistentes para fachadas, parqueaderos y zonas perimetrales. Luz eficiente y duradera para mejorar visibilidad, seguridad y desempeño en intemperie.",
       href: "/productos?marca=sylvania",
+      images: [
+      "/assets/products/sylvania/solar.png",
+      "/assets/products/sylvania/led_emergencia.png",
+    ],
     },
     {
       img: "/assets/products/sylvania/12.jpg",
@@ -424,18 +511,29 @@ export const brands = [
       title: "Solar",
       text: "Iluminación autónoma para exterior con panel y batería integrados, ideal para zonas sin red o para reducir consumo. Buena potencia, encendido automático y durabilidad para vías internas, parques, fincas y perímetros.",
       href: "/productos?marca=philips",
+      images: [
+      "/assets/products/philips/solar_spot.png",
+    ],
     },
     {
       img: "/assets/products/philips/15.jpg",
-      title: "Luminaria high bay",
+      title: "Luminarias",
       text: "Luminaria high-bay: iluminación potente y eficiente para bodegas y plantas industriales, con alta vida útil y distribución uniforme para mejorar visibilidad, seguridad y productividad en alturas.",
       href: "/productos?marca=philips",
+      images: [
+      "/assets/products/philips/16.jpg",
+      "/assets/products/philips/alumbrado_publico.png",
+    ],
     },
     {
       img: "/assets/products/philips/14.jpg",
       title: "Iluminación residencial y comercial",
       text: "Soluciones eficientes y duraderas para interiores y exteriores, con excelente calidad de luz y diseños versátiles para ambientes residenciales y comerciales.",
       href: "/productos?marca=philips",
+      images: [
+      "/assets/products/philips/bombillo_oboide.png",
+      "/assets/products/philips/lampara_hermetica.png",
+    ],
     },
   ],
   },
@@ -596,18 +694,33 @@ export const brands = [
       title: "Cable de control",
       text: "Dispositivos de control para protección, control y maniobra de circuitos ",
       href: "/productos?marca=teldor",
+      images: [
+      "/assets/products/schneider/interruptor.png",
+      "/assets/products/schneider/interruptor-2.png",
+      "/assets/products/schneider/interruptor-3.png",
+    ],
     },
     {
       img: "/assets/products/teldor/fibra-optica.png",
       title: "Fibra óptica",
       text: "Dispositivos de control para protección, control y maniobra de circuitos ",
       href: "/productos?marca=teldor",
+      images: [
+      "/assets/products/schneider/interruptor.png",
+      "/assets/products/schneider/interruptor-2.png",
+      "/assets/products/schneider/interruptor-3.png",
+    ],
     },
     {
       img: "/assets/products/teldor/cable-alarma.jpg",
       title: "Cable de alarma",
       text: "Dispositivos de control para protección, control y maniobra de circuitos ",
       href: "/productos?marca=teldor",
+      images: [
+      "/assets/products/schneider/interruptor.png",
+      "/assets/products/schneider/interruptor-2.png",
+      "/assets/products/schneider/interruptor-3.png",
+    ],
     },
   ],
   },
@@ -733,6 +846,7 @@ export const brands = [
       title: "Cajas pvc",
       text: "Soluciones livianas y resistentes para canalización y derivaciones eléctricas. Buena durabilidad y montaje práctico, ideales para instalaciones interiores con acabado limpio y ordenado.",
       href: "/productos?marca=tercol",
+
     },
   ],
   },

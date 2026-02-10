@@ -9,7 +9,7 @@ const PRODUCTS = [
     brand: "Schneider Electric",
     brandDesc:
       "Variador de velocidad, Altivar Machine ATV320, 1.1 kW, 200...240 V, 1 fase, compacto",
-    title: "Variador de velocidad",
+    title: "Variadores",
     images: [
       "/assets/products/schneider/variador.jpg",
       "/assets/products/schneider/variador2.jpg",
@@ -17,38 +17,32 @@ const PRODUCTS = [
     ],
   },
   {
-    id: "phoenix-contact-1",
-    brand: "Phoenix Contact",
+    id: "Legrand-1",
+    brand: "Legrand",
     brandDesc:
-      "DPS. Protección contra sobretensiones.",
-    title: "Clavija turnlock",
+      "Dispositivos de seguridad de alta tecnología diseñados para salvaguardar equipos electrónicos y eléctricos sensibles",
+    title: "DPS",
     images: [
-      "/assets/products/phoenix-contact/32.jpg",
-      "/assets/products/phoenix-contact/32.jpg",
-      "/assets/products/phoenix-contact/32.jpg",
+      "/assets/products/legrand/dps.jpg",
     ],
   },
   {
-    id: "siemon-1",
-    brand: "Siemon",
+    id: "procables-1",
+    brand: "Procables by prysmian",
     brandDesc:
-      "Cable UTP para telecomunicaciones Marca Siemon",
-    title: "Cable UTP Siemon",
+      "El Exzellent Green es un cable conductor de alta calidad diseñado para ofrecer una eficiencia energética superior y una transmisión de señal estable.",
+    title: "Exzellent Green",
     images: [
-      "/assets/products/siemon/n42.png",
-      "/assets/products/siemon/n42.png",
-      "/assets/products/siemon/n42.png",
+      "/assets/products/procables/exzellent.png",
     ],
   },
   {
-    id: "panduit-1",
-    brand: "Panduit",
-    brandDesc: "Dispositivo de impresion de etiquetado marca panduit",
-    title: "Impresora de etiquetas",
+    id: "sylvania-1",
+    brand: "Sylvania",
+    brandDesc: "Este sistema de iluminación integral está diseñado para ofrecer una solución de alumbrado exterior de alto rendimiento sin consumo eléctrico de red",
+    title: "LED Solar",
     images: [
-      "/assets/products/panduit/22.jpg",
-      "/assets/products/panduit/22.jpg",
-      "/assets/products/panduit/22.jpg",
+      "/assets/products/sylvania/solar.png",
     ],
   },
 ];

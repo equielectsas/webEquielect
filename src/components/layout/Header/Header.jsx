@@ -382,19 +382,20 @@ export default function Header() {
                         </button>
                       </form>
                     </div>
-
-                    {/* ✅ Link fuera del max-width, empujado al extremo derecho */}
-                    <a
-                      href="https://www.mipagoamigo.com/MPA_WebSite/ServicePayments/StartPayment?id=10341&searchedCategoryId=&searchedAgreementName=EQUIELECT"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="hidden md:inline-flex ml-auto pl-10 text-equielect-blue font-semibold hover:underline underline-offset-4 whitespace-nowrap"
-                    >
-                      Pagos PSE
-                    </a>
                   </div>
                 </div>
-
+                  <a
+  href="https://www.mipagoamigo.com/MPA_WebSite/ServicePayments/StartPayment?id=10341&searchedCategoryId=&searchedAgreementName=EQUIELECT"
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="Pague aquí (abre en nueva pestaña)"
+>
+  <img
+    src="/assets/servicios/paga.png"
+    alt="Pague aquí"
+    className="h-12 w-auto object-contain"
+  />
+</a>
 
             <div className={`${isMobileSearching ? "hidden md:block" : "block"}`} />
           </div>

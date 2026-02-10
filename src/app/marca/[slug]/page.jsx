@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useMemo, useState } from "react";
 import { notFound } from "next/navigation";
 import { brands } from "@/data/brands";
 import Link from "next/link";
@@ -119,7 +120,14 @@ const BRAND_BULLETS = {
     "Cables para telecomunicaciones.",
   ],
   weg: ["Motores eléctricos IEC y NEMA.", "Accionamiento de control.", "Variadores y arrancadores suaves."],
-  "phoenix-contact": ["DPS.", "Fuentes de alimentación.", "Bornas de control y potencia.", "Relés de interface para salidas PLC.", "Switchs Ethernet.", "UPS."],
+  "phoenix-contact": [
+    "DPS.",
+    "Fuentes de alimentación.",
+    "Bornas de control y potencia.",
+    "Relés de interface para salidas PLC.",
+    "Switchs Ethernet.",
+    "UPS.",
+  ],
   metalcoraza: ["Coraza americana liquid tight.", "Conectores liquid tight."],
   "connect-vcp": [
     "Cables UTP para Telecomunicaciones CAT 5E - 6.",
@@ -148,11 +156,7 @@ const BRAND_BULLETS = {
     "Tubería Extrafuerte SCH 40.",
     "Accesorios conduit tipo A y SCH 40.",
   ],
-  schmersal: [
-    "Interruptores de seguridad.",
-    "Paradas de emergencia.",
-    "Interruptores de habilitación/validación.",
-  ],
+  schmersal: ["Interruptores de seguridad.", "Paradas de emergencia.", "Interruptores de habilitación/validación."],
   "crouse-hinds": [
     "Iluminación de seguridad.",
     "Iluminación LED para áreas industriales (sanas).",
@@ -189,6 +193,79 @@ function WhatsAppIcon({ className = "w-5 h-5" }) {
   );
 }
 
+/** ✅ Card: c.img es la principal SIEMPRE + 3 miniaturas que cambian al hover/click */
+function FeaturedCard({ c }) {
+  // ✅ c.img se fuerza como primera, y c.images son adicionales (sin duplicados)
+  const imgs = useMemo(() => {
+    const main = c?.img ? [c.img] : [];
+    const extras = Array.isArray(c?.images) ? c.images : [];
+    const merged = [...main, ...extras].filter(Boolean);
+    return merged.filter((src, idx) => merged.indexOf(src) === idx);
+  }, [c]);
+
+  const [active, setActive] = useState(0);
+  const mainSrc = imgs[active] || c.img;
+
+  return (
+    <article
+      className="w-full sm:w-[320px] bg-white border border-slate-200 shadow-sm hover:shadow-xl transition-all group overflow-hidden"
+      style={{ borderRadius: 16 }}
+    >
+      {/* Imagen principal */}
+      <Link href={c.href || "#"} className="block">
+        <div className="h-64 flex items-center justify-center bg-slate-50 p-6 overflow-hidden relative">
+          <img
+            src={mainSrc}
+            alt={c.title}
+            className="w-full h-full object-contain group-hover:scale-[1.06] transition-transform duration-500"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </Link>
+
+      {/* Miniaturas (3) */}
+      {imgs.length > 1 && (
+        <div className="px-5 pt-3 flex gap-2 items-center justify-center">
+          {imgs.slice(0, 3).map((src, idx) => {
+            const isActive = idx === active;
+            return (
+              <button
+                key={src + idx}
+                type="button"
+                onMouseEnter={() => setActive(idx)}
+                onFocus={() => setActive(idx)}
+                onClick={() => setActive(idx)}
+                className={`relative w-10 h-10 border transition ${isActive ? "border-[#1c355e]" : "border-slate-200"} items-center justify-center`}
+                style={{ borderRadius: 10 }}
+                aria-label={`Ver imagen ${idx + 1}`}
+              >
+                <img
+                  src={src}
+                  alt={`${c.title} ${idx + 1}`}
+                  className="w-full h-full object-contain p-1"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Texto */}
+      <div className="p-6 text-center border-t border-slate-100">
+        <p className="text-xs font-black uppercase tracking-[0.2em] text-[#1c355e] mb-3">{c.title}</p>
+        {!!c.text && <p className="text-sm text-slate-600 leading-relaxed">{c.text}</p>}
+
+        <div className="mt-5 flex justify-center">
+        </div>
+      </div>
+
+    </article>
+  );
+}
+
 export default function BrandPage({ params }) {
   const brand = brands.find((b) => b.slug === params.slug);
   if (!brand) return notFound();
@@ -206,25 +283,17 @@ export default function BrandPage({ params }) {
 
   const cards = (brand.featuredCards || []).slice(0, 3);
 
-  // ✅ ENFOQUE 2 REAL: 1 sola imagen para todo (sin recorte, siempre completa)
-  // Usa la mejor disponible; idealmente pon aquí tu banner único por aliado en "desktop"
-  const banner1x =
-    brand.images?.desktop ||
-    brand.images?.tablet ||
-    brand.images?.mobile ||
-    "";
+  const banner1x = brand.images?.desktop || brand.images?.tablet || brand.images?.mobile || "";
+  const banner2x = brand.images?.desktop2x || brand.images?.tablet2x || brand.images?.mobile2x || "";
 
-  const banner2x =
-    brand.images?.desktop2x ||
-    brand.images?.tablet2x ||
-    brand.images?.mobile2x ||
-    "";
+  const eqBlue = "#1c355e";
+  const eqYellow = "#FFCC00";
 
   return (
     <main className="bg-white min-h-screen pb-24 font-sans">
-      {/* 1) BANNER (1 sola imagen - se adapta al ancho y mantiene proporción) */}
+      {/* 1) BANNER */}
       <section className="w-full">
-        <div className="w-full bg-gray-50">
+        <div className="w-full bg-slate-50">
           {!!banner1x && (
             <img
               src={banner1x}
@@ -252,6 +321,8 @@ export default function BrandPage({ params }) {
                   alt={brand.name}
                   className="w-auto h-full object-contain"
                   style={{ transform: `scale(${scale})` }}
+                  loading="eager"
+                  decoding="async"
                 />
               </div>
             );
@@ -260,37 +331,24 @@ export default function BrandPage({ params }) {
           <p className="max-w-4xl text-slate-600 text-sm md:text-[15px] leading-relaxed font-medium">
             {brand.description || ""}
           </p>
+
+          <div className="mt-7 flex items-center justify-center gap-3">
+            <span className="h-[2px] w-14 rounded-full" style={{ backgroundColor: eqBlue }} />
+            <span className="h-2 w-2 rounded-full" style={{ backgroundColor: eqYellow }} />
+            <span className="h-[2px] w-14 rounded-full" style={{ backgroundColor: eqBlue }} />
+          </div>
         </header>
 
-        {/* 4) CARDS */}
+        {/* 4) PRODUCTOS DESTACADOS */}
         {cards.length > 0 && (
           <section className="max-w-6xl mx-auto mb-16">
-            <h2 className="text-xl font-bold text-black mb-10 text-center uppercase tracking-[0.2em]">
+            <h2 className="text-xl font-black text-slate-900 mb-10 text-center uppercase tracking-[0.22em]">
               Productos destacados
             </h2>
 
             <div className="flex flex-wrap justify-center gap-8">
               {cards.map((c, idx) => (
-                <article
-                  key={idx}
-                  className="w-full sm:w-[320px] bg-white border border-gray-100 shadow-sm hover:shadow-xl transition-all group overflow-hidden rounded-xl"
-                >
-                  <div className="h-64 flex items-center justify-center bg-gray-50 p-8 overflow-hidden">
-                    <img
-                      src={c.img}
-                      alt={c.title}
-                      className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500"
-                    />
-                  </div>
-
-                  <div className="p-7 text-center border-t border-gray-50">
-                    <p className="text-xs font-black uppercase tracking-[0.2em] text-[#1c355e] mb-3">
-                      {c.title}
-                    </p>
-
-                    {!!c.text && <p className="text-sm text-slate-600 leading-relaxed">{c.text}</p>}
-                  </div>
-                </article>
+                <FeaturedCard key={idx} c={c} />
               ))}
             </div>
           </section>
@@ -299,34 +357,32 @@ export default function BrandPage({ params }) {
         {/* 5) VIÑETAS */}
         {bullets.length > 0 && (
           <section className="max-w-4xl mx-auto mt-10 text-center px-1">
-            <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-8 tracking-tight">
+            <h3 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-8 tracking-tight">
               Otras líneas de productos {brand.name}
             </h3>
 
             <div className="flex flex-col items-center space-y-4">
               {bullets.map((line, idx) => (
                 <div key={idx} className="flex items-start gap-3">
-                  <span className="mt-2 h-2 w-2 rounded-full bg-[#005cb9] shrink-0" />
-                  <p className="text-slate-700 text-sm md:text-[15px] font-medium leading-relaxed">
-                    {line}
-                  </p>
+                  <span className="mt-2 h-2 w-2 rounded-full" style={{ backgroundColor: eqBlue }} />
+                  <p className="text-slate-700 text-sm md:text-[15px] font-medium leading-relaxed">{line}</p>
                 </div>
               ))}
             </div>
           </section>
         )}
 
-        {/* 6) BOTÓN WHATSAPP + OTRAS MARCAS */}
+        {/* 6) WHATSAPP + OTRAS MARCAS */}
         <section className="max-w-4xl mx-auto mt-12 px-1">
           <div className="border-t pt-8 flex flex-col items-center text-center gap-6">
             <div>
-              <p className="text-slate-900 font-bold text-sm uppercase tracking-wider">
+              <p className="text-slate-900 font-extrabold text-sm uppercase tracking-wider">
                 Calidad garantizada y soporte técnico especializado.
               </p>
 
               <div className="mt-4 flex justify-center gap-3">
-                <div className="h-2 w-20 bg-[#005cb9] rounded-full" />
-                <div className="h-2 w-20 bg-[#FFCC00] rounded-full" />
+                <div className="h-2 w-20 rounded-full" style={{ backgroundColor: eqBlue }} />
+                <div className="h-2 w-20 rounded-full" style={{ backgroundColor: eqYellow }} />
               </div>
             </div>
 
@@ -339,7 +395,7 @@ export default function BrandPage({ params }) {
               Ir a cotizar por WhatsApp
             </button>
 
-            <section className="bg-white py-12 border-t border-gray-200 w-full">
+            <section className="bg-white py-12 border-t border-slate-200 w-full">
               <Allies360Carousel
                 items={allies.map((a) => ({ name: a.name, icon: a.src, href: a.href }))}
                 speedSeconds={30}
