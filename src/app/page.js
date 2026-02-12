@@ -461,13 +461,6 @@ export default function Home() {
               <FeaturedBrandProducts />
             </div>
             <div className="flex justify-center mt-10">
-              <Link
-                href="/productos"
-                className="px-8 py-3 bg-[#f2c219] text-black font-bold text-xs hover:bg-[#d9af16] transition-colors"
-                style={{ borderRadius: 2 }}
-              >
-                Ver productos
-              </Link>
             </div>
           </div>
         </section>
