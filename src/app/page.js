@@ -39,13 +39,8 @@ export default function Home() {
   const [phoneOrder, setPhoneOrder] = useState(DEFAULT_ORDER);
   const [rotationTick, setRotationTick] = useState(0);
 
-  const leftId = phoneOrder[0];
   const centerId = phoneOrder[1];
-  const rightId = phoneOrder[2];
-
-  const leftVideo = videoMap[leftId];
   const centerVideo = videoMap[centerId];
-  const rightVideo = videoMap[rightId];
 
   // ✅ control de animación (para que “se muevan” como 360 y no spameen clicks)
   const [isRotating, setIsRotating] = useState(false);
@@ -326,33 +321,6 @@ export default function Home() {
           background-color: var(--color-equielect-blue);
         }
 
-        @keyframes eqSlideInLeft {
-          0% {
-            opacity: 0;
-            transform: translateX(-38px);
-          }
-          100% {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-        @keyframes eqSlideInRight {
-          0% {
-            opacity: 0;
-            transform: translateX(38px);
-          }
-          100% {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-        .eq-slide-in-left {
-          animation: eqSlideInLeft 650ms ease-out both;
-        }
-        .eq-slide-in-right {
-          animation: eqSlideInRight 650ms ease-out both;
-        }
-
         .eq-phones-stage {
           perspective: 1200px;
           transform-style: preserve-3d;
@@ -374,7 +342,8 @@ export default function Home() {
           box-shadow: 0 28px 60px rgba(0, 0, 0, 0.18);
         }
         .eq-phone-glass {
-          box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08), inset 0 18px 28px rgba(255, 255, 255, 0.05),
+          box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+            inset 0 18px 28px rgba(255, 255, 255, 0.05),
             inset 0 -18px 28px rgba(0, 0, 0, 0.2);
         }
       `}</style>
@@ -441,11 +410,7 @@ export default function Home() {
       {/* MARCAS ALIADAS CAROUSEL */}
       <Reveal delay={80}>
         <section className="bg-white border-b border-gray-200">
-          <Allies360Carousel
-            title="Marcas Aliadas"
-            items={quickCategories.map((c) => ({ name: c.title, icon: c.icon, href: c.href }))}
-            speedSeconds={26}
-          />
+          <Allies360Carousel title="Marcas Aliadas" items={quickCategories.map((c) => ({ name: c.title, icon: c.icon, href: c.href }))} speedSeconds={26} />
         </section>
       </Reveal>
 
@@ -460,77 +425,48 @@ export default function Home() {
             <div className="mt-5">
               <FeaturedBrandProducts />
             </div>
-            <div className="flex justify-center mt-10">
-            </div>
           </div>
         </section>
       </Reveal>
-{/* ✅ SECCIÓN INSTITUCIONAL - EQUIELECT "ENGINEERING CORE" */}
-<Reveal delay={120}>
-  <section className="relative bg-white overflow-hidden pt-10 sm:pt-14 pb-12 sm:pb-20">
-    
-    {/* --- DECORACIÓN DE "CABLEADO" Y NODOS --- */}
-    {/* Línea horizontal que atraviesa el fondo */}
-    <div className="absolute top-[15%] left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-gray-100 to-transparent" />
-    
-    {/* Cable vertical izquierdo con nodo */}
-    <div className="absolute top-0 left-[10%] w-[1px] h-32 bg-gradient-to-b from-transparent to-[#1c355e]/10">
-      <div className="absolute bottom-0 -left-[2px] w-[5px] h-[5px] rounded-full bg-[#f2c219] shadow-[0_0_8px_#f2c219]" />
-    </div>
 
-    {/* Cable vertical derecho con nodo */}
-    <div className="absolute top-0 right-[10%] w-[1px] h-48 bg-gradient-to-b from-transparent to-[#1c355e]/10">
-      <div className="absolute bottom-0 -left-[2px] w-[5px] h-[5px] rounded-full bg-[#1c355e] animate-pulse" />
-    </div>
-
-    <div className="relative z-10 max-w-7xl mx-auto px-6">
-      
-      <header className="text-center max-w-4xl mx-auto">
-        
-        {/* Badge con estilo de terminal eléctrica */}
-        <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-sm border-l-2 border-[#f2c219] bg-gray-50 mb-6">
-          <p className="text-[10px] sm:text-xs font-black uppercase tracking-[0.35em] text-black/90">
-            Mas que negocios, hacemos amigos.
-          </p>
-        </div>
-
-        {/* Título con cables decorativos laterales */}
-        <div className="relative inline-block">
-          {/* Cable decorativo que sale de la E */}
-          
-          
-          <h2 className="text-5xl sm:text-7xl lg:text-8xl font-black text-[#1c355e] tracking-[ -0.04em] leading-none">
-            Equielect<span className="text-[#f2c219]">.</span>
-          </h2>
-          
-          {/* Cable decorativo que sale del punto */}
-          <div className="absolute -right-12 top-1/2 w-8 h-[2px] bg-gray-100 hidden lg:block" />
-        </div>
-
-        <div className="relative mt-8 group">
-          {/* Soporte visual: Líneas de encuadre técnico */}
-          <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-px h-6 bg-gradient-to-b from-[#f2c219] to-transparent" />
-          
-          <p className="text-gray-500 text-sm sm:text-xl leading-relaxed max-w-2xl mx-auto font-medium tracking-tight">
-            Tu aliado estratégico en soluciones. 
-            <span className="block mt-2 text-[#1c355e]/80 italic font-light">
-              Asesoría técnica, disponibilidad y el respaldo de marcas globales.
-            </span>
-          </p>
-          
-          {/* Footer del Header: Diagrama de conexión */}
-          <div className="mt-10 flex justify-center items-center gap-0">
-            <div className="h-[1px] w-16 bg-gradient-to-r from-transparent to-gray-200" />
-            <div className="w-2 h-2 border border-gray-300 rounded-full" />
-            <div className="h-[1px] w-24 bg-gray-200" />
-            <div className="w-2 h-2 border border-[#f2c219] bg-[#f2c219] rounded-full shadow-[0_0_10px_rgba(242,194,25,0.4)]" />
-            <div className="h-[1px] w-16 bg-gradient-to-l from-transparent to-gray-200" />
+      {/* ✅ SECCIÓN INSTITUCIONAL + CELULARES */}
+      <Reveal delay={120}>
+        <section className="relative bg-white overflow-hidden pt-10 sm:pt-14 pb-12 sm:pb-20">
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[620px] h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
+            <div className="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-[#f2c219]/10 blur-3xl" />
+            <div className="absolute -bottom-24 -left-24 w-72 h-72 rounded-full bg-[#1c355e]/10 blur-3xl" />
           </div>
-        </div>
-      </header>
-            {/* ✅ MENOS separación texto -> celulares */}
+
+          <div className="relative z-10 max-w-7xl mx-auto px-6">
+            <header className="text-center max-w-4xl mx-auto">
+              <div className="inline-flex items-center gap-3 mb-6">
+                <span className="h-[10px] w-[2px] rounded-full bg-[#f2c219]" />
+                <p className="text-[11px] sm:text-xs font-semibold uppercase tracking-[0.18em] text-gray-700">
+                  Más que negocios, hacemos amigos
+                </p>
+                <span className="h-[10px] w-[2px] rounded-full bg-[#f2c219]" />
+              </div>
+
+              <h2 className="text-5xl sm:text-7xl lg:text-8xl font-black text-[#1c355e] tracking-[-0.04em] leading-none">
+                Equielect<span className="text-[#f2c219]">.</span>
+              </h2>
+
+              <p className="mt-6 text-gray-600 text-sm sm:text-xl leading-relaxed max-w-2xl mx-auto font-medium">
+                Tu aliado estratégico en soluciones eléctricas e industriales.
+                <span className="block mt-3 text-[#1c355e]/80 font-normal">
+                  Asesoría técnica, disponibilidad y respaldo de marcas globales, con un equipo que responde cuando el proyecto lo exige.
+                </span>
+              </p>
+
+              <div className="mt-10 flex justify-center">
+                <div className="h-[1px] w-28 bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
+              </div>
+            </header>
+
+            {/* ✅ CONTENEDOR CELULARES */}
             <div className="relative mt-6 sm:mt-7">
-              {/* Flecha IZQ */}
+              {/* Flechas DESKTOP/TABLET */}
               <button
                 type="button"
                 onClick={goPrevPhoneVideo}
@@ -543,7 +479,6 @@ export default function Home() {
                 </svg>
               </button>
 
-              {/* Flecha DER */}
               <button
                 type="button"
                 onClick={goNextPhoneVideo}
@@ -556,7 +491,30 @@ export default function Home() {
                 </svg>
               </button>
 
-              {/* ✅ Stage con MENOS altura (evita el hueco gigante) */}
+              {/* ✅ Flechas SOLO MÓVIL (SIN BOLA / MÁS AFUERA) */}
+              <div className="md:hidden">
+                <button
+                  type="button"
+                  onClick={goPrevPhoneVideo}
+                  disabled={isRotating}
+                  aria-label="Anterior"
+                  className="absolute -left-4 top-1/2 -translate-y-1/2 z-[999] px-3 py-3 text-[#1c355e] text-[72px] font-black  leading-none disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 transition"
+                >
+                  ‹
+                </button>
+
+                <button
+                  type="button"
+                  onClick={goNextPhoneVideo}
+                  disabled={isRotating}
+                  aria-label="Siguiente"
+                  className="absolute -right-4 top-1/2 -translate-y-1/2 z-[999] px-3 py-3 text-[#1c355e] text-[72px] font-black leading-none disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 transition drop-shadow-[0_2px_10px_rgba(0,0,0,0.25)]"
+                >
+                  ›
+                </button>
+              </div>
+
+              {/* Stage */}
               <div
                 className={[
                   "eq-phones-stage relative mx-auto",
@@ -657,16 +615,7 @@ export default function Home() {
                               <source src={centerVideo?.src} type="video/mp4" />
                             </video>
                           ) : (
-                            <video
-                              src={vid.src}
-                              autoPlay
-                              muted
-                              loop
-                              playsInline
-                              preload="metadata"
-                              className="w-full h-full object-cover"
-                              poster={vid.poster}
-                            />
+                            <video src={vid.src} autoPlay muted loop playsInline preload="metadata" className="w-full h-full object-cover" poster={vid.poster} />
                           )}
 
                           <div className="absolute inset-0 bg-black/10 pointer-events-none" />
@@ -681,49 +630,11 @@ export default function Home() {
               </div>
 
               <div className="mt-4 flex flex-col items-center gap-2">
+                <br></br>
                 <p className="text-[11px] text-gray-400 font-bold uppercase tracking-widest">Conócenos en 30 segundos · EQUIELECT</p>
-                <Link
-                  href="/quienes-somos"
-                  className="px-8 py-3 bg-[#f2c219] text-black font-bold text-xs hover:bg-[#d9af16]"
-                  style={{ borderRadius: 2 }}
-                >
+                <Link href="/quienes-somos" className="px-8 py-3 bg-[#f2c219] text-black font-bold text-xs hover:bg-[#d9af16]" style={{ borderRadius: 2 }}>
                   Ver quienes somos
                 </Link>
-              </div>
-
-              <div className="mt-8 md:hidden flex justify-center gap-4">
-                <button
-                  type="button"
-                  onClick={goPrevPhoneVideo}
-                  disabled={isRotating}
-                  className="w-12 h-12 rounded-full bg-white border border-gray-200 shadow flex items-center justify-center disabled:opacity-60 disabled:cursor-not-allowed"
-                >
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                    <path d="M15 19l-7-7 7-7" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={handleStartVideo}
-                  disabled={isRotating}
-                  className="w-12 h-12 rounded-full bg-white border border-gray-200 shadow flex items-center justify-center disabled:opacity-60 disabled:cursor-not-allowed"
-                >
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                    <path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={goNextPhoneVideo}
-                  disabled={isRotating}
-                  className="w-12 h-12 rounded-full bg-white border border-gray-200 shadow flex items-center justify-center disabled:opacity-60 disabled:cursor-not-allowed"
-                >
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                    <path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </button>
               </div>
             </div>
           </div>
