@@ -22,7 +22,7 @@ export default function Home() {
   const PHONE_VIDEOS = useMemo(
     () => [
       { id: "clip", title: "Clip", src: "/assets/videos/clip.mp4", poster: "/assets/fondos/portadacentro.png" },
-      { id: "v1", title: "Video 1", src: "/assets/videos/3.mp4", poster: "/assets/logs/22.png" },
+      { id: "v1", title: "Video 1", src: "/assets/videos/schneider.mp4", poster: "/assets/logs/22.png" },
       { id: "v2", title: "Video 2", src: "/assets/videos/4.mp4", poster: "/assets/logs/33.png" },
     ],
     []

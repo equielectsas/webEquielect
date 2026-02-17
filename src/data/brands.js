@@ -111,36 +111,30 @@ export const brands = [
   // ✅ 3 imágenes (cards) manuales para mostrar debajo de “Productos destacados”
   featuredCards: [
     {
-      img: "/assets/products/procables/media-tension.png",
-      title: "Cable media tensión",
+      img: "/assets/products/procables/exzhellent.png",
+      title: "Cable Exzhellent green y XHHW",
       text: "Dispositivos de control para protección, control y maniobra de circuitos ",
       href: "/productos?marca=procables",
       images: [
-      "/assets/products/schneider/interruptor.png",
-      "/assets/products/schneider/interruptor-2.png",
-      "/assets/products/schneider/interruptor-3.png",
+      "/assets/products/procables/cable-XHHW.png",
     ],
     },
     {
-      img: "/assets/products/procables/alambre-cobre.png",
-      title: "Alambre de cobre",
+      img: "/assets/products/procables/concentrico.png",
+      title: "Cable Concentrico y termoflex",
       text: "Dispositivos de control a par y torque de motores eléctricos trifásicos de CA",
       href: "/productos?marca=procables",
       images: [
-      "/assets/products/schneider/interruptor.png",
-      "/assets/products/schneider/interruptor-2.png",
-      "/assets/products/schneider/interruptor-3.png",
+      "/assets/products/procables/termoflex.png",
     ],
     },
     {
-      img: "/assets/products/procables/cable-fotovoltaico.png",
-      title: "Cable fotovoltáico",
+      img: "/assets/products/procables/-xlpe.png",
+      title: "Cable media tensión y soldador (ET)",
       text: "Diseñados para gestionar arranque, parada y protección de motores eléctricos",
       href: "/productos?marca=procables",
       images: [
-      "/assets/products/schneider/interruptor.png",
-      "/assets/products/schneider/interruptor-2.png",
-      "/assets/products/schneider/interruptor-3.png",
+      "/assets/products/procables/soldador.png",
     ],
     },
   ],
@@ -221,25 +215,31 @@ export const brands = [
   // ✅ 3 imágenes (cards) manuales para mostrar debajo de “Productos destacados”
   featuredCards: [
     {
-      img: "/assets/products/centelsa/28.jpg",
-      title: "Cables para minería",
+      img: "/assets/products/centelsa/cable thhn.png",
+      title: "Cables THHN",
       text: "Dispositivos de control para protección, control y maniobra de circuitos ",
       href: "/productos?marca=centelsa",
       images: [
-      "/assets/products/schneider/interruptor.png",
-      "/assets/products/schneider/interruptor-2.png",
-      "/assets/products/schneider/interruptor-3.png",
+      "/assets/products/centelsa/triplex.png",
+      "/assets/products/centelsa/cable-cu105.png",
     ],
     },
     {
-      img: "/assets/products/centelsa/aluminio-desnudo.png",
+      img: "/assets/products/centelsa/pista.png",
       title: "Cables de aluminio desnudo",
       text: "Dispositivos de control para protección, control y maniobra de circuitos ",
       href: "/productos?marca=centelsa",
       images: [
-      "/assets/products/schneider/interruptor.png",
-      "/assets/products/schneider/interruptor-2.png",
-      "/assets/products/schneider/interruptor-3.png",
+      "/assets/products/centelsa/encauchetado.png",
+    ],
+    },
+    {
+      img: "/assets/products/centelsa/c600.png",
+      title: "Cables de aluminio desnudo",
+      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      href: "/productos?marca=centelsa",
+      images: [
+      "/assets/products/centelsa/-centelflex.png",
     ],
     },
   ],
@@ -561,20 +561,26 @@ export const brands = [
   // ✅ 3 imágenes (cards) manuales para mostrar debajo de “Productos destacados”
   featuredCards: [
     {
-      img: "/assets/products/schmersal/48.jpg",
-      title: "Interruptores",
+      img: "/assets/products/schmersal/guayas.png",
+      title: "Interruptores por guaya",
       text: "Dispositivos de control para protección, control y maniobra de circuitos ",
       href: "/productos?marca=schmersal",
+      images: [
+      "/assets/products/schmersal/48.jpg",
+    ],
     },
     {
       img: "/assets/products/schmersal/cortinas.png",
-      title: "Cortina de seguridad",
+      title: "Cortinas y barreras de seguridad",
       text: "Dispositivos de control para protección, control y maniobra de circuitos ",
       href: "/productos?marca=schmersal",
+      images: [
+      "/assets/products/schmersal/barreras.png",
+    ],
     },
     {
       img: "/assets/products/schmersal/modulo-sch.png",
-      title: "Modulo de seguridad",
+      title: "Modulos de seguridad y PLC",
       text: "Dispositivos de control para protección, control y maniobra de circuitos ",
       href: "/productos?marca=schmersal",
     },
