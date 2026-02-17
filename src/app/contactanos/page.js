@@ -100,28 +100,37 @@ export default function ContactoPage() {
 
   return (
     <div className="bg-white font-sans selection:bg-[#fae100] selection:text-[#1c355e] text-[#1c355e]">
-      {/* HERO (estilo AboutUs) */}
-      <header className="relative h-[46vh] md:h-[52vh] bg-[#1c355e] flex items-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
+      {/* ✅ HERO: COMO EL BRANDPAGE (w-full h-auto) */}
+      <header className="relative w-full bg-white overflow-hidden">
+        <div className="relative w-full">
+          {/* ✅ Banner responsive: sin recortes y sin “bordes” por altura fija */}
           <img
             src="/assets/banners/contactanosbanner.png"
             alt="Fondo Equielect"
-            className="w-full h-full object-cover"
+            className="w-full h-auto block select-none"
+            loading="eager"
+            decoding="async"
+            draggable="false"
           />
-        </div>
-        <div className="absolute inset-0 z-0 bg-gradient-to-r from-[#1c355e] via-[#1c355e]/70 to-transparent" />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
-          <p className="text-[#fae100] font-bold tracking-[0.4em] text-xs md:text-sm uppercase mb-4 border-l-4 border-[#fae100] pl-4">
-            CONTÁCTANOS
-          </p>
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-light text-white max-w-4xl leading-tight">
-            Estamos para <span className="font-bold">ayudarte</span>.
-          </h1>
-          <p className="text-white/80 mt-5 max-w-2xl leading-relaxed">
-            Productos eléctricos, electrónicos y de telecomunicaciones para soluciones técnicas y
-            novedosas.
-          </p>
+          {/* ✅ Overlay mínimo para legibilidad (NO blur, NO rellenos) */}
+          <div className="absolute inset-0 bg-black/25" />
+
+          {/* Contenido */}
+          <div className="absolute inset-0 z-10 flex items-center">
+            <div className="max-w-7xl mx-auto px-6 w-full">
+              <p className="text-[#fae100] font-bold tracking-[0.4em] text-xs md:text-sm uppercase mb-4 border-l-4 border-[#fae100] pl-4">
+                CONTÁCTANOS
+              </p>
+              <h1 className="text-[12px] sm:text-3xl md:text-5xl lg:text-6xl font-light text-white max-w-4xl leading-tight">
+                Estamos para <span className="font-bold">ayudarte</span>.
+              </h1>
+
+              <p className="text-white/80 mt-3 sm:mt-5 max-w-2xl leading-relaxed text-[8px] sm:text-sm md:text-base">
+                Productos eléctricos, electrónicos y de telecomunicaciones para soluciones técnicas y novedosas.
+              </p>
+            </div>
+          </div>
         </div>
       </header>
 

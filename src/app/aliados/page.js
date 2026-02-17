@@ -51,26 +51,28 @@ export default function MarcasPage() {
               Aliados
             </h1>
           </div>
-          
 
-          {/* GRID centrado (incluye última fila centrada) */}
+          {/* ✅ FLEX-WRAP centrado (última fila SIEMPRE centrada) */}
           <div className="mt-10">
-            {/* ✅ En lugar de grid, usamos flex-wrap centrado: última fila siempre queda centrada */}
-            <div className="flex flex-wrap justify-center gap-x-10 gap-y-12">
+            <div className="flex flex-wrap justify-center gap-y-10">
               {filtered.map((b) => (
                 <Link
                   key={b.name}
                   href={b.href || "#"}
                   title={b.name}
-                  className="group outline-none focus-visible:ring-2 focus-visible:ring-[#005cb9]/40 rounded-md"
+                  className="
+                    group outline-none focus-visible:ring-2 focus-visible:ring-[#005cb9]/40 rounded-md
+                    flex items-center justify-center
+                    w-1/2 sm:w-1/3 lg:w-1/5
+                  "
                 >
-                  {/* ✅ Marco fijo (todas iguales) */}
-                  <div className="relative w-[160px] h-[70px] sm:w-[180px] sm:h-[80px] lg:w-[200px] lg:h-[90px] overflow-hidden">
+                  {/* ✅ Caja del logo */}
+                  <div className="relative w-[140px] h-[64px] sm:w-[170px] sm:h-[78px] lg:w-[190px] lg:h-[88px] overflow-hidden">
                     <Image
                       src={b.src}
                       alt={b.name}
                       fill
-                      sizes="(max-width:640px) 160px, (max-width:1024px) 180px, 200px"
+                      sizes="(max-width:640px) 140px, (max-width:1024px) 170px, 190px"
                       className="object-contain opacity-90 group-hover:opacity-100 transition"
                       style={{
                         transform: `scale(${b.scale ?? 1})`,
@@ -79,13 +81,11 @@ export default function MarcasPage() {
                     />
                   </div>
 
-                  {/* ✅ nombre opcional (por accesibilidad/SEO) */}
                   <span className="sr-only">{b.name}</span>
                 </Link>
               ))}
             </div>
           </div>
-
         </div>
       </section>
     </main>
