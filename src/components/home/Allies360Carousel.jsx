@@ -1,18 +1,17 @@
 "use client";
 
 import React, { useMemo, useRef, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
 
 /**
  * Carousel infinito 360 + flechas manuales.
- * Corregido: Flechas fuera del área de logos.
+ * ✅ Versión "router-safe": NO usa next/link ni next/image
+ * (evita error: Cannot read properties of null (reading 'useContext'))
  */
 export default function Allies360Carousel({
   items = [],
   title = "",
-  speedSeconds = 28, 
-  stepPx = 320, 
+  speedSeconds = 28,
+  stepPx = 320,
   pauseOnHover = true,
 }) {
   const wrapRef = useRef(null);
@@ -26,24 +25,25 @@ export default function Allies360Carousel({
     el.scrollBy({ left: dir * stepPx, behavior: "smooth" });
   };
 
+  const safeHref = (item) => item?.href || (item?.slug ? `/marca/${item.slug}` : "/");
+
   return (
     <section className="bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 py-10">
-        
-        {/* Título de la sección */}
-        <div className="mb-6 text-center">
-          <h3 className="text-xl sm:text-xl text-equielect-blue">
-            <span className="font-semibold">{title.split(" ")[0]} </span>
-            <span className="font-extrabold" style={{ fontWeight: 900 }}>
-              {title.split(" ").slice(1).join(" ")}
-            </span>
-          </h3>
-        </div>
+        {/* Título */}
+        {!!title && (
+          <div className="mb-6 text-center">
+            <h3 className="text-xl sm:text-xl text-equielect-blue">
+              <span className="font-semibold">{title.split(" ")[0]} </span>
+              <span className="font-extrabold" style={{ fontWeight: 900 }}>
+                {title.split(" ").slice(1).join(" ")}
+              </span>
+            </h3>
+          </div>
+        )}
 
-        {/* Contenedor Relativo con Padding extra para las flechas */}
         <div className="relative px-2 sm:px-14">
-          
-          {/* Flecha izquierda - Fuera del carrusel */}
+          {/* Flecha izquierda */}
           <button
             type="button"
             onClick={() => scrollByStep(-1)}
@@ -61,7 +61,7 @@ export default function Allies360Carousel({
             </svg>
           </button>
 
-          {/* Flecha derecha - Fuera del carrusel */}
+          {/* Flecha derecha */}
           <button
             type="button"
             onClick={() => scrollByStep(1)}
@@ -79,14 +79,13 @@ export default function Allies360Carousel({
             </svg>
           </button>
 
-          {/* Área visible (Corta los logos que se salen) */}
+          {/* Área visible */}
           <div
             ref={wrapRef}
             className="overflow-hidden scrollbar-hide"
             onMouseEnter={() => pauseOnHover && setPaused(true)}
             onMouseLeave={() => pauseOnHover && setPaused(false)}
           >
-            {/* Track infinito */}
             <div
               className={`marquee-track flex items-center gap-10 py-6 min-w-max ${
                 paused ? "is-paused" : ""
@@ -96,52 +95,49 @@ export default function Allies360Carousel({
               }}
             >
               {doubled.map((item, idx) => (
-                <Link
-                  key={`${item.slug || item.name}-${idx}`}
-                  href={item.href || (item.slug ? `/marca/${item.slug}` : "/")}
+                <a
+                  key={`${item?.slug || item?.name || "item"}-${idx}`}
+                  href={safeHref(item)}
                   className="flex-shrink-0 group flex flex-col items-center"
-                  aria-label={`Ir a ${item.name}`}
+                  aria-label={`Ir a ${item?.name || "marca"}`}
                 >
                   <div className="relative w-[110px] h-[110px] sm:w-[120px] sm:h-[120px] rounded-full border border-gray-200 bg-white shadow-sm grid place-items-center transition-all duration-200 group-hover:-translate-y-1 group-hover:shadow-lg">
                     <div className="relative w-[72%] h-[72%]">
-                      <Image
-                        src={item.icon}
-                        alt={item.name}
-                        fill
-                        className="object-contain partnerLogo"
-                        sizes="120px"
+                      <img
+                        src={item?.icon}
+                        alt={item?.name || "Aliado"}
+                        className="w-full h-full object-contain partnerLogo"
+                        loading="lazy"
+                        decoding="async"
                       />
                     </div>
                   </div>
 
                   <p className="mt-3 text-center text-[13px] sm:text-sm font-medium text-gray-900 group-hover:text-equielect-blue">
-                    {item.name}
+                    {item?.name || ""}
                   </p>
-                </Link>
+                </a>
               ))}
             </div>
           </div>
         </div>
       </div>
 
-      {/* CSS del marquee */}
+      {/* CSS marquee */}
       <style jsx>{`
         .marquee-track {
           animation: marquee var(--duration) linear infinite;
           will-change: transform;
         }
-
         .marquee-track.is-paused {
           animation-play-state: paused;
         }
-
         @media (prefers-reduced-motion: reduce) {
           .marquee-track {
             animation: none !important;
             transform: translateX(0) !important;
           }
         }
-
         @keyframes marquee {
           from {
             transform: translateX(0);

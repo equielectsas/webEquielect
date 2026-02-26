@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
-import { notFound } from "next/navigation";
+import React, { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { brands } from "@/data/brands";
 import Link from "next/link";
 import Allies360Carousel from "@/components/home/Allies360Carousel";
@@ -118,16 +118,24 @@ const BRAND_BULLETS = {
     "Cables para minería.",
     "Cables de cobre y aluminio desnudo.",
     "Cables para telecomunicaciones.",
+    "Alambres THHN/THWN-2.",
+    "Cables THHN/THWN-2",
+    "Cables libres de halogenos 90°C",
+    "Cable de soldadura",
+    "Cables AWM flexibles",
+    "Cables de potencia monoflex",
+    "Cables duplex flexibles SPT",
+    "Cables multiflex PVC-NY/PVC",
+    "Cable triplex THHN/THWN-2 RoHS",
+    "Cables XHHW-2",
+    "Cables de potencia",
+    "Cables instrumentación",
+    "Cable TW flexible 600V 60°C PVC",
+    "Cables HMWPE Cu 75°C 600V PVC",
+    "Cable NMC-B THHN/THWN-2 600V PVC-CT",
   ],
   weg: ["Motores eléctricos IEC y NEMA.", "Accionamiento de control.", "Variadores y arrancadores suaves."],
-  "phoenix-contact": [
-    "DPS.",
-    "Fuentes de alimentación.",
-    "Bornas de control y potencia.",
-    "Relés de interface para salidas PLC.",
-    "Switchs Ethernet.",
-    "UPS.",
-  ],
+  "phoenix-contact": ["DPS.", "Fuentes de alimentación.", "Bornas de control y potencia.", "Relés de interface para salidas PLC.", "Switchs Ethernet.", "UPS."],
   metalcoraza: ["Coraza americana liquid tight.", "Conectores liquid tight."],
   "connect-vcp": [
     "Cables UTP para Telecomunicaciones CAT 5E - 6.",
@@ -195,7 +203,6 @@ function WhatsAppIcon({ className = "w-5 h-5" }) {
 
 /** ✅ Card: c.img es la principal SIEMPRE + 3 miniaturas que cambian al hover/click */
 function FeaturedCard({ c }) {
-  // ✅ c.img se fuerza como primera, y c.images son adicionales (sin duplicados)
   const imgs = useMemo(() => {
     const main = c?.img ? [c.img] : [];
     const extras = Array.isArray(c?.images) ? c.images : [];
@@ -211,7 +218,6 @@ function FeaturedCard({ c }) {
       className="w-full sm:w-[320px] bg-white border border-slate-200 shadow-sm hover:shadow-xl transition-all group overflow-hidden"
       style={{ borderRadius: 16 }}
     >
-      {/* Imagen principal */}
       <Link href={c.href || "#"} className="block">
         <div className="h-64 flex items-center justify-center bg-slate-50 p-6 overflow-hidden relative">
           <img
@@ -224,7 +230,6 @@ function FeaturedCard({ c }) {
         </div>
       </Link>
 
-      {/* Miniaturas (3) */}
       {imgs.length > 1 && (
         <div className="px-5 pt-3 flex gap-2 items-center justify-center">
           {imgs.slice(0, 3).map((src, idx) => {
@@ -236,7 +241,9 @@ function FeaturedCard({ c }) {
                 onMouseEnter={() => setActive(idx)}
                 onFocus={() => setActive(idx)}
                 onClick={() => setActive(idx)}
-                className={`relative w-10 h-10 border transition ${isActive ? "border-[#1c355e]" : "border-slate-200"} items-center justify-center`}
+                className={`relative w-10 h-10 border transition ${
+                  isActive ? "border-[#1c355e]" : "border-slate-200"
+                } items-center justify-center`}
                 style={{ borderRadius: 10 }}
                 aria-label={`Ver imagen ${idx + 1}`}
               >
@@ -253,44 +260,160 @@ function FeaturedCard({ c }) {
         </div>
       )}
 
-      {/* Texto */}
       <div className="p-6 text-center border-t border-slate-100">
         <p className="text-xs font-black uppercase tracking-[0.2em] text-[#1c355e] mb-3">{c.title}</p>
         {!!c.text && <p className="text-sm text-slate-600 leading-relaxed">{c.text}</p>}
-
-        <div className="mt-5 flex justify-center">
-        </div>
       </div>
-
     </article>
   );
 }
 
 export default function BrandPage({ params }) {
-  const brand = brands.find((b) => b.slug === params.slug);
-  if (!brand) return notFound();
+  const router = useRouter();
 
-  const bullets = BRAND_BULLETS[brand.slug] || [];
+  // ✅ Hooks primero (para NO romper reglas de hooks)
+  const [showPopup, setShowPopup] = useState(false);
 
-  const waPhone = brand.whatsapp?.phone || DEFAULT_WA_PHONE;
+  const slug = params?.slug;
+  const brand = useMemo(() => brands.find((b) => b.slug === slug), [slug]);
+
+  // ✅ Popup solo para Schneider
+  useEffect(() => {
+    if (brand?.slug === "schneider") setShowPopup(true);
+    else setShowPopup(false);
+  }, [brand?.slug]);
+
+  // ✅ Bloquea scroll mientras esté abierto
+  useEffect(() => {
+    if (!showPopup) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [showPopup]);
+
+  // ✅ Cerrar con ESC
+  useEffect(() => {
+    if (!showPopup) return;
+    const onKey = (e) => {
+      if (e.key === "Escape") setShowPopup(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [showPopup]);
+
+  // ✅ WhatsApp general
+  const waPhone = brand?.whatsapp?.phone || DEFAULT_WA_PHONE;
   const waMessage =
-    brand.whatsapp?.message ||
-    `Hola Equielect, estoy interesado en cotizar productos de ${brand.name}. ¿Me ayudas con disponibilidad y precios?`;
+    brand?.whatsapp?.message ||
+    `Hola Equielect, estoy interesado en cotizar productos de ${brand?.name || "esta marca"}. ¿Me ayudas con disponibilidad y precios?`;
 
   const goToWhatsApp = () => {
     window.open(`https://wa.me/${waPhone}?text=${encodeURIComponent(waMessage)}`, "_blank", "noopener,noreferrer");
   };
 
-  const cards = (brand.featuredCards || []).slice(0, 3);
+  const bullets = brand ? BRAND_BULLETS[brand.slug] || [] : [];
+  const cards = (brand?.featuredCards || []).slice(0, 3);
 
-  const banner1x = brand.images?.desktop || brand.images?.tablet || brand.images?.mobile || "";
-  const banner2x = brand.images?.desktop2x || brand.images?.tablet2x || brand.images?.mobile2x || "";
+  const banner1x = brand?.images?.desktop || brand?.images?.tablet || brand?.images?.mobile || "";
+  const banner2x = brand?.images?.desktop2x || brand?.images?.tablet2x || brand?.images?.mobile2x || "";
 
   const eqBlue = "#1c355e";
   const eqYellow = "#FFCC00";
 
+  // ✅ Si brand no existe, renderiza pantalla “Marca no encontrada” (sin romper hooks)
+  if (!brand) {
+    return (
+      <main className="bg-white min-h-screen flex items-center justify-center px-6">
+        <div className="max-w-xl text-center">
+          <p className="text-2xl font-extrabold text-slate-900">Marca no encontrada</p>
+          <p className="mt-2 text-slate-600">La marca solicitada no existe o la URL está mal.</p>
+
+          <Link
+            href="/"
+            className="inline-flex mt-6 px-5 py-3 rounded-xl bg-[#1c355e] text-white font-bold hover:opacity-95 transition"
+          >
+            Volver al inicio
+          </Link>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className="bg-white min-h-screen pb-24 font-sans">
+      {/* ✅ POPUP Schneider */}
+      {brand.slug === "schneider" && showPopup && (
+        <div
+          className="fixed inset-0 z-[9999] flex items-center justify-center px-4"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Promoción Schneider"
+        >
+          {/* Overlay */}
+          <button
+            type="button"
+            className="absolute inset-0 bg-black/60"
+            onClick={() => setShowPopup(false)}
+            aria-label="Cerrar popup"
+          />
+
+          {/* Modal */}
+          <div className="relative w-full max-w-md sm:max-w-lg rounded-2xl bg-white shadow-2xl overflow-hidden">
+            {/* Botón X */}
+            <button
+              type="button"
+              onClick={() => setShowPopup(false)}
+              className="absolute top-3 right-3 z-10 h-10 w-10 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black/70 transition"
+              aria-label="Cerrar"
+              title="Cerrar"
+            >
+              ✕
+            </button>
+
+            {/* Imagen + hotspot */}
+            <div className="relative">
+              <img
+                src="/assets/Pop up/popup.png"
+                alt="Popup Schneider"
+                className="w-full h-auto block"
+                loading="eager"
+                decoding="async"
+              />
+
+              {/* ✅ En vez de WhatsApp, manda a /schneidercamp */}
+              <button
+                type="button"
+                onClick={() => {
+                  setShowPopup(false);
+                  router.push("/analytic/schneider");
+                }}
+                className="absolute flex items-center justify-center bg-transparent hover:scale-105 active:scale-95 transition"
+                style={{
+                  left: "58%",
+                  top: "48%",
+                  width: 110, // área clickeable
+                  height: 110, // área clickeable
+                  transform: "translate(-50%, -50%)",
+                  filter:
+                    "drop-shadow(0 2px 6px rgba(0,0,0,.65)) drop-shadow(0 0 2px rgba(0,0,0,.6))",
+                }}
+                aria-label="Cotizar con asesor"
+                title="Cotizar con asesor"
+              >
+                <img
+                  src="/assets/Pop up/logo.png"
+                  alt="WhatsApp"
+                  className="w-[248px] h-[248px] object-contain"
+                  draggable={false}
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* 1) BANNER */}
       <section className="w-full">
         <div className="w-full bg-slate-50">

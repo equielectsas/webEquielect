@@ -23,7 +23,7 @@ export default function Home() {
     () => [
       { id: "clip", title: "Clip", src: "/assets/videos/clip.mp4", poster: "/assets/fondos/portadacentro.png" },
       { id: "v1", title: "Video 1", src: "/assets/videos/schneider.mp4", poster: "/assets/logs/22.png" },
-      { id: "v2", title: "Video 2", src: "/assets/videos/4.mp4", poster: "/assets/logs/33.png" },
+      { id: "v2", title: "Video 2", src: "/assets/videos/VIDEO WEB LOG.mp4", poster: "/assets/logs/33.png" },
     ],
     []
   );
@@ -173,8 +173,8 @@ export default function Home() {
         mobile2x: "/assets/Sliderhome/mobile/slider_schneider.png",
         tablet: "/assets/Sliderhome/tablet/slider_tablet_schneider.png",
         tablet2x: "/assets/Sliderhome/tablet/slider_tablet_schneider.png",
-        desktop: "/assets/Sliderhome/desktop/bannersch_pc.png",
-        desktop2x: "/assets/Sliderhome/desktop/bannersch_mac.png",
+        desktop: "/assets/Sliderhome/desktop/sch_w.jpg",
+        desktop2x: "/assets/Sliderhome/desktop/mac_s.jpg",
       },
     },
     {
@@ -442,7 +442,7 @@ export default function Home() {
             <header className="text-center max-w-4xl mx-auto">
               <div className="inline-flex items-center gap-3 mb-6">
                 <span className="h-[10px] w-[2px] rounded-full bg-[#f2c219]" />
-                <p className="text-[11px] sm:text-xs font-semibold uppercase tracking-[0.18em] text-gray-700">
+                <p className="text-[31px] sm:text-xs font-semibold uppercase tracking-[0.18em] text-gray-700">
                   Más que negocios, hacemos amigos
                 </p>
                 <span className="h-[10px] w-[2px] rounded-full bg-[#f2c219]" />

@@ -7,12 +7,12 @@ export const brands = [
       "Schneider Electric es un líder mundial en tecnología energética, especializado en la gestión de energía, automatización industrial y transformación digital de hogares y empresas para mejorar su sostenibilidad. Con origen en el siglo XIX, la empresa proporciona soluciones que incluyen dispositivos inteligentes y software para centros de datos, industrias e infraestructuras. ",
     // Imágenes responsive
     images: {
-      mobile: "/assets/banners/mobile/panduit_m.png",
-      mobile2x: "/assets/banners/mobile/panduit_m2x.png",
-      tablet: "/assets/banners/tablet/panduit_t.png",
-      tablet2x: "/assets/banners/tablet/panduit_t2x.png",
-      desktop: "/assets/banners/desktop/schneider.jpg",
-      desktop2x: "/assets/banners/desktop/schneider.jpg",
+      mobile: "/assets/banners/mobile/prod_sch.png",
+      mobile2x: "/assets/banners/mobile/prod_sch.png",
+      tablet: "/assets/banners/tablet/prod_sch.png",
+      tablet2x: "/assets/banners/tablet/prod_sch.png",
+      desktop: "/assets/banners/desktop/prod_sch.png",
+      desktop2x: "/assets/banners/desktop/prod_sch.png",
     },
       
   // ✅ 3 imágenes (cards) manuales para mostrar debajo de “Productos destacados”
@@ -113,7 +113,7 @@ export const brands = [
     {
       img: "/assets/products/procables/exzhellent.png",
       title: "Cable Exzhellent green y XHHW",
-      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      text: "Soluciones de conducción eléctrica confiables para instalaciones internas y canalizaciones, ideales para proyectos residenciales e industriales que buscan seguridad, resistencia y desempeño estable, con opciones orientadas a mayor durabilidad y eficiencia.",
       href: "/productos?marca=procables",
       images: [
       "/assets/products/procables/cable-XHHW.png",
@@ -122,7 +122,7 @@ export const brands = [
     {
       img: "/assets/products/procables/concentrico.png",
       title: "Cable Concentrico y termoflex",
-      text: "Dispositivos de control a par y torque de motores eléctricos trifásicos de CA",
+      text: "Línea de Cable Concéntrico y Termoflex para acometidas, derivaciones y conexiones eléctricas en proyectos residenciales e industriales: combina estructura pensada para instalaciones ordenadas con opciones de flexibilidad brindando seguridad, resistencia y montaje ágil en obra.",
       href: "/productos?marca=procables",
       images: [
       "/assets/products/procables/termoflex.png",
@@ -131,7 +131,7 @@ export const brands = [
     {
       img: "/assets/products/procables/-xlpe.png",
       title: "Cable media tensión y soldador (ET)",
-      text: "Diseñados para gestionar arranque, parada y protección de motores eléctricos",
+      text: "Línea de Cable de Media Tensión y Cable Soldador (ET) para aplicaciones exigentes en industria y obra: diseñada para alimentación eléctrica segura y trabajos de soldadura, con aislamiento robusto, buena flexibilidad y desempeño confiable ante condiciones de uso intensivo.",
       href: "/productos?marca=procables",
       images: [
       "/assets/products/procables/soldador.png",
@@ -215,31 +215,32 @@ export const brands = [
   // ✅ 3 imágenes (cards) manuales para mostrar debajo de “Productos destacados”
   featuredCards: [
     {
-      img: "/assets/products/centelsa/cable thhn.png",
-      title: "Cables THHN",
-      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      img: "/assets/products/centelsa/princ.png",
+      title: "Cables de cobre baja tensión aislados",
+      text: "Disponibles en versión libre de halógenos (LSZH), ideales para espacios cerrados y alta afluencia: en caso de incendio ayudan a reducir gases corrosivos y humo denso, mejorando la seguridad y protegiendo equipos e instalaciones.",
       href: "/productos?marca=centelsa",
       images: [
-      "/assets/products/centelsa/triplex.png",
-      "/assets/products/centelsa/cable-cu105.png",
+      "/assets/products/centelsa/thhn.png",
+      "/assets/products/centelsa/halogenos.jpg",
     ],
     },
     {
-      img: "/assets/products/centelsa/pista.png",
-      title: "Cables de aluminio desnudo",
-      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      img: "/assets/products/centelsa/aluminio.png",
+      title: "Cables de aluminio baja tensión aislados",
+      text: "Una opción eficiente para alimentación y distribución eléctrica, ideal en acometidas y canalizaciones donde se busca buen desempeño con menor peso, aislamiento confiable y resistencia para uso residencial, comercial e industrial.",
       href: "/productos?marca=centelsa",
       images: [
-      "/assets/products/centelsa/encauchetado.png",
+      "/assets/products/centelsa/s8000.jpg",
     ],
     },
     {
-      img: "/assets/products/centelsa/c600.png",
-      title: "Cables de aluminio desnudo",
-      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      img: "/assets/products/centelsa/desnu.png",
+      title: "Cables y alambre de cobre desnudo",
+      text: "Conductores sin aislamiento ideales para puestas a tierra, pararrayos, mallas y conexiones de protección, ofreciendo alta conductividad, durabilidad y excelente desempeño en instalaciones eléctricas e industriales.",
       href: "/productos?marca=centelsa",
       images: [
-      "/assets/products/centelsa/-centelflex.png",
+      "/assets/products/centelsa/cobre1.jpg",
+      "/assets/products/centelsa/flex.png",
     ],
     },
   ],
@@ -563,7 +564,7 @@ export const brands = [
     {
       img: "/assets/products/schmersal/guayas.png",
       title: "Interruptores por guaya",
-      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      text: "Dispositivos de seguridad para paro de emergencia a distancia en bandas y maquinaria. Permiten detener la operación de forma rápida al accionar la guaya, mejorando la protección del personal y el control en zonas largas de trabajo.",
       href: "/productos?marca=schmersal",
       images: [
       "/assets/products/schmersal/48.jpg",
@@ -572,7 +573,7 @@ export const brands = [
     {
       img: "/assets/products/schmersal/cortinas.png",
       title: "Cortinas y barreras de seguridad",
-      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      text: "Sistemas de protección para maquinaria que detectan el ingreso a zonas de riesgo y activan la parada inmediata. Ideales para automatización industrial, mejoran la seguridad del operador sin afectar el flujo del proceso.",
       href: "/productos?marca=schmersal",
       images: [
       "/assets/products/schmersal/barreras.png",
@@ -581,7 +582,7 @@ export const brands = [
     {
       img: "/assets/products/schmersal/modulo-sch.png",
       title: "Modulos de seguridad y PLC",
-      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      text: "Controlan y supervisan funciones críticas de maquinaria, integrando señales de paro, puertas y sensores para una operación segura y automatizada. Permiten lógica confiable, diagnóstico y control centralizado en procesos industriales.",
       href: "/productos?marca=schmersal",
     },
   ],
@@ -682,7 +683,7 @@ export const brands = [
   },
     // Texto principal
     description:
-      "Teldor ha sido pionera e innovadora en el campo del diseño y fabricación de cables sofisticados de alta tecnología.",
+      "Teldor ha sido pionera e innovadora en el diseño y la fabricación de cables sofisticados de alta tecnología, desarrollando soluciones confiables para aplicaciones exigentes. Su enfoque combina ingeniería, calidad y mejora continua para ofrecer cables con alto desempeño, durabilidad y estándares consistentes en distintos entornos industriales y especiales.",
     // Imágenes responsive
     images: {
       mobile: "/assets/banners/mobile/panduit_m.png",
@@ -696,37 +697,24 @@ export const brands = [
   // ✅ 3 imágenes (cards) manuales para mostrar debajo de “Productos destacados”
   featuredCards: [
     {
-      img: "/assets/products/teldor/cable-control.jpg",
-      title: "Cable de control",
-      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      img: "/assets/products/teldor/instrumentacion.png",
+      title: "Instrumentación y control",
+      text: "Diseñado para transmisión confiable de señales en sistemas de automatización y control industrial. Incorpora conductores aislados y blindaje metálico para reducir interferencias electromagnéticas, ofreciendo estabilidad en mediciones y comunicación de señales, incluso en ambientes exigentes.",
       href: "/productos?marca=teldor",
-      images: [
-      "/assets/products/schneider/interruptor.png",
-      "/assets/products/schneider/interruptor-2.png",
-      "/assets/products/schneider/interruptor-3.png",
-    ],
+
     },
     {
-      img: "/assets/products/teldor/fibra-optica.png",
-      title: "Fibra óptica",
-      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      img: "/assets/products/teldor/UTP.png",
+      title: "Fibra óptica y utp",
+      text: "Soluciones de conectividad para redes modernas; la fibra óptica ofrece alta velocidad, larga distancia e inmunidad a interferencias, mientras el UTP brinda un cableado estructurado confiable para voz y datos en oficinas, edificios y telecomunicaciones, garantizando rendimiento estable y fácil instalación.",
       href: "/productos?marca=teldor",
-      images: [
-      "/assets/products/schneider/interruptor.png",
-      "/assets/products/schneider/interruptor-2.png",
-      "/assets/products/schneider/interruptor-3.png",
-    ],
+
     },
     {
-      img: "/assets/products/teldor/cable-alarma.jpg",
-      title: "Cable de alarma",
-      text: "Dispositivos de control para protección, control y maniobra de circuitos ",
+      img: "/assets/products/teldor/tbus.png",
+      title: "cables industriales tipo bus y especiales",
+      text: "Diseñados para automatización y control, permiten la comunicación segura entre PLC, sensores, variadores y equipos de campo. Ofrecen alta resistencia a interferencias, flexibilidad y durabilidad en ambientes exigentes, ideales para redes industriales como PROFIBUS, CAN, Ethernet industrial y aplicaciones especiales.",
       href: "/productos?marca=teldor",
-      images: [
-      "/assets/products/schneider/interruptor.png",
-      "/assets/products/schneider/interruptor-2.png",
-      "/assets/products/schneider/interruptor-3.png",
-    ],
     },
   ],
   },
