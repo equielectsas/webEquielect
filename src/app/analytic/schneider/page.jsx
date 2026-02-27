@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import Link from "next/link";
 
 const DEFAULT_WA_PHONE = "+573146453033";
 
@@ -11,7 +10,13 @@ export default function SchneiderCampPage() {
   const [phone, setPhone] = useState("");
   const [acceptData, setAcceptData] = useState(false);
   const [acceptPrivacy, setAcceptPrivacy] = useState(false);
+
+  // ✅ Validación UX
   const [touched, setTouched] = useState(false);
+
+  // ✅ UX states botón
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const canContinue = useMemo(() => {
     const okName = fullName.trim().length >= 5;
@@ -19,9 +24,18 @@ export default function SchneiderCampPage() {
     return okName && okPhone && acceptData && acceptPrivacy;
   }, [fullName, phone, acceptData, acceptPrivacy]);
 
-  const onContinue = () => {
+  const onContinue = async () => {
     setTouched(true);
-    if (!canContinue) return;
+    if (!canContinue || isSubmitting) return;
+
+    setIsSubmitting(true);
+    setIsSuccess(false);
+
+    // Simula “guardado”
+    await new Promise((r) => setTimeout(r, 700));
+
+    setIsSubmitting(false);
+    setIsSuccess(true);
 
     const cleanPhone = phone.replace(/\D/g, "");
     const msg =
@@ -30,11 +44,14 @@ export default function SchneiderCampPage() {
       `\nContacto: ${cleanPhone}` +
       `\n\n¿Me ayudas con disponibilidad, precios y tiempos de entrega?`;
 
-    window.open(
-      `https://wa.me/${DEFAULT_WA_PHONE}?text=${encodeURIComponent(msg)}`,
-      "_blank",
-      "noopener,noreferrer"
-    );
+    setTimeout(() => {
+      window.open(
+        `https://wa.me/${DEFAULT_WA_PHONE}?text=${encodeURIComponent(msg)}`,
+        "_blank",
+        "noopener,noreferrer"
+      );
+      setTimeout(() => setIsSuccess(false), 1200);
+    }, 250);
   };
 
   const nameError = touched && fullName.trim().length < 5;
@@ -43,64 +60,63 @@ export default function SchneiderCampPage() {
 
   return (
     <main className="min-h-screen bg-white">
-      {/* ✅ Banner responsive (una sola imagen según dispositivo) */}
-      <section className="w-full bg-slate-50">
-        <picture>
-          {/* Mobile */}
-          <source
-            media="(max-width: 640px)"
-            srcSet="/assets/campaña/mobile/campaña_mobile.jpg"
-          />
-
-          {/* Tablet */}
-          <source
-            media="(min-width: 641px) and (max-width: 1024px)"
-            srcSet="/assets/campaña/tablet/camapaña_tablet.jpg"
-          />
-
-          {/* Desktop Retina (Mac / pantallas 2x) */}
-          <source
-            media="(min-width: 1025px) and (min-resolution: 2dppx)"
-            srcSet="/assets/campaña/mac/campaña_mac.png"
-          />
-
-          {/* Desktop Normal (Windows / 1x) */}
-          <source
-            media="(min-width: 1025px)"
-            srcSet="/assets/campaña/windows/campaña_windows.png"
-          />
-
-          {/* Fallback */}
-          <img
-            src="/assets/campaña/desktop/campaña_desktop.png"
-            alt="Campaña Schneider"
-            className="w-full h-auto block"
-            loading="eager"
-            decoding="async"
-          />
-        </picture>
-      </section>
       <style jsx global>{`
-  .breadcrumb,
-  .breadcrumbs,
-  nav[aria-label="breadcrumb"] {
-    display: none !important;
-  }
-`}</style>
+        .breadcrumb,
+        .breadcrumbs,
+        nav[aria-label="breadcrumb"] {
+          display: none !important;
+        }
+      `}</style>
 
-      {/* Header */}
-      <header className="border-b border-slate-200">
-        <div className="max-w-3xl mx-auto px-4 py-5 flex items-center justify-between">
-          <div className="w-[60px]" />
+      {/* ✅ HERO tipo ContactoPage: w-full h-auto (sin recortes) */}
+      <header className="relative w-full bg-white overflow-hidden">
+        <div className="relative w-full">
+          <picture>
+            <source
+              media="(max-width: 640px)"
+              srcSet="/assets/campaña/mobile/campaña_mobile.jpg"
+            />
+            <source
+              media="(min-width: 641px) and (max-width: 1024px)"
+              srcSet="/assets/campaña/tablet/campaña_tablet.jpg"
+            />
+            <source
+              media="(min-width: 1025px)"
+              srcSet="/assets/campaña/windows/campaña_windows.png"
+            />
+
+            {/* Fallback */}
+            <img
+              src="/assets/campaña/mac/campaña_mac.png"
+              alt="Campaña Schneider"
+              className="w-full h-auto block select-none"
+              loading="eager"
+              decoding="async"
+              draggable="false"
+            />
+          </picture>
         </div>
       </header>
 
       {/* Form */}
-      <section className="max-w-3xl mx-auto px-4 py-10">
-        <div className="rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8">
-          <div className="flex items-center gap-3 mb-6">
+      <section className="relative overflow-hidden pb-10">
+        {/* Fondo con opacidad */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage: "url('/assets/banners/fondo.png')",
+            backgroundRepeat: "repeat",
+            backgroundSize: "auto",
+            opacity: 0.22,
+          }}
+        />
 
-            <div>
+        {/* Contenido (sube un poco sobre el banner) */}
+        <div className="relative max-w-3xl mx-auto px-4 -mt-10 sm:-mt-14">
+          <div className="rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 bg-white/90 backdrop-blur-[1px]">
+            <div className="mb-6">
+              <br></br>
+              <br />
               <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900">
                 Continúa con un asesor
               </h1>
@@ -109,120 +125,148 @@ export default function SchneiderCampPage() {
                 WhatsApp.
               </p>
             </div>
-          </div>
 
-          <div className="space-y-5">
-            {/* Nombre */}
-            <div>
-              <label className="block text-sm font-bold text-slate-800 mb-2">
-                Nombre completo
-              </label>
-              <input
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                onBlur={() => setTouched(true)}
-                placeholder="Ej: Juan Pérez"
-                className={`w-full rounded-xl border px-4 py-3 outline-none transition ${
-                  nameError
-                    ? "border-red-400 focus:ring-2 focus:ring-red-200"
-                    : "border-slate-300 focus:ring-2 focus:ring-slate-200"
-                }`}
-              />
-              {nameError && (
-                <p className="mt-2 text-xs text-red-600">
-                  Escribe tu nombre completo (mínimo 5 caracteres).
-                </p>
-              )}
-            </div>
-
-            {/* Teléfono */}
-            <div>
-              <label className="block text-sm font-bold text-slate-800 mb-2">
-                Número de contacto
-              </label>
-              <input
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                onBlur={() => setTouched(true)}
-                inputMode="tel"
-                placeholder="Ej: 3123456789"
-                className={`w-full rounded-xl border px-4 py-3 outline-none transition ${
-                  phoneError
-                    ? "border-red-400 focus:ring-2 focus:ring-red-200"
-                    : "border-slate-300 focus:ring-2 focus:ring-slate-200"
-                }`}
-              />
-              {phoneError && (
-                <p className="mt-2 text-xs text-red-600">
-                  Ingresa un número válido (mínimo 10 dígitos).
-                </p>
-              )}
-              <p className="mt-2 text-xs text-slate-500">
-                Solo se incluirá en el mensaje de WhatsApp.
-              </p>
-            </div>
-
-            {/* Checks */}
-            <div
-              className={`rounded-xl border p-4 ${
-                checksError ? "border-red-300" : "border-slate-200"
-              }`}
-            >
-              <div className="space-y-3">
-                <label className="flex items-start gap-3 cursor-pointer select-none">
-                  <input
-                    type="checkbox"
-                    checked={acceptData}
-                    onChange={(e) => setAcceptData(e.target.checked)}
-                    onBlur={() => setTouched(true)}
-                    className="mt-1 h-4 w-4"
-                  />
-                  <span className="text-sm text-slate-700">
-                    Acepto el{" "}
-                    <span className="font-bold">
-                      tratamiento de mis datos
-                    </span>
-                    .
-                  </span>
+            <div className="space-y-5">
+              {/* Nombre */}
+              <div>
+                <label className="block text-sm font-bold text-slate-800 mb-2">
+                  Nombre completo
                 </label>
-
-                <label className="flex items-start gap-3 cursor-pointer select-none">
-                  <input
-                    type="checkbox"
-                    checked={acceptPrivacy}
-                    onChange={(e) => setAcceptPrivacy(e.target.checked)}
-                    onBlur={() => setTouched(true)}
-                    className="mt-1 h-4 w-4"
-                  />
-                  <span className="text-sm text-slate-700">
-                    Acepto las{" "}
-                    <span className="font-bold">
-                      políticas de privacidad
-                    </span>
-                    .
-                  </span>
-                </label>
+                <input
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  onBlur={() => setTouched(true)}
+                  placeholder="Ej: Juan Pérez"
+                  className={`w-full rounded-xl border px-4 py-3 outline-none transition ${
+                    nameError
+                      ? "border-red-400 focus:ring-2 focus:ring-red-200"
+                      : "border-slate-300 focus:ring-2 focus:ring-slate-200"
+                  }`}
+                />
+                {nameError && (
+                  <p className="mt-2 text-xs text-red-600">
+                    Escribe tu nombre completo (mínimo 5 caracteres).
+                  </p>
+                )}
               </div>
 
-              {checksError && (
-                <p className="mt-3 text-xs text-red-600">
-                  Debes aceptar ambas opciones para continuar.
+              {/* Teléfono */}
+              <div>
+                <label className="block text-sm font-bold text-slate-800 mb-2">
+                  Número de contacto
+                </label>
+                <input
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  onBlur={() => setTouched(true)}
+                  inputMode="tel"
+                  placeholder="Ej: 3123456789"
+                  className={`w-full rounded-xl border px-4 py-3 outline-none transition ${
+                    phoneError
+                      ? "border-red-400 focus:ring-2 focus:ring-red-200"
+                      : "border-slate-300 focus:ring-2 focus:ring-slate-200"
+                  }`}
+                />
+                {phoneError && (
+                  <p className="mt-2 text-xs text-red-600">
+                    Ingresa un número válido (mínimo 10 dígitos).
+                  </p>
+                )}
+                <p className="mt-2 text-xs text-slate-500">
+                  Solo se incluirá en el mensaje de WhatsApp.
                 </p>
-              )}
-            </div>
+              </div>
 
-            {/* Button */}
-            <button
-              type="button"
-              onClick={onContinue}
-              className={`w-full rounded-xl px-6 py-4 font-extrabold transition ${
-                canContinue
-                  ? "bg-[#25D366] text-white hover:opacity-95"
-                  : "bg-slate-200 text-slate-500 cursor-not-allowed"
-              }`}
-            >
-              Continuar con asesor
-            </button>
+              {/* Checks */}
+              <div
+                className={`rounded-xl border p-4 ${
+                  checksError ? "border-red-300" : "border-slate-200"
+                }`}
+              >
+                <div className="space-y-3">
+                  <label className="flex items-start gap-3 cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      checked={acceptData}
+                      onChange={(e) => setAcceptData(e.target.checked)}
+                      onBlur={() => setTouched(true)}
+                      className="mt-1 h-4 w-4"
+                    />
+                    <span className="text-sm text-slate-700">
+                      Acepto el{" "}
+                      <span className="font-bold">
+                        tratamiento de mis datos
+                      </span>
+                      .
+                    </span>
+                  </label>
+
+                  <label className="flex items-start gap-3 cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      checked={acceptPrivacy}
+                      onChange={(e) => setAcceptPrivacy(e.target.checked)}
+                      onBlur={() => setTouched(true)}
+                      className="mt-1 h-4 w-4"
+                    />
+                    <span className="text-sm text-slate-700">
+                      Acepto las{" "}
+                      <span className="font-bold">
+                        políticas de privacidad
+                      </span>
+                      .
+                    </span>
+                  </label>
+                </div>
+
+                {checksError && (
+                  <p className="mt-3 text-xs text-red-600">
+                    Debes aceptar ambas opciones para continuar.
+                  </p>
+                )}
+              </div>
+
+              {/* Botón */}
+              <button
+                type="button"
+                onClick={onContinue}
+                disabled={!canContinue || isSubmitting}
+                className={[
+                  "w-full rounded-xl px-6 py-4 font-extrabold transition flex items-center justify-center gap-2",
+                  "bg-[#25D366] text-white",
+                  canContinue && !isSubmitting
+                    ? "hover:opacity-95 active:scale-[0.99]"
+                    : "",
+                  !canContinue || isSubmitting
+                    ? "opacity-80 cursor-not-allowed"
+                    : "",
+                ].join(" ")}
+              >
+                {isSubmitting ? (
+                  <>
+                    <span className="inline-block h-5 w-5 rounded-full border-2 border-white/40 border-t-white animate-spin" />
+                    <span>Enviando…</span>
+                  </>
+                ) : isSuccess ? (
+                  <>
+                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/20">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                        <path
+                          d="M20 6L9 17l-5-5"
+                          stroke="white"
+                          strokeWidth="2.6"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </span>
+                    <span>Listo</span>
+                  </>
+                ) : (
+                  "Continuar con asesor"
+                )}
+              </button>
+            </div>
           </div>
         </div>
       </section>

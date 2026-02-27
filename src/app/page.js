@@ -14,16 +14,21 @@ export default function Home() {
   // =========================
   const [loginOpen, setLoginOpen] = useState(false);
 
-  // ✅ Video del celular (central)
-  const [videoStarted, setVideoStarted] = useState(false);
-  const videoRef = useRef(null);
+  // ✅ Refs de videos (todos)
+  const centerVideoRef = useRef(null);
+  const v1Ref = useRef(null);
+  const v2Ref = useRef(null);
+
+  // ✅ Para reproducir al entrar en sección
+  const phonesSectionRef = useRef(null);
+  const [phonesInView, setPhonesInView] = useState(false);
 
   // ✅ 3 videos (centro inicia en clip)
   const PHONE_VIDEOS = useMemo(
     () => [
-      { id: "clip", title: "Clip", src: "/assets/videos/clip.mp4", poster: "/assets/fondos/portadacentro.png" },
-      { id: "v1", title: "Video 1", src: "/assets/videos/schneider.mp4", poster: "/assets/logs/22.png" },
-      { id: "v2", title: "Video 2", src: "/assets/videos/VIDEO WEB LOG.mp4", poster: "/assets/logs/33.png" },
+      { id: "clip", title: "Clip", src: "/assets/videos/clip.mp4" },
+      { id: "v1", title: "Video 1", src: "/assets/videos/schneider.mp4" },
+      { id: "v2", title: "Video 2", src: "/assets/videos/VIDEO WEB LOG.mp4" },
     ],
     []
   );
@@ -42,7 +47,7 @@ export default function Home() {
   const centerId = phoneOrder[1];
   const centerVideo = videoMap[centerId];
 
-  // ✅ control de animación (para que “se muevan” como 360 y no spameen clicks)
+  // ✅ control de animación
   const [isRotating, setIsRotating] = useState(false);
   const [rotateDir, setRotateDir] = useState(null); // "next" | "prev" | null
 
@@ -52,29 +57,57 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
 
   // =========================
-  // ACTIONS - VIDEO CENTRAL
+  // ✅ PLAY HELPERS (autoplay)
   // =========================
-  const safePlayCenter = async () => {
-    const el = videoRef.current;
+  const safePlay = async (el) => {
     if (!el) return;
     try {
-      el.pause();
-      el.currentTime = 0;
-      el.load();
+      el.muted = true;
+      el.playsInline = true;
+      // Forzar loop y sin controles
+      el.loop = true;
+      el.controls = false;
       await el.play();
     } catch {
-      // autoplay puede bloquearse
+      // Autoplay puede bloquearse; queda en pausa sin overlay
     }
   };
 
-  const handleStartVideo = async () => {
-    setVideoStarted(true);
-    requestAnimationFrame(() => {
-      safePlayCenter();
-    });
+  const getVideoRefById = (id) => {
+    if (id === "clip") return centerVideoRef.current;
+    if (id === "v1") return v1Ref.current;
+    if (id === "v2") return v2Ref.current;
+    return null;
   };
 
-  // ✅ Rotación 360 con animación física de los “celulares”
+  // ✅ Reproducir todos cuando entra la sección
+  useEffect(() => {
+    if (!phonesSectionRef.current) return;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        const isIn = entries?.[0]?.isIntersecting;
+        setPhonesInView(!!isIn);
+      },
+      { threshold: 0.25 }
+    );
+
+    io.observe(phonesSectionRef.current);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!phonesInView) return;
+
+    // Reproduce el del centro (sea cual sea el ID actual)
+    safePlay(getVideoRefById(centerId));
+    // Reproduce los laterales (si existen)
+    safePlay(v1Ref.current);
+    safePlay(v2Ref.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phonesInView, centerId, rotationTick]);
+
+  // ✅ Rotación 360
   const goNextPhoneVideo = () => {
     if (isRotating) return;
     setIsRotating(true);
@@ -82,7 +115,6 @@ export default function Home() {
 
     setPhoneOrder(([l, c, r]) => [c, r, l]);
     setRotationTick((t) => t + 1);
-    setVideoStarted(true);
 
     window.setTimeout(() => {
       setIsRotating(false);
@@ -97,7 +129,6 @@ export default function Home() {
 
     setPhoneOrder(([l, c, r]) => [r, l, c]);
     setRotationTick((t) => t + 1);
-    setVideoStarted(true);
 
     window.setTimeout(() => {
       setIsRotating(false);
@@ -107,33 +138,6 @@ export default function Home() {
 
   const handleClickLeft = () => goPrevPhoneVideo();
   const handleClickRight = () => goNextPhoneVideo();
-
-  useEffect(() => {
-    if (!videoStarted) return;
-    requestAnimationFrame(() => {
-      safePlayCenter();
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [centerId]);
-
-  const resetToDefault = () => {
-    setVideoStarted(false);
-    setPhoneOrder(DEFAULT_ORDER);
-    setRotationTick((t) => t + 1);
-
-    const el = videoRef.current;
-    if (el) {
-      try {
-        el.pause();
-        el.currentTime = 0;
-        el.load();
-      } catch {}
-    }
-  };
-
-  const handleVideoEnded = () => {
-    resetToDefault();
-  };
 
   // =========================
   // HERO SLIDER HELPERS
@@ -346,6 +350,11 @@ export default function Home() {
             inset 0 18px 28px rgba(255, 255, 255, 0.05),
             inset 0 -18px 28px rgba(0, 0, 0, 0.2);
         }
+
+        /* ✅ quita botón play/controles extra en webkit */
+        .eq-phone-glass video::-webkit-media-controls {
+          display: none !important;
+        }
       `}</style>
 
       <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} />
@@ -438,40 +447,39 @@ export default function Home() {
             <div className="absolute -bottom-24 -left-24 w-72 h-72 rounded-full bg-[#1c355e]/10 blur-3xl" />
           </div>
 
-          <div className="relative z-10 max-w-7xl mx-auto px-6">
-            <header className="text-center max-w-4xl mx-auto">
-              <div className="inline-flex items-center gap-3 mb-6">
-                <span className="h-[10px] w-[2px] rounded-full bg-[#f2c219]" />
-                <p className="text-[31px] sm:text-xs font-semibold uppercase tracking-[0.18em] text-gray-700">
-                  Más que negocios, hacemos amigos
-                </p>
-                <span className="h-[10px] w-[2px] rounded-full bg-[#f2c219]" />
-              </div>
+          <div className="text-center max-w-4xl mx-auto">
+            <h2 className="text-5xl sm:text-7xl lg:text-8xl font-black text-[#1c355e] tracking-[-0.04em] leading-none">
+              EQUIELECT<span className="text-[#f2c219]">.</span>
+            </h2>
 
-              <h2 className="text-5xl sm:text-7xl lg:text-8xl font-black text-[#1c355e] tracking-[-0.04em] leading-none">
-                Equielect<span className="text-[#f2c219]">.</span>
-              </h2>
+            <p className="mt-4 text-xs sm:text-sm font-semibold uppercase tracking-[0.18em] text-gray-700">
+              Más que negocios, hacemos amigos
+            </p>
 
-              <p className="mt-6 text-gray-600 text-sm sm:text-xl leading-relaxed max-w-2xl mx-auto font-medium">
-                Tu aliado estratégico en soluciones eléctricas e industriales.
-                <span className="block mt-3 text-[#1c355e]/80 font-normal">
-                  Asesoría técnica, disponibilidad y respaldo de marcas globales, con un equipo que responde cuando el proyecto lo exige.
-                </span>
-              </p>
+            <div className="mt-6 flex justify-center">
+              <div className="h-[2px] w-20 rounded-full bg-[#f2c219]" />
+            </div>
 
-              <div className="mt-10 flex justify-center">
-                <div className="h-[1px] w-28 bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
-              </div>
-            </header>
+            <p className="mt-8 text-[#1c355e]/80 text-sm sm:text-xl leading-relaxed max-w-3xl mx-auto font-medium">
+              Tu aliado estratégico en soluciones eléctricas e industriales.
+            </p>
+
+            <p className="mt-4 text-gray-600 text-sm sm:text-lg leading-relaxed max-w-3xl mx-auto font-normal">
+              Asesoría técnica, disponibilidad y respaldo de marcas globales, con un equipo que responde cuando el proyecto lo exige.
+            </p>
+
+            <div className="mt-10 flex justify-center">
+              <div className="h-[1px] w-28 bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
+            </div>
 
             {/* ✅ CONTENEDOR CELULARES */}
-            <div className="relative mt-6 sm:mt-7">
-              {/* Flechas DESKTOP/TABLET */}
+            <div ref={phonesSectionRef} className="relative mt-6 sm:mt-7">
+              {/* ✅ Flechas DESKTOP/TABLET (más afuera, no encima) */}
               <button
                 type="button"
                 onClick={goPrevPhoneVideo}
                 disabled={isRotating}
-                className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-[999] w-12 h-12 rounded-full bg-white/95 border border-gray-200 shadow-lg hover:bg-white hover:shadow-xl text-gray-700 items-center justify-center disabled:opacity-60 disabled:cursor-not-allowed"
+                className="hidden md:flex absolute left-[-28px] lg:left-[-44px] top-1/2 -translate-y-1/2 z-[999] w-12 h-12 rounded-full bg-white/95 border border-gray-200 shadow-lg hover:bg-white hover:shadow-xl text-gray-700 items-center justify-center disabled:opacity-60 disabled:cursor-not-allowed"
                 aria-label="Historia anterior"
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -483,7 +491,7 @@ export default function Home() {
                 type="button"
                 onClick={goNextPhoneVideo}
                 disabled={isRotating}
-                className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-[999] w-12 h-12 rounded-full bg-white/95 border border-gray-200 shadow-lg hover:bg-white hover:shadow-xl text-gray-700 items-center justify-center disabled:opacity-60 disabled:cursor-not-allowed"
+                className="hidden md:flex absolute right-[-28px] lg:right-[-44px] top-1/2 -translate-y-1/2 z-[999] w-12 h-12 rounded-full bg-white/95 border border-gray-200 shadow-lg hover:bg-white hover:shadow-xl text-gray-700 items-center justify-center disabled:opacity-60 disabled:cursor-not-allowed"
                 aria-label="Siguiente historia"
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -491,14 +499,14 @@ export default function Home() {
                 </svg>
               </button>
 
-              {/* ✅ Flechas SOLO MÓVIL (SIN BOLA / MÁS AFUERA) */}
+              {/* ✅ Flechas SOLO MÓVIL (más afuera) */}
               <div className="md:hidden">
                 <button
                   type="button"
                   onClick={goPrevPhoneVideo}
                   disabled={isRotating}
                   aria-label="Anterior"
-                  className="absolute -left-4 top-1/2 -translate-y-1/2 z-[999] px-3 py-3 text-[#1c355e] text-[72px] font-black  leading-none disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 transition"
+                  className="absolute -left-10 top-1/2 -translate-y-1/2 z-[999] px-3 py-3 text-[#1c355e] text-[72px] font-black leading-none disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 transition"
                 >
                   ‹
                 </button>
@@ -508,7 +516,7 @@ export default function Home() {
                   onClick={goNextPhoneVideo}
                   disabled={isRotating}
                   aria-label="Siguiente"
-                  className="absolute -right-4 top-1/2 -translate-y-1/2 z-[999] px-3 py-3 text-[#1c355e] text-[72px] font-black leading-none disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 transition drop-shadow-[0_2px_10px_rgba(0,0,0,0.25)]"
+                  className="absolute -right-10 top-1/2 -translate-y-1/2 z-[999] px-3 py-3 text-[#1c355e] text-[72px] font-black leading-none disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 transition drop-shadow-[0_2px_10px_rgba(0,0,0,0.25)]"
                 >
                   ›
                 </button>
@@ -534,6 +542,10 @@ export default function Home() {
                   const radiusOuter = "rounded-[3.2rem]";
                   const radiusInner = isCenter ? "rounded-[2.5rem]" : "rounded-[2.35rem]";
 
+                  // ✅ ref por id (para autoplay al entrar)
+                  const videoRef =
+                    vid.id === "clip" ? centerVideoRef : vid.id === "v1" ? v1Ref : v2Ref;
+
                   return (
                     <div
                       key={vid.id}
@@ -552,7 +564,6 @@ export default function Home() {
                           if (isRotating) return;
                           if (isLeft) handleClickLeft();
                           if (isRight) handleClickRight();
-                          if (isCenter && !videoStarted) handleStartVideo();
                         }}
                         className={[
                           "relative block eq-phone-shell",
@@ -561,7 +572,8 @@ export default function Home() {
                           radiusOuter,
                           bezel,
                           "overflow-visible",
-                          "bg-[#0b0b0b]",
+                          // ✅ sin fondo negro visible por fuera
+                          "bg-transparent",
                           "ring-1 ring-black/10",
                           isCenter ? "shadow-2xl" : "shadow-xl",
                           isCenter ? "" : "hover:scale-[1.02]",
@@ -570,58 +582,28 @@ export default function Home() {
                         aria-label={isCenter ? "Historia actual" : "Llevar historia al centro"}
                         disabled={isRotating}
                       >
-                        <div
-                          className={[
-                            "pointer-events-none absolute inset-0",
-                            radiusOuter,
-                            "bg-gradient-to-b from-white/12 via-white/0 to-black/0",
-                            isCenter ? "opacity-70" : "opacity-55",
-                          ].join(" ")}
-                        />
+                        {/* ✅ quitamos el overlay degradado que te ensuciaba */}
+                        <div className={["relative w-full h-full overflow-hidden eq-phone-glass", radiusInner].join(" ")}>
+                          {/* ✅ VIDEO SIEMPRE (sin poster, sin botón, sin controles) */}
+                          <video
+                            ref={videoRef}
+                            key={`${vid.id}-${centerId}-${rotationTick}`} // refresca cuando rota
+                            className="w-full h-full object-cover"
+                            muted
+                            loop
+                            playsInline
+                            preload="auto"
+                            controls={false}
+                            autoPlay={phonesInView}
+                          >
+                            <source src={(isCenter ? centerVideo?.src : vid.src) || vid.src} type="video/mp4" />
+                          </video>
 
-                        <div className={["relative w-full h-full overflow-hidden bg-black eq-phone-glass", radiusInner].join(" ")}>
-                          {isCenter ? (
-                            <div className="absolute top-[6px] left-1/2 -translate-x-1/2 z-40 pointer-events-none">
-                              <div className="w-28 h-[18px] bg-[#0f0f0f] rounded-b-2xl shadow-[0_6px_14px_rgba(0,0,0,0.35)]" />
-                              <div className="absolute left-1/2 -translate-x-1/2 top-[5px] w-[54px] h-[4px] rounded-full bg-white/10" />
-                            </div>
-                          ) : null}
-
-                          {isCenter && !videoStarted && (
-                            <div className="absolute inset-0 z-30 flex flex-col items-center justify-center transition-opacity duration-500 bg-black/15">
-                              <div className="relative w-28 h-28 transition-transform duration-300 hover:scale-110">
-                                <Image src="/assets/Logs/LogoEQmovil.jpg" alt="Logo EQ" fill className="object-contain opacity-95" />
-                              </div>
-
-                              <div className="mt-4 flex items-center gap-2 px-4 py-2 border border-white/20 rounded-full bg-white/10 backdrop-blur-sm">
-                                <div className="w-0 h-0 border-t-[5px] border-t-transparent border-l-[8px] border-l-white border-b-[5px] border-b-transparent ml-1" />
-                                <span className="text-white text-[10px] font-bold uppercase tracking-widest">Reproducir</span>
-                              </div>
-                            </div>
-                          )}
-
-                          {isCenter ? (
-                            <video
-                              ref={videoRef}
-                              key={`center-${centerId}-${rotationTick}`}
-                              className="w-full h-full object-cover"
-                              controls={videoStarted}
-                              playsInline
-                              preload="metadata"
-                              poster={centerVideo?.poster}
-                              onPlay={() => setVideoStarted(true)}
-                              onEnded={handleVideoEnded}
-                            >
-                              <source src={centerVideo?.src} type="video/mp4" />
-                            </video>
-                          ) : (
-                            <video src={vid.src} autoPlay muted loop playsInline preload="metadata" className="w-full h-full object-cover" poster={vid.poster} />
-                          )}
-
-                          <div className="absolute inset-0 bg-black/10 pointer-events-none" />
+                          {/* ✅ ring interno suave */}
                           <div className={["pointer-events-none absolute inset-0", radiusInner, "ring-1 ring-white/10"].join(" ")} />
                         </div>
 
+                        {/* ✅ ring externo */}
                         <div className={["pointer-events-none absolute inset-0", radiusOuter, "ring-1 ring-white/10"].join(" ")} />
                       </button>
                     </div>
@@ -630,9 +612,15 @@ export default function Home() {
               </div>
 
               <div className="mt-4 flex flex-col items-center gap-2">
-                <br></br>
-                <p className="text-[11px] text-gray-400 font-bold uppercase tracking-widest">Conócenos en 30 segundos · EQUIELECT</p>
-                <Link href="/quienes-somos" className="px-8 py-3 bg-[#f2c219] text-black font-bold text-xs hover:bg-[#d9af16]" style={{ borderRadius: 2 }}>
+                <br />
+                <p className="text-[11px] text-gray-400 font-bold uppercase tracking-widest">
+                  Conócenos en 30 segundos · EQUIELECT
+                </p>
+                <Link
+                  href="/quienes-somos"
+                  className="px-8 py-3 bg-[#f2c219] text-black font-bold text-xs hover:bg-[#d9af16]"
+                  style={{ borderRadius: 2 }}
+                >
                   Ver quienes somos
                 </Link>
               </div>
@@ -680,15 +668,13 @@ export default function Home() {
                   <p className="mt-4 text-[#1c355e]/90">Atención rápida y asesoría profesional a un clic de distancia.</p>
 
                   <div className="mt-6">
-                    <a
-                      href="https://api.whatsapp.com/send/?phone=573146453033"
-                      target="_blank"
-                      rel="noreferrer"
+                    <Link
+                      href="/contactanos"
                       className="inline-flex items-center justify-center px-7 py-3 bg-white text-[#1c355e] font-extrabold"
                       style={{ borderRadius: 2 }}
                     >
                       Solicitar cotización
-                    </a>
+                    </Link>
                   </div>
 
                   <div className="h-3 md:hidden" />

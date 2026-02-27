@@ -478,23 +478,31 @@ export default function BrandPage({ params }) {
         )}
 
         {/* 5) VIÑETAS */}
-        {bullets.length > 0 && (
-          <section className="max-w-4xl mx-auto mt-10 text-center px-1">
-            <h3 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-8 tracking-tight">
-              Otras líneas de productos {brand.name}
-            </h3>
+{bullets.length > 0 && (
+  <section className="max-w-4xl mx-auto mt-10 px-4 text-center">
+    <h3 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-8 tracking-tight">
+      Otras líneas de productos {brand.name}
+    </h3>
 
-            <div className="flex flex-col items-center space-y-4">
-              {bullets.map((line, idx) => (
-                <div key={idx} className="flex items-start gap-3">
-                  <span className="mt-2 h-2 w-2 rounded-full" style={{ backgroundColor: eqBlue }} />
-                  <p className="text-slate-700 text-sm md:text-[15px] font-medium leading-relaxed">{line}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
+    {/* Contenedor que centra el bloque, pero alinea el contenido a la izquierda */}
+    <div className="inline-block text-left">
+      <div className="flex flex-col space-y-4">
+        {bullets.map((line, idx) => (
+          <div key={idx} className="flex items-start gap-3">
+            {/* Viñeta con el color de Equielect */}
+            <span 
+              className="mt-2 h-2 w-2 flex-shrink-0 rounded-full" 
+              style={{ backgroundColor: eqBlue }} 
+            />
+            <p className="text-slate-700 text-sm md:text-[15px] font-medium leading-relaxed uppercase tracking-tight">
+              {line}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
         {/* 6) WHATSAPP + OTRAS MARCAS */}
         <section className="max-w-4xl mx-auto mt-12 px-1">
           <div className="border-t pt-8 flex flex-col items-center text-center gap-6">

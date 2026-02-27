@@ -133,7 +133,13 @@ export default function ContactoPage() {
           </div>
         </div>
       </header>
-
+      <style jsx global>{`
+  .breadcrumb,
+  .breadcrumbs,
+  nav[aria-label="breadcrumb"] {
+    display: none !important;
+  }
+`}</style>
       {/* ✅ SECCIÓN FULL WIDTH CON FONDO (FIX RESPONSIVE/ZOOM) */}
       <section className="relative w-full overflow-hidden">
         {/* Patrón en TODO el ancho */}
