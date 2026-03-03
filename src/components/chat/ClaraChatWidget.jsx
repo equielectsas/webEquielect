@@ -616,20 +616,21 @@ export default function WhatsAppBotWidget() {
           <div className="p-2.5 border-t border-white/10" style={{ backgroundColor: WA_BG }}>
             <div className="flex gap-2 items-center">
               <input
-                ref={inputRef}
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && canSend) sendLocal();
-                }}
-                placeholder={askName ? "Escribe tu nombre…" : "Escribe tu mensaje…"}
-                className="flex-1 rounded-full px-3.5 py-2.5 text-[13px] outline-none"
-                style={{
-                  backgroundColor: "#111b21",
-                  color: "#fff",
-                  border: "1px solid rgba(255,255,255,.14)",
-                }}
-              />
+              ref={inputRef}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && canSend) sendLocal();
+              }}
+              placeholder={askName ? "Escribe tu nombre…" : "Escribe tu mensaje…"}
+              className="flex-1 rounded-full px-3.5 py-2.5 outline-none text-[16px] sm:text-[13px]"
+              style={{
+                backgroundColor: "#111b21",
+                color: "#fff",
+                border: "1px solid rgba(255,255,255,.14)",
+                WebkitTextSizeAdjust: "100%",
+              }}
+            />
 
               <button
                 type="button"

@@ -22,9 +22,7 @@ const PRODUCTS = [
     brandDesc:
       "Dispositivos de seguridad de alta tecnología diseñados para salvaguardar equipos electrónicos y eléctricos sensibles",
     title: "DPS",
-    images: [
-      "/assets/products/legrand/dps.jpg",
-    ],
+    images: ["/assets/products/legrand/dps.jpg"],
   },
   {
     id: "procables-1",
@@ -32,18 +30,15 @@ const PRODUCTS = [
     brandDesc:
       "El Exzellent Green es un cable conductor de alta calidad diseñado para ofrecer una eficiencia energética superior y una transmisión de señal estable.",
     title: "Exzellent Green",
-    images: [
-      "/assets/products/procables/exzellent.png",
-    ],
+    images: ["/assets/products/procables/exzellent.png"],
   },
   {
     id: "sylvania-1",
     brand: "Sylvania",
-    brandDesc: "Este sistema de iluminación integral está diseñado para ofrecer una solución de alumbrado exterior de alto rendimiento sin consumo eléctrico de red",
+    brandDesc:
+      "Este sistema de iluminación integral está diseñado para ofrecer una solución de alumbrado exterior de alto rendimiento sin consumo eléctrico de red",
     title: "LED Solar",
-    images: [
-      "/assets/products/sylvania/solar.png",
-    ],
+    images: ["/assets/products/sylvania/solar.png"],
   },
 ];
 
@@ -139,7 +134,9 @@ function ProductCard({ p }) {
               alt={p.title}
               fill
               className="object-contain p-2"
+              // ✅ Evita warning de Next/Image (fill + sizes)
               sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+              priority={p.id === "schneider-1"}   // o idx === 0 desde el map
             />
           </div>
 
@@ -177,6 +174,8 @@ function ProductCard({ p }) {
                 alt={`${p.title} ${idx + 1}`}
                 fill
                 className="object-contain p-1"
+                // ✅ fill + sizes (miniatura fija)
+                sizes="32px"
               />
             </button>
           ))}
@@ -223,6 +222,7 @@ function ZoomModal({ src, title, onClose }) {
               onClick={() => setZoom((z) => Math.max(1, +(z - 0.25).toFixed(2)))}
               className="px-3 py-2 border border-gray-200 text-sm font-extrabold hover:bg-gray-50"
               style={{ borderRadius: 10 }}
+              aria-label="Alejar"
             >
               −
             </button>
@@ -231,6 +231,7 @@ function ZoomModal({ src, title, onClose }) {
               onClick={() => setZoom((z) => Math.min(3, +(z + 0.25).toFixed(2)))}
               className="px-3 py-2 border border-gray-200 text-sm font-extrabold hover:bg-gray-50"
               style={{ borderRadius: 10 }}
+              aria-label="Acercar"
             >
               +
             </button>
@@ -252,7 +253,14 @@ function ZoomModal({ src, title, onClose }) {
             style={{ transform: `scale(${zoom})`, transformOrigin: "center center" }}
           >
             <div className="relative w-[92%] h-[92%]">
-              <Image src={src} alt={title} fill className="object-contain" />
+              <Image
+                src={src}
+                alt={title}
+                fill
+                className="object-contain"
+                // ✅ Evita warning de Next/Image (fill + sizes)
+                sizes="(max-width: 1024px) 92vw, 900px"
+              />
             </div>
           </div>
         </div>

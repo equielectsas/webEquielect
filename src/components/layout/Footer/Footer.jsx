@@ -65,9 +65,7 @@ export default function FooterEcommerce() {
             </h4>
             <ul className="space-y-3 text-sm font-light text-white/70">
               <FooterLink href="/contactanos" label="Centro de Contacto" />
-              <FooterLink href="/preguntas-frecuentes" label="Preguntas Frecuentes" />
-              <FooterLink href="/envios" label="Políticas de Envío" />
-              <FooterLink href="/garantias" label="Garantías" />
+              <FooterLink href="/terminos-y-condiciones" label="Políticas" />
             </ul>
           </div>
 

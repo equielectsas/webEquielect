@@ -78,18 +78,18 @@ const AboutUsPage = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full">
               <div className="max-w-[22rem] sm:max-w-xl md:max-w-3xl">
                 <p
-                  className="text-[#fae100] font-bold uppercase mb-3 border-l-4 border-[#fae100] pl-3
-                             tracking-[0.22em] text-[12px] sm:text-sm md:text-base md:tracking-[0.35em]"
-                >
-                  QUIÉNES SOMOS
-                </p>
+                className="hidden md:block text-[#fae100] font-bold uppercase mb-3 border-l-4 border-[#fae100] pl-3
+                          tracking-[0.22em] text-[12px] md:text-base md:tracking-[0.35em]"
+              >
+                QUIÉNES SOMOS
+              </p>
 
-                <h1 className="text-white font-light leading-tight text-[18px] sm:text-3xl md:text-5xl lg:text-6xl">
-                  Lideres en la comercialización de equipos{" "}
-                  <span className="font-bold">
-                    eléctricos, electrónicos y de telecomunicaciones.
-                  </span>
-                </h1>
+              <h1 className="hidden md:block text-white font-light leading-tight md:text-5xl lg:text-6xl">
+                Lideres en la comercialización de equipos{" "}
+                <span className="font-bold">
+                  eléctricos, electrónicos y de telecomunicaciones.
+                </span>
+              </h1>
               </div>
             </div>
           </div>

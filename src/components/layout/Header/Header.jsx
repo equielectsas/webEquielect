@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -24,6 +24,7 @@ export default function Header() {
 
   // ✅ Search
   const [searchTerm, setSearchTerm] = useState("");
+  const inputRef = useRef(null);
 
   /* ===== HOVER TIMER (DESKTOP) ===== */
   const closeTimerRef = useRef(null);
@@ -54,15 +55,18 @@ export default function Header() {
   const EQU_MAPS_URL =
     "https://www.google.com/maps/search/?api=1&query=Equielect%20S.A.S.%20Carrera%2072%20No.%2030-53%20Medell%C3%ADn%20Antioquia";
 
-  /* ---------------- BUSCADOR INTELIGENTE (sinónimos + fuzzy) ---------------- */
+  /* ---------------- BUSCADOR INTELIGENTE (autocorrect + sinónimos + fuse) ---------------- */
 
-  const normalizeText = (t) =>
-    String(t || "")
+  // ✅ normaliza: tildes, espacios, símbolos, ñ->n
+  const normalizeText = (s = "") =>
+    String(s)
       .toLowerCase()
-      .trim()
       .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "") // quita tildes
-      .replace(/\s+/g, " ");
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/ñ/g, "n")
+      .replace(/[^a-z0-9\s]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
 
   const slugify = (text) =>
     String(text)
@@ -80,35 +84,62 @@ export default function Header() {
     return null;
   };
 
-  // ✅ Sinónimos / palabras clave (puedes ampliar)
+  // ✅ Sinónimos / palabras clave (amplía cuando quieras)
   const SYNONYMS = useMemo(
     () => ({
-      bombillo: ["bombilla", "lampara", "lámpara", "luz", "led", "foco", "luminaria", "iluminacion", "iluminación"],
-      bombilla: ["bombillo", "lampara", "lámpara", "luz", "led", "foco", "luminaria"],
+      bombillo: [
+        "bombilla",
+        "lampara",
+        "luz",
+        "led",
+        "foco",
+        "luminaria",
+        "iluminacion",
+        "reflectores",
+        "bombillo",
+        "vomvillo",
+        "vonvillo",
+        "bonbillo",
+        "luces led",
+        "foco",
+        "focos",
+      ],
+      bombilla: ["bombillo", "lampara", "luz", "led", "foco", "luminaria"],
       lampara: ["luz", "luminaria", "led", "bombillo", "bombilla", "foco"],
-      luz: ["iluminacion", "iluminación", "lampara", "lámpara", "bombillo", "led", "reflector"],
+      luz: ["iluminacion", "lampara", "bombillo", "led", "reflector", "alumbrado"],
       led: ["luz", "iluminacion", "lampara", "bombillo", "reflector", "alumbrado"],
       reflector: ["iluminacion", "luz", "exterior", "alumbrado", "led"],
       alumbrado: ["iluminacion", "exterior", "luz", "led"],
 
-      cable: ["cables", "cableado", "alambre", "conductor", "thhn", "utp", "ftp", "cat6", "cat6a", "cat5e"],
+      cable: [
+        "cables",
+        "cableado",
+        "alambre",
+        "conductor",
+        "thhn",
+        "utp",
+        "ftp",
+        "cat6",
+        "cat6a",
+        "cat5e",
+      ],
       cables: ["cable", "cableado", "thhn", "utp", "cat6", "conductor"],
-      utp: ["cable utp", "cat6", "cat6a", "cat5e", "siemon", "telecomunicaciones", "telecom"],
+      utp: ["cable utp", "cat6", "cat6a", "cat5e", "siemon", "telecom", "telecomunicaciones"],
       cat6: ["utp", "cable utp", "siemon", "telecom"],
       cat6a: ["utp", "cable utp", "siemon", "telecom"],
-      thhn: ["cable", "cableado", "electrico", "eléctrico", "procables", "centelsa"],
-      conductor: ["cable", "cableado", "alambre", "electrico", "eléctrico"],
+      thhn: ["cable", "cableado", "electrico", "procables", "centelsa"],
+      conductor: ["cable", "cableado", "alambre", "electrico"],
 
       bandeja: ["portacables", "escalera", "malla", "canastilla", "charola"],
       portacables: ["bandeja", "canastilla", "malla", "escalera"],
 
-      variador: ["variadores", "vfd", "schneider", "automatizacion", "automatización", "arranque", "motor", "control"],
+      variador: ["variadores", "vfd", "schneider", "automatizacion", "arranque", "motor", "control"],
       variadores: ["variador", "vfd", "motor", "control", "schneider"],
-      automatizacion: ["automatización", "control", "variador", "arranque", "pulsadores", "interruptores"],
+      automatizacion: ["control", "variador", "arranque", "pulsadores", "interruptores"],
       control: ["automatizacion", "variador", "arranque", "pulsadores", "interruptores"],
 
-      explosion: ["explosion", "explosión", "areas clasificadas", "cajas", "sellos", "resina", "atex"],
-      atex: ["areas clasificadas", "explosion", "explosión", "cajas", "sellos"],
+      explosion: ["explosion", "areas clasificadas", "cajas", "sellos", "resina", "atex"],
+      atex: ["areas clasificadas", "explosion", "cajas", "sellos"],
       sellos: ["areas clasificadas", "explosion", "resina"],
 
       mineria: ["mineria liviana", "mineria pesada", "industrial", "centelsa"],
@@ -116,19 +147,71 @@ export default function Header() {
     []
   );
 
-  // ✅ Intenciones (destinos “macro”)
+  // ✅ Autocorrector (diccionario de errores comunes)
+  const AUTO_CORRECT = useMemo(
+    () => ({
+      // iluminación
+      lus: "luz",
+      luses: "luces",
+      luc: "luz",
+      lamapra: "lampara",
+      iluminacioness: "iluminacion",
+      bombila: "bombilla",
+      reflektor: "reflector",
+
+      // cables/telecom
+      cavle: "cable",
+      cablw: "cable",
+      cap6: "cat6",
+      cat6e: "cat6",
+      cat5: "cat5e",
+      rj: "rj45",
+
+      // automatización
+      bfd: "vfd",
+      varidor: "variador",
+      varidadores: "variadores",
+
+      // áreas clasificadas
+      explocion: "explosion",
+      atx: "atex",
+    }),
+    []
+  );
+
+  // ✅ Intenciones (destinos macro)
   const INTENT_ROUTES = useMemo(
     () => [
       {
-        href: "/iluminacion/interior",
+        href: "/marca/philips",
         label: "Iluminación",
-        tags: ["bombillo", "bombilla", "lampara", "lámpara", "luz", "led", "luminaria", "iluminacion", "reflector", "alumbrado"],
+        tags: [
+          "bombillo",
+          "bombilla",
+          "lampara",
+          "luz",
+          "led",
+          "luminaria",
+          "iluminacion",
+          "reflector",
+          "alumbrado",
+          "luces",
+        ],
         priority: 120,
       },
       {
-        href: "/cableado/electrico",
+        href: "/marca/procables",
         label: "Cableado eléctrico",
-        tags: ["cable", "cables", "cableado", "thhn", "conductor", "alambre", "baja tension", "media tension"],
+        tags: [
+          "cable",
+          "cables",
+          "cableado",
+          "thhn",
+          "conductor",
+          "alambre",
+          "baja tension",
+          "media tension",
+        ],
         priority: 110,
       },
       {
@@ -138,25 +221,25 @@ export default function Header() {
         priority: 115,
       },
       {
-        href: "/portacables",
+        href: "/marca/legrand",
         label: "Sistemas portacables",
         tags: ["portacables", "bandeja", "canastilla", "malla", "escalera", "charola"],
         priority: 105,
       },
       {
-        href: "/automatizacion",
+        href: "/marca/schneider",
         label: "Automatización y control",
-        tags: ["automatizacion", "automatización", "control", "variador", "variadores", "vfd", "arranque", "motor"],
+        tags: ["automatizacion", "control", "variador", "variadores", "vfd", "arranque", "motor"],
         priority: 105,
       },
       {
-        href: "/areas-clasificadas",
+        href: "/marca/crouse-hinds",
         label: "Áreas clasificadas",
-        tags: ["areas clasificadas", "explosion", "explosión", "atex", "cajas", "sellos", "resina"],
+        tags: ["areas clasificadas", "explosion", "atex", "cajas", "sellos", "resina"],
         priority: 95,
       },
       {
-        href: "/mineria",
+        href: "/marca/weg",
         label: "Minería",
         tags: ["mineria", "industrial", "mineria liviana", "mineria pesada"],
         priority: 90,
@@ -164,6 +247,125 @@ export default function Header() {
     ],
     []
   );
+
+  // ---------- Levenshtein (fuzzy autocorrect) ----------
+  const levenshtein = (a = "", b = "") => {
+    const m = a.length;
+    const n = b.length;
+    const dp = Array.from({ length: m + 1 }, () => new Array(n + 1).fill(0));
+    for (let i = 0; i <= m; i++) dp[i][0] = i;
+    for (let j = 0; j <= n; j++) dp[0][j] = j;
+    for (let i = 1; i <= m; i++) {
+      for (let j = 1; j <= n; j++) {
+        const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+        dp[i][j] = Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1, dp[i - 1][j - 1] + cost);
+      }
+    }
+    return dp[m][n];
+  };
+
+  // ✅ Vocabulario global (para fuzzy)
+  const vocabulary = useMemo(() => {
+    const set = new Set();
+
+    Object.entries(SYNONYMS).forEach(([k, arr]) => {
+      set.add(normalizeText(k));
+      (arr || []).forEach((x) => set.add(normalizeText(x)));
+    });
+
+    INTENT_ROUTES.forEach((r) => (r.tags || []).forEach((t) => set.add(normalizeText(t))));
+
+    const SAFE_MEGA = MEGA_MENU_DATA && typeof MEGA_MENU_DATA === "object" ? MEGA_MENU_DATA : {};
+    Object.keys(SAFE_MEGA).forEach((cat) => set.add(normalizeText(cat)));
+
+    return [...set].filter(Boolean);
+  }, [SYNONYMS, INTENT_ROUTES]);
+
+  const correctToken = (token) => {
+    const t = normalizeText(token);
+    if (!t) return "";
+
+    // 1) diccionario exacto
+    if (AUTO_CORRECT[t]) return AUTO_CORRECT[t];
+
+    // 2) si ya existe en vocabulario
+    if (vocabulary.includes(t)) return t;
+
+    // 3) fuzzy (máx 1 o 2 cambios)
+    if (t.length < 3) return t;
+
+    let best = { w: t, d: Infinity };
+    for (const w of vocabulary) {
+      if (Math.abs(w.length - t.length) > 2) continue;
+      const d = levenshtein(t, w);
+      if (d < best.d) best = { w, d };
+      if (best.d === 1) break;
+    }
+
+    const threshold = t.length <= 5 ? 1 : 2;
+    return best.d <= threshold ? best.w : t;
+  };
+
+  // ✅ Corrige + expande (sinónimos)
+  const expandQuery = (qRaw) => {
+    const q = normalizeText(qRaw);
+    if (!q) return { correctedQuery: "", expandedQuery: "" };
+
+    const tokens = q.split(" ").filter(Boolean);
+
+    // autocorrect por token
+    const correctedTokens = tokens.map(correctToken);
+
+    const expanded = new Set(correctedTokens);
+    correctedTokens.forEach((t) => {
+      const syn = SYNONYMS[t];
+      if (syn) syn.forEach((s) => expanded.add(normalizeText(s)));
+    });
+
+    return {
+      correctedQuery: correctedTokens.join(" "),
+      expandedQuery: Array.from(expanded).join(" "),
+    };
+  };
+
+  // ✅ Autocorrect tipo celular: corrige cuando cierras palabra (espacio/enter/blur)
+  const autocorrectText = (text) => {
+    const raw = String(text ?? "");
+    const endsWithSpace = /\s$/.test(raw);
+
+    // si NO termina en espacio, no forzamos cambio (evita pelear con el usuario mientras escribe)
+    if (!endsWithSpace) return raw;
+
+    const parts = raw.split(/\s+/).filter(Boolean);
+    if (!parts.length) return raw;
+
+    const last = parts[parts.length - 1];
+    const correctedLast = correctToken(last);
+
+    parts[parts.length - 1] = correctedLast;
+    return parts.join(" ") + " ";
+  };
+
+  const applyAutocorrectNow = () => {
+    const el = inputRef.current;
+    if (!el) return;
+
+    const before = el.value;
+    const after = autocorrectText(before);
+
+    if (after !== before) {
+      const cursor = el.selectionStart ?? after.length;
+      setSearchTerm(after);
+
+      requestAnimationFrame(() => {
+        try {
+          const delta = after.length - before.length;
+          const nextPos = Math.max(0, cursor + delta);
+          el.setSelectionRange(nextPos, nextPos);
+        } catch {}
+      });
+    }
+  };
 
   // ✅ Index global (intenciones + mega menú)
   const searchIndex = useMemo(() => {
@@ -178,7 +380,6 @@ export default function Header() {
       });
     });
 
-    // ✅ BLINDAJE: evita error si MEGA_MENU_DATA llega undefined por import/ruta
     const SAFE_MEGA = MEGA_MENU_DATA && typeof MEGA_MENU_DATA === "object" ? MEGA_MENU_DATA : {};
 
     Object.entries(SAFE_MEGA).forEach(([categoryName, cat]) => {
@@ -218,7 +419,7 @@ export default function Header() {
       _labelN: normalizeText(e.label),
       _tagsN: (e.tags || []).map(normalizeText),
     }));
-  }, [INTENT_ROUTES]); // 👈 mantengo tu dependencia (lógica intacta)
+  }, [INTENT_ROUTES]);
 
   const fuse = useMemo(() => {
     return new Fuse(searchIndex, {
@@ -230,28 +431,46 @@ export default function Header() {
     });
   }, [searchIndex]);
 
-  const expandQuery = (qRaw) => {
-    const q = normalizeText(qRaw);
-    if (!q) return "";
-
-    const tokens = q.split(" ");
-    const expanded = new Set(tokens);
-
-    tokens.forEach((t) => {
-      const syn = SYNONYMS[t];
-      if (syn) syn.forEach((s) => expanded.add(normalizeText(s)));
-    });
-
-    return Array.from(expanded).join(" ");
-  };
-
+  // ✅ FIX: si escribe "cables" debe ir a /procables (intenciones primero, fuse después)
   const findBestHref = (qRaw) => {
     const q = normalizeText(qRaw);
     if (!q) return null;
 
-    const expanded = expandQuery(q);
-    const results = fuse.search(expanded);
+    const { expandedQuery } = expandQuery(q);
+    const tokens = expandedQuery.split(" ").filter(Boolean);
 
+    // =========================
+    // 1) FAST PATH: INTENT ROUTES
+    // =========================
+    const intents = INTENT_ROUTES.map((r) => ({
+      ...r,
+      _tagsN: (r.tags || []).map(normalizeText),
+    }));
+
+    let bestIntent = null;
+    let bestIntentScore = -Infinity;
+
+    for (const r of intents) {
+      let hits = 0;
+      for (const t of tokens) {
+        if (r._tagsN.includes(t)) hits++;
+      }
+
+      if (hits > 0) {
+        const score = (r.priority || 0) + hits * 25;
+        if (score > bestIntentScore) {
+          bestIntentScore = score;
+          bestIntent = r;
+        }
+      }
+    }
+
+    if (bestIntent?.href) return bestIntent.href;
+
+    // =========================
+    // 2) FALLBACK: FUSE
+    // =========================
+    const results = fuse.search(expandedQuery);
     if (!results?.length) return null;
 
     let best = null;
@@ -269,24 +488,36 @@ export default function Header() {
     }
 
     if (!best) return null;
-    if (bestValue < 8) return null;
+    if (bestValue < 0) return null;
 
     return best.href;
   };
 
   const goSearch = () => {
-    const q = searchTerm.trim();
-    if (!q) return;
+    // ✅ fuerza autocorrect final antes de buscar
+    const fixed = autocorrectText(searchTerm).trim();
+    if (!fixed) return;
 
-    const href = findBestHref(q);
+    const { correctedQuery } = expandQuery(fixed);
+    const href = findBestHref(correctedQuery || fixed);
 
     if (href) {
       router.push(href);
       return;
     }
 
-    router.push(`/buscar?q=${encodeURIComponent(q)}`);
+    router.push(`/buscar?q=${encodeURIComponent(correctedQuery || fixed)}`);
   };
+
+  // (opcional) cerrar menú móvil al navegar
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+    const onKey = (e) => {
+      if (e.key === "Escape") setIsMobileMenuOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [isMobileMenuOpen]);
 
   return (
     <>
@@ -294,9 +525,7 @@ export default function Header() {
         {/* ===== TOPBAR ===== */}
         <div className="bg-gray-50 border-b border-gray-200">
           <div className="max-w-7xl mx-auto px-4 h-7 flex items-center justify-between text-[11px]">
-            <span className="font-medium text-equielect-blue">
-              Más que negocios, hacemos amigos
-            </span>
+            <span className="font-medium text-equielect-blue">Más que negocios, hacemos amigos</span>
 
             <div className="flex items-center gap-3 text-equielect-gray">
               <a
@@ -333,79 +562,88 @@ export default function Header() {
                 <Image
                   src="/assets/Logs/Logo-equielect.jpeg"
                   alt="Equielect"
-                  width={155}
+                  width={125}
                   height={40}
-                  className="hidden md:block object-contain"
+                  className="hidden md:block object-contain w-auto h-auto"
+                  sizes="125px"
+                  priority
                 />
+
                 <Image
                   src="/assets/Logs/LogoEQmovil.jpg"
                   alt="Equielect"
-                  width={70}
+                  width={50}
                   height={25}
                   className="md:hidden object-contain"
+                  style={{ width: "auto", height: "auto" }}
+                  sizes="50px"
+                  priority
                 />
               </Link>
             </div>
 
-            {/* ✅ SEARCH FUNCIONAL + Pagos PSE (sin acortar el search) */}
-                <div className="flex-1 flex items-center justify-center">
-                  {/* Contenedor general centrado */}
-                  <div className="w-full flex items-center">
-                    {/* ✅ El search mantiene su ancho fijo */}
-                    <div className="w-full max-w-[560px] mx-auto">
-                      <form
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                          goSearch();
+            {/* ✅ SEARCH FUNCIONAL + Pagos PSE */}
+            <div className="flex-1 flex items-center justify-center">
+              <div className="w-full flex items-center">
+                <div className="w-full max-w-[560px] mx-auto">
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      goSearch();
+                    }}
+                    className="flex border border-gray-300"
+                  >
+                    <div className="flex-1 flex items-center">
+                      <Search size={15} className="ml-3 text-gray-400" />
+                      <input
+                        ref={inputRef}
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        onKeyDown={(e) => {
+                          // ✅ autocorrect tipo celular al "cerrar" palabra
+                          if (e.key === " " || e.key === "Enter") {
+                            requestAnimationFrame(() => applyAutocorrectNow());
+                          }
                         }}
-                        className="flex border border-gray-300"
-                      >
-                        <div className="flex-1 flex items-center">
-                          <Search size={15} className="ml-3 text-gray-400" />
-                          <input
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full px-3 py-[6px] text-sm outline-none"
-                            placeholder="Buscar productos o marcas"
-                            onFocus={() => setIsMobileSearching(true)}
-                            onBlur={() => setTimeout(() => setIsMobileSearching(false), 120)}
-                          />
-                        </div>
-
-                        <button
-                          type="submit"
-                          className="bg-equielect-yellow px-3 text-equielect-blue"
-                          aria-label="Buscar"
-                          title="Buscar"
-                        >
-                          <Search size={18} strokeWidth={2.5} />
-                        </button>
-                      </form>
+                        className="w-full px-3 py-[6px] text-sm outline-none"
+                        placeholder="Buscar productos o marcas"
+                        onFocus={() => setIsMobileSearching(true)}
+                        onBlur={() => {
+                          applyAutocorrectNow();
+                          setTimeout(() => setIsMobileSearching(false), 120);
+                        }}
+                      />
                     </div>
-                  </div>
+
+                    <button
+                      type="submit"
+                      className="bg-equielect-yellow px-3 text-equielect-blue"
+                      aria-label="Buscar"
+                      title="Buscar"
+                    >
+                      <Search size={18} strokeWidth={2.5} />
+                    </button>
+                  </form>
                 </div>
-                  <a
-  href="https://www.mipagoamigo.com/MPA_WebSite/ServicePayments/StartPayment?id=10341&searchedCategoryId=&searchedAgreementName=EQUIELECT"
-  target="_blank"
-  rel="noopener noreferrer"
-  aria-label="Pague aquí (abre en nueva pestaña)"
->
-  <img
-    src="/assets/servicios/paga.png"
-    alt="Pague aquí"
-    className="h-12 w-auto object-contain"
-  />
-</a>
+              </div>
+            </div>
+
+            <a
+              href="https://www.mipagoamigo.com/MPA_WebSite/ServicePayments/StartPayment?id=10341&searchedCategoryId=&searchedAgreementName=EQUIELECT"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Pague aquí (abre en nueva pestaña)"
+              className={`${isMobileSearching ? "hidden md:block" : "block"}`}
+            >
+              <img src="/assets/servicios/paga.png" alt="Pague aquí" className="h-12 w-auto object-contain" />
+            </a>
 
             <div className={`${isMobileSearching ? "hidden md:block" : "block"}`} />
           </div>
         </div>
 
         {/* ===== NAV AZUL ===== */}
-        <div
-          className="bg-equielect-blue relative border-t border-white/10"
-          onMouseLeave={scheduleClose}
-        >
+        <div className="bg-equielect-blue relative border-t border-white/10" onMouseLeave={scheduleClose}>
           <div className="max-w-7xl mx-auto px-2 flex items-center gap-3">
             {/* MOBILE BUTTON */}
             <button
@@ -434,18 +672,14 @@ export default function Header() {
                       setActiveCategory(cat);
                     }}
                     className={`group px-2 py-2 text-sm font-medium flex items-center gap-1 transition-colors ${
-                      isActive
-                        ? "text-equielect-yellow"
-                        : "text-white hover:text-equielect-yellow"
+                      isActive ? "text-equielect-yellow" : "text-white hover:text-equielect-yellow"
                     }`}
                   >
                     <span className="relative inline-block">
                       {cat}
                       <span
                         className={`absolute left-0 -bottom-[6px] h-[2px] bg-white w-full origin-left transition-transform duration-200 ${
-                          isActive
-                            ? "scale-x-100"
-                            : "scale-x-0 group-hover:scale-x-100"
+                          isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
                         }`}
                       />
                     </span>
@@ -497,12 +731,12 @@ export default function Header() {
                       type="button"
                       onClick={() => setMobileActiveCategory(null)}
                       className="p-1 hover:bg-white/10 rounded-full"
+                      aria-label="Volver"
+                      title="Volver"
                     >
                       ←
                     </button>
-                    <span className="font-semibold text-sm">
-                      {mobileActiveCategory}
-                    </span>
+                    <span className="font-semibold text-sm">{mobileActiveCategory}</span>
                   </div>
 
                   <div className="max-h-[70vh] overflow-y-auto">
