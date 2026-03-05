@@ -1,16 +1,22 @@
 "use client";
-import { useState, useEffect } from "react";
+
+export const dynamic = "force-dynamic";
+
+import { useState, useEffect, Suspense } from "react";
 import { Pencil, Trash2, Plus } from "lucide-react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SearchBar from "@/components/products/SearchBar";
 
-export default function ProductosPage() {
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3900";
+
+function ProductosPageInner() {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [formData, setFormData] = useState({
+
+  const emptyForm = {
     model: "",
     name: "",
     descripcion: "",
@@ -21,51 +27,53 @@ export default function ProductosPage() {
     Category: "",
     subcategory: "",
     images: [],
-  });
+  };
+
+  const [formData, setFormData] = useState(emptyForm);
 
   useEffect(() => {
     fetchProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch("http://localhost:3900/api/productos");
+      const response = await fetch(`${API_URL}/api/productos`, {
+        cache: "no-store",
+      });
       const data = await response.json();
-      setProducts(data);
-      setFilteredProducts(data);
+      setProducts(Array.isArray(data) ? data : []);
+      setFilteredProducts(Array.isArray(data) ? data : []);
     } catch (error) {
       toast.error("Error al cargar los productos");
     }
   };
 
   const handleSearch = (results) => {
-    setFilteredProducts(results);
+    setFilteredProducts(Array.isArray(results) ? results : []);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const url = selectedProduct
-        ? `http://localhost:3900/api/productos/${selectedProduct._id}`
-        : "http://localhost:3900/api/productos";
+        ? `${API_URL}/api/productos/${selectedProduct._id}`
+        : `${API_URL}/api/productos`;
 
       const method = selectedProduct ? "PUT" : "POST";
 
       const response = await fetch(url, {
         method,
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
       if (!response.ok) throw new Error("Error en la operación");
 
-      toast.success(
-        selectedProduct ? "Producto actualizado" : "Producto creado"
-      );
+      toast.success(selectedProduct ? "Producto actualizado" : "Producto creado");
       setIsModalOpen(false);
       setSelectedProduct(null);
+      setFormData(emptyForm);
       fetchProducts();
     } catch (error) {
       toast.error("Error al procesar la operación");
@@ -76,12 +84,9 @@ export default function ProductosPage() {
     if (!confirm("¿Está seguro de eliminar este producto?")) return;
 
     try {
-      const response = await fetch(
-        `http://localhost:3900/api/productos/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
+      const response = await fetch(`${API_URL}/api/productos/${id}`, {
+        method: "DELETE",
+      });
 
       if (!response.ok) throw new Error("Error al eliminar");
 
@@ -97,25 +102,14 @@ export default function ProductosPage() {
       setFormData(product);
       setSelectedProduct(product);
     } else {
-      setFormData({
-        model: "",
-        name: "",
-        descripcion: "",
-        features: [],
-        Especificaciones: {},
-        reference: "",
-        brand: "",
-        Category: "",
-        subcategory: "",
-        images: [],
-      });
+      setFormData(emptyForm);
       setSelectedProduct(null);
     }
     setIsModalOpen(true);
   };
 
   const handleFeatureChange = (index, value) => {
-    const newFeatures = [...formData.features];
+    const newFeatures = [...(formData.features || [])];
     newFeatures[index] = value;
     setFormData({ ...formData, features: newFeatures });
   };
@@ -124,17 +118,18 @@ export default function ProductosPage() {
     setFormData({
       ...formData,
       Especificaciones: {
-        ...formData.Especificaciones,
+        ...(formData.Especificaciones || {}),
         [field]: value,
       },
     });
   };
 
   const handleImageChange = (index, value) => {
-    const newImages = [...formData.images];
+    const newImages = [...(formData.images || [])];
     newImages[index] = value;
     setFormData({ ...formData, images: newImages });
   };
+
   return (
     <div className="container mx-auto p-4">
       <div className="flex justify-between items-center mb-6">
@@ -148,18 +143,21 @@ export default function ProductosPage() {
         </button>
       </div>
 
+      {/* Si SearchBar usa useSearchParams, esto queda protegido por Suspense arriba */}
       <SearchBar onSearch={handleSearch} products={products} />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredProducts.map((product) => (
-          <div key={product._id} className="border rounded-lg p-4 shadow">
-            <img
-              src={product.images[0]}
-              alt={product.name}
-              className="w-full h-48 object-cover rounded-lg mb-4"
-            />
-            <h2 className="text-xl font-semibold mb-2">{product.name}</h2>
-            <p className="text-gray-600 mb-4">{product.descripcion}</p>
+          <div key={product?._id} className="border rounded-lg p-4 shadow">
+            {!!product?.images?.[0] && (
+              <img
+                src={product.images[0]}
+                alt={product?.name || "Producto"}
+                className="w-full h-48 object-cover rounded-lg mb-4"
+              />
+            )}
+            <h2 className="text-xl font-semibold mb-2">{product?.name}</h2>
+            <p className="text-gray-600 mb-4">{product?.descripcion}</p>
             <div className="flex justify-end gap-2">
               <button
                 onClick={() => openModal(product)}
@@ -184,12 +182,13 @@ export default function ProductosPage() {
             <h2 className="text-xl font-bold mb-4">
               {selectedProduct ? "Editar Producto" : "Nuevo Producto"}
             </h2>
+
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium mb-1">Modelo</label>
                 <input
                   type="text"
-                  value={formData.model}
+                  value={formData.model || ""}
                   onChange={(e) =>
                     setFormData({ ...formData, model: e.target.value })
                   }
@@ -197,11 +196,12 @@ export default function ProductosPage() {
                   required
                 />
               </div>
+
               <div>
                 <label className="block text-sm font-medium mb-1">Nombre</label>
                 <input
                   type="text"
-                  value={formData.name}
+                  value={formData.name || ""}
                   onChange={(e) =>
                     setFormData({ ...formData, name: e.target.value })
                   }
@@ -209,12 +209,11 @@ export default function ProductosPage() {
                   required
                 />
               </div>
+
               <div>
-                <label className="block text-sm font-medium mb-1">
-                  Descripción
-                </label>
+                <label className="block text-sm font-medium mb-1">Descripción</label>
                 <textarea
-                  value={formData.descripcion}
+                  value={formData.descripcion || ""}
                   onChange={(e) =>
                     setFormData({ ...formData, descripcion: e.target.value })
                   }
@@ -222,18 +221,15 @@ export default function ProductosPage() {
                   required
                 />
               </div>
+
               <div>
-                <label className="block text-sm font-medium mb-1">
-                  Características
-                </label>
-                {formData.features.map((feature, index) => (
+                <label className="block text-sm font-medium mb-1">Características</label>
+                {(formData.features || []).map((feature, index) => (
                   <div key={index} className="flex items-center gap-2">
                     <input
                       type="text"
-                      value={feature}
-                      onChange={(e) =>
-                        handleFeatureChange(index, e.target.value)
-                      }
+                      value={feature || ""}
+                      onChange={(e) => handleFeatureChange(index, e.target.value)}
                       className="w-full border rounded-lg p-2"
                     />
                     <button
@@ -241,9 +237,7 @@ export default function ProductosPage() {
                       onClick={() =>
                         setFormData({
                           ...formData,
-                          features: formData.features.filter(
-                            (_, i) => i !== index
-                          ),
+                          features: (formData.features || []).filter((_, i) => i !== index),
                         })
                       }
                       className="text-red-500"
@@ -257,7 +251,7 @@ export default function ProductosPage() {
                   onClick={() =>
                     setFormData({
                       ...formData,
-                      features: [...formData.features, ""],
+                      features: [...(formData.features || []), ""],
                     })
                   }
                   className="text-blue-500"
@@ -267,69 +261,52 @@ export default function ProductosPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-1 ">
-                  Especificaciones
-                </label>
-                {Object.entries(formData.Especificaciones).map(
-                  ([key, value], index) => (
-                    <div key={index} className="space-y-2 mb-4">
-                      <input
-                        type="text"
-                        value={key}
-                        onChange={(e) => {
-                          const newEspecificaciones = {
-                            ...formData.Especificaciones,
-                          };
-                          delete newEspecificaciones[key];
-                          newEspecificaciones[e.target.value] = value;
-                          setFormData({
-                            ...formData,
-                            Especificaciones: newEspecificaciones,
-                          });
-                        }}
-                        className="w-full border rounded-lg p-2"
-                        placeholder="Nombre de la especificación"
-                      />
-                      <textarea
-                        value={value}
-                        onChange={(e) =>
-                          handleEspecificacionChange(key, e.target.value)
-                        }
-                        className="w-full border rounded-lg p-2"
-                        placeholder="Valor de la especificación"
-                        rows={3}
-                      />
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const newEspecificaciones = {
-                            ...formData.Especificaciones,
-                          };
-                          delete newEspecificaciones[key];
-                          setFormData({
-                            ...formData,
-                            Especificaciones: newEspecificaciones,
-                          });
-                        }}
-                        className="text-red-500"
-                      >
-                        Eliminar
-                      </button>
-                    </div>
-                  )
-                )}
+                <label className="block text-sm font-medium mb-1">Especificaciones</label>
+                {Object.entries(formData.Especificaciones || {}).map(([key, value], index) => (
+                  <div key={index} className="space-y-2 mb-4">
+                    <input
+                      type="text"
+                      value={key || ""}
+                      onChange={(e) => {
+                        const newEspecificaciones = { ...(formData.Especificaciones || {}) };
+                        delete newEspecificaciones[key];
+                        newEspecificaciones[e.target.value] = value;
+                        setFormData({ ...formData, Especificaciones: newEspecificaciones });
+                      }}
+                      className="w-full border rounded-lg p-2"
+                      placeholder="Nombre de la especificación"
+                    />
+
+                    <textarea
+                      value={value || ""}
+                      onChange={(e) => handleEspecificacionChange(key, e.target.value)}
+                      className="w-full border rounded-lg p-2"
+                      placeholder="Valor de la especificación"
+                      rows={3}
+                    />
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const newEspecificaciones = { ...(formData.Especificaciones || {}) };
+                        delete newEspecificaciones[key];
+                        setFormData({ ...formData, Especificaciones: newEspecificaciones });
+                      }}
+                      className="text-red-500"
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                ))}
+
                 <button
                   type="button"
-                  onClick={() => {
-                    const newEspecificaciones = {
-                      ...formData.Especificaciones,
-                      "": "",
-                    };
+                  onClick={() =>
                     setFormData({
                       ...formData,
-                      Especificaciones: newEspecificaciones,
-                    });
-                  }}
+                      Especificaciones: { ...(formData.Especificaciones || {}), "": "" },
+                    })
+                  }
                   className="text-blue-500"
                 >
                   Agregar especificación
@@ -337,12 +314,10 @@ export default function ProductosPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-1">
-                  Referencia
-                </label>
+                <label className="block text-sm font-medium mb-1">Referencia</label>
                 <input
                   type="text"
-                  value={formData.reference}
+                  value={formData.reference || ""}
                   onChange={(e) =>
                     setFormData({ ...formData, reference: e.target.value })
                   }
@@ -355,22 +330,18 @@ export default function ProductosPage() {
                 <label className="block text-sm font-medium mb-1">Marca</label>
                 <input
                   type="text"
-                  value={formData.brand}
-                  onChange={(e) =>
-                    setFormData({ ...formData, brand: e.target.value })
-                  }
+                  value={formData.brand || ""}
+                  onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
                   className="w-full border rounded-lg p-2"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-1">
-                  Categoría
-                </label>
+                <label className="block text-sm font-medium mb-1">Categoría</label>
                 <input
                   type="text"
-                  value={formData.Category}
+                  value={formData.Category || ""}
                   onChange={(e) =>
                     setFormData({ ...formData, Category: e.target.value })
                   }
@@ -380,12 +351,10 @@ export default function ProductosPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-1">
-                  Subcategoría
-                </label>
+                <label className="block text-sm font-medium mb-1">Subcategoría</label>
                 <input
                   type="text"
-                  value={formData.subcategory}
+                  value={formData.subcategory || ""}
                   onChange={(e) =>
                     setFormData({ ...formData, subcategory: e.target.value })
                   }
@@ -395,14 +364,12 @@ export default function ProductosPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-1">
-                  Imágenes
-                </label>
-                {formData.images.map((image, index) => (
+                <label className="block text-sm font-medium mb-1">Imágenes</label>
+                {(formData.images || []).map((image, index) => (
                   <div key={index} className="flex items-center gap-2">
                     <input
                       type="text"
-                      value={image}
+                      value={image || ""}
                       onChange={(e) => handleImageChange(index, e.target.value)}
                       className="w-full border rounded-lg p-2"
                       placeholder="URL de imagen"
@@ -412,7 +379,7 @@ export default function ProductosPage() {
                       onClick={() =>
                         setFormData({
                           ...formData,
-                          images: formData.images.filter((_, i) => i !== index),
+                          images: (formData.images || []).filter((_, i) => i !== index),
                         })
                       }
                       className="text-red-500"
@@ -421,13 +388,11 @@ export default function ProductosPage() {
                     </button>
                   </div>
                 ))}
+
                 <button
                   type="button"
                   onClick={() =>
-                    setFormData({
-                      ...formData,
-                      images: [...formData.images, ""],
-                    })
+                    setFormData({ ...formData, images: [...(formData.images || []), ""] })
                   }
                   className="text-blue-500"
                 >
@@ -443,10 +408,7 @@ export default function ProductosPage() {
                 >
                   Cancelar
                 </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-blue-500 text-white rounded-lg"
-                >
+                <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-lg">
                   {selectedProduct ? "Actualizar" : "Crear"}
                 </button>
               </div>
@@ -454,8 +416,16 @@ export default function ProductosPage() {
           </div>
         </div>
       )}
+
       <ToastContainer />
     </div>
   );
 }
-//todos los crud se pueden componetizar, utilizan los mismos elementos, tareita que no alcance a hacer :)
+
+export default function ProductosPage() {
+  return (
+    <Suspense fallback={<div className="p-4">Cargando...</div>}>
+      <ProductosPageInner />
+    </Suspense>
+  );
+}
