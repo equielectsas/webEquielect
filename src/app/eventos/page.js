@@ -17,7 +17,6 @@ export default function EventosPage() {
   });
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
-
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const day = String(date.getDate()).padStart(2, "0");
@@ -28,7 +27,9 @@ export default function EventosPage() {
 
   const fetchEventos = async () => {
     try {
-      const response = await fetch("http://localhost:3900/api/eventos");
+      const response = await fetch(
+        "${process.env.NEXT_PUBLIC_BACKEND_SERVER_URL}/eventos",
+      );
       const data = await response.json();
       const sortedEvents = data.sort((a, b) => {
         const dateA = new Date(a.date);
@@ -60,7 +61,7 @@ export default function EventosPage() {
     const results = events.filter(
       (event) =>
         event.name.toLowerCase().includes(query.toLowerCase()) ||
-        event.category.toLowerCase().includes(query.toLowerCase())
+        event.category.toLowerCase().includes(query.toLowerCase()),
     );
     setFilteredEvents(results);
   };
@@ -111,39 +112,47 @@ export default function EventosPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:3900/api/eventos/${selectedEvent._id}/inscribir`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_SERVER_URL}/eventos/${selectedEvent._id}/inscribir`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
         },
-        body: JSON.stringify(formData),
-      });
-  
+      );
+
       if (!response.ok) {
-        const errorData = await response.json(); 
+        const errorData = await response.json();
         throw new Error(errorData.message || "Error en la inscripción");
       }
-  
-      const correoResponse = await fetch("http://localhost:3900/api/eventos/enviar-correo-inscripcion", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+
+      const correoResponse = await fetch(
+        "${process.env.NEXT_PUBLIC_BACKEND_SERVER_URL}/eventos/enviar-correo-inscripcion",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: formData.email,
+            name: formData.name,
+            eventId: selectedEvent._id,
+          }),
         },
-        body: JSON.stringify({
-          email: formData.email,
-          name: formData.name,
-          eventId: selectedEvent._id,
-        }),
-      });
-  
+      );
+
       if (!correoResponse.ok) throw new Error("Error al enviar el correo");
-  
-      toast.success("¡Inscripción exitosa! Se ha enviado un correo de confirmación.");
+
+      toast.success(
+        "¡Inscripción exitosa! Se ha enviado un correo de confirmación.",
+      );
       setIsFormSubmitted(true);
       closeModal();
-      fetchEventos(); 
+      fetchEventos();
     } catch (error) {
-      toast.error(error.message); 
+      toast.error(error.message);
     }
   };
 
@@ -199,7 +208,8 @@ export default function EventosPage() {
                 <p className="text-gray-600 mb-4">{event.shortDescription}</p>
                 <div className="space-y-2 mb-4">
                   <div className="flex items-center text-sm text-gray-500">
-                    <Calendar className="mr-2 w-4 h-4" /> {formatDate(event.date)}
+                    <Calendar className="mr-2 w-4 h-4" />{" "}
+                    {formatDate(event.date)}
                   </div>
                   <div className="flex items-center text-sm text-gray-500">
                     <Clock className="mr-2 w-4 h-4" /> {event.time}
@@ -262,7 +272,8 @@ export default function EventosPage() {
                 <p className="text-gray-600">{selectedEvent.description}</p>
                 <div className="space-y-2">
                   <div className="flex items-center text-sm text-gray-500">
-                    <Calendar className="mr-2 w-4 h-4" /> {formatDate(selectedEvent.date)}
+                    <Calendar className="mr-2 w-4 h-4" />{" "}
+                    {formatDate(selectedEvent.date)}
                   </div>
                   <div className="flex items-center text-sm text-gray-500">
                     <Clock className="mr-2 w-4 h-4" /> {selectedEvent.time}
@@ -288,10 +299,14 @@ export default function EventosPage() {
 
                 {getEventStatus(selectedEvent.date) === "Próximo" && (
                   <div className="mt-4">
-                    <h3 className="text-xl font-semibold mb-2">Formulario de inscripción</h3>
+                    <h3 className="text-xl font-semibold mb-2">
+                      Formulario de inscripción
+                    </h3>
                     <form onSubmit={handleSubmit}>
                       <div className="mb-4">
-                        <label className="block text-gray-700">Nombre Completo</label>
+                        <label className="block text-gray-700">
+                          Nombre Completo
+                        </label>
                         <input
                           type="text"
                           name="name"
@@ -302,7 +317,9 @@ export default function EventosPage() {
                         />
                       </div>
                       <div className="mb-4">
-                        <label className="block text-gray-700">Correo Electrónico</label>
+                        <label className="block text-gray-700">
+                          Correo Electrónico
+                        </label>
                         <input
                           type="email"
                           name="email"
@@ -320,14 +337,18 @@ export default function EventosPage() {
                       </button>
                     </form>
                     {isFormSubmitted && (
-                      <p className="text-green-500 mt-2">Inscripción exitosa. ¡Nos vemos en el evento!</p>
+                      <p className="text-green-500 mt-2">
+                        Inscripción exitosa. ¡Nos vemos en el evento!
+                      </p>
                     )}
                   </div>
                 )}
 
                 {getEventStatus(selectedEvent.date) === "Realizado" && (
                   <div className="mt-4">
-                    <h3 className="text-xl font-semibold mb-2">Fotos del Evento</h3>
+                    <h3 className="text-xl font-semibold mb-2">
+                      Fotos del Evento
+                    </h3>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                       {selectedEvent.postEventImages.map((img, index) => (
                         <img
@@ -368,7 +389,11 @@ export default function EventosPage() {
             >
               <X className="w-6 h-6" />
             </button>
-            <img src={selectedImage} alt="Imagen del evento" className="w-full h-auto" />
+            <img
+              src={selectedImage}
+              alt="Imagen del evento"
+              className="w-full h-auto"
+            />
           </div>
         </div>
       )}

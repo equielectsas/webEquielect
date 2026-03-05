@@ -24,17 +24,19 @@ const ListMessagesPage = () => {
     const messageToUpdate = filteredMessages[index];
     try {
       const response = await fetch(
-        `http://localhost:3900/api/mensajes/actualizar/${messageToUpdate._id}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_SERVER_URL}/mensajes/actualizar/${messageToUpdate._id}`,
         {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ status }),
-        }
+        },
       );
 
       if (response.ok) {
         setFilteredMessages((prevMessages) =>
-          prevMessages.map((msg, i) => (i === index ? { ...msg, status } : msg))
+          prevMessages.map((msg, i) =>
+            i === index ? { ...msg, status } : msg,
+          ),
         );
       } else {
         console.error("Error al actualizar el estado:", await response.json());
@@ -63,7 +65,7 @@ const ListMessagesPage = () => {
         const end = new Date(`${endDate}T23:59:59`).toISOString();
 
         const response = await fetch(
-          `http://localhost:3900/api/mensajes/listar?createdAt[gte]=${start}&createdAt[lte]=${end}`
+          `${process.env.NEXT_PUBLIC_BACKEND_SERVER_URL}/mensajes/listar?createdAt[gte]=${start}&createdAt[lte]=${end}`,
         );
 
         if (!response.ok) {
@@ -100,10 +102,10 @@ const ListMessagesPage = () => {
         const today = new Date();
         const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
         const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-        
+
         await handleFilter(
-          firstDay.toISOString().split('T')[0],
-          lastDay.toISOString().split('T')[0]
+          firstDay.toISOString().split("T")[0],
+          lastDay.toISOString().split("T")[0],
         );
       } catch (error) {
         console.error("Error al cargar mensajes iniciales:", error);
@@ -152,8 +154,8 @@ const ListMessagesPage = () => {
                     message.status === "respondido"
                       ? "bg-green-100"
                       : message.status === "porResponder"
-                      ? "bg-red-100"
-                      : ""
+                        ? "bg-red-100"
+                        : ""
                   }
                 >
                   <td className="border px-4 py-2">{message.name}</td>

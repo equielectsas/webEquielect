@@ -44,12 +44,11 @@ const PDPPage = () => {
   const [openModal, setOpenModal] = React.useState(false);
   const [allyInfo, setAllyInfo] = React.useState(null);
 
-
   // --- LÓGICA DE DATOS ---
   const fetchAllyByBrand = async (brand) => {
     try {
       const response = await fetch(
-        `http://localhost:3900/api/aliados?brand=${brand}`
+        `${process.env.NEXT_PUBLIC_BACKEND_SERVER_URL}/aliados?brand=${brand}`,
       );
       if (!response.ok) throw new Error("Error al obtener el aliado");
       const data = await response.json();
@@ -79,7 +78,8 @@ const PDPPage = () => {
   // --- HANDLERS ---
   const handleMouseMove = (e) => {
     if (isZoomed) {
-      const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+      const { left, top, width, height } =
+        e.currentTarget.getBoundingClientRect();
       const x = ((e.pageX - left) / width) * 100;
       const y = ((e.pageY - top) / height) * 100;
       setMousePosition({ x, y });
@@ -91,11 +91,7 @@ const PDPPage = () => {
     if (!product) return;
 
     // id único: usa _id si existe, si no pid, si no reference
-    const id =
-      product._id ||
-      pid ||
-      product.reference ||
-      product.name;
+    const id = product._id || pid || product.reference || product.name;
 
     addItem({
       id,
@@ -158,7 +154,6 @@ const PDPPage = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-10">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
-        
         {/* COLUMNA IZQUIERDA: GALERÍA CON MINIATURAS VERTICALES A LA IZQUIERDA */}
         <div className="flex gap-4">
           {/* Listado Vertical de Miniaturas */}
@@ -191,7 +186,9 @@ const PDPPage = () => {
               onMouseMove={handleMouseMove}
               onMouseEnter={() => setIsZoomed(true)}
               onMouseLeave={() => setIsZoomed(false)}
-              style={{ transformOrigin: `${mousePosition.x}% ${mousePosition.y}%` }}
+              style={{
+                transformOrigin: `${mousePosition.x}% ${mousePosition.y}%`,
+              }}
             >
               <img
                 src={(product.images || [])[currentImageIndex]}
@@ -205,7 +202,7 @@ const PDPPage = () => {
                 onClick={(e) => {
                   e.preventDefault();
                   setCurrentImageIndex((prev) =>
-                    prev === 0 ? (product.images || []).length - 1 : prev - 1
+                    prev === 0 ? (product.images || []).length - 1 : prev - 1,
                   );
                 }}
                 className="p-2 rounded-full bg-white shadow-md pointer-events-auto hover:bg-[#0056b3] hover:text-white transition-colors"
@@ -216,7 +213,7 @@ const PDPPage = () => {
                 onClick={(e) => {
                   e.preventDefault();
                   setCurrentImageIndex((prev) =>
-                    prev === (product.images || []).length - 1 ? 0 : prev + 1
+                    prev === (product.images || []).length - 1 ? 0 : prev + 1,
                   );
                 }}
                 className="p-2 rounded-full bg-white shadow-md pointer-events-auto hover:bg-[#0056b3] hover:text-white transition-colors"
@@ -394,19 +391,21 @@ const PDPPage = () => {
 
                 <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-gray-200 border border-gray-200">
                   {product.Especificaciones &&
-                    Object.entries(product.Especificaciones).map(([key, value]) => {
-                      if (key === "fichatecnica") return null;
-                      return (
-                        <div key={key} className="p-5 bg-white">
-                          <Typography className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2">
-                            {key}
-                          </Typography>
-                          <Typography className="text-slate-800 font-bold text-sm">
-                            {typeof value === "object" ? "Ver Manual" : value}
-                          </Typography>
-                        </div>
-                      );
-                    })}
+                    Object.entries(product.Especificaciones).map(
+                      ([key, value]) => {
+                        if (key === "fichatecnica") return null;
+                        return (
+                          <div key={key} className="p-5 bg-white">
+                            <Typography className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2">
+                              {key}
+                            </Typography>
+                            <Typography className="text-slate-800 font-bold text-sm">
+                              {typeof value === "object" ? "Ver Manual" : value}
+                            </Typography>
+                          </div>
+                        );
+                      },
+                    )}
                 </div>
               </div>
             </TabPanel>
@@ -427,7 +426,8 @@ const PDPPage = () => {
                 variant="h3"
                 className="text-2xl font-black text-slate-900 uppercase"
               >
-                Ecosistema <span className="text-blue-600">{product.brand}</span>
+                Ecosistema{" "}
+                <span className="text-blue-600">{product.brand}</span>
               </Typography>
             </div>
 

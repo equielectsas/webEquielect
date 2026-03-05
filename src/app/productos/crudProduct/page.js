@@ -8,7 +8,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SearchBar from "@/components/products/SearchBar";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3900";
+const API_URL =
+  process.env.NEXT_PUBLIC_BACKEND_SERVER_URL || "http://localhost:3900";
 
 function ProductosPageInner() {
   const [products, setProducts] = useState([]);
@@ -70,7 +71,9 @@ function ProductosPageInner() {
 
       if (!response.ok) throw new Error("Error en la operación");
 
-      toast.success(selectedProduct ? "Producto actualizado" : "Producto creado");
+      toast.success(
+        selectedProduct ? "Producto actualizado" : "Producto creado",
+      );
       setIsModalOpen(false);
       setSelectedProduct(null);
       setFormData(emptyForm);
@@ -211,7 +214,9 @@ function ProductosPageInner() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-1">Descripción</label>
+                <label className="block text-sm font-medium mb-1">
+                  Descripción
+                </label>
                 <textarea
                   value={formData.descripcion || ""}
                   onChange={(e) =>
@@ -223,13 +228,17 @@ function ProductosPageInner() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-1">Características</label>
+                <label className="block text-sm font-medium mb-1">
+                  Características
+                </label>
                 {(formData.features || []).map((feature, index) => (
                   <div key={index} className="flex items-center gap-2">
                     <input
                       type="text"
                       value={feature || ""}
-                      onChange={(e) => handleFeatureChange(index, e.target.value)}
+                      onChange={(e) =>
+                        handleFeatureChange(index, e.target.value)
+                      }
                       className="w-full border rounded-lg p-2"
                     />
                     <button
@@ -237,7 +246,9 @@ function ProductosPageInner() {
                       onClick={() =>
                         setFormData({
                           ...formData,
-                          features: (formData.features || []).filter((_, i) => i !== index),
+                          features: (formData.features || []).filter(
+                            (_, i) => i !== index,
+                          ),
                         })
                       }
                       className="text-red-500"
@@ -261,50 +272,69 @@ function ProductosPageInner() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-1">Especificaciones</label>
-                {Object.entries(formData.Especificaciones || {}).map(([key, value], index) => (
-                  <div key={index} className="space-y-2 mb-4">
-                    <input
-                      type="text"
-                      value={key || ""}
-                      onChange={(e) => {
-                        const newEspecificaciones = { ...(formData.Especificaciones || {}) };
-                        delete newEspecificaciones[key];
-                        newEspecificaciones[e.target.value] = value;
-                        setFormData({ ...formData, Especificaciones: newEspecificaciones });
-                      }}
-                      className="w-full border rounded-lg p-2"
-                      placeholder="Nombre de la especificación"
-                    />
+                <label className="block text-sm font-medium mb-1">
+                  Especificaciones
+                </label>
+                {Object.entries(formData.Especificaciones || {}).map(
+                  ([key, value], index) => (
+                    <div key={index} className="space-y-2 mb-4">
+                      <input
+                        type="text"
+                        value={key || ""}
+                        onChange={(e) => {
+                          const newEspecificaciones = {
+                            ...(formData.Especificaciones || {}),
+                          };
+                          delete newEspecificaciones[key];
+                          newEspecificaciones[e.target.value] = value;
+                          setFormData({
+                            ...formData,
+                            Especificaciones: newEspecificaciones,
+                          });
+                        }}
+                        className="w-full border rounded-lg p-2"
+                        placeholder="Nombre de la especificación"
+                      />
 
-                    <textarea
-                      value={value || ""}
-                      onChange={(e) => handleEspecificacionChange(key, e.target.value)}
-                      className="w-full border rounded-lg p-2"
-                      placeholder="Valor de la especificación"
-                      rows={3}
-                    />
+                      <textarea
+                        value={value || ""}
+                        onChange={(e) =>
+                          handleEspecificacionChange(key, e.target.value)
+                        }
+                        className="w-full border rounded-lg p-2"
+                        placeholder="Valor de la especificación"
+                        rows={3}
+                      />
 
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const newEspecificaciones = { ...(formData.Especificaciones || {}) };
-                        delete newEspecificaciones[key];
-                        setFormData({ ...formData, Especificaciones: newEspecificaciones });
-                      }}
-                      className="text-red-500"
-                    >
-                      Eliminar
-                    </button>
-                  </div>
-                ))}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const newEspecificaciones = {
+                            ...(formData.Especificaciones || {}),
+                          };
+                          delete newEspecificaciones[key];
+                          setFormData({
+                            ...formData,
+                            Especificaciones: newEspecificaciones,
+                          });
+                        }}
+                        className="text-red-500"
+                      >
+                        Eliminar
+                      </button>
+                    </div>
+                  ),
+                )}
 
                 <button
                   type="button"
                   onClick={() =>
                     setFormData({
                       ...formData,
-                      Especificaciones: { ...(formData.Especificaciones || {}), "": "" },
+                      Especificaciones: {
+                        ...(formData.Especificaciones || {}),
+                        "": "",
+                      },
                     })
                   }
                   className="text-blue-500"
@@ -314,7 +344,9 @@ function ProductosPageInner() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-1">Referencia</label>
+                <label className="block text-sm font-medium mb-1">
+                  Referencia
+                </label>
                 <input
                   type="text"
                   value={formData.reference || ""}
@@ -331,14 +363,18 @@ function ProductosPageInner() {
                 <input
                   type="text"
                   value={formData.brand || ""}
-                  onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, brand: e.target.value })
+                  }
                   className="w-full border rounded-lg p-2"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-1">Categoría</label>
+                <label className="block text-sm font-medium mb-1">
+                  Categoría
+                </label>
                 <input
                   type="text"
                   value={formData.Category || ""}
@@ -351,7 +387,9 @@ function ProductosPageInner() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-1">Subcategoría</label>
+                <label className="block text-sm font-medium mb-1">
+                  Subcategoría
+                </label>
                 <input
                   type="text"
                   value={formData.subcategory || ""}
@@ -364,7 +402,9 @@ function ProductosPageInner() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-1">Imágenes</label>
+                <label className="block text-sm font-medium mb-1">
+                  Imágenes
+                </label>
                 {(formData.images || []).map((image, index) => (
                   <div key={index} className="flex items-center gap-2">
                     <input
@@ -379,7 +419,9 @@ function ProductosPageInner() {
                       onClick={() =>
                         setFormData({
                           ...formData,
-                          images: (formData.images || []).filter((_, i) => i !== index),
+                          images: (formData.images || []).filter(
+                            (_, i) => i !== index,
+                          ),
                         })
                       }
                       className="text-red-500"
@@ -392,7 +434,10 @@ function ProductosPageInner() {
                 <button
                   type="button"
                   onClick={() =>
-                    setFormData({ ...formData, images: [...(formData.images || []), ""] })
+                    setFormData({
+                      ...formData,
+                      images: [...(formData.images || []), ""],
+                    })
                   }
                   className="text-blue-500"
                 >
@@ -408,7 +453,10 @@ function ProductosPageInner() {
                 >
                   Cancelar
                 </button>
-                <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-lg">
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-blue-500 text-white rounded-lg"
+                >
                   {selectedProduct ? "Actualizar" : "Crear"}
                 </button>
               </div>

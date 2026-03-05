@@ -8,7 +8,8 @@ import { Card } from "@/utils/tailwind/index";
 import ProductItem from "./ProductItem";
 import CotizacionForm from "@/components/cotizacion/CotizacionPage/Form";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3900";
+const API_URL =
+  process.env.NEXT_PUBLIC_BACKEND_SERVER_URL || "http://localhost:3900";
 
 /**
  * Nota importante:
@@ -33,7 +34,7 @@ const ProductsList = () => {
 
   const hasProducts = useMemo(
     () => Array.isArray(cotizacionProducts) && cotizacionProducts.length > 0,
-    [cotizacionProducts]
+    [cotizacionProducts],
   );
 
   const sendCotizacion = async (userInfo) => {
@@ -62,9 +63,7 @@ const ProductsList = () => {
       }
     } catch (error) {
       console.error("Error de red:", error);
-      alert(
-        "No se pudo conectar con el servidor de cotización (backend)."
-      );
+      alert("No se pudo conectar con el servidor de cotización (backend).");
     }
   };
 
@@ -100,7 +99,10 @@ const ProductsList = () => {
         <table className="w-full table text-left">
           <tbody className="w-full">
             {cotizacionProducts.map((product, idx) => (
-              <ProductItem key={product?.id ?? product?._id ?? idx} product={product} />
+              <ProductItem
+                key={product?.id ?? product?._id ?? idx}
+                product={product}
+              />
             ))}
           </tbody>
         </table>

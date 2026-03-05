@@ -20,7 +20,7 @@ const Cotizaciones = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:3900/api/cotizaciones?startDate=${start}&endDate=${end}`
+        `${process.env.NEXT_PUBLIC_BACKEND_SERVER_URL}/cotizaciones?startDate=${start}&endDate=${end}`,
       );
       const data = await response.json();
       if (response.ok) {
@@ -42,12 +42,12 @@ const Cotizaciones = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:3900/api/cotizacion/${cotizacionId}/status`,
+        `${process.env.NEXT_PUBLIC_BACKEND_SERVER_URL}/cotizacion/${cotizacionId}/status`,
         {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ status }),
-        }
+        },
       );
 
       if (response.ok) {
@@ -56,8 +56,8 @@ const Cotizaciones = () => {
           prevCotizaciones.map((cotizacion, i) =>
             i === index
               ? { ...cotizacion, status: data.data.status }
-              : cotizacion
-          )
+              : cotizacion,
+          ),
         );
       } else {
         console.error("Error al actualizar el estado:", await response.json());
@@ -102,8 +102,8 @@ const Cotizaciones = () => {
                 cotizacion.status === "respondido"
                   ? "bg-green-100"
                   : cotizacion.status === "porResponder"
-                  ? "bg-red-100"
-                  : "bg-gray-200"
+                    ? "bg-red-100"
+                    : "bg-gray-200"
               }`}
             >
               <div className="absolute top-4 right-4 flex items-center space-x-2">

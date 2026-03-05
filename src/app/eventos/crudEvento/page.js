@@ -1,6 +1,15 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Search, Calendar, MapPin, Clock, X, Plus, Pencil, Trash2 } from "lucide-react";
+import {
+  Search,
+  Calendar,
+  MapPin,
+  Clock,
+  X,
+  Plus,
+  Pencil,
+  Trash2,
+} from "lucide-react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -44,7 +53,9 @@ export default function EventosPage() {
 
   const fetchEventos = async () => {
     try {
-      const response = await fetch("http://localhost:3900/api/eventos");
+      const response = await fetch(
+        "${process.env.NEXT_PUBLIC_BACKEND_SERVER_URL}/eventos",
+      );
       const data = await response.json();
       const sortedEvents = data.sort((a, b) => {
         const dateA = new Date(a.date);
@@ -76,7 +87,7 @@ export default function EventosPage() {
     const results = events.filter(
       (event) =>
         event.name.toLowerCase().includes(query.toLowerCase()) ||
-        event.category.toLowerCase().includes(query.toLowerCase())
+        event.category.toLowerCase().includes(query.toLowerCase()),
     );
     setFilteredEvents(results);
   };
@@ -149,8 +160,8 @@ export default function EventosPage() {
     e.preventDefault();
     try {
       const url = selectedEvent
-        ? `http://localhost:3900/api/eventos/${selectedEvent._id}`
-        : "http://localhost:3900/api/eventos";
+        ? `${process.env.NEXT_PUBLIC_BACKEND_SERVER_URL}/eventos/${selectedEvent._id}`
+        : "${process.env.NEXT_PUBLIC_BACKEND_SERVER_URL}/eventos";
 
       const method = selectedEvent ? "PUT" : "POST";
 
@@ -175,9 +186,12 @@ export default function EventosPage() {
 
   const handleDelete = async (eventId) => {
     try {
-      const response = await fetch(`http://localhost:3900/api/eventos/${eventId}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_SERVER_URL}/eventos/${eventId}`,
+        {
+          method: "DELETE",
+        },
+      );
 
       if (!response.ok) throw new Error("Error al eliminar el evento");
 
@@ -248,7 +262,8 @@ export default function EventosPage() {
                 <p className="text-gray-600 mb-4">{event.shortDescription}</p>
                 <div className="space-y-2 mb-4">
                   <div className="flex items-center text-sm text-gray-500">
-                    <Calendar className="mr-2 w-4 h-4" /> {formatDate(event.date)}
+                    <Calendar className="mr-2 w-4 h-4" />{" "}
+                    {formatDate(event.date)}
                   </div>
                   <div className="flex items-center text-sm text-gray-500">
                     <Clock className="mr-2 w-4 h-4" /> {event.time}
@@ -315,7 +330,7 @@ export default function EventosPage() {
               {selectedEvent ? "Editar Evento" : "Nuevo Evento"}
             </h2>
             <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
+              <div>
                 <label className="block text-sm font-medium mb-1">Nombre</label>
                 <input
                   type="text"
@@ -336,7 +351,10 @@ export default function EventosPage() {
                   type="text"
                   value={formData.shortDescription}
                   onChange={(e) =>
-                    setFormData({ ...formData, shortDescription: e.target.value })
+                    setFormData({
+                      ...formData,
+                      shortDescription: e.target.value,
+                    })
                   }
                   className="w-full border rounded-lg p-2"
                   required
@@ -396,7 +414,9 @@ export default function EventosPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Ubicación</label>
+                <label className="block text-sm font-medium mb-1">
+                  Ubicación
+                </label>
                 <input
                   type="text"
                   value={formData.location}
@@ -408,7 +428,9 @@ export default function EventosPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Categoría</label>
+                <label className="block text-sm font-medium mb-1">
+                  Categoría
+                </label>
                 <input
                   type="text"
                   value={formData.category}
@@ -431,8 +453,8 @@ export default function EventosPage() {
                       onChange={(e) =>
                         setFormData({
                           ...formData,
-                          postEventImages: formData.postEventImages.map((i, idx) =>
-                            idx === index ? e.target.value : i
+                          postEventImages: formData.postEventImages.map(
+                            (i, idx) => (idx === index ? e.target.value : i),
                           ),
                         })
                       }
@@ -443,7 +465,9 @@ export default function EventosPage() {
                       onClick={() =>
                         setFormData({
                           ...formData,
-                          postEventImages: formData.postEventImages.filter((_, i) => i !== index),
+                          postEventImages: formData.postEventImages.filter(
+                            (_, i) => i !== index,
+                          ),
                         })
                       }
                       className="text-red-500"
@@ -455,7 +479,10 @@ export default function EventosPage() {
                 <button
                   type="button"
                   onClick={() =>
-                    setFormData({ ...formData, postEventImages: [...formData.postEventImages, ""] })
+                    setFormData({
+                      ...formData,
+                      postEventImages: [...formData.postEventImages, ""],
+                    })
                   }
                   className="text-blue-500"
                 >
@@ -470,7 +497,10 @@ export default function EventosPage() {
                 <textarea
                   value={formData.postEventComment}
                   onChange={(e) =>
-                    setFormData({ ...formData, postEventComment: e.target.value })
+                    setFormData({
+                      ...formData,
+                      postEventComment: e.target.value,
+                    })
                   }
                   className="w-full border rounded-lg p-2"
                 />
@@ -487,38 +517,40 @@ export default function EventosPage() {
         </div>
       )}
 
-{isViewMoreModalOpen && selectedEvent && (
-  <div
-    className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-10"
-    onClick={handleOutsideClick}
-  >
-    <div className="bg-white rounded-sm p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto relative">
-      <button
-        onClick={closeViewMoreModal}
-        className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-      >
-        <X className="w-6 h-6" />
-      </button>
-      <h2 className="text-2xl font-bold mb-4">Personas Inscritas</h2>
-      {selectedEvent.inscritos && selectedEvent.inscritos.length > 0 ? (
-        <div className="mt-4">
-          <p className="text-gray-600 mb-4">
-            Total de inscritos: {selectedEvent.inscritos.length}
-          </p>
-          <ul>
-            {selectedEvent.inscritos.map((inscrito, index) => (
-              <li key={index} className="mb-2">
-                <strong>{inscrito.name}</strong> - {inscrito.email}
-              </li>
-            ))}
-          </ul>
+      {isViewMoreModalOpen && selectedEvent && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-10"
+          onClick={handleOutsideClick}
+        >
+          <div className="bg-white rounded-sm p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto relative">
+            <button
+              onClick={closeViewMoreModal}
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+            >
+              <X className="w-6 h-6" />
+            </button>
+            <h2 className="text-2xl font-bold mb-4">Personas Inscritas</h2>
+            {selectedEvent.inscritos && selectedEvent.inscritos.length > 0 ? (
+              <div className="mt-4">
+                <p className="text-gray-600 mb-4">
+                  Total de inscritos: {selectedEvent.inscritos.length}
+                </p>
+                <ul>
+                  {selectedEvent.inscritos.map((inscrito, index) => (
+                    <li key={index} className="mb-2">
+                      <strong>{inscrito.name}</strong> - {inscrito.email}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              <p className="text-gray-600">
+                No hay personas inscritas en este evento.
+              </p>
+            )}
+          </div>
         </div>
-      ) : (
-        <p className="text-gray-600">No hay personas inscritas en este evento.</p>
       )}
-    </div>
-  </div>
-)}
 
       {isImageModalOpen && (
         <div

@@ -21,7 +21,9 @@ export default function CrudAliadosPage() {
 
   const fetchAllies = async () => {
     try {
-      const response = await fetch("http://localhost:3900/api/aliados");
+      const response = await fetch(
+        "${process.env.NEXT_PUBLIC_BACKEND_SERVER_URL}/aliados",
+      );
       if (!response.ok) {
         throw new Error("Error al obtener los aliados");
       }
@@ -36,8 +38,8 @@ export default function CrudAliadosPage() {
     e.preventDefault();
     try {
       const url = selectedAlly
-        ? `http://localhost:3900/api/aliados/${selectedAlly._id}`
-        : "http://localhost:3900/api/aliados";
+        ? `${process.env.NEXT_PUBLIC_BACKEND_SERVER_URL}/aliados/${selectedAlly._id}`
+        : "${process.env.NEXT_PUBLIC_BACKEND_SERVER_URL}/aliados";
 
       const method = selectedAlly ? "PATCH" : "POST";
 
@@ -51,9 +53,7 @@ export default function CrudAliadosPage() {
 
       if (!response.ok) throw new Error("Error en la operación");
 
-      toast.success(
-        selectedAlly ? "Aliado actualizado" : "Aliado creado"
-      );
+      toast.success(selectedAlly ? "Aliado actualizado" : "Aliado creado");
       setIsModalOpen(false);
       setSelectedAlly(null);
       fetchAllies();
@@ -67,10 +67,10 @@ export default function CrudAliadosPage() {
 
     try {
       const response = await fetch(
-        `http://localhost:3900/api/aliados/${id}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_SERVER_URL}/aliados/${id}`,
         {
           method: "DELETE",
-        }
+        },
       );
 
       if (!response.ok) throw new Error("Error al eliminar");
@@ -207,8 +207,7 @@ export default function CrudAliadosPage() {
                 >
                   Cancelar
                 </button>
-                
-                
+
                 <button
                   type="submit"
                   className="px-4 py-2 bg-blue-500 text-white rounded-lg"

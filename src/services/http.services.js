@@ -1,4 +1,5 @@
-const BASE_URL = "http://localhost:3900";
+const BASE_URL =
+  process.env.NEXT_PUBLIC_BACKEND_SERVER_URL || "http://localhost:3900/api";
 
 const httpService = {
   async getPublicHttp(url, queryString = null) {
