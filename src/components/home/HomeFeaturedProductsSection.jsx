@@ -11,7 +11,7 @@ export default function HomeFeaturedProductsSection() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="mt-6">
             <h3 className="text-lg sm:text-xl font-extrabold text-equielect-blue">
-              Productos destacados por marca
+              Producto destacados por marca
             </h3>
             <p className="mt-1 text-sm text-gray-600">
               Selección rápida para comprar con soporte y garantía.
