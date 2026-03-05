@@ -466,7 +466,7 @@ export default function BrandPage({ params }) {
         {cards.length > 0 && (
           <section className="max-w-6xl mx-auto mb-16">
             <h2 className="text-xl font-black text-slate-900 mb-10 text-center uppercase tracking-[0.22em]">
-              Productoss destacados
+              Productos destacados
             </h2>
 
             <div className="flex flex-wrap justify-center gap-8">
