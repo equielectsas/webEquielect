@@ -1,14 +1,7 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import {
-  Mail,
-  Phone,
-  MapPin,
-  Clock,
-  Loader2,
-  CheckCircle2,
-} from "lucide-react";
+import { Mail, Phone, MapPin, Clock, Loader2, CheckCircle2 } from "lucide-react";
 import axios from "axios";
 
 const isEmail = (value) =>
@@ -17,7 +10,7 @@ const isEmail = (value) =>
 export default function ContactoPage() {
   const API_BASE = useMemo(
     () => process.env.NEXT_PUBLIC_BACKEND_SERVER_URL || "http://localhost:3900",
-    [],
+    []
   );
 
   const [loading, setLoading] = useState(false);
@@ -31,8 +24,7 @@ export default function ContactoPage() {
       e.name = "Ingresa tu nombre (mín. 2 caracteres).";
     if (!data.lastname || data.lastname.trim().length < 2)
       e.lastname = "Ingresa tu apellido (mín. 2 caracteres).";
-    if (!data.email || !isEmail(data.email))
-      e.email = "Ingresa un correo válido.";
+    if (!data.email || !isEmail(data.email)) e.email = "Ingresa un correo válido.";
     if (data.phone && String(data.phone).replace(/\D/g, "").length < 7)
       e.phone = "Si ingresas teléfono, que tenga al menos 7 dígitos.";
     if (!data.message || data.message.trim().length < 10)
@@ -42,43 +34,43 @@ export default function ContactoPage() {
 
   const markTouched = (name) => setTouched((p) => ({ ...p, [name]: true }));
 
-  const handleSubmit = async (ev) => {
-    ev.preventDefault();
-    setLoading(true);
+const handleSubmit = async (ev) => {
+  ev.preventDefault();
+  setLoading(true);
 
-    const formData = new FormData(ev.target);
-    const data = Object.fromEntries(formData);
+  const formData = new FormData(ev.target);
+  const data = Object.fromEntries(formData);
 
-    const e = validate(data);
-    setErrors(e);
-    setTouched({
-      name: true,
-      lastname: true,
-      email: true,
-      phone: true,
-      message: true,
+  const e = validate(data);
+  setErrors(e);
+  setTouched({
+    name: true,
+    lastname: true,
+    email: true,
+    phone: true,
+    message: true,
+  });
+
+  if (Object.keys(e).length > 0) {
+    setLoading(false);
+    return;
+  }
+
+  try {
+    await axios.post(`${API_BASE}/mensajes/enviar`, data, {
+      headers: { "Content-Type": "application/json" },
     });
-
-    if (Object.keys(e).length > 0) {
-      setLoading(false);
-      return;
-    }
-
-    try {
-      await axios.post(`${API_BASE}/api/mensajes/enviar`, data, {
-        headers: { "Content-Type": "application/json" },
-      });
-      setEnviado(true);
-      ev.target.reset();
-      setErrors({});
-      setTouched({});
-    } catch (error) {
-      console.error(error);
-      alert("Error al enviar el mensaje. Intente de nuevo.");
-    } finally {
-      setLoading(false);
-    }
-  };
+    setEnviado(true);
+    ev.target.reset();
+    setErrors({});
+    setTouched({});
+  } catch (error) {
+    console.error(error);
+    alert("Error al enviar el mensaje. Intente de nuevo.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   if (enviado) {
     return (
@@ -135,20 +127,19 @@ export default function ContactoPage() {
               </h1>
 
               <p className="text-white/80 mt-3 sm:mt-5 max-w-2xl leading-relaxed text-[8px] sm:text-sm md:text-base">
-                Productos eléctricos, electrónicos y de telecomunicaciones para
-                soluciones técnicas y novedosas.
+                Productos eléctricos, electrónicos y de telecomunicaciones para soluciones técnicas y novedosas.
               </p>
             </div>
           </div>
         </div>
       </header>
       <style jsx global>{`
-        .breadcrumb,
-        .breadcrumbs,
-        nav[aria-label="breadcrumb"] {
-          display: none !important;
-        }
-      `}</style>
+  .breadcrumb,
+  .breadcrumbs,
+  nav[aria-label="breadcrumb"] {
+    display: none !important;
+  }
+`}</style>
       {/* ✅ SECCIÓN FULL WIDTH CON FONDO (FIX RESPONSIVE/ZOOM) */}
       <section className="relative w-full overflow-hidden">
         {/* Patrón en TODO el ancho */}
@@ -173,10 +164,9 @@ export default function ContactoPage() {
                   Equielect S.A.S
                 </p>
                 <p className="mt-4 text-gray-700 leading-relaxed text-sm md:text-base">
-                  Ofrecemos una extensa gama de productos eléctricos,
-                  electrónicos y de telecomunicaciones que les permite a
-                  nuestros clientes implementar soluciones técnicas y novedosas
-                  en sus proyectos.
+                  Ofrecemos una extensa gama de productos eléctricos, electrónicos y de
+                  telecomunicaciones que les permite a nuestros clientes implementar soluciones
+                  técnicas y novedosas en sus proyectos.
                 </p>
               </div>
 
@@ -188,9 +178,7 @@ export default function ContactoPage() {
                 <div className="mt-5 flex items-start gap-3 text-sm text-gray-700">
                   <MapPin className="w-4 h-4 text-[#fae100] mt-0.5" />
                   <div className="leading-relaxed">
-                    <p className="font-semibold text-[#1c355e]">
-                      Carrera 72 No. 30-53
-                    </p>
+                    <p className="font-semibold text-[#1c355e]">Carrera 72 No. 30-53</p>
                     <p>Medellín – Colombia</p>
                   </div>
                 </div>
@@ -236,9 +224,7 @@ export default function ContactoPage() {
                     <Clock className="w-4 h-4 text-[#fae100] mt-0.5" />
                     <div className="leading-relaxed">
                       <p className="font-semibold">Lunes a Viernes</p>
-                      <p className="text-white/85">
-                        7:00 am a 5:45 pm (jornada continua)
-                      </p>
+                      <p className="text-white/85">7:00 am a 5:45 pm (jornada continua)</p>
                     </div>
                   </div>
 
@@ -317,8 +303,7 @@ export default function ContactoPage() {
 
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-2">
                     <p className="text-xs text-gray-500 leading-relaxed">
-                      Al enviar, aceptas ser contactado por Equielect para
-                      atender tu solicitud.
+                      Al enviar, aceptas ser contactado por Equielect para atender tu solicitud.
                     </p>
 
                     <button
