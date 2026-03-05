@@ -564,7 +564,7 @@ export default function Header() {
                   alt="Equielect"
                   width={125}
                   height={40}
-                  className="hidden md:block object-contain w-auto h-auto"
+                  className="hidden md:block object-contain w-full h-auto"
                   sizes="125px"
                   priority
                 />
@@ -576,7 +576,7 @@ export default function Header() {
                   height={25}
                   className="md:hidden object-contain"
                   style={{ width: "auto", height: "auto" }}
-                  sizes="50px"
+                  sizes="(max-width: 50px) 100vw, 90px"
                   priority
                 />
               </Link>
