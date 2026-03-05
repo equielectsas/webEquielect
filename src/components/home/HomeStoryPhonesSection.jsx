@@ -23,9 +23,9 @@ export default function HomeStoryPhonesSection() {
   // ✅ Videos
   const PHONE_VIDEOS = useMemo(
     () => [
-      { id: "clip", title: "Clip", src: "/assets/videos/clip.mp4" },
-      { id: "v1", title: "Video 1", src: "/assets/videos/schneider.mp4" },
-      { id: "v2", title: "Video 2", src: "/assets/videos/VIDEO WEB LOG.mp4" },
+      { id: "clip", title: "Clip", src: "/assets/Videos/clip.mp4" },
+      { id: "v1", title: "Video 1", src: "/assets/Videos/schneider.mp4" },
+      { id: "v2", title: "Video 2", src: "/assets/Videos/VIDEO WEB LOG.mp4" },
     ],
     []
   );
