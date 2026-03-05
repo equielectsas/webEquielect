@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const ALL_BRANDS = [
   { name: "Schneider", src: "/assets/aliados/SchneiderBG.png", scale: 0.8, href: "/marca/schneider" },
-  { name: "Legrand", src: "/assets/aliados/LegrandBG.png", scale: 1.0, href: "/marca/legrand" },
+  { name: "Legrand", src: "/assets/aliados/legrandBG.png", scale: 1.0, href: "/marca/legrand" },
   { name: "Procables", src: "/assets/aliados/AlliePrysmian.png", scale: 1.0, href: "/marca/procables" },
   { name: "Gonvarri", src: "/assets/aliados/AllieGonvarri.png", scale: 1.05, href: "/marca/gonvarri" },
   { name: "Centelsa", src: "/assets/aliados/AllieCentelsa.png", scale: 1.7, href: "/marca/centelsa" },
