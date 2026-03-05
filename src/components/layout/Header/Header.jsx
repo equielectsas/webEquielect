@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Fuse from "fuse.js";
 import { ChevronDown, Search, MapPin, Menu } from "lucide-react";
 
@@ -11,6 +11,7 @@ import MegaMenuEquielect, { MEGA_MENU_DATA } from "@/components/category/MegaMen
 
 export default function Header() {
   const router = useRouter();
+  const pathname = usePathname();
 
   // Desktop
   const [activeCategory, setActiveCategory] = useState(null);
@@ -25,6 +26,14 @@ export default function Header() {
   // ✅ Search
   const [searchTerm, setSearchTerm] = useState("");
   const inputRef = useRef(null);
+
+  /* ✅ FIX DEFINITIVO: cerrar menús al navegar (cambio de ruta) */
+  useEffect(() => {
+    setActiveCategory(null);
+    setIsMobileMenuOpen(false);
+    setMobileActiveCategory(null);
+    setIsMobileSearching(false);
+  }, [pathname]);
 
   /* ===== HOVER TIMER (DESKTOP) ===== */
   const closeTimerRef = useRef(null);
@@ -111,18 +120,7 @@ export default function Header() {
       reflector: ["iluminacion", "luz", "exterior", "alumbrado", "led"],
       alumbrado: ["iluminacion", "exterior", "luz", "led"],
 
-      cable: [
-        "cables",
-        "cableado",
-        "alambre",
-        "conductor",
-        "thhn",
-        "utp",
-        "ftp",
-        "cat6",
-        "cat6a",
-        "cat5e",
-      ],
+      cable: ["cables", "cableado", "alambre", "conductor", "thhn", "utp", "ftp", "cat6", "cat6a", "cat5e"],
       cables: ["cable", "cableado", "thhn", "utp", "cat6", "conductor"],
       utp: ["cable utp", "cat6", "cat6a", "cat5e", "siemon", "telecom", "telecomunicaciones"],
       cat6: ["utp", "cable utp", "siemon", "telecom"],
@@ -185,33 +183,13 @@ export default function Header() {
       {
         href: "/marca/philips",
         label: "Iluminación",
-        tags: [
-          "bombillo",
-          "bombilla",
-          "lampara",
-          "luz",
-          "led",
-          "luminaria",
-          "iluminacion",
-          "reflector",
-          "alumbrado",
-          "luces",
-        ],
+        tags: ["bombillo", "bombilla", "lampara", "luz", "led", "luminaria", "iluminacion", "reflector", "alumbrado", "luces"],
         priority: 120,
       },
       {
         href: "/marca/procables",
         label: "Cableado eléctrico",
-        tags: [
-          "cable",
-          "cables",
-          "cableado",
-          "thhn",
-          "conductor",
-          "alambre",
-          "baja tension",
-          "media tension",
-        ],
+        tags: ["cable", "cables", "cableado", "thhn", "conductor", "alambre", "baja tension", "media tension"],
         priority: 110,
       },
       {
@@ -285,13 +263,8 @@ export default function Header() {
     const t = normalizeText(token);
     if (!t) return "";
 
-    // 1) diccionario exacto
     if (AUTO_CORRECT[t]) return AUTO_CORRECT[t];
-
-    // 2) si ya existe en vocabulario
     if (vocabulary.includes(t)) return t;
-
-    // 3) fuzzy (máx 1 o 2 cambios)
     if (t.length < 3) return t;
 
     let best = { w: t, d: Infinity };
@@ -306,14 +279,11 @@ export default function Header() {
     return best.d <= threshold ? best.w : t;
   };
 
-  // ✅ Corrige + expande (sinónimos)
   const expandQuery = (qRaw) => {
     const q = normalizeText(qRaw);
     if (!q) return { correctedQuery: "", expandedQuery: "" };
 
     const tokens = q.split(" ").filter(Boolean);
-
-    // autocorrect por token
     const correctedTokens = tokens.map(correctToken);
 
     const expanded = new Set(correctedTokens);
@@ -328,12 +298,9 @@ export default function Header() {
     };
   };
 
-  // ✅ Autocorrect tipo celular: corrige cuando cierras palabra (espacio/enter/blur)
   const autocorrectText = (text) => {
     const raw = String(text ?? "");
     const endsWithSpace = /\s$/.test(raw);
-
-    // si NO termina en espacio, no forzamos cambio (evita pelear con el usuario mientras escribe)
     if (!endsWithSpace) return raw;
 
     const parts = raw.split(/\s+/).filter(Boolean);
@@ -367,7 +334,6 @@ export default function Header() {
     }
   };
 
-  // ✅ Index global (intenciones + mega menú)
   const searchIndex = useMemo(() => {
     const entries = [];
 
@@ -431,7 +397,6 @@ export default function Header() {
     });
   }, [searchIndex]);
 
-  // ✅ FIX: si escribe "cables" debe ir a /procables (intenciones primero, fuse después)
   const findBestHref = (qRaw) => {
     const q = normalizeText(qRaw);
     if (!q) return null;
@@ -439,9 +404,6 @@ export default function Header() {
     const { expandedQuery } = expandQuery(q);
     const tokens = expandedQuery.split(" ").filter(Boolean);
 
-    // =========================
-    // 1) FAST PATH: INTENT ROUTES
-    // =========================
     const intents = INTENT_ROUTES.map((r) => ({
       ...r,
       _tagsN: (r.tags || []).map(normalizeText),
@@ -467,9 +429,6 @@ export default function Header() {
 
     if (bestIntent?.href) return bestIntent.href;
 
-    // =========================
-    // 2) FALLBACK: FUSE
-    // =========================
     const results = fuse.search(expandedQuery);
     if (!results?.length) return null;
 
@@ -494,7 +453,6 @@ export default function Header() {
   };
 
   const goSearch = () => {
-    // ✅ fuerza autocorrect final antes de buscar
     const fixed = autocorrectText(searchTerm).trim();
     if (!fixed) return;
 
@@ -509,7 +467,7 @@ export default function Header() {
     router.push(`/buscar?q=${encodeURIComponent(correctedQuery || fixed)}`);
   };
 
-  // (opcional) cerrar menú móvil al navegar
+  // (opcional) cerrar menú móvil con Escape
   useEffect(() => {
     if (!isMobileMenuOpen) return;
     const onKey = (e) => {
@@ -582,7 +540,7 @@ export default function Header() {
               </Link>
             </div>
 
-            {/* ✅ SEARCH FUNCIONAL + Pagos PSE */}
+            {/* ✅ SEARCH + Pagos */}
             <div className="flex-1 flex items-center justify-center">
               <div className="w-full flex items-center">
                 <div className="w-full max-w-[560px] mx-auto">
@@ -600,7 +558,6 @@ export default function Header() {
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         onKeyDown={(e) => {
-                          // ✅ autocorrect tipo celular al "cerrar" palabra
                           if (e.key === " " || e.key === "Enter") {
                             requestAnimationFrame(() => applyAutocorrectNow());
                           }
@@ -697,7 +654,10 @@ export default function Header() {
               onMouseEnter={clearCloseTimer}
               onMouseLeave={scheduleClose}
             >
-              <MegaMenuEquielect category={activeCategory} />
+              <MegaMenuEquielect
+                category={activeCategory}
+                onNavigate={() => setActiveCategory(null)} // ✅ cierra al click
+              />
             </div>
           )}
 
@@ -740,7 +700,14 @@ export default function Header() {
                   </div>
 
                   <div className="max-h-[70vh] overflow-y-auto">
-                    <MegaMenuEquielect category={mobileActiveCategory} isMobile />
+                    <MegaMenuEquielect
+                      category={mobileActiveCategory}
+                      isMobile
+                      onNavigate={() => {
+                        setIsMobileMenuOpen(false);
+                        setMobileActiveCategory(null);
+                      }} // ✅ cierra al click
+                    />
                   </div>
                 </div>
               )}
