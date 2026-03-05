@@ -47,7 +47,7 @@ export const BRANDS = [
 
 export const QUICK_CATEGORIES = [
   { title: "Schneider", icon: "/assets/aliados/SchneiderBG.png", href: "/marca/schneider" },
-  { title: "Legrand", icon: "/assets/aliados/legrandBG.png", href: "/marca/legrand" },
+  { title: "Legrand", icon: "/assets/aliados/statics/Legrandbackground.png", href: "/marca/legrand" },
   { title: "Procables", icon: "/assets/aliados/AllieProCables.png", href: "/marca/procables" },
   { title: "Gonvarri", icon: "/assets/aliados/AllieGonvarri.png", href: "/marca/gonvarri" },
   { title: "Centelsa", icon: "/assets/aliados/AllieCentelsa.png", href: "/marca/centelsa" },
