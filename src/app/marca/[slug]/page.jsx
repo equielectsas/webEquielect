@@ -21,7 +21,7 @@ const allies = [
   { name: "MetalCoraza", src: "/assets/aliados/AllieMetalCoraza.png", href: "/marca/metalcoraza" },
   { name: "Crouse Hinds", src: "/assets/aliados/AllieCH.png", href: "/marca/crouse-hinds" },
   { name: "Schneider", src: "/assets/aliados/SchneiderBG.png", href: "/marca/schneider" },
-  { name: "Legrand", src: "/assets/aliados/legrandbackground.png", href: "/marca/legrand" },
+  { name: "Legrand", src: "/assets/aliados/LegrandBG.png", href: "/marca/legrand" },
   { name: "Procables", src: "/assets/aliados/AllieProCables.png", href: "/marca/procables" },
   { name: "Gonvarri", src: "/assets/aliados/AllieGonvarri.png", href: "/marca/gonvarri" },
   { name: "Centelsa", src: "/assets/aliados/AllieCentelsa.png", href: "/marca/centelsa" },
