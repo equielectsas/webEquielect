@@ -24,10 +24,10 @@ export const BRANDS = [
   {
     name: "Schneider",
     images: {
-      mobile: "/assets/Sliderhome/mobile/slider_schneider.png",
-      mobile2x: "/assets/Sliderhome/mobile/slider_schneider.png",
-      tablet: "/assets/Sliderhome/tablet/slider_tablet_schneider.png",
-      tablet2x: "/assets/Sliderhome/tablet/slider_tablet_schneider.png",
+      mobile: "/assets/Sliderhome/mobile/n_schneider_m.png",
+      mobile2x: "/assets/Sliderhome/mobile/n_schneider_m.png",
+      tablet: "/assets/Sliderhome/tablet/n_schneider_t.jpg",
+      tablet2x: "/assets/Sliderhome/tablet/n_schneider_t.jpg",
       desktop: "/assets/Sliderhome/desktop/sch_w.jpg",
       desktop2x: "/assets/Sliderhome/desktop/mac_s.jpg",
     },
@@ -37,8 +37,8 @@ export const BRANDS = [
     images: {
       mobile: "/assets/Sliderhome/mobile/40_equielect_mobile.jpg",
       mobile2x: "/assets/Sliderhome/mobile/40_equielect_mobile.jpg",
-      tablet: "/assets/Sliderhome/tablet/40_equielect_tablet.jpg",
-      tablet2x: "/assets/Sliderhome/tablet/40_equielect_tablet.jpg",
+      tablet: "/assets/Sliderhome/tablet/tablet_equielect.jpg",
+      tablet2x: "/assets/Sliderhome/tablet/tablet_equielect.jpg",
       desktop: "/assets/Sliderhome/desktop/40_equielect_windows.jpg",
       desktop2x: "/assets/Sliderhome/desktop/40_equielect_mac.jpg",
     },
