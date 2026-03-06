@@ -10,9 +10,6 @@ export const MEGA_MENU_DATA = {
         href: "/marca/siemon",
         items: [
           { label: "Cable UTP", href: "/marca/siemon" },
-          { label: "Cables libres de halógenos", href: "/marca/procables" },
-          { label: "Cables de control y comunicación", href: "/marca/connect-vcp" },
-          { label: "Aluminio", href: "/marca/centelsa" },
         ],
       },
     ],
@@ -48,8 +45,9 @@ export const MEGA_MENU_DATA = {
         title: "Eléctrico",
         href: "/cableado/electrico",
         items: [
-          { label: "Baja tensión", href: "/marca/procables" },
-          { label: "Media tensión", href: "/marca/procables" },
+          { label: "Baja tensión y media tensión", href: "/marca/procables" },
+          { label: "Aluminio", href: "/marca/centelsa" },
+          { label: "Cables de control y comunicación", href: "/marca/teldor" },
         ],
       },
     ],
@@ -61,9 +59,8 @@ export const MEGA_MENU_DATA = {
         title: "Portacables",
         href: "/portacables",
         items: [
-          { label: "Tipo Escalera", href: "/marca/legrand" },
+          { label: "Tipo Escalera", href: "/marca/gonvarri" },
           { label: "Tipo Malla", href: "/marca/legrand" },
-          { label: "Canastillas", href: "/marca/gonvarri" },
           { label: "Soportes", href: "/marca/gonvarri" },
         ],
       },
@@ -89,8 +86,10 @@ export const MEGA_MENU_DATA = {
     columns: [
       {
         title: "Explosión",
-        href: "/areas-clasificadas",
-        items: ["Cajas", "Sellos", "Iluminación", "Resina-CH CHICO"],
+        href: "/Crouse-hinds",
+        items: [
+          { label: "Crouse-Hinds", href: "/marca/crouse-hinds" },
+        ],
       },
     ],
   },
@@ -98,11 +97,10 @@ export const MEGA_MENU_DATA = {
   Minería: {
     columns: [
       {
-        title: "Industrial",
+        title: "Mineria",
         href: "/mineria",
         items: [
-          { label: "Minería liviana", href: "/marca/centelsa" },
-          { label: "Minería pesada", href: "/marca/centelsa" },
+          { label: "Minería liviana y pesada", href: "/marca/weg" },
         ],
       },
     ],
@@ -184,15 +182,6 @@ export default function MegaMenuEquielect({
                     );
                   })}
               </ul>
-
-              {/* Ver más */}
-              <Link
-                href={col.href}
-                onClick={handleNavigate}
-                className="inline-block mt-4 text-sm text-equielect-blue hover:underline"
-              >
-                Ver más &gt;
-              </Link>
             </div>
           ))}
         </div>

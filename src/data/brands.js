@@ -150,11 +150,11 @@ export const brands = [
   // ✅ 3 imágenes (cards) manuales para mostrar debajo de “Productos destacados”
   featuredCards: [
     {
-      img: "/assets/products/gonvarri/bandeja.png",
+      img: "/assets/products/gonvarri/escalera.jpg",
       title: "Bandejas Portacables",
       text: "Canalización robusta para instalaciones industriales: las bandejas portacables Gonvarri Mecano ofrecen alta resistencia y capacidad de carga para organizar y proteger el cableado, facilitando el montaje, la ampliación y el mantenimiento en planta.",
       images: [
-      "/assets/products/gonvarri/bandeja_malla.png",
+      "/assets/products/gonvarri/bandeja.png",
       "/assets/products/gonvarri/platina.png",
     ],
     },
