@@ -35,12 +35,12 @@ export const BRANDS = [
   {
     name: "Equielect",
     images: {
-      mobile: "/assets/Sliderhome/mobile/slider_equielect.jpg",
-      mobile2x: "/assets/Sliderhome/mobile/slider_equielect.jpg",
-      tablet: "/assets/Sliderhome/tablet/slider_tablet_equielect.jpg",
-      tablet2x: "/assets/Sliderhome/tablet/slider_tablet_equielect.jpg",
-      desktop: "/assets/Sliderhome/desktop/eqw.jpg",
-      desktop2x: "/assets/Sliderhome/desktop/eqmac.jpg",
+      mobile: "/assets/Sliderhome/mobile/40_equielect_mobile.jpg",
+      mobile2x: "/assets/Sliderhome/mobile/40_equielect_mobile.jpg",
+      tablet: "/assets/Sliderhome/tablet/40_equielect_tablet.jpg",
+      tablet2x: "/assets/Sliderhome/tablet/40_equielect_tablet.jpg",
+      desktop: "/assets/Sliderhome/desktop/40_equielect_windows.jpg",
+      desktop2x: "/assets/Sliderhome/desktop/40_equielect_mac.jpg",
     },
   },
 ];

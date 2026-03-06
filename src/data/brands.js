@@ -21,7 +21,6 @@ export const brands = [
       img: "/assets/products/schneider/interruptor.png",
       title: "Interruptores y pulsadores",
       text: "Interruptores y pulsadores Schneider Electric para la industria: maniobra y control confiables en tableros y maquinaria, alta durabilidad y seguridad para operación continua en entornos exigentes.",
-      href: "/productos?marca=schneider",
       images: [
       "/assets/products/schneider/interruptor.png",
       "/assets/products/schneider/pulsadores.png",
@@ -32,7 +31,6 @@ export const brands = [
       img: "/assets/products/schneider/variador.jpg",
       title: "Variación de velocidad y arranque motor",
       text: "Variación de velocidad y arranque de motores: control preciso y arranque suave para proteger el motor, reducir picos de corriente y mejorar la eficiencia energética. Ideal para optimizar procesos industriales exigentes.",
-      href: "/productos?marca=schneider",
       images: [
       "/assets/products/schneider/arranque_motor.png",
       "/assets/products/schneider/variador_.png",
@@ -42,7 +40,6 @@ export const brands = [
       img: "/assets/products/schneider/UPS.png",
       title: "UPS",
       text: "Energía sin pausas para la industria: las UPS Schneider Electric protegen equipos críticos ante cortes, picos y caídas de tensión, entregando respaldo inmediato y voltaje estable para procesos que no pueden detenerse.",
-      href: "/productos?marca=schneider",
       images: [
       "/assets/products/schneider/ups_.png",
       "/assets/products/schneider/ups__.png",
@@ -73,20 +70,17 @@ export const brands = [
       img: "/assets/products/legrand/dps.jpg",
       title: "DPS",
       text: "Protección real para tu operación: los DPS Clamper resguardan tableros y equipos industriales contra sobretensiones y transientes, evitando daños por descargas y variaciones de red, y reduciendo paradas no programadas.",
-      href: "/productos?marca=legrand",
     },
     {
       img: "/assets/products/legrand/tipomalla.jpg",
       title: "Portacables",
       text: "Orden y seguridad en canalización industrial: los portacables Legrand-Cablofil soportan y guían el tendido de cables con alta resistencia y ventilación, facilitando el montaje y el mantenimiento en instalaciones exigentes.",
-      href: "/productos?marca=legrand",
 
     },
     {
       img: "/assets/products/legrand/tomasyclavijas.jpg",
       title: "Tomas y Clavijas",
       text: "Conexión industrial segura y resistente: las tomas y clavijas Legrand brindan acople firme, protección y durabilidad en entornos exigentes, ideales para alimentación de maquinaria, talleres y puntos de energía de alto uso.",
-      href: "/productos?marca=legrand",
     },
   ],
   },
@@ -114,7 +108,6 @@ export const brands = [
       img: "/assets/products/procables/exzhellent.png",
       title: "Cable Exzhellent green y XHHW",
       text: "Soluciones de conducción eléctrica confiables para instalaciones internas y canalizaciones, ideales para proyectos residenciales e industriales que buscan seguridad, resistencia y desempeño estable, con opciones orientadas a mayor durabilidad y eficiencia.",
-      href: "/productos?marca=procables",
       images: [
       "/assets/products/procables/cable-XHHW.png",
     ],
@@ -123,7 +116,6 @@ export const brands = [
       img: "/assets/products/procables/concentrico.png",
       title: "Cable Concentrico y termoflex",
       text: "Línea de Cable Concéntrico y Termoflex para acometidas, derivaciones y conexiones eléctricas en proyectos residenciales e industriales: combina estructura pensada para instalaciones ordenadas con opciones de flexibilidad brindando seguridad, resistencia y montaje ágil en obra.",
-      href: "/productos?marca=procables",
       images: [
       "/assets/products/procables/termoflex.png",
     ],
@@ -132,7 +124,6 @@ export const brands = [
       img: "/assets/products/procables/-xlpe.png",
       title: "Cable media tensión y soldador (ET)",
       text: "Línea de Cable de Media Tensión y Cable Soldador (ET) para aplicaciones exigentes en industria y obra: diseñada para alimentación eléctrica segura y trabajos de soldadura, con aislamiento robusto, buena flexibilidad y desempeño confiable ante condiciones de uso intensivo.",
-      href: "/productos?marca=procables",
       images: [
       "/assets/products/procables/soldador.png",
     ],
@@ -162,7 +153,6 @@ export const brands = [
       img: "/assets/products/gonvarri/bandeja.png",
       title: "Bandejas Portacables",
       text: "Canalización robusta para instalaciones industriales: las bandejas portacables Gonvarri Mecano ofrecen alta resistencia y capacidad de carga para organizar y proteger el cableado, facilitando el montaje, la ampliación y el mantenimiento en planta.",
-      href: "/productos?marca=gonvarri",
       images: [
       "/assets/products/gonvarri/bandeja_malla.png",
       "/assets/products/gonvarri/platina.png",
@@ -172,7 +162,6 @@ export const brands = [
       img: "/assets/products/gonvarri/perfil-ranurado.png",
       title: "Sistemas estructurales",
       text: "Soporte sólido para infraestructura industrial: los sistemas estructurales Gonvarri Mecano permiten montar y organizar bandejas, tuberías y equipos con alta resistencia, modularidad y rápida instalación, ideales para proyectos exigentes y expansiones.",
-      href: "/productos?marca=gonvarri",
       images: [
       "/assets/products/gonvarri/perfil_liso.png",
       "/assets/products/gonvarri/soporte_peldaño.png",
@@ -182,7 +171,6 @@ export const brands = [
       img: "/assets/products/gonvarri/banda-soporte-tubo.png",
       title: "Soporteria",
       text: "Soportes Gonvarri Mecano para instalaciones industriales: soluciones robustas y modulares para fijar y sostener bandejas, canalizaciones y equipos, con montaje rápido, alta capacidad de carga y adaptación a cada proyecto.",
-      href: "/productos?marca=gonvarri",
       images: [
       "/assets/products/gonvarri/perno.png",
       "/assets/products/gonvarri/abrazadera.png",
@@ -218,7 +206,6 @@ export const brands = [
       img: "/assets/products/centelsa/princ.png",
       title: "Cables de cobre baja tensión aislados",
       text: "Disponibles en versión libre de halógenos (LSZH), ideales para espacios cerrados y alta afluencia: en caso de incendio ayudan a reducir gases corrosivos y humo denso, mejorando la seguridad y protegiendo equipos e instalaciones.",
-      href: "/productos?marca=centelsa",
       images: [
       "/assets/products/centelsa/thhn.png",
       "/assets/products/centelsa/halogenos.jpg",
@@ -228,7 +215,6 @@ export const brands = [
       img: "/assets/products/centelsa/aluminio.png",
       title: "Cables de aluminio baja tensión aislados",
       text: "Una opción eficiente para alimentación y distribución eléctrica, ideal en acometidas y canalizaciones donde se busca buen desempeño con menor peso, aislamiento confiable y resistencia para uso residencial, comercial e industrial.",
-      href: "/productos?marca=centelsa",
       images: [
       "/assets/products/centelsa/s8000.jpg",
     ],
@@ -237,7 +223,6 @@ export const brands = [
       img: "/assets/products/centelsa/desnu.png",
       title: "Cables y alambre de cobre desnudo",
       text: "Conductores sin aislamiento ideales para puestas a tierra, pararrayos, mallas y conexiones de protección, ofreciendo alta conductividad, durabilidad y excelente desempeño en instalaciones eléctricas e industriales.",
-      href: "/productos?marca=centelsa",
       images: [
       "/assets/products/centelsa/cobre1.jpg",
       "/assets/products/centelsa/flex.png",
@@ -268,7 +253,6 @@ export const brands = [
       img: "/assets/products/3M/terminal.png",
       title: "Terminales media tensión",
       text: "Terminales de media tensión 3M: terminaciones seguras y confiables para cables MV, diseñadas para alto desempeño eléctrico, instalación eficiente y máxima protección en subestaciones, celdas y redes industriales.",
-      href: "/productos?marca=3M",
     },
     {
       img: "/assets/products/3M/cinta-super33.png",
@@ -284,7 +268,6 @@ export const brands = [
       img: "/assets/products/3M/conectores.png",
       title: "Conectores",
       text: "Conectores 3M para la industria: uniones eléctricas seguras y de baja resistencia, diseñadas para instalaciones confiables y mantenimiento eficiente en tableros, redes y equipos de alto desempeño.",
-      href: "/productos?marca=3M",
       images: [
       "/assets/products/3M/conector2.png",
       "/assets/products/3M/conector3.png",
@@ -319,19 +302,16 @@ export const brands = [
       img: "/assets/products/telemecanique/finalc.jpg",
       title: "Finales de carrera",
       text: "Detección precisa y resistente para automatización industrial, ideales para controlar posición, límites de movimiento y seguridad en maquinaria con alta confiabilidad en ambientes exigentes.",
-      href: "/productos?marca=telemecanique",
     },
      {
       img: "/assets/products/telemecanique/sensores-fotoelectricos.png",
       title: "Sensores fotoeléctricos",
       text: "Detección rápida y precisa de objetos, conteo y posicionamiento sin contacto, ideales para bandas transportadoras, empaque y control de procesos en ambientes exigentes.",
-      href: "/productos?marca=telemecanique",
     },
     {
       img: "/assets/products/telemecanique/sensores-ultrasonicos.jpg",
       title: "Sensores ultrasónicos",
       text: "Medición y detección sin contacto de distancia o nivel, incluso con materiales transparentes u oscuros, ideales para control de procesos, tanques y líneas de producción.",
-      href: "/productos?marca=telemecanique",
     },
   ],
   },
@@ -362,7 +342,6 @@ export const brands = [
       img: "/assets/products/panduit/22.jpg",
       title: "Marcación-Impresoras y cartuchos",
       text: "Marcación industrial Panduit: impresoras y cartuchos para rotulado profesional de cables, tableros y activos. Impresiones durables y legibles, ideales para mantenimiento, seguridad y trazabilidad en planta.",
-      href: "/productos?marca=panduit",
       images: [
       "/assets/products/panduit/23.jpg",
       "/assets/products/panduit/cartucho_.png",
@@ -372,7 +351,6 @@ export const brands = [
       img: "/assets/products/panduit/loto.png",
       title: "Bloqueo y etiquetado",
       text: "Bloqueo y etiquetado (LOTO) para la industria: soluciones para aislar energías y señalizar equipos en mantenimiento, reduciendo riesgos y cumpliendo procedimientos de seguridad con control y trazabilidad.",
-      href: "/productos?marca=panduit",
       images: [
       "/assets/products/panduit/loto_panduit.png",
     ],
@@ -381,7 +359,6 @@ export const brands = [
       img: "/assets/products/panduit/24.jpg",
       title: "Terminales de compresión",
       text: "Terminaciones de alta confiabilidad para uniones firmes y de baja resistencia en cableado industrial. Ideales para tableros y potencia, ayudan a reducir calentamientos y asegurar conexiones duraderas.",
-      href: "/productos?marca=panduit",
       images: [
       "/assets/products/panduit/terminal2.png",
       "/assets/products/panduit/cilindro.png",
@@ -412,7 +389,6 @@ export const brands = [
       img: "/assets/products/phoenix-contact/32.jpg",
       title: "DPS y Medición de energía",
       text: "DPS Phoenix Contact: protección industrial confiable contra sobretensiones y transientes, cuidando tableros, fuentes, PLC y comunicaciones para evitar daños y paradas inesperadas.",
-      href: "/productos?marca=phoenix-contact",
       images: [
       "/assets/products/phoenix-contact/medidor.png",
     ],
@@ -421,7 +397,6 @@ export const brands = [
       img: "/assets/products/phoenix-contact/bornas.png",
       title: "UPS, Bornas de Control y bateria de respaldo",
       text: "Bornas de control Phoenix Contact: conexión ordenada y segura para señales y mando en tableros industriales. Facilitan el cableado, las pruebas y el mantenimiento, con alta confiabilidad en operación continua.",
-      href: "/productos?marca=phoenix-contact",
       images: [
       "/assets/products/phoenix-contact/ups.png",
       "/assets/products/phoenix-contact/bateria.png",
@@ -431,7 +406,6 @@ export const brands = [
       img: "/assets/products/phoenix-contact/fuentes.jpg",
       title: "Fuentes de alimentación y Módulo de redundancia",
       text: "Fuentes de alimentación Phoenix Contact: energía estable y protegida para automatización industrial. Alimentan PLC, sensores y control con alta eficiencia y confiabilidad, ideales para tableros en operación continua.",
-      href: "/productos?marca=phoenix-contact",
       images: [
       "/assets/products/phoenix-contact/m_redundancia.png",
     ],
@@ -461,7 +435,6 @@ export const brands = [
       img: "/assets/products/sylvania/high-bay.png",
       title: "Reflectores",
       text: "Reflectores Sylvania para la industria: iluminación potente y uniforme para áreas de trabajo, patios y bodegas. Alta eficiencia y durabilidad para mejorar visibilidad y seguridad en entornos exigentes.",
-      href: "/productos?marca=sylvania",
       images: [
       "/assets/products/sylvania/syl_cct.png",
     ],
@@ -470,7 +443,6 @@ export const brands = [
       img: "/assets/products/sylvania/11.jpg",
       title: "Iluminación exterior",
       text: "Iluminación exterior Sylvania: soluciones resistentes para fachadas, parqueaderos y zonas perimetrales. Luz eficiente y duradera para mejorar visibilidad, seguridad y desempeño en intemperie.",
-      href: "/productos?marca=sylvania",
       images: [
       "/assets/products/sylvania/solar.png",
       "/assets/products/sylvania/led_emergencia.png",
@@ -480,7 +452,6 @@ export const brands = [
       img: "/assets/products/sylvania/12.jpg",
       title: "Alumbrado publico",
       text: "Alumbrado público Sylvania: luminarias eficientes y confiables para vías y espacios urbanos, con ópticas que mejoran la uniformidad y reducen consumo, diseñadas para operación continua y alta durabilidad en exterior.",
-      href: "/productos?marca=sylvania",
     },
   ],
   },
@@ -511,7 +482,6 @@ export const brands = [
       img: "/assets/products/philips/solar-philips.png",
       title: "Solar",
       text: "Iluminación autónoma para exterior con panel y batería integrados, ideal para zonas sin red o para reducir consumo. Buena potencia, encendido automático y durabilidad para vías internas, parques, fincas y perímetros.",
-      href: "/productos?marca=philips",
       images: [
       "/assets/products/philips/solar_spot.png",
     ],
@@ -520,7 +490,6 @@ export const brands = [
       img: "/assets/products/philips/15.jpg",
       title: "Luminarias",
       text: "Luminaria high-bay: iluminación potente y eficiente para bodegas y plantas industriales, con alta vida útil y distribución uniforme para mejorar visibilidad, seguridad y productividad en alturas.",
-      href: "/productos?marca=philips",
       images: [
       "/assets/products/philips/16.jpg",
       "/assets/products/philips/alumbrado_publico.png",
@@ -530,7 +499,6 @@ export const brands = [
       img: "/assets/products/philips/14.jpg",
       title: "Iluminación residencial y comercial",
       text: "Soluciones eficientes y duraderas para interiores y exteriores, con excelente calidad de luz y diseños versátiles para ambientes residenciales y comerciales.",
-      href: "/productos?marca=philips",
       images: [
       "/assets/products/philips/bombillo_oboide.png",
       "/assets/products/philips/lampara_hermetica.png",
@@ -565,7 +533,6 @@ export const brands = [
       img: "/assets/products/schmersal/guayas.png",
       title: "Interruptores por guaya",
       text: "Dispositivos de seguridad para paro de emergencia a distancia en bandas y maquinaria. Permiten detener la operación de forma rápida al accionar la guaya, mejorando la protección del personal y el control en zonas largas de trabajo.",
-      href: "/productos?marca=schmersal",
       images: [
       "/assets/products/schmersal/48.jpg",
     ],
@@ -574,7 +541,6 @@ export const brands = [
       img: "/assets/products/schmersal/cortinas.png",
       title: "Cortinas y barreras de seguridad",
       text: "Sistemas de protección para maquinaria que detectan el ingreso a zonas de riesgo y activan la parada inmediata. Ideales para automatización industrial, mejoran la seguridad del operador sin afectar el flujo del proceso.",
-      href: "/productos?marca=schmersal",
       images: [
       "/assets/products/schmersal/barreras.png",
     ],
@@ -583,7 +549,6 @@ export const brands = [
       img: "/assets/products/schmersal/modulo-sch.png",
       title: "Modulos de seguridad y PLC",
       text: "Controlan y supervisan funciones críticas de maquinaria, integrando señales de paro, puertas y sensores para una operación segura y automatizada. Permiten lógica confiable, diagnóstico y control centralizado en procesos industriales.",
-      href: "/productos?marca=schmersal",
     },
   ],
   },
@@ -614,19 +579,19 @@ export const brands = [
       img: "/assets/products/weg/30.jpg",
       title: "Motores mining",
       text: "Motores WEG para minería: potencia y confiabilidad para trabajo pesado en ambientes extremos. Diseñados para alto torque, operación continua y mayor resistencia a polvo, vibración y humedad en procesos mineros.",
-      href: "/productos?marca=weg",
+
     },
     {
       img: "/assets/products/weg/motor-monofasico.jpg",
       title: "Motores monofásicos",
       text: "Motores monofásicos WEG: rendimiento confiable para aplicaciones industriales ligeras y equipos auxiliares. Buena eficiencia, arranque seguro y durabilidad para ventilación, bombeo y maquinaria de uso continuo.",
-      href: "/productos?marca=weg",
+
     },
     {
       img: "/assets/products/weg/motorw22.jpg",
       title: "Motores trifásicos",
       text: "Motores trifásicos WEG: potencia y eficiencia para la industria, ideales para operación continua. Alto desempeño, robustez y amplia compatibilidad para bombas, ventiladores, compresores y maquinaria.",
-      href: "/productos?marca=weg",
+
     },
   ],
   },
@@ -657,19 +622,19 @@ export const brands = [
       img: "/assets/products/connect-vcp/38.jpg",
       title: "UTP",
       text: "Cable UTP de alta calidad para redes estructuradas, ideal para instalaciones de datos y comunicaciones en entornos comerciales y residenciales.",
-      href: "/productos?marca=schneider",
+
     },
     {
       img: "/assets/products/connect-vcp/accesorios-vcp.png",
       title: "Accesorios",
       text: "Accesorios para sistemas de cableado estructurado: conectores, tomas, gabinetes y elementos de protección para redes de datos y telecomunicaciones.",
-      href: "/productos?marca=schneider",
+
     },
     {
       img: "/assets/products/connect-vcp/herraje.png",
       title: "Herrajes",
       text: "Accesorios robustos para montaje y sujeción en instalaciones eléctricas, ideales para estructuras, canalización y soporte de componentes, con alta resistencia y desempeño en obra.",
-      href: "/productos?marca=schneider",
+
     },
   ],
   },
@@ -700,21 +665,21 @@ export const brands = [
       img: "/assets/products/teldor/instrumentacion.png",
       title: "Instrumentación y control",
       text: "Diseñado para transmisión confiable de señales en sistemas de automatización y control industrial. Incorpora conductores aislados y blindaje metálico para reducir interferencias electromagnéticas, ofreciendo estabilidad en mediciones y comunicación de señales, incluso en ambientes exigentes.",
-      href: "/productos?marca=teldor",
+
 
     },
     {
       img: "/assets/products/teldor/UTP.png",
       title: "Fibra óptica y utp",
       text: "Soluciones de conectividad para redes modernas; la fibra óptica ofrece alta velocidad, larga distancia e inmunidad a interferencias, mientras el UTP brinda un cableado estructurado confiable para voz y datos en oficinas, edificios y telecomunicaciones, garantizando rendimiento estable y fácil instalación.",
-      href: "/productos?marca=teldor",
+
 
     },
     {
       img: "/assets/products/teldor/tbus.png",
       title: "cables industriales tipo bus y especiales",
       text: "Diseñados para automatización y control, permiten la comunicación segura entre PLC, sensores, variadores y equipos de campo. Ofrecen alta resistencia a interferencias, flexibilidad y durabilidad en ambientes exigentes, ideales para redes industriales como PROFIBUS, CAN, Ethernet industrial y aplicaciones especiales.",
-      href: "/productos?marca=teldor",
+
     },
   ],
   },
@@ -741,19 +706,19 @@ export const brands = [
       img: "/assets/products/plastimec/46-.png",
       title: "Tuberias conduit para uso eléctrico y telefónico",
       text: "Canalización ligera y resistente para proteger el cableado en obra. Fácil instalación, buena durabilidad y desempeño confiable en instalaciones interiores y exteriores.",
-      href: "/productos?marca=plastimec",
+
     },
     {
       img: "/assets/products/plastimec/ducto-liso.png",
       title: "Ducto Liso telefónico DB",
       text: "Canalización confiable para redes de telecomunicaciones, ideal para proteger cables en instalaciones subterráneas. Alta resistencia, fácil tendido y mayor durabilidad en obra.",
-      href: "/productos?marca=plastimec",
+
     },
     {
       img: "/assets/products/plastimec/5.png",
       title: "Tubería Extrafuerte",
       text: "Canalización robusta para proteger cableado eléctrico en condiciones exigentes. Alta resistencia al impacto y durabilidad, ideal para instalaciones industriales y exteriores.",
-      href: "/productos?marca=plastimec",
+
     },
   ],
   },
@@ -784,19 +749,19 @@ export const brands = [
       img: "/assets/products/colmena-conduit/44.jpg",
       title: "Tubo galvanizado imc",
       text: "Canalización metálica de alta resistencia para instalaciones eléctricas exigentes. Protección mecánica superior y durabilidad, ideal para industria, exteriores y proyectos donde se requiere máxima robustez.",
-      href: "/productos?marca=colmena-conduit",
+
     },
     {
-      img: "/assets/products/colmena-conduit/Tubo-emt.jpg",
+      img: "/assets/products/colmena-conduit/tubo-emt.jpg",
       title: "Tubo galvanizado emt",
       text: "Canalización metálica liviana y resistente para instalaciones eléctricas. Fácil de doblar y montar, ideal para redes internas, tableros y proyectos comerciales e industriales.",
-      href: "/productos?marca=colmena-conduit",
+
     },
     {
-      img: "/assets/products/colmena-conduit/Tubo-rigid.jpg",
+      img: "/assets/products/colmena-conduit/tubo-rigid.jpg",
       title: "Tubo galvanizado rigid",
       text: "Máxima protección mecánica para canalización eléctrica en condiciones severas. Ideal para exteriores e industria, con alta resistencia y durabilidad para instalaciones críticas.",
-      href: "/productos?marca=colmena-conduit",
+
     },
   ],
   },
@@ -827,19 +792,19 @@ export const brands = [
       img: "/assets/products/tercol/repuestos.png",
       title: "Tableros y accesorios",
       text: "Soluciones para distribución y control eléctrico con montaje ordenado, protección y facilidad de mantenimiento. Ideales para proyectos comerciales e industriales que requieren seguridad y buena organización en instalación.",
-      href: "/productos?marca=tercol",
+
     },
     {
       img: "/assets/products/tercol/caja-empalme.jpg",
       title: "Cajas de empalme",
       text: "Protección segura para conexiones eléctricas, con instalación práctica y acceso ordenado para mantenimiento. Ideales para redes internas y montajes comerciales e industriales.",
-      href: "/productos?marca=tercol",
+
     },
     {
       img: "/assets/products/tercol/caja-pvc.png",
       title: "Cajas pvc",
       text: "Soluciones livianas y resistentes para canalización y derivaciones eléctricas. Buena durabilidad y montaje práctico, ideales para instalaciones interiores con acabado limpio y ordenado.",
-      href: "/productos?marca=tercol",
+
 
     },
   ],
@@ -871,19 +836,19 @@ export const brands = [
       img: "/assets/products/siemon/42.jpg",
       title: "UTP/FUTP",
       text: "Conectividad de alto desempeño para redes empresariales e industriales. Excelente control de interferencias (especialmente en FUTP), transmisión estable y soporte para infraestructura de datos confiable.",
-      href: "/productos?marca=siemon",
+
     },
     {
       img: "/assets/products/siemon/accesorios-siemon.png",
       title: "Accesorios",
       text: "Complementos para una red estructurada ordenada y profesional. Facilitan la instalación, mejoran la organización del cableado y aseguran un desempeño confiable en infraestructura de datos.",
-      href: "/productos?marca=siemon",
+
     },
     {
       img: "/assets/products/siemon/conectores-siemon.png",
       title: "Conectores",
       text: "Terminación precisa y segura para redes de datos. Garantizan conexiones estables, alto desempeño y confiabilidad en cableado estructurado para entornos empresariales e industriales. ",
-      href: "/productos?marca=siemon",
+
     },
   ],
   },
@@ -910,19 +875,19 @@ export const brands = [
       img: "/assets/products/mc/36.jpg",
       title: "Conector liquid tight",
       text: "Unión hermética y resistente para tubería flexible, ideal para proteger el cableado contra agua, polvo y vibración. Perfecto para maquinaria, exteriores y ambientes industriales exigentes.",
-      href: "/productos?marca=metalcoraza",
+
     },
     {
       img: "/assets/products/mc/coraza.jpg",
       title: "Coraza americana liquid tight",
       text: "Tubería flexible hermética para canalización en ambientes exigentes. Resiste humedad, polvo y vibración, ideal para conexiones a motores, maquinaria y equipos en industria y exterior.",
-      href: "/productos?marca=metalcoraza",
+
     },
     {
       img: "/assets/products/mc/accesorios-emt.png",
       title: "Accesorios EMT",
       text: "Conectores, uniones y complementos para un montaje seguro y ordenado de tubería EMT. Instalación rápida, buena sujeción y desempeño confiable en proyectos comerciales e industriales.",
-      href: "/productos?marca=metalcoraza",
+
     },
      ],
   },
@@ -949,19 +914,19 @@ export const brands = [
       img: "/assets/products/crouse-hinds/explosiones.png",
       title: "Iluminación para áreas clasificadas",
       text: "Luminarias diseñadas para operar con seguridad en atmósferas con riesgo de explosión, ofreciendo alta resistencia, sellado robusto y desempeño confiable en entornos industriales exigentes como oil & gas, química y minería.",
-      href: "/productos?marca=crouse-hinds",
+
     },
     {
       img: "/assets/products/crouse-hinds/accesorios-ch.png",
       title: "elementos áreas clasificadas",
       text: "Equipos certificados para canalización y conexión segura en zonas con riesgo de explosión. Incluye sellos, cajas, condulets, prensaestopas y conectores robustos para proteger el cableado y mantener la continuidad operativa en ambientes industriales exigentes.",
-      href: "/productos?marca=crouse-hinds",
+
     },
     {
       img: "/assets/products/crouse-hinds/conduleta.png",
       title: "Accesorios áreas clasificadas",
       text: "Sellos cortafuego (seal-offs) y fittings a prueba de explosión que ayudan a contener gases y llamas en la canalización, protegiendo el cableado y asegurando instalaciones seguras y confiables en entornos industriales críticos.",
-      href: "/productos?marca=crouse-hinds",
+
     },
   ],
   },

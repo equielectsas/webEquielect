@@ -117,7 +117,7 @@ export default function FooterEcommerce() {
       <div className="bg-[#081f3a] py-6 relative z-10 border-t border-white/5">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-[10px] text-white/30 font-medium tracking-wider uppercase text-center md:text-left">
-            © {year} EQUIELECT S.A.S. | NIT: 890.940.672-1 | Ingeniería que Conecta
+            © {year} EQUIELECT S.A.S. | NIT: 890.941.103-7 | Ingeniería que Conecta
           </p>
           <div className="flex gap-6 text-[10px] text-white/30 uppercase font-bold tracking-tighter">
             <Link className="hover:text-white transition-colors" href="#">Privacidad</Link>

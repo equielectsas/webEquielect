@@ -21,7 +21,7 @@ const SUBTITLE = "Más que negocios, hacemos amigos.";
 const WA_AVATAR = "/assets/chat/logo_whats.png"; // png ideal con transparencia
 
 const CONTACT = {
-  whatsappNumber: "573001112233", // ✅ SIN +, con indicativo
+  whatsappNumber: "573146453033", // ✅ SIN +, con indicativo
   defaultMessage: "Hola, necesito ayuda con mi compra en Equielect.",
 };
 
