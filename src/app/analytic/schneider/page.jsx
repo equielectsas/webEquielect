@@ -110,7 +110,8 @@ export default function SchneiderCampPage() {
             opacity: 0.22,
           }}
         />
-
+        <br></br>
+        <br></br>
         {/* Contenido (sube un poco sobre el banner) */}
         <div className="relative max-w-3xl mx-auto px-4 -mt-10 sm:-mt-14">
           <div className="rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 bg-white/90 backdrop-blur-[1px]">
