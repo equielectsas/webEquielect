@@ -5,22 +5,16 @@ import Link from "next/link";
 import Reveal from "@/components/ui/reveal";
 
 export default function HomeStoryPhonesSection() {
-  // =========================
-  // Hydration-safe mount
-  // =========================
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
-  // ✅ Refs de videos
   const centerVideoRef = useRef(null);
   const v1Ref = useRef(null);
   const v2Ref = useRef(null);
 
-  // ✅ Para reproducir al entrar en sección
   const phonesSectionRef = useRef(null);
   const [phonesInView, setPhonesInView] = useState(false);
 
-  // ✅ Videos
   const PHONE_VIDEOS = useMemo(
     () => [
       { id: "clip", title: "Clip", src: "/assets/Videos/clip.mp4" },
@@ -36,7 +30,6 @@ export default function HomeStoryPhonesSection() {
     return m;
   }, [PHONE_VIDEOS]);
 
-  // ✅ Orden 360
   const DEFAULT_ORDER = useMemo(() => ["v1", "clip", "v2"], []);
   const [phoneOrder, setPhoneOrder] = useState(DEFAULT_ORDER);
   const [rotationTick, setRotationTick] = useState(0);
@@ -44,15 +37,12 @@ export default function HomeStoryPhonesSection() {
   const centerId = phoneOrder[1];
   const centerVideo = videoMap[centerId];
 
-  // ✅ animación
   const [isRotating, setIsRotating] = useState(false);
   const [rotateDir, setRotateDir] = useState(null);
 
-  // ✅ Centro controls
   const [isCenterMuted, setIsCenterMuted] = useState(true);
   const [isCenterPaused, setIsCenterPaused] = useState(false);
 
-  // ✅ Overlay feedback
   const [centerOverlay, setCenterOverlay] = useState(null);
   const overlayTimerRef = useRef(null);
 
@@ -88,7 +78,6 @@ export default function HomeStoryPhonesSection() {
 
   const getCenterVideoEl = () => getVideoRefById(centerId);
 
-  // IntersectionObserver
   useEffect(() => {
     if (!phonesSectionRef.current) return;
 
@@ -104,7 +93,6 @@ export default function HomeStoryPhonesSection() {
     return () => io.disconnect();
   }, []);
 
-  // autoplay
   useEffect(() => {
     if (!mounted) return;
     if (!phonesInView) return;
@@ -112,10 +100,8 @@ export default function HomeStoryPhonesSection() {
     safePlay(getVideoRefById(centerId));
     safePlay(v1Ref.current);
     safePlay(v2Ref.current);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mounted, phonesInView, centerId, rotationTick]);
 
-  // reset cuando cambia centro
   useEffect(() => {
     if (!mounted) return;
 
@@ -126,10 +112,8 @@ export default function HomeStoryPhonesSection() {
     if (!el) return;
 
     if (phonesInView) safePlay(el);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mounted, centerId]);
+  }, [mounted, centerId, phonesInView]);
 
-  // aplicar mute/pause
   useEffect(() => {
     if (!mounted) return;
     const el = getCenterVideoEl();
@@ -145,7 +129,6 @@ export default function HomeStoryPhonesSection() {
     }
 
     if (phonesInView) el.play().catch(() => {});
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mounted, isCenterMuted, isCenterPaused, phonesInView, centerId]);
 
   const toggleCenterPlay = async () => {
@@ -184,7 +167,6 @@ export default function HomeStoryPhonesSection() {
     }
   };
 
-  // rotación
   const goNextPhoneVideo = () => {
     if (isRotating) return;
     setIsRotating(true);
@@ -282,7 +264,6 @@ export default function HomeStoryPhonesSection() {
           </div>
 
           <div ref={phonesSectionRef} className="relative mt-6 sm:mt-7">
-            {/* Flechas desktop */}
             <button
               type="button"
               onClick={goPrevPhoneVideo}
@@ -307,7 +288,6 @@ export default function HomeStoryPhonesSection() {
               </svg>
             </button>
 
-            {/* Flechas móvil */}
             <div className="md:hidden pointer-events-none">
               <div className="absolute left-2 top-1/2 -translate-y-1/2 z-[999] pointer-events-auto">
                 <button
@@ -390,7 +370,7 @@ export default function HomeStoryPhonesSection() {
                         }}
                         onKeyDown={(e) => {
                           if (!clickable) return;
-                          if (e.key === "Enter" || e.key === " ") {
+                          if (e.key === "Enter" || e.key === "") {
                             e.preventDefault();
                             if (isLeft) handleClickLeft();
                             if (isRight) handleClickRight();
@@ -416,7 +396,7 @@ export default function HomeStoryPhonesSection() {
                           {isCenter && (
                             <button
                               type="button"
-                              className="md:hidden absolute inset-0 z-20 bg-transparent"
+                              className="absolute inset-0 z-20 bg-transparent"
                               aria-label="Pausar o reproducir"
                               onClick={(e) => {
                                 e.preventDefault();
@@ -429,7 +409,7 @@ export default function HomeStoryPhonesSection() {
                           {isCenter && (
                             <button
                               type="button"
-                              className="md:hidden absolute right-3 top-3 z-30 h-10 w-10 rounded-full bg-black/35 hover:bg-black/45 active:scale-95 transition flex items-center justify-center"
+                              className="absolute right-3 top-3 z-30 h-10 w-10 rounded-full bg-black/35 hover:bg-black/45 active:scale-95 transition flex items-center justify-center"
                               aria-label={isCenterMuted ? "Activar sonido" : "Silenciar"}
                               onClick={(e) => {
                                 e.preventDefault();
@@ -454,7 +434,7 @@ export default function HomeStoryPhonesSection() {
                           )}
 
                           {isCenter && centerOverlay && (
-                            <div className="md:hidden absolute inset-0 z-30 flex items-center justify-center pointer-events-none">
+                            <div className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none">
                               <div className="eq-center-overlay rounded-full bg-black/35 w-20 h-20 flex items-center justify-center">
                                 {centerOverlay === "pause" ? (
                                   <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
@@ -486,7 +466,7 @@ export default function HomeStoryPhonesSection() {
                             ref={videoRef}
                             key={`${vid.id}-${centerId}-${rotationTick}`}
                             className="w-full h-full object-cover"
-                            muted={true}
+                            muted
                             loop
                             playsInline
                             preload="auto"
@@ -509,7 +489,7 @@ export default function HomeStoryPhonesSection() {
 
             <div className="mt-4 flex flex-col items-center gap-2">
               <br />
-              <p className="text-[11px] text-black-400 font-bold uppercase tracking-widest">
+              <p className="text-[11px] text-black font-bold uppercase tracking-widest">
                 Conócenos en 30 segundos
               </p>
               <Link
