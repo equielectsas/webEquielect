@@ -27,31 +27,39 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  // debug solo en desarrollo
+  const isDev = process.env.NODE_ENV !== "production";
+
   return (
     <html lang="es">
       <body className={`${montserrat.variable} font-sans font-normal antialiased`}>
-        {/* ✅ Google Analytics */}
-        <Script
-          strategy="afterInteractive"
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
-        />
-        <Script
-          id="google-analytics"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', '${GA_TRACKING_ID}', {
-                page_path: window.location.pathname,
-                debug_mode: true
-              });
-            `,
-          }}
-        />
+        {/* ✅ Google Analytics (solo si existe GA_TRACKING_ID) */}
+        {GA_TRACKING_ID ? (
+          <>
+            <Script
+              strategy="afterInteractive"
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+            />
+            <Script
+              id="google-analytics"
+              strategy="afterInteractive"
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  window.gtag = gtag;
+                  gtag('js', new Date());
+                  gtag('config', '${GA_TRACKING_ID}', {
+                    page_path: window.location.pathname,
+                    debug_mode: ${isDev ? "true" : "false"}
+                  });
+                `,
+              }}
+            />
+          </>
+        ) : null}
 
-        {/* ✅ Providers (se dejan para no romper imports existentes) */}
+        {/* ✅ Providers (no se tocan) */}
         <ThemeProvider>
           <AppThemeProvider>
             <AppProductProvider>
