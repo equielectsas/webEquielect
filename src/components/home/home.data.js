@@ -11,6 +11,17 @@ export const BRANDS = [
     },
   },
   {
+    name: "Schneider",
+    images: {
+      mobile: "/assets/Sliderhome/mobile/n_schneider_m.png",
+      mobile2x: "/assets/Sliderhome/mobile/n_schneider_m.png",
+      tablet: "/assets/Sliderhome/tablet/n_schneider_t.jpg",
+      tablet2x: "/assets/Sliderhome/tablet/n_schneider_t.jpg",
+      desktop: "/assets/Sliderhome/desktop/sch_w.jpg",
+      desktop2x: "/assets/Sliderhome/desktop/mac_s.jpg",
+    },
+  },
+  {
     name: "Prysmian",
     images: {
       mobile: "/assets/Sliderhome/mobile/slider_prysmian.png",
@@ -30,17 +41,6 @@ export const BRANDS = [
       tablet2x: "/assets/Sliderhome/tablet/slider_tablet_legrand.png",
       desktop: "/assets/Sliderhome/desktop/bannerleg_pc.png",
       desktop2x: "/assets/Sliderhome/desktop/bannerleg_mac.png",
-    },
-  },
-  {
-    name: "Schneider",
-    images: {
-      mobile: "/assets/Sliderhome/mobile/n_schneider_m.png",
-      mobile2x: "/assets/Sliderhome/mobile/n_schneider_m.png",
-      tablet: "/assets/Sliderhome/tablet/n_schneider_t.jpg",
-      tablet2x: "/assets/Sliderhome/tablet/n_schneider_t.jpg",
-      desktop: "/assets/Sliderhome/desktop/sch_w.jpg",
-      desktop2x: "/assets/Sliderhome/desktop/mac_s.jpg",
     },
   },
 ];
