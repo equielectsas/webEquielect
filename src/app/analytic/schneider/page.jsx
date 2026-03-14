@@ -24,20 +24,54 @@ export default function SchneiderCampPage() {
     return okName && okPhone && acceptData && acceptPrivacy;
   }, [fullName, phone, acceptData, acceptPrivacy]);
 
-  const onContinue = async () => {
-    setTouched(true);
-    if (!canContinue || isSubmitting) return;
+const onContinue = async () => {
+  setTouched(true);
+  if (!canContinue || isSubmitting) return;
 
+  try {
     setIsSubmitting(true);
     setIsSuccess(false);
 
-    // Simula “guardado”
-    await new Promise((r) => setTimeout(r, 700));
+    const cleanPhone = phone.replace(/\D/g, "");
+
+    const payload = {
+      fullName: fullName.trim(),
+      phone: cleanPhone,
+      acceptData,
+      acceptPrivacy,
+      source: "schneider-campaign",
+      createdAtClient: new Date().toISOString(),
+    };
+
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_SERVER_URL}/schneider-leads`;
+    console.log("URL API:", url);
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const contentType = response.headers.get("content-type");
+    let result;
+
+    if (contentType && contentType.includes("application/json")) {
+      result = await response.json();
+    } else {
+      const text = await response.text();
+      console.error("Respuesta no JSON:", text);
+      throw new Error("La API no respondió en formato JSON.");
+    }
+
+    if (!response.ok) {
+      throw new Error(result.message || "No se pudo guardar la información.");
+    }
 
     setIsSubmitting(false);
     setIsSuccess(true);
 
-    const cleanPhone = phone.replace(/\D/g, "");
     const msg =
       `Hola Equielect, quiero cotizar productos Schneider Electric.` +
       `\n\nNombre: ${fullName.trim()}` +
@@ -52,7 +86,12 @@ export default function SchneiderCampPage() {
       );
       setTimeout(() => setIsSuccess(false), 1200);
     }, 250);
-  };
+  } catch (error) {
+    console.error("Error enviando formulario Schneider:", error);
+    setIsSubmitting(false);
+    alert(error.message || "Ocurrió un error al guardar el formulario.");
+  }
+};
 
   const nameError = touched && fullName.trim().length < 5;
   const phoneError = touched && phone.replace(/\D/g, "").length < 10;
