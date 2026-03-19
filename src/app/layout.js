@@ -29,14 +29,16 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="es">
-      <body className={`${montserrat.variable} font-sans font-normal antialiased`}>
-        {children}
+      <body
+        className={`${montserrat.variable} font-sans font-normal antialiased`}
+      >
         <ThemeProvider>
           <AppThemeProvider>
             <AppProductProvider>
               <CartProvider>
                 <FavoritesProvider isLoggedIn={false}>
                   <MainLayout>
+                    {children}
                     <ClaraChatWidget />
                   </MainLayout>
                 </FavoritesProvider>
