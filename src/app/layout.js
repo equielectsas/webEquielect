@@ -2,6 +2,7 @@ import { Montserrat } from "next/font/google";
 import "./globals.css";
 
 import { GoogleAnalytics } from "@next/third-parties/google";
+import Script from "next/script";
 
 import { FavoritesProvider } from "@/context/Favorites/FavoritesContext";
 import { ThemeProvider } from "@/utils/tailwind/index";
@@ -25,7 +26,8 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  const GA_ID = process.env.NEXT_PUBLIC_GA_TRACKING_ID;
+  const MAIN_GA_ID = process.env.NEXT_PUBLIC_GA_TRACKING_ID;
+  const ANDRES_GA_ID = process.env.NEXT_PUBLIC_GA_TRACKING_ID_ANDRES;
 
   return (
     <html lang="es">
@@ -47,7 +49,20 @@ export default function RootLayout({ children }) {
           </AppThemeProvider>
         </ThemeProvider>
 
-        {GA_ID ? <GoogleAnalytics gaId={GA_ID} /> : null}
+        {MAIN_GA_ID ? <GoogleAnalytics gaId={MAIN_GA_ID} /> : null}
+
+        {MAIN_GA_ID &&
+        ANDRES_GA_ID &&
+        ANDRES_GA_ID !== MAIN_GA_ID ? (
+          <Script id="google-analytics-andres" strategy="afterInteractive">
+            {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              window.gtag = window.gtag || gtag;
+              gtag('config', '${ANDRES_GA_ID}');
+            `}
+          </Script>
+        ) : null}
       </body>
     </html>
   );
