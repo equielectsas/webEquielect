@@ -1,6 +1,7 @@
 import { Montserrat } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
+
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 import { FavoritesProvider } from "@/context/Favorites/FavoritesContext";
 import { ThemeProvider } from "@/utils/tailwind/index";
@@ -8,9 +9,6 @@ import { AppThemeProvider } from "@/context/Theme/ThemeProvider";
 import { AppProductProvider } from "@/context/Products/ProductProvider";
 import { CartProvider } from "@/context/Cart/CartContext";
 import MainLayout from "@/components/layout/MainLayout";
-import { GA_TRACKING_ID } from "../../lib/analytics";
-
-// ✅ Clara chatbot
 import ClaraChatWidget from "@/components/chat/ClaraChatWidget";
 
 const montserrat = Montserrat({
@@ -27,39 +25,13 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  // debug solo en desarrollo
-  const isDev = process.env.NODE_ENV !== "production";
+  const GA_ID = process.env.NEXT_PUBLIC_GA_TRACKING_ID;
 
   return (
     <html lang="es">
-      <body className={`${montserrat.variable} font-sans font-normal antialiased`}>
-        {/* ✅ Google Analytics (solo si existe GA_TRACKING_ID) */}
-        {GA_TRACKING_ID ? (
-          <>
-            <Script
-              strategy="afterInteractive"
-              src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
-            />
-            <Script
-              id="google-analytics"
-              strategy="afterInteractive"
-              dangerouslySetInnerHTML={{
-                __html: `
-                  window.dataLayer = window.dataLayer || [];
-                  function gtag(){dataLayer.push(arguments);}
-                  window.gtag = gtag;
-                  gtag('js', new Date());
-                  gtag('config', '${GA_TRACKING_ID}', {
-                    page_path: window.location.pathname,
-                    debug_mode: ${isDev ? "true" : "false"}
-                  });
-                `,
-              }}
-            />
-          </>
-        ) : null}
-
-        {/* ✅ Providers (no se tocan) */}
+      <body
+        className={`${montserrat.variable} font-sans font-normal antialiased`}
+      >
         <ThemeProvider>
           <AppThemeProvider>
             <AppProductProvider>
@@ -74,6 +46,8 @@ export default function RootLayout({ children }) {
             </AppProductProvider>
           </AppThemeProvider>
         </ThemeProvider>
+
+        {GA_ID ? <GoogleAnalytics gaId={GA_ID} /> : null}
       </body>
     </html>
   );
