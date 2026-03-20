@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import React, { useMemo, useState } from "react";
 import { brands } from "@/data/brands";
 import Link from "next/link";
 import Allies360Carousel from "@/components/home/Allies360Carousel";
@@ -201,7 +200,6 @@ function WhatsAppIcon({ className = "w-5 h-5" }) {
   );
 }
 
-/** ✅ Card: c.img es la principal SIEMPRE + 3 miniaturas que cambian al hover/click */
 function FeaturedCard({ c }) {
   const imgs = useMemo(() => {
     const main = c?.img ? [c.img] : [];
@@ -261,7 +259,9 @@ function FeaturedCard({ c }) {
       )}
 
       <div className="p-6 text-center border-t border-slate-100">
-        <p className="text-xs font-black uppercase tracking-[0.2em] text-[#1c355e] mb-3">{c.title}</p>
+        <p className="text-xs font-black uppercase tracking-[0.2em] text-[#1c355e] mb-3">
+          {c.title}
+        </p>
         {!!c.text && <p className="text-sm text-slate-600 leading-relaxed">{c.text}</p>}
       </div>
     </article>
@@ -269,48 +269,20 @@ function FeaturedCard({ c }) {
 }
 
 export default function BrandPage({ params }) {
-  const router = useRouter();
-
-  // ✅ Hooks primero (para NO romper reglas de hooks)
-  const [showPopup, setShowPopup] = useState(false);
-
   const slug = params?.slug;
   const brand = useMemo(() => brands.find((b) => b.slug === slug), [slug]);
 
-  // ✅ Popup solo para Schneider
-  useEffect(() => {
-    if (brand?.slug === "schneider") setShowPopup(true);
-    else setShowPopup(false);
-  }, [brand?.slug]);
-
-  // ✅ Bloquea scroll mientras esté abierto
-  useEffect(() => {
-    if (!showPopup) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = prev;
-    };
-  }, [showPopup]);
-
-  // ✅ Cerrar con ESC
-  useEffect(() => {
-    if (!showPopup) return;
-    const onKey = (e) => {
-      if (e.key === "Escape") setShowPopup(false);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [showPopup]);
-
-  // ✅ WhatsApp general
   const waPhone = brand?.whatsapp?.phone || DEFAULT_WA_PHONE;
   const waMessage =
     brand?.whatsapp?.message ||
     `Hola Equielect, estoy interesado en cotizar productos de ${brand?.name || "esta marca"}. ¿Me ayudas con disponibilidad y precios?`;
 
   const goToWhatsApp = () => {
-    window.open(`https://wa.me/${waPhone}?text=${encodeURIComponent(waMessage)}`, "_blank", "noopener,noreferrer");
+    window.open(
+      `https://wa.me/${waPhone}?text=${encodeURIComponent(waMessage)}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
   };
 
   const bullets = brand ? BRAND_BULLETS[brand.slug] || [] : [];
@@ -322,7 +294,6 @@ export default function BrandPage({ params }) {
   const eqBlue = "#1c355e";
   const eqYellow = "#FFCC00";
 
-  // ✅ Si brand no existe, renderiza pantalla “Marca no encontrada” (sin romper hooks)
   if (!brand) {
     return (
       <main className="bg-white min-h-screen flex items-center justify-center px-6">
@@ -343,77 +314,6 @@ export default function BrandPage({ params }) {
 
   return (
     <main className="bg-white min-h-screen pb-24 font-sans">
-      {/* ✅ POPUP Schneider */}
-      {brand.slug === "schneider" && showPopup && (
-        <div
-          className="fixed inset-0 z-[9999] flex items-center justify-center px-4"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Promoción Schneider"
-        >
-          {/* Overlay */}
-          <button
-            type="button"
-            className="absolute inset-0 bg-black/60"
-            onClick={() => setShowPopup(false)}
-            aria-label="Cerrar popup"
-          />
-
-          {/* Modal */}
-          <div className="relative w-full max-w-md sm:max-w-lg rounded-2xl bg-white shadow-2xl overflow-hidden">
-            {/* Botón X */}
-            <button
-              type="button"
-              onClick={() => setShowPopup(false)}
-              className="absolute top-3 right-3 z-10 h-10 w-10 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black/70 transition"
-              aria-label="Cerrar"
-              title="Cerrar"
-            >
-              ✕
-            </button>
-
-            {/* Imagen + hotspot */}
-            <div className="relative">
-              <img
-                src="/assets/Pop up/popup.png"
-                alt="Popup Schneider"
-                className="w-full h-auto block"
-                loading="eager"
-                decoding="async"
-              />
-
-              {/* ✅ En vez de WhatsApp, manda a /schneidercamp */}
-              <button
-                type="button"
-                onClick={() => {
-                  setShowPopup(false);
-                  router.push("/analytic/schneider");
-                }}
-                className="absolute flex items-center justify-center bg-transparent hover:scale-105 active:scale-95 transition"
-                style={{
-                  left: "58%",
-                  top: "48%",
-                  width: 110, // área clickeable
-                  height: 110, // área clickeable
-                  transform: "translate(-50%, -50%)",
-                  filter:
-                    "drop-shadow(0 2px 6px rgba(0,0,0,.65)) drop-shadow(0 0 2px rgba(0,0,0,.6))",
-                }}
-                aria-label="Cotizar con asesor"
-                title="Cotizar con asesor"
-              >
-                <img
-                  src="/assets/Pop up/logo.png"
-                  alt="WhatsApp"
-                  className="w-[248px] h-[248px] object-contain"
-                  draggable={false}
-                />
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* 1) BANNER */}
       <section className="w-full">
         <div className="w-full bg-slate-50">
@@ -478,31 +378,30 @@ export default function BrandPage({ params }) {
         )}
 
         {/* 5) VIÑETAS */}
-{bullets.length > 0 && (
-  <section className="max-w-4xl mx-auto mt-10 px-4 text-center">
-    <h3 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-8 tracking-tight">
-      Otras líneas de productos {brand.name}
-    </h3>
+        {bullets.length > 0 && (
+          <section className="max-w-4xl mx-auto mt-10 px-4 text-center">
+            <h3 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-8 tracking-tight">
+              Otras líneas de productos {brand.name}
+            </h3>
 
-    {/* Contenedor que centra el bloque, pero alinea el contenido a la izquierda */}
-    <div className="inline-block text-left">
-      <div className="flex flex-col space-y-4">
-        {bullets.map((line, idx) => (
-          <div key={idx} className="flex items-start gap-3">
-            {/* Viñeta con el color de Equielect */}
-            <span 
-              className="mt-2 h-2 w-2 flex-shrink-0 rounded-full" 
-              style={{ backgroundColor: eqBlue }} 
-            />
-            <p className="text-slate-700 text-sm md:text-[15px] font-medium leading-relaxed uppercase tracking-tight">
-              {line}
-            </p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-)}
+            <div className="inline-block text-left">
+              <div className="flex flex-col space-y-4">
+                {bullets.map((line, idx) => (
+                  <div key={idx} className="flex items-start gap-3">
+                    <span
+                      className="mt-2 h-2 w-2 flex-shrink-0 rounded-full"
+                      style={{ backgroundColor: eqBlue }}
+                    />
+                    <p className="text-slate-700 text-sm md:text-[15px] font-medium leading-relaxed uppercase tracking-tight">
+                      {line}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* 6) WHATSAPP + OTRAS MARCAS */}
         <section className="max-w-4xl mx-auto mt-12 px-1">
           <div className="border-t pt-8 flex flex-col items-center text-center gap-6">

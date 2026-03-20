@@ -224,7 +224,7 @@ const handleSubmit = async (ev) => {
                     <Clock className="w-4 h-4 text-[#fae100] mt-0.5" />
                     <div className="leading-relaxed">
                       <p className="font-semibold">Lunes a Viernes</p>
-                      <p className="text-white/85">7:00 am a 5:45 pm (jornada continua)</p>
+                      <p className="text-white/85">7:30 am a 5:45 pm (jornada continua)</p>
                     </div>
                   </div>
 

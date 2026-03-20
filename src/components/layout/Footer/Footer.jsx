@@ -98,7 +98,7 @@ export default function FooterEcommerce() {
                 equielect@equielect.com
               </ContactItem>
               <ContactItem icon={<Clock className="w-4 h-4" />}>
-                Lun–Vie 7:00–5:45 | Sáb 8:00–12:00
+                Lun–Vie 7:30–5:45 | Sáb 8:00–12:00
               </ContactItem>
             </div>
             
