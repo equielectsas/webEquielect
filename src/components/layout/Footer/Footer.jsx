@@ -95,7 +95,7 @@ export default function FooterEcommerce() {
               </ContactItem>
 
               <ContactItem icon={<Mail className="w-4 h-4" />}>
-                equielect@equielect.com
+                equielect@equielect.com.co
               </ContactItem>
               <ContactItem icon={<Clock className="w-4 h-4" />}>
                 Lun–Vie 7:30–5:45 | Sáb 8:00–12:00
