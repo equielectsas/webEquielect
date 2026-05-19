@@ -4,8 +4,111 @@ import React, { useMemo, useState } from "react";
 import { Mail, Phone, MapPin, Clock, Loader2, CheckCircle2 } from "lucide-react";
 import axios from "axios";
 
-const isEmail = (value) =>
-  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value || "").toLowerCase());
+const normalizeLetters = (str) =>
+  String(str || "")
+    .normalize("NFD")
+    .replace(/\p{M}/gu, "")
+    .toLowerCase()
+    .replace(/[^a-zñ]/g, "");
+
+const vowelRatio = (str) => {
+  const letters = normalizeLetters(str);
+  if (letters.length === 0) return 0;
+  const vowels = letters.replace(/[^aeiou]/g, "").length;
+  return vowels / letters.length;
+};
+
+const hasLongConsonantRun = (str) => {
+  const letters = normalizeLetters(str);
+  return /[bcdfghjklmnñpqrstvwxyz]{5,}/.test(letters);
+};
+
+const hasRandomMixedCase = (str) => {
+  const letters = String(str || "").replace(/[^a-zA-Z]/g, "");
+  if (letters.length < 6) return false;
+
+  let transitions = 0;
+  for (let i = 1; i < letters.length; i++) {
+    const prevUpper = letters[i - 1] === letters[i - 1].toUpperCase();
+    const currUpper = letters[i] === letters[i].toUpperCase();
+    if (prevUpper !== currUpper) transitions++;
+  }
+
+  return transitions / (letters.length - 1) > 0.35;
+};
+
+const looksLikeGibberish = (str, { minLength = 10, minVowelRatio = 0.18 } = {}) => {
+  const letters = normalizeLetters(str);
+  if (letters.length < minLength) return false;
+  if (vowelRatio(str) < minVowelRatio) return true;
+  if (hasLongConsonantRun(str)) return true;
+  if (/(.)\1{3,}/.test(letters)) return true;
+  return false;
+};
+
+const isValidPersonName = (value) => {
+  const name = String(value || "").trim();
+  if (name.length < 2 || name.length > 50) return false;
+  if (!/^[\p{L}]+(?:[\s'-][\p{L}]+)*$/u.test(name)) return false;
+
+  const words = name.split(/\s+/).filter(Boolean);
+  if (words.length > 5) return false;
+
+  for (const word of words) {
+    if (word.length < 2 || word.length > 25) return false;
+    if (hasRandomMixedCase(word)) return false;
+    if (looksLikeGibberish(word, { minLength: 9, minVowelRatio: 0.18 })) return false;
+  }
+
+  return true;
+};
+
+const isValidEmail = (value) => {
+  const email = String(value || "").trim().toLowerCase();
+  if (!email || email.length > 254) return false;
+
+  const basic =
+    /^[a-z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)+$/i;
+  if (!basic.test(email)) return false;
+
+  const [local, domain] = email.split("@");
+  if (!local || !domain || local.length < 2 || local.length > 64) return false;
+
+  const labels = domain.split(".");
+  if (labels.length < 2) return false;
+
+  const tld = labels[labels.length - 1];
+  if (!/^[a-z]{2,6}$/i.test(tld)) return false;
+
+  const localLetters = local.replace(/[0-9.+_-]/g, "");
+  if (localLetters.length >= 14 && looksLikeGibberish(localLetters, { minLength: 14, minVowelRatio: 0.2 })) {
+    return false;
+  }
+  if (hasRandomMixedCase(localLetters)) return false;
+
+  return true;
+};
+
+const isValidMessage = (value) => {
+  const msg = String(value || "").trim();
+  if (msg.length < 10 || msg.length > 2000) return false;
+
+  const words = msg.split(/\s+/).filter((w) => w.replace(/[^\p{L}\p{N}]/gu, "").length > 0);
+  if (words.length < 2) return false;
+
+  if (!/\s/.test(msg)) {
+    if (hasRandomMixedCase(msg) || looksLikeGibberish(msg, { minLength: 8, minVowelRatio: 0.2 })) {
+      return false;
+    }
+  }
+
+  if (words.length < 3 && msg.length < 20) return false;
+
+  if (looksLikeGibberish(msg, { minLength: 20, minVowelRatio: 0.15 })) return false;
+  if (hasRandomMixedCase(msg) && words.length < 4) return false;
+
+  return true;
+};
 
 export default function ContactoPage() {
   const API_BASE = useMemo(
@@ -20,15 +123,30 @@ export default function ContactoPage() {
 
   const validate = (data) => {
     const e = {};
-    if (!data.name || data.name.trim().length < 2)
-      e.name = "Ingresa tu nombre (mín. 2 caracteres).";
-    if (!data.lastname || data.lastname.trim().length < 2)
-      e.lastname = "Ingresa tu apellido (mín. 2 caracteres).";
-    if (!data.email || !isEmail(data.email)) e.email = "Ingresa un correo válido.";
-    if (data.phone && String(data.phone).replace(/\D/g, "").length < 7)
-      e.phone = "Si ingresas teléfono, que tenga al menos 7 dígitos.";
-    if (!data.message || data.message.trim().length < 10)
-      e.message = "Escribe un mensaje más claro (mín. 10 caracteres).";
+    if (!isValidPersonName(data.name)) {
+      e.name =
+        "Ingresa tu nombre real (solo letras, sin texto aleatorio ni símbolos).";
+    }
+    if (!isValidPersonName(data.lastname)) {
+      e.lastname =
+        "Ingresa tu apellido real (solo letras, sin texto aleatorio ni símbolos).";
+    }
+    if (!data.email || !isValidEmail(data.email)) {
+      e.email =
+        "Ingresa un correo electrónico real (ej. nombre@empresa.com), no texto inventado.";
+    }
+    if (data.phone) {
+      const digits = String(data.phone).replace(/\D/g, "");
+      if (digits.length < 7 || digits.length > 15) {
+        e.phone = "El teléfono debe tener entre 7 y 15 dígitos.";
+      } else if (/^(\d)\1{5,}$/.test(digits)) {
+        e.phone = "Ingresa un número de teléfono válido.";
+      }
+    }
+    if (!isValidMessage(data.message)) {
+      e.message =
+        "Escribe un mensaje claro con al menos 2 palabras (mín. 10 caracteres).";
+    }
     return e;
   };
 
@@ -260,6 +378,8 @@ const handleSubmit = async (ev) => {
                       label="Nombre"
                       name="name"
                       required
+                      maxLength={50}
+                      autoComplete="given-name"
                       onBlur={() => markTouched("name")}
                       error={touched.name ? errors.name : ""}
                     />
@@ -267,6 +387,8 @@ const handleSubmit = async (ev) => {
                       label="Apellido"
                       name="lastname"
                       required
+                      maxLength={50}
+                      autoComplete="family-name"
                       onBlur={() => markTouched("lastname")}
                       error={touched.lastname ? errors.lastname : ""}
                     />
@@ -278,6 +400,8 @@ const handleSubmit = async (ev) => {
                       name="email"
                       type="email"
                       required
+                      maxLength={254}
+                      autoComplete="email"
                       onBlur={() => markTouched("email")}
                       error={touched.email ? errors.email : ""}
                     />
@@ -285,7 +409,9 @@ const handleSubmit = async (ev) => {
                       label="Teléfono"
                       name="phone"
                       type="tel"
+                      maxLength={20}
                       placeholder="Opcional"
+                      autoComplete="tel"
                       onBlur={() => markTouched("phone")}
                       error={touched.phone ? errors.phone : ""}
                     />
@@ -296,6 +422,7 @@ const handleSubmit = async (ev) => {
                     name="message"
                     required
                     rows={5}
+                    maxLength={2000}
                     placeholder="Escribe tu solicitud con el mayor detalle posible."
                     onBlur={() => markTouched("message")}
                     error={touched.message ? errors.message : ""}
@@ -338,6 +465,8 @@ function Field({
   type = "text",
   required = false,
   placeholder = "",
+  maxLength,
+  autoComplete,
   onBlur,
   error,
 }) {
@@ -352,6 +481,8 @@ function Field({
         type={type}
         required={required}
         placeholder={placeholder}
+        maxLength={maxLength}
+        autoComplete={autoComplete}
         onBlur={onBlur}
         className={[
           "w-full border-b py-3 outline-none bg-transparent transition-colors",
@@ -373,6 +504,7 @@ function Textarea({
   required = false,
   rows = 4,
   placeholder = "",
+  maxLength,
   onBlur,
   error,
 }) {
@@ -387,6 +519,7 @@ function Textarea({
         required={required}
         rows={rows}
         placeholder={placeholder}
+        maxLength={maxLength}
         onBlur={onBlur}
         className={[
           "w-full border-b py-3 outline-none bg-transparent transition-colors resize-none",
