@@ -7,13 +7,15 @@ export const brands = [
       "Schneider Electric es un líder mundial en tecnología energética, especializado en la gestión de energía, automatización industrial y transformación digital de hogares y empresas para mejorar su sostenibilidad. Con origen en el siglo XIX, la empresa proporciona soluciones que incluyen dispositivos inteligentes y software para centros de datos, industrias e infraestructuras. ",
     // Imágenes responsive
     images: {
-      mobile: "/assets/banners/mobile/prod_sch.png",
-      mobile2x: "/assets/banners/mobile/prod_sch.png",
-      tablet: "/assets/banners/tablet/prod_sch.png",
-      tablet2x: "/assets/banners/tablet/prod_sch.png",
-      desktop: "/assets/banners/desktop/prod_sch.png",
-      desktop2x: "/assets/banners/desktop/prod_sch.png",
+      mobile: "/assets/banners/mobile/new_schne.png",
+      mobile2x: "/assets/banners/mobile/new_schne.png",
+      tablet: "/assets/banners/tablet/new_schne.png",
+      tablet2x: "/assets/banners/tablet/new_schne.png",
+      desktop: "/assets/banners/desktop/new_schne.png",
+      desktop2x: "/assets/banners/desktop/new_schne.png",
     },
+    bannerLink:
+      "https://wa.me/573146453033?text=Hola,%20quiero%20información%20sobre%20los%20variadores%20ATV610%20y%20ATV630",
       
   // ✅ 3 imágenes (cards) manuales para mostrar debajo de “Productos destacados”
   featuredCards: [

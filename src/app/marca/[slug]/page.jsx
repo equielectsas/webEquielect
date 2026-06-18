@@ -317,16 +317,34 @@ export default function BrandPage({ params }) {
       {/* 1) BANNER */}
       <section className="w-full">
         <div className="w-full bg-slate-50">
-          {!!banner1x && (
-            <img
-              src={banner1x}
-              srcSet={banner2x ? `${banner1x} 1x, ${banner2x} 2x` : undefined}
-              alt={`Banner ${brand.name}`}
-              className="w-full h-auto block"
-              loading="eager"
-              decoding="async"
-            />
-          )}
+          {!!banner1x &&
+            (brand.bannerLink ? (
+              <a
+                href={brand.bannerLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block cursor-pointer hover:opacity-95 transition-opacity"
+                aria-label={`Contactar por WhatsApp sobre ${brand.name}`}
+              >
+                <img
+                  src={banner1x}
+                  srcSet={banner2x ? `${banner1x} 1x, ${banner2x} 2x` : undefined}
+                  alt={`Banner ${brand.name}`}
+                  className="w-full h-auto block"
+                  loading="eager"
+                  decoding="async"
+                />
+              </a>
+            ) : (
+              <img
+                src={banner1x}
+                srcSet={banner2x ? `${banner1x} 1x, ${banner2x} 2x` : undefined}
+                alt={`Banner ${brand.name}`}
+                className="w-full h-auto block"
+                loading="eager"
+                decoding="async"
+              />
+            ))}
         </div>
       </section>
 
