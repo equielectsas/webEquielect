@@ -14,8 +14,7 @@ export const brands = [
       desktop: "/assets/banners/desktop/new_schne.png",
       desktop2x: "/assets/banners/desktop/new_schne.png",
     },
-    bannerLink:
-      "https://wa.me/573146453033?text=Hola,%20quiero%20información%20sobre%20los%20variadores%20ATV610%20y%20ATV630",
+    bannerLink: "https://bit.ly/4w26P6M",
       
   // ✅ 3 imágenes (cards) manuales para mostrar debajo de “Productos destacados”
   featuredCards: [
