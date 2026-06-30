@@ -2,12 +2,12 @@ export const BRANDS = [
   {
     name: "Equielect",
     images: {
-      mobile: "/assets/Sliderhome/mobile/40_equielect_mobile.jpg",
-      mobile2x: "/assets/Sliderhome/mobile/40_equielect_mobile.jpg",
-      tablet: "/assets/Sliderhome/tablet/tablet_equielect.jpg",
-      tablet2x: "/assets/Sliderhome/tablet/tablet_equielect.jpg",
+      mobile: "/assets/Sliderhome/mobile/new_luymob.jpg",
+      mobile2x: "/assets/Sliderhome/mobile/new_luymob.jpg",
+      tablet: "/assets/Sliderhome/tablet/new_luytab.jpg",
+      tablet2x: "/assets/Sliderhome/tablet/new_luytab.jpg",
       desktop: "/assets/Sliderhome/desktop/new_lauy.jpg",
-      desktop2x: "/assets/Sliderhome/desktop/new_lauy.jpg",
+      desktop2x: "/assets/Sliderhome/desktop/new_lauymac.jpg",
     },
   },
   {
