@@ -6,8 +6,8 @@ export const BRANDS = [
       mobile2x: "/assets/Sliderhome/mobile/40_equielect_mobile.jpg",
       tablet: "/assets/Sliderhome/tablet/tablet_equielect.jpg",
       tablet2x: "/assets/Sliderhome/tablet/tablet_equielect.jpg",
-      desktop: "/assets/Sliderhome/desktop/40_equielect_windows.jpg",
-      desktop2x: "/assets/Sliderhome/desktop/40_equielect_mac.png",
+      desktop: "/assets/Sliderhome/desktop/new_lauy.jpg",
+      desktop2x: "/assets/Sliderhome/desktop/new_lauy.jpg",
     },
   },
   {
