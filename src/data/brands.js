@@ -11,8 +11,8 @@ export const brands = [
       mobile2x: "/assets/banners/mobile/new_schne.png",
       tablet: "/assets/banners/tablet/new_schne.png",
       tablet2x: "/assets/banners/tablet/new_schne.png",
-      desktop: "/assets/banners/desktop/new_schne.png",
-      desktop2x: "/assets/banners/desktop/new_schne.png",
+      desktop: "/assets/banners/desktop/schneider.jpg",
+      desktop2x: "/assets/banners/desktop/schneider.jpg",
     },
     bannerLink: "https://bit.ly/4w26P6M",
       

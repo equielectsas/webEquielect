@@ -3,6 +3,36 @@
 import React, { useMemo, useState } from "react";
 import { Mail, Phone, MapPin, Clock, Loader2, CheckCircle2 } from "lucide-react";
 import axios from "axios";
+import ContactanosHeroSlider from "@/components/contactanos/ContactanosHeroSlider";
+
+const CONTACT_HERO_SLIDES = [
+  {
+    alt: "Panduit - Etiquetado industrial",
+    images: {
+      mobile: "/assets/banners/contact_1.png",
+      mobile2x: "/assets/banners/contact_1.png",
+      tablet: "/assets/banners/contact_1.png",
+      tablet2x: "/assets/banners/contact_1.png",
+      desktop: "/assets/banners/contact_1.png",
+      desktop2x: "/assets/banners/contact_1.png",
+    },
+    whatsappMessage:
+      "Los mejores productos de Etiquetado Industrial de Panduit a un click de distancia, dame mas informacion!",
+  },
+  {
+    alt: "Panduit - Identificación profesional",
+    images: {
+      mobile: "/assets/banners/contact_2.png",
+      mobile2x: "/assets/banners/contact_2.png",
+      tablet: "/assets/banners/contact_2.png",
+      tablet2x: "/assets/banners/contact_2.png",
+      desktop: "/assets/banners/contact_2.png",
+      desktop2x: "/assets/banners/contact_2.png",
+    },
+    whatsappMessage:
+      "Los mejores productos de Etiquetado Industrial de Panduit a un click de distancia, dame mas informacion!",
+  },
+];
 
 const normalizeLetters = (str) =>
   String(str || "")
@@ -220,36 +250,20 @@ const handleSubmit = async (ev) => {
     <div className="bg-white font-sans selection:bg-[#fae100] selection:text-[#1c355e] text-[#1c355e]">
       {/* ✅ HERO: COMO EL BRANDPAGE (w-full h-auto) */}
       <header className="relative w-full bg-white overflow-hidden">
-        <div className="relative w-full">
-          {/* ✅ Banner responsive: sin recortes y sin “bordes” por altura fija */}
-          <img
-            src="/assets/banners/contactanosbanner.png"
-            alt="Fondo Equielect"
-            className="w-full h-auto block select-none"
-            loading="eager"
-            decoding="async"
-            draggable="false"
-          />
+        <ContactanosHeroSlider slides={CONTACT_HERO_SLIDES} intervalMs={2000}>
+          <div className="max-w-7xl mx-auto px-6 w-full">
+            <p className="text-[#fae100] font-bold tracking-[0.4em] text-xs md:text-sm uppercase mb-4 border-l-4 border-[#fae100] pl-4">
+              CONTÁCTANOS
+            </p>
+            <h1 className="text-[12px] sm:text-3xl md:text-5xl lg:text-6xl font-light text-white max-w-4xl leading-tight">
+              Estamos para <span className="font-bold">ayudarte</span>.
+            </h1>
 
-          {/* ✅ Overlay mínimo para legibilidad (NO blur, NO rellenos) */}
-          <div className="absolute inset-0 bg-black/25" />
-
-          {/* Contenido */}
-          <div className="absolute inset-0 z-10 flex items-center">
-            <div className="max-w-7xl mx-auto px-6 w-full">
-              <p className="text-[#fae100] font-bold tracking-[0.4em] text-xs md:text-sm uppercase mb-4 border-l-4 border-[#fae100] pl-4">
-                CONTÁCTANOS
-              </p>
-              <h1 className="text-[12px] sm:text-3xl md:text-5xl lg:text-6xl font-light text-white max-w-4xl leading-tight">
-                Estamos para <span className="font-bold">ayudarte</span>.
-              </h1>
-
-              <p className="text-white/80 mt-3 sm:mt-5 max-w-2xl leading-relaxed text-[8px] sm:text-sm md:text-base">
-                Productos eléctricos, electrónicos y de telecomunicaciones para soluciones técnicas y novedosas.
-              </p>
-            </div>
+            <p className="text-white/80 mt-3 sm:mt-5 max-w-2xl leading-relaxed text-[8px] sm:text-sm md:text-base">
+              Productos eléctricos, electrónicos y de telecomunicaciones para soluciones técnicas y novedosas.
+            </p>
           </div>
-        </div>
+        </ContactanosHeroSlider>
       </header>
       <style jsx global>{`
   .breadcrumb,

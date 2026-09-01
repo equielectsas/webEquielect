@@ -4,6 +4,7 @@ import React, { useMemo, useState } from "react";
 import { brands } from "@/data/brands";
 import Link from "next/link";
 import Allies360Carousel from "@/components/home/Allies360Carousel";
+import { trackWhatsAppClick } from "../../../../lib/analytics";
 
 const DEFAULT_WA_PHONE = "+573146453033";
 
@@ -278,6 +279,7 @@ export default function BrandPage({ params }) {
     `Hola Equielect, estoy interesado en cotizar productos de ${brand?.name || "esta marca"}. ¿Me ayudas con disponibilidad y precios?`;
 
   const goToWhatsApp = () => {
+    trackWhatsAppClick();
     window.open(
       `https://wa.me/${waPhone}?text=${encodeURIComponent(waMessage)}`,
       "_blank",
