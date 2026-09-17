@@ -13,6 +13,7 @@ import {
   Facebook,
   ShieldCheck,
 } from "lucide-react";
+import { eqTrackClick } from "../../../../lib/eqTrack";
 
 export default function FooterEcommerce() {
   const year = new Date().getFullYear();
@@ -82,6 +83,13 @@ export default function FooterEcommerce() {
                 <a
                   href="https://api.whatsapp.com/send/?phone=573146453033"
                   className="hover:underline underline-offset-4"
+                  onClick={() =>
+                    eqTrackClick({
+                      buttonId: "footer_whatsapp",
+                      label: "WhatsApp footer",
+                      href: "https://api.whatsapp.com/send/?phone=573146453033",
+                    })
+                  }
                 >
                   +57 3146453033
                 </a>

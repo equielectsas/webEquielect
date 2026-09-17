@@ -8,6 +8,7 @@ import Fuse from "fuse.js";
 import { ChevronDown, Search, MapPin, Menu } from "lucide-react";
 
 import MegaMenuEquielect, { MEGA_MENU_DATA } from "@/components/category/MegaMenuEquielect";
+import { eqTrackClick } from "../../../../lib/eqTrack";
 
 export default function Header() {
   const router = useRouter();
@@ -591,6 +592,13 @@ export default function Header() {
               rel="noopener noreferrer"
               aria-label="Pague aquí (abre en nueva pestaña)"
               className={`${isMobileSearching ? "hidden md:block" : "block"}`}
+              onClick={() =>
+                eqTrackClick({
+                  buttonId: "home_pague_aqui",
+                  label: "Pague aquí",
+                  href: "https://www.mipagoamigo.com/MPA_WebSite/ServicePayments/StartPayment?id=10341&searchedCategoryId=&searchedAgreementName=EQUIELECT",
+                })
+              }
             >
               <img src="/assets/servicios/paga.png" alt="Pague aquí" className="h-12 w-auto object-contain" />
             </a>

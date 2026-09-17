@@ -8,6 +8,7 @@ import NavList from "@/components/layout/Header/NavList";
 
 //Actions
 import { ACTIONS } from "@/constants/ACTIONS.js";
+import { eqTrackClick } from "../../../../../lib/eqTrack";
 
 const MainMenu = () => {
   const { state, dispatch } = useTheme();
@@ -60,6 +61,11 @@ const MainMenu = () => {
               href="/cotizacion"
               className="block w-full text-center bg-yellow-500 hover:bg-yellow-600 text-black px-6 py-3 rounded-full font-semibold transition-all"
               onClick={() => {
+                eqTrackClick({
+                  buttonId: "menu_cotizar",
+                  label: "Cotizar",
+                  href: "/cotizacion",
+                });
                 dispatch({ type: ACTIONS.turnOffMenuState });
               }}
             >

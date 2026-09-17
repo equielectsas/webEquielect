@@ -327,6 +327,16 @@ export default function BrandPage({ params }) {
                 rel="noopener noreferrer"
                 className="block cursor-pointer hover:opacity-95 transition-opacity"
                 aria-label={`Contactar por WhatsApp sobre ${brand.name}`}
+                onClick={() => {
+                  import("../../../../lib/eqTrack").then(({ eqTrackClick }) => {
+                    eqTrackClick({
+                      buttonId: `marca_banner_${brand.slug}`,
+                      label: `Banner ${brand.name}`,
+                      href: brand.bannerLink,
+                      campaign: brand.slug,
+                    });
+                  });
+                }}
               >
                 <img
                   src={banner1x}

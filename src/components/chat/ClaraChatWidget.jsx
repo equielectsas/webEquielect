@@ -27,6 +27,17 @@ const CONTACT = {
 
 const LS_KEY = "equielect_whatsapp_bot_widget_v3";
 
+function trackClaraWhatsApp() {
+  import("../../../lib/eqTrack")
+    .then(({ eqTrackClick }) => {
+      eqTrackClick({
+        buttonId: "clara_whatsapp",
+        label: "Clara chat → WhatsApp",
+      });
+    })
+    .catch(() => {});
+}
+
 function uid() {
   return Math.random().toString(16).slice(2) + Date.now().toString(16);
 }
@@ -137,6 +148,7 @@ export default function WhatsAppBotWidget() {
   };
 
   const openWhatsApp = (customerName) => {
+    trackClaraWhatsApp();
     const msg = buildShortWhatsAppMessage(customerName);
     window.open(buildWaLink(CONTACT.whatsappNumber, msg), "_blank", "noopener,noreferrer");
   };

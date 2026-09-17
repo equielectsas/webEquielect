@@ -11,6 +11,8 @@ import { AppProductProvider } from "@/context/Products/ProductProvider";
 import { CartProvider } from "@/context/Cart/CartContext";
 import MainLayout from "@/components/layout/MainLayout";
 import ClaraChatWidget from "@/components/chat/ClaraChatWidget";
+import EqAnalyticsProvider from "@/components/analytics/EqAnalyticsProvider";
+import { Suspense } from "react";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -42,6 +44,9 @@ export default function RootLayout({ children }) {
                   <MainLayout>
                     {children}
                     <ClaraChatWidget />
+                    <Suspense fallback={null}>
+                      <EqAnalyticsProvider />
+                    </Suspense>
                   </MainLayout>
                 </FavoritesProvider>
               </CartProvider>
