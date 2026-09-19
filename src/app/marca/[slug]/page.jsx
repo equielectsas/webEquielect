@@ -279,7 +279,13 @@ export default function BrandPage({ params }) {
     `Hola Equielect, estoy interesado en cotizar productos de ${brand?.name || "esta marca"}. ¿Me ayudas con disponibilidad y precios?`;
 
   const goToWhatsApp = () => {
-    trackWhatsAppClick();
+    trackWhatsAppClick({
+      buttonName: "Whatsapp Clic",
+      brandSlug: brand?.slug,
+      brandName: brand?.name,
+      source: "boton_marca",
+      pagePath: `/marca/${brand?.slug || ""}`,
+    });
     window.open(
       `https://wa.me/${waPhone}?text=${encodeURIComponent(waMessage)}`,
       "_blank",
@@ -328,14 +334,17 @@ export default function BrandPage({ params }) {
                 className="block cursor-pointer hover:opacity-95 transition-opacity"
                 aria-label={`Contactar por WhatsApp sobre ${brand.name}`}
                 onClick={() => {
-                  import("../../../../lib/eqTrack").then(({ eqTrackClick }) => {
-                    eqTrackClick({
-                      buttonId: `marca_banner_${brand.slug}`,
-                      label: `Banner ${brand.name}`,
-                      href: brand.bannerLink,
-                      campaign: brand.slug,
-                    });
-                  });
+                  import("../../../../lib/analytics").then(
+                    ({ trackWhatsAppClick }) => {
+                      trackWhatsAppClick({
+                        buttonName: "Whatsapp Clic",
+                        brandSlug: brand.slug,
+                        brandName: brand.name,
+                        source: "banner_marca",
+                        pagePath: `/marca/${brand.slug}`,
+                      });
+                    }
+                  );
                 }}
               >
                 <img
